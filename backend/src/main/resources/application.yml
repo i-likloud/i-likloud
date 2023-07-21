@@ -6,9 +6,9 @@ server:
 spring:
   # DB
   datasource:
-    url: jdbc:mysql://localhost:3306/jwt
+    url: jdbc:mysql://localhost:3306/backend
     username: root
-    password: 1234
+    password: tae5263zz
 
   jpa:
     hibernate:
@@ -32,6 +32,14 @@ logging:
   level:
     org.hibernate.SQL: debug
 
+feign:
+  client:
+    config:
+      default: # 전역 처리
+        # 타임아웃 제한 시간
+        connectTimeout: 5000
+        readTimeout: 5000
+
 jasypt:
   encryptor:
     password: ${PASSWORD}
@@ -43,13 +51,13 @@ google:
 
 naver:
   client:
-    id:
-    secret:
+    id: ENC(KRdW8bICpIQtP0mBt93h7+zli3LeSOKD/KoFeEiN3dg=)
+    secret: ENC(5kBc7qZDzUR6UUYlBHzbpLt0GhiR1Opw)
 
-kakao:
-  client:
-    id:
-    secret:
+#kakao:
+#  client:
+#    id:
+#    secret:
 
 jwt:
   secretKey: ENC(iQq+RZEWJxFt9jjYj5+d2N3seDskGpN904QWRXFDc/svnyjlWzEnGg==)
@@ -63,8 +71,3 @@ jwt:
     header: Authorization-refresh
 
 
-naver-cloud-sms:
-  accessKey: veBLjMqal0PwYdHBsX2h
-  secretKey: 0U28xyomW7mu1C0xdbDvB62cXXuDv3TXZaMTcEdA
-  serviceId: ncp:sms:kr:312158415801:i_like_cloud
-  senderPhone: "01059111911"
