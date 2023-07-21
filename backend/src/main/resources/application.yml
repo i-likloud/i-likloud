@@ -1,1 +1,70 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
 
+spring:
+  # DB
+  datasource:
+    url: jdbc:mysql://localhost:3306/jwt
+    username: root
+    password: 1234
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true # 콘솔창에 sql 출력
+    properties:
+      hibernate:
+        format_sql: true # sql 예쁘게 출력
+        default_batch_fetch_size: 1000 # 일대다 컬렉션 조회 시 성능 최적화 : 100 ~ 1000 권장
+
+  servlet:
+    multipart:
+      max-file-size: 10MB # 파일 업로드 요청 시 하나의 파일 크기를 10MB 제한
+      max-request-size: 100MB # 파일 업로드 요청 시 모든 파일 크기합을 100MB 제한
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+
+jasypt:
+  encryptor:
+    password: ${PASSWORD}
+
+google:
+  client:
+    id: ENC(1t0BdnR7hTNdGhejZuVg9zVItDYdKo2LZqkou637jlLsa8LxdPhf2GyQnvgXvLfCUIzQEaYuYkWG0bDkMhEyA4YELBYYJjGPVKNcc5QEFY643rGRClSiHQ==)
+    secret: ENC(s0mKetuKXoNJ6KPZ7JFpmdBtNy+Ar1IZljuUzTJV+sME2tFffHyw44WYuoFq5Qx4)
+
+naver:
+  client:
+    id:
+    secret:
+
+kakao:
+  client:
+    id:
+    secret:
+
+jwt:
+  secretKey: ENC(iQq+RZEWJxFt9jjYj5+d2N3seDskGpN904QWRXFDc/svnyjlWzEnGg==)
+
+  access:
+    expiration: 1800000 # 30? (1000L(ms -> s) * 60L(s -> m) * 30L
+    header: Authorization
+
+  refresh:
+    expiration: 604800000 #  (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> ??) * 7(1?))
+    header: Authorization-refresh
+
+
+naver-cloud-sms:
+  accessKey: veBLjMqal0PwYdHBsX2h
+  secretKey: 0U28xyomW7mu1C0xdbDvB62cXXuDv3TXZaMTcEdA
+  serviceId: ncp:sms:kr:312158415801:i_like_cloud
+  senderPhone: "01059111911"
