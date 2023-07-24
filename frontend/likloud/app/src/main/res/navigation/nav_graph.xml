@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/exampleFragment"
-        android:name="com.ssafy.likloud.ui.home.ExampleFragment"
+        android:name="com.ssafy.likloud.example.ExampleFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_example" />
 </navigation>
