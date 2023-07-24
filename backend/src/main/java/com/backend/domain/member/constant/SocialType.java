@@ -6,6 +6,18 @@ import java.util.stream.Collectors;
 
 public enum SocialType {
 
-    KAKAO, NAVER, GOOGLE, DEFAULT;
+    KAKAO, NAVER, DEFAULT;
+
+
+    public static SocialType from(String type) {
+        return SocialType.valueOf(type.toUpperCase());
+    }
+
+    public static boolean isSocialType(String type) {
+        List<SocialType> socialTypes = Arrays.stream(SocialType.values())
+                .filter(socialType -> socialType.name().equals(type))
+                .collect(Collectors.toList());
+        return socialTypes.size() != 0;
+    }
 
 }

@@ -10,16 +10,15 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
-@EntityListeners(AuditingEntityListener.class)
+@EntityListeners(AuditingEntityListener.class) // Jpa Auditing Listener
 @MappedSuperclass
 @Getter
 public abstract class BaseEntity {
 
-    @CreatedDate
+    @CreatedDate // 생성시간 자동 설정
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-    @LastModifiedDate
-    @Column(updatable = false)
+    @LastModifiedDate // 수정 시간 자동 설정
     private LocalDateTime updatedAt;
 }
