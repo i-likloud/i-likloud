@@ -26,19 +26,16 @@ public class Member extends BaseEntity {
     @Column(unique = true, nullable = false, length = 20)
     private String email;
 
-    private String password;
-
     @Column(length = 30)
     private String nickname;
 
-    private String profile_image;
+    private String profile_face;
 
-    @Column(length = 20)
-    private String phone_number;
+    private String profile_color;
 
     private String wallet;
 
-    private int stamp_cnt;
+    private int coin_cnt;
 
     @Enumerated(EnumType.STRING)
     private SocialType socialType;
@@ -58,15 +55,17 @@ public class Member extends BaseEntity {
         this.nickname = updateNickname;
     }
 
-    public void updateProfileImage(String profile_image){
-        this.profile_image = profile_image;
-    }
-    public void updatePhoneNumber(String phone_number) {
-        this.phone_number = phone_number;
+    public void updateProfileCOLOR(String profile_color){
+        this.profile_color = profile_color;
     }
 
-    public void updateStamp_cnt(int stamp_cnt){
-        this.stamp_cnt = stamp_cnt;
+    public void updateProfileFace(String profile_face){
+        this.profile_face = profile_face;
+    }
+
+
+    public void updateCoin_cnt(int coin_cnt){
+        this.coin_cnt = coin_cnt;
     }
 
     public void updateRole(Role role){
@@ -83,15 +82,14 @@ public class Member extends BaseEntity {
     }
 
     @Builder
-    public Member(SocialType socialType, String email, String password, String nickname, String phone_number, int stamp_cnt,
-                  String profile_image, Role role) {
+    public Member(SocialType socialType, String email, String nickname,  int coin_cnt,
+                  String profile_color, String profile_face,Role role) {
         this.socialType = socialType;
         this.email = email;
-        this.password = password;
         this.nickname = nickname;
-        this.profile_image = profile_image;
-        this.phone_number = phone_number;
-        this.stamp_cnt = stamp_cnt;
+        this.profile_color = profile_color;
+        this.profile_face = profile_face;
+        this.coin_cnt = coin_cnt;
         this.role = role;
     }
 

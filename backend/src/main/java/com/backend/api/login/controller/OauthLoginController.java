@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/oauth")
+@RequestMapping("/oauth")
 public class OauthLoginController {
 
     private final OauthValidator oauthValidator;
