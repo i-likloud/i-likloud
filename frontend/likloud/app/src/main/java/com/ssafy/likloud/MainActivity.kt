@@ -6,6 +6,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.ssafy.likloud.base.BaseActivity
 import com.ssafy.likloud.data.repository.BaseRepository
 import com.ssafy.likloud.databinding.ActivityMainBinding
+import com.ssafy.likloud.ui.login.LoginFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -20,6 +21,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initNavController()
+
+        // test 용 코드
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainerView, LoginFragment())
+            .commit()
     }
 
     private fun initNavController() {
