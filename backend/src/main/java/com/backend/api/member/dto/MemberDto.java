@@ -31,8 +31,8 @@ public class MemberDto {
     public static class UpdateRequest {
         private String email;
         private String nickname;
-        private ProfileColor profile_color;
-        private ProfileFace profile_face;
+        private ProfileColor profileColor;
+        private ProfileFace profileFace;
     }
 
 
@@ -41,8 +41,8 @@ public class MemberDto {
     public static class Response {
         private String email;
         private String nickname;
-        private ProfileColor profile_color;
-        private ProfileFace profile_face;
+        private ProfileColor profileColor;
+        private ProfileFace profileFace;
         private SocialType socialType;
         private Role role;
 

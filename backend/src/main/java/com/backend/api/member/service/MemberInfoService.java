@@ -27,15 +27,15 @@ public class MemberInfoService {
         Member member = memberService.findMemberByEmail(email);
 
         member.updateNickname(request.getNickname());
-        member.updateProfileFace(request.getProfile_face());
-        member.updateProfileCOLOR(request.getProfile_color());
+        member.updateProfileFace(request.getProfileFace());
+        member.updateProfileCOLOR(request.getProfileColor());
         member.updateRole(Role.MEMBER);
 
         return MemberDto.Response.builder()
                 .email(member.getEmail())
                 .nickname(member.getNickname())
-                .profile_color(member.getProfileColor())
-                .profile_face(member.getProfileFace())
+                .profileColor(member.getProfileColor())
+                .profileFace(member.getProfileFace())
                 .role(member.getRole())
                 .socialType(member.getSocialType())
                 .build();
