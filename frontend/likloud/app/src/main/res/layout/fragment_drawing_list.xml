@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#66B3D6"
+    tools:context=".MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
+            android:id="@+id/drawing_recyclerview"
+            android:layout_width="600dp"
+            android:layout_height="600dp"
+            android:layout_gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="30dp"/>
+
+        <Button
+            android:id="@+id/select_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text = "선택"
+            app:layout_constraintTop_toBottomOf="@id/drawing_recyclerview"
+            app:layout_constraintStart_toStartOf="@id/drawing_recyclerview"
+            app:layout_constraintEnd_toEndOf="@id/drawing_recyclerview"
+            android:layout_marginTop="20dp"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/info_layout"
+            android:layout_width="500dp"
+            android:layout_height="300dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/rounded_border"
+            app:layout_constraintStart_toEndOf="@id/drawing_recyclerview"
+            app:layout_constraintTop_toTopOf="@id/drawing_recyclerview">
+
+            <ImageView
+                android:id="@+id/drawing_profile_img"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/profile_water_drop_white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/drawing_nickname_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="주호민"
+                app:layout_constraintBottom_toBottomOf="@+id/drawing_profile_img"
+                app:layout_constraintStart_toEndOf="@id/drawing_profile_img"
+                app:layout_constraintTop_toTopOf="@id/drawing_profile_img" />
+
+            <TextView
+                android:id="@+id/drawing_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="그림 제목이지롱"
+                app:layout_constraintStart_toStartOf="@id/drawing_profile_img"
+                app:layout_constraintTop_toBottomOf="@id/drawing_profile_img" />
+
+            <TextView
+                android:id="@+id/drawing_explain_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:text="이 그림에 대한 상세설명으로 길게 들어갈 내용입니다. 알겠습니까? 대답하세요! 얼른 대답!"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/drawing_title_tv" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/comment_layout"
+            android:layout_width="500dp"
+            android:layout_height="280dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/rounded_border"
+            app:layout_constraintStart_toEndOf="@id/drawing_recyclerview"
+            app:layout_constraintBottom_toBottomOf="@id/drawing_recyclerview">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/drawing_comment_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="30dp"
+                android:layout_marginHorizontal="20dp"/>
+
+            <EditText
+                android:id="@+id/drawing_comment_et"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/drawing_comment_recyclerview"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginHorizontal="20dp"/>
+
+            <Button
+                android:id="@+id/drawing_comment_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="입력"
+                app:layout_constraintTop_toTopOf="@id/drawing_comment_et"
+                app:layout_constraintStart_toEndOf="@id/drawing_comment_et"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
