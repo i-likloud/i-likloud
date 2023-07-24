@@ -1,6 +1,5 @@
 package com.backend.global.config;
 
-import com.backend.global.error.FeignClientErrorException;
 import feign.Logger;
 import feign.Retryer;
 import feign.codec.ErrorDecoder;

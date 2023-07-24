@@ -1,8 +1,6 @@
-package com.backend.global.error.error.exception;
-
+package com.backend.global.error.exception;
 
 import com.backend.global.error.ErrorCode;
-import com.backend.global.error.exception.BusinessException;
 
 public class AuthenticationException extends BusinessException {
 

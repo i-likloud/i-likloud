@@ -2,7 +2,7 @@ package com.backend.global.jwt.service;
 
 import com.backend.domain.member.constant.Role;
 import com.backend.global.error.ErrorCode;
-import com.backend.global.error.error.exception.AuthenticationException;
+import com.backend.global.error.exception.AuthenticationException;
 import com.backend.global.jwt.constant.GrantType;
 import com.backend.global.jwt.constant.TokenType;
 import com.backend.global.jwt.dto.JwtDto;
