@@ -1,4 +1,4 @@
-package com.ssafy.likloud.ui.login
+package com.ssafy.likloud.ui.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,13 +11,14 @@ import com.ssafy.likloud.base.BaseFragment
 import com.ssafy.likloud.databinding.FragmentExampleBinding
 import com.ssafy.likloud.databinding.FragmentLoginBinding
 import com.ssafy.likloud.example.ExampleFragmentViewModel
+import com.ssafy.likloud.ui.login.LoginFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::bind, R.layout.fragment_login) {
+class HomeFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::bind, R.layout.fragment_login) {
 
-    private val loginFragmentViewModel : LoginFragmentViewModel by viewModels()
+    private val homeFragmentViewModel : HomeFragmentViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,11 +40,4 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
 
 
     }
-
-    private fun initListener() {
-        binding.kakaoLoginBtn.setOnClickListener {
-
-        }
-    }
-
 }
