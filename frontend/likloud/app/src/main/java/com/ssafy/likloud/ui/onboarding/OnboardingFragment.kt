@@ -18,6 +18,8 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class OnboardingFragment : BaseFragment<FragmentOnboardingBinding>(FragmentOnboardingBinding::bind, R.layout.fragment_onboarding) {
 
+    private lateinit var onboardingAdapter: OnboardingAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -26,7 +28,26 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding>(FragmentOnboa
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
+
+
+    private fun initAdapter() {
+        onboardingAdapter = OnboardingAdapter()
+         binding.introViewpager.apply {
+             onboardingAdapter.submitList(
+                 listOf(
+                     OnboardData(1, context.getString(R.string.onboarding_one), R.drawable.onboard_img_1),
+                     OnboardData(1, context.getString(R.string.onboarding_two),R.drawable.onboard_img_2),
+                     OnboardData(3, context.getString(R.string.onboarding_three), R.drawable.onboard_img_3)
+                 )
+             )
+             adapter = onboardingAdapter
+
+         }
+        binding.springDotsIndicator.attachTo(binding.introViewpager)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initAdapter()
         super.onViewCreated(view, savedInstanceState)
     }
 

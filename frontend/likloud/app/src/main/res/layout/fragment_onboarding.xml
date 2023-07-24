@@ -27,21 +27,19 @@
             app:dampingRatio="0.5"
             app:dotsColor="@color/main_sky_blue"
             app:dotsCornerRadius="8dp"
-            app:dotsSize="8dp"
+            app:dotsSize="12dp"
             app:dotsSpacing="6dp"
             app:dotsStrokeColor="@color/gray04"
             app:dotsStrokeWidth="6dp"
             app:stiffness="300" />
-
-
     </LinearLayout>
-
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/intro_viewpager"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:overScrollMode="never"
+        app:layout_constraintHeight_percent="0.8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/indicators_container" />
@@ -51,8 +49,7 @@
         android:id="@+id/start_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:fontFamily="@font/pretendard_medium"
+        style="@style/Theme.AppCompat.TextView.jua.dark.Size24"
         android:gravity="center"
         android:text="@string/start"
         android:textSize="20sp"
