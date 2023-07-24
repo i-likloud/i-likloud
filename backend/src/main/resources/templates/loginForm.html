@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>카카오 로그인 페이지</title>
+</head>
+<style>
+    .wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+    .content {
+        font-family: system-ui, serif;
+        font-size: 2rem;
+        padding: 1rem;
+        border-radius: 1rem;
+        background: #ffbe0a;
+    }
+    a {
+        text-decoration-line: none
+    }
+</style>
+<body>
+<div class="wrapper">
+    <!-- todo client_id 각자 등록한걸로 수정  -->
+    <a href="https://kauth.kakao.com/oauth/authorize?client_id=8cc8aff032304ebbbb9f1a603b16d25d&redirect_uri=http://localhost:8080/oauth/kakao/callback&response_type=code">
+        <div class="content">
+            카카오 로그인
+        </div>
+    </a>
+
+    <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id={client-id}}&redirect_uri=http://localhost:8080/oauth/naver/callback&state=navertest">
+        <div class="content">
+            네이버 로그인
+        </div>
+    </a>
+</div>
+</body>
+</html>
