@@ -8,7 +8,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/backend
     username: root
-    password: tae5263zz
+    password: q1w2e3r4
 
   jpa:
     hibernate:
@@ -44,30 +44,24 @@ jasypt:
   encryptor:
     password: ${PASSWORD}
 
-google:
-  client:
-    id: ENC(1t0BdnR7hTNdGhejZuVg9zVItDYdKo2LZqkou637jlLsa8LxdPhf2GyQnvgXvLfCUIzQEaYuYkWG0bDkMhEyA4YELBYYJjGPVKNcc5QEFY643rGRClSiHQ==)
-    secret: ENC(s0mKetuKXoNJ6KPZ7JFpmdBtNy+Ar1IZljuUzTJV+sME2tFffHyw44WYuoFq5Qx4)
 
 naver:
   client:
     id: ENC(KRdW8bICpIQtP0mBt93h7+zli3LeSOKD/KoFeEiN3dg=)
     secret: ENC(5kBc7qZDzUR6UUYlBHzbpLt0GhiR1Opw)
 
-#kakao:
-#  client:
-#    id:
-#    secret:
+kakao:
+  client:
+    id: ENC(mPmSxLIS51lh6f0v1CBS/KmRHV5kkYVHcb3V4T7kkU2IBUKijH8UnVEAp5mlRIq4)
+    secret: ENC(m6LDkg35hfSU7cZphFTdbPpYPN7xym+oUOkUuDKyDT52LsBn6FHo1LAlFYdHd+cE)
 
 jwt:
-  secretKey: ENC(iQq+RZEWJxFt9jjYj5+d2N3seDskGpN904QWRXFDc/svnyjlWzEnGg==)
+  secretKey: ENC(jITqh7LdWZ2jI6gk16C883+iH4ZUuKybQlt2vvSj7UM=)
 
   access:
     expiration: 1800000 # 30? (1000L(ms -> s) * 60L(s -> m) * 30L
-    header: Authorization
 
   refresh:
     expiration: 604800000 #  (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> ??) * 7(1?))
-    header: Authorization-refresh
 
 
