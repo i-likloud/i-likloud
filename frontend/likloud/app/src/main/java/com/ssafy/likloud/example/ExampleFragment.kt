@@ -1,4 +1,4 @@
-package com.ssafy.likloud.ui.home
+package com.ssafy.likloud.example
 
 import android.os.Bundle
 import android.view.LayoutInflater
