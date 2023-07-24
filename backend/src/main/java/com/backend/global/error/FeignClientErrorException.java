@@ -3,7 +3,6 @@ package com.backend.global.error;
 import feign.FeignException;
 import feign.Response;
 import feign.RetryableException;
-import feign.codec.Decoder;
 import feign.codec.ErrorDecoder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

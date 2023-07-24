@@ -1,4 +1,4 @@
-package com.backend.global.config.config;
+package com.backend.global.config;
 
 import com.backend.global.jwt.service.TokenManager;
 import org.springframework.beans.factory.annotation.Value;
