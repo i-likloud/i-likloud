@@ -24,7 +24,7 @@ public class PhotoDto {
 
     public Photo toEntity() {
         return Photo.builder()
-                .memberId(memberId)
+                .member(memberId)
                 .photoUrl(photoUrl)
                 .pickCnt(pickCnt)
                 .build();
