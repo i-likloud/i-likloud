@@ -26,6 +26,7 @@ import com.ssafy.likloud.databinding.FragmentLoginBinding
 import com.ssafy.likloud.example.ExampleFragmentViewModel
 import com.ssafy.likloud.ui.login.LoginFragmentDirections
 import com.ssafy.likloud.ui.login.LoginFragmentViewModel
+import com.ssafy.likloud.ui.upload.UploadFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -34,7 +35,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
 
     private val homeFragmentViewModel : HomeFragmentViewModel by viewModels()
     private lateinit var navController: NavController
-
     private lateinit var mActivity: MainActivity
 
     override fun onAttach(context: Context) {
@@ -73,12 +73,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
 
         binding.buttonCamera.setOnClickListener {
             moveButtonsToLeft()
+            startUploadFragment()
         }
 
         binding.buttonGame.setOnClickListener {
             moveButtonsToRight()
         }
     }
+
 
     /**
      * 애니메이션을 init합니다.
@@ -164,5 +166,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
             duration = 1000
             start()
         }
+    }
+
+    private fun startUploadFragment() {
+        binding.frameFragmentUpload.visibility = View.VISIBLE
+
+        childFragmentManager.beginTransaction()
+            .add(R.id.frame_fragment_upload, UploadFragment())
+            .commit()
     }
 }
