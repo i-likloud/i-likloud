@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/accounts")
 public class TokenController {
 
     private final TokenService tokenService;

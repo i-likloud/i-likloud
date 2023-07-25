@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/accounts/member")
+@RequestMapping("/api/accounts/member")
 @RequiredArgsConstructor
 public class MemberInfoController {
 
