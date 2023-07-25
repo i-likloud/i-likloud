@@ -38,7 +38,7 @@
             android:layout_width="500dp"
             android:layout_height="300dp"
             android:layout_marginStart="20dp"
-            android:background="@drawable/rounded_border"
+            android:background="@drawable/frame_rounded_border_black_radius50"
             app:layout_constraintStart_toEndOf="@id/recyclerview_drawaing"
             app:layout_constraintTop_toTopOf="@id/recyclerview_drawaing">
 
@@ -86,7 +86,7 @@
             android:layout_width="500dp"
             android:layout_height="280dp"
             android:layout_marginStart="20dp"
-            android:background="@drawable/rounded_border"
+            android:background="@drawable/frame_rounded_border_black_radius50"
             app:layout_constraintStart_toEndOf="@id/recyclerview_drawaing"
             app:layout_constraintBottom_toBottomOf="@id/recyclerview_drawaing">
 

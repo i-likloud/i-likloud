@@ -40,7 +40,6 @@
         android:name="com.ssafy.likloud.ui.onboarding.OnboardingFragment"
         android:label="OnboardingFragment"
         tools:layout="@layout/fragment_onboarding"/>
-        android:label="OnboardingFragment" />
         
     <fragment
         android:id="@+id/uploadFragment"
