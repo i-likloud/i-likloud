@@ -43,8 +43,8 @@
 
     <ImageView
         android:id="@+id/button_camera"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="260dp"
+        android:layout_height="260dp"
         android:layout_marginStart="168dp"
         android:layout_marginTop="164dp"
         android:src="@drawable/button_camera"
@@ -53,8 +53,8 @@
 
     <ImageView
         android:id="@+id/button_painting"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="260dp"
+        android:layout_height="260dp"
         android:layout_marginStart="604dp"
         android:layout_marginTop="164dp"
         android:src="@drawable/button_painting"
@@ -63,8 +63,8 @@
 
     <ImageView
         android:id="@+id/button_drawing_list"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="260dp"
+        android:layout_height="260dp"
         android:layout_marginStart="376dp"
         android:layout_marginTop="424dp"
         android:src="@drawable/button_board"
@@ -73,8 +73,8 @@
 
     <ImageView
         android:id="@+id/button_game"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="260dp"
+        android:layout_height="260dp"
         android:layout_marginStart="788dp"
         android:layout_marginTop="448dp"
         android:src="@drawable/button_game"
