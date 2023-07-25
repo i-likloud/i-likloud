@@ -5,6 +5,8 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.util.Base64
 import android.util.Log
+import com.kakao.sdk.common.KakaoSdk
+import com.ssafy.likloud.data.api.ApiClient.NATIVE_APP_KEY
 import com.ssafy.likloud.util.SharedPreferencesUtil
 import dagger.hilt.android.HiltAndroidApp
 import java.security.MessageDigest
@@ -29,6 +31,7 @@ class ApplicationClass : Application() {
         super.onCreate()
         getHashKey()
         sharedPreferences = SharedPreferencesUtil(applicationContext)
+       KakaoSdk.init(this, NATIVE_APP_KEY)
     }
 
     // 카카오 로그인을 위해 해시키를 발급합니다.
