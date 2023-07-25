@@ -30,7 +30,7 @@ public class KakaoTokenController {
 
     // 인가코드 콜백 결과 ( 토큰값 있음)
     @Operation(summary = "카카오 토큰", description = "카카오 로그인 토큰 메서드입니다.")
-    @GetMapping("/api/oauth/kakao/callback")
+    @GetMapping("/oauth/kakao/callback")
     public @ResponseBody String loginCallback(String code) {
         String contentType = "application/x-www-form-urlencoded;charset=utf-8";
         KakaoTokenDto.Request kakaoTokenRequestDto = KakaoTokenDto.Request.builder()
