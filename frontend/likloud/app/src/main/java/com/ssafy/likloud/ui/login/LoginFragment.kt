@@ -47,6 +47,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
         binding.kakaoLoginBtn.setOnClickListener {
             startKakaoLogin()
         }
+        binding.naverLoginBtn.setOnClickListener {
+            
+        }
     }
 
     /**

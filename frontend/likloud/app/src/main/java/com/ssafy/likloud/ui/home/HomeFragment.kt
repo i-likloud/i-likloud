@@ -12,6 +12,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
+import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -78,6 +79,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
 
         binding.buttonGame.setOnClickListener {
             moveButtonsToRight()
+            endUploadFragment()
         }
     }
 
@@ -86,6 +88,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
      * 애니메이션을 init합니다.
      */
     private fun initAnimation() {
+        binding.frameFragmentUpload.alpha = 0f
+        binding.frameFragmentUpload.scaleX = 0f
+        binding.frameFragmentUpload.scaleY = 0f
         binding.buttonCamera.animation = AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down)
         binding.buttonPainting.animation = AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down2)
         binding.buttonDrawingList.animation = AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down3)
@@ -168,11 +173,30 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
         }
     }
 
+    private fun makeAnimationFade(layout: FrameLayout, values: Float) {
+        ObjectAnimator.ofFloat(layout, "alpha", values).apply {
+            duration = 600
+            start()
+        }
+        ObjectAnimator.ofFloat(layout, "scaleX", values).apply {
+            duration = 1000
+            start()
+        }
+        ObjectAnimator.ofFloat(layout, "scaleY", values).apply {
+            duration = 1000
+            start()
+        }
+    }
+
     private fun startUploadFragment() {
-        binding.frameFragmentUpload.visibility = View.VISIBLE
+        makeAnimationFade(binding.frameFragmentUpload, 1f)
 
         childFragmentManager.beginTransaction()
             .add(R.id.frame_fragment_upload, UploadFragment())
             .commit()
+    }
+
+    private fun endUploadFragment() {
+        makeAnimationFade(binding.frameFragmentUpload, 0f)
     }
 }
