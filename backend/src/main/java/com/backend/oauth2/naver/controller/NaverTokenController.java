@@ -25,7 +25,7 @@ public class NaverTokenController {
 
     // 인가코드 콜백 결과
     @Operation(summary = "네이버 토큰", description = "네이버 로그인 토큰 메서드입니다.")
-    @GetMapping("/api/oauth/naver/callback")
+    @GetMapping("/oauth/naver/callback")
     public @ResponseBody String loginCallback(String code) {
         NaverTokenDto.Request naverTokenRequestDto = NaverTokenDto.Request.builder()
                 .client_id(clientId)
