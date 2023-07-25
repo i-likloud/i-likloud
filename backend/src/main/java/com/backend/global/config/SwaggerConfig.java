@@ -28,7 +28,7 @@ public class SwaggerConfig {
     public GroupedOpenApi mypageApi() {
         return GroupedOpenApi.builder()
                 .group("마이페이지")
-                .pathsToMatch("/api/profile/**")
+                .pathsToMatch("/api/mypage/**")
                 .build();
     }
     @Bean

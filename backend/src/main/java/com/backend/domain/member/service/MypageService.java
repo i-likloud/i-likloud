@@ -1,6 +1,5 @@
 package com.backend.domain.member.service;
 
-import com.backend.api.member.dto.MemberInfoResponseDto;
 import com.backend.domain.member.dto.MypageInfoDto;
 import com.backend.domain.member.entity.Member;
 import lombok.RequiredArgsConstructor;
