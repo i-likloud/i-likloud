@@ -3,6 +3,7 @@ package com.backend.global.error;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
@@ -11,11 +12,15 @@ import org.springframework.validation.FieldError;
 @Builder
 public class ErrorResponse {
 
+    private final int httpStatusCode;
+    private final HttpStatus httpStatus;
     private final String errorCode;
     private final String message;
 
-    public static ErrorResponse of(String errorCode, String message) {
+    public static ErrorResponse of(HttpStatus httpStatus, String errorCode, String message) {
         return ErrorResponse.builder()
+                .httpStatusCode(httpStatus.value())
+                .httpStatus(httpStatus)
                 .errorCode(errorCode)
                 .message(message)
                 .build();
