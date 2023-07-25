@@ -10,6 +10,11 @@
         android:name="com.ssafy.likloud.example.ExampleFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_example" />
+        
+    <fragment
+        android:id="@+id/drawingListFragment"
+        android:name="com.ssafy.likloud.ui.drawinglist.DrawingListFragment"
+        android:label="DrawingListFragment" />
 
     <fragment
         android:id="@+id/loginFragment"

@@ -112,6 +112,9 @@ dependencies {
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
+    //recyclerview
+    implementation 'com.github.sparrow007:carouselrecyclerview:1.2.6'
+
     //dotsindicator
     implementation("com.tbuonomo:dotsindicator:4.3")
 }
