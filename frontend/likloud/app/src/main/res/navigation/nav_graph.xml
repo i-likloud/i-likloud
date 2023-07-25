@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/onboardingFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/exampleFragment"
@@ -19,7 +19,8 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.ssafy.likloud.ui.login.LoginFragment"
-        android:label="LoginFragment" >
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment"
@@ -31,11 +32,20 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.ssafy.likloud.ui.home.HomeFragment"
-        android:label="HomeFragment" />
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_onboarding"/>
 
     <fragment
         android:id="@+id/onboardingFragment"
         android:name="com.ssafy.likloud.ui.onboarding.OnboardingFragment"
+        android:label="OnboardingFragment"
+        tools:layout="@layout/fragment_onboarding"/>
         android:label="OnboardingFragment" />
+        
+    <fragment
+        android:id="@+id/uploadFragment"
+        android:name="com.ssafy.likloud.ui.upload.UploadFragment"
+        android:label="fragment_upload"
+        tools:layout="@layout/fragment_upload" />
 
 </navigation>
