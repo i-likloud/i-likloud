@@ -35,4 +35,5 @@ public class Photo  extends BaseEntity {
         this.pickCnt = pickCnt;
     }
 
+
 }
