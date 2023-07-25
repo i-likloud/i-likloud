@@ -10,8 +10,8 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="400dp"
-        android:layout_height="400dp"
-        android:src="@drawable/logo_main"
+        android:layout_height="300dp"
+        android:src="@drawable/logo_main2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,12 +33,10 @@
             android:layout_gravity="center"
             android:text="kakao" />
 
-        <Button
-            android:id="@+id/naverLoginBtn"
+        <com.navercorp.nid.oauth.view.NidOAuthLoginButton
+            android:id="@+id/button_naver_login"
             android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            android:text="naver" />
+            android:layout_height="50dp"/>
 
     </LinearLayout>
 
