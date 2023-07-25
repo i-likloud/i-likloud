@@ -3,14 +3,12 @@ package com.backend.domain.drawing.entity;
 import com.backend.domain.common.BaseEntity;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.photo.entity.Photo;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,6 +31,8 @@ public class Drawing extends BaseEntity {
     @Column(nullable = false)
     private String imageUrl;
 
+    private int fromPhoto;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
@@ -41,12 +41,20 @@ public class Drawing extends BaseEntity {
     @JoinColumn(name = "photo_id")
     private Photo photo;
 
-    @Builder
-    public Drawing(String title, String content, String imageUrl, Member member){
-        this.title = title;
-        this.content = content;
-        this.artist = member.getNickname();
-        this.imageUrl = imageUrl;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "drawingFile_id")
+    private DrawingFile drawingFile;
 
+    @Builder
+    public Drawing(Long drawingId, String title, String artist, String content, String imageUrl, Member member, Photo photo, DrawingFile drawingFile) {
+        this.drawingId = drawingId;
+        this.title = title;
+        this.artist = artist;
+        this.content = content;
+        this.imageUrl = imageUrl;
+        this.member = member;
+        this.photo = photo;
+        this.drawingFile = drawingFile;
     }
+
 }
