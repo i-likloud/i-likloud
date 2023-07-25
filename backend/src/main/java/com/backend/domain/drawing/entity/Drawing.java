@@ -2,6 +2,7 @@ package com.backend.domain.drawing.entity;
 
 import com.backend.domain.common.BaseEntity;
 import com.backend.domain.member.entity.Member;
+import com.backend.domain.photo.entity.Photo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,4 +36,17 @@ public class Drawing extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "photo_id")
+    private Photo photo;
+
+    @Builder
+    public Drawing(String title, String content, String imageUrl, Member member){
+        this.title = title;
+        this.content = content;
+        this.artist = member.getNickname();
+        this.imageUrl = imageUrl;
+
+    }
 }
