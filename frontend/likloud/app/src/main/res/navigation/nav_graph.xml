@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/onboardingFragment">
+    app:startDestination="@id/uploadFragment">
 
     <fragment
         android:id="@+id/exampleFragment"
@@ -37,5 +37,10 @@
         android:id="@+id/onboardingFragment"
         android:name="com.ssafy.likloud.ui.onboarding.OnboardingFragment"
         android:label="OnboardingFragment" />
+    <fragment
+        android:id="@+id/uploadFragment"
+        android:name="com.ssafy.likloud.ui.upload.UploadFragment"
+        android:label="fragment_upload"
+        tools:layout="@layout/fragment_upload" />
 
 </navigation>
