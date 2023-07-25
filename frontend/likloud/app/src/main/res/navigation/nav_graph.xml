@@ -10,6 +10,11 @@
         android:name="com.ssafy.likloud.example.ExampleFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_example" />
+        
+    <fragment
+        android:id="@+id/drawingListFragment"
+        android:name="com.ssafy.likloud.ui.drawinglist.DrawingListFragment"
+        android:label="DrawingListFragment" />
 
     <fragment
         android:id="@+id/loginFragment"
@@ -35,5 +40,12 @@
         android:name="com.ssafy.likloud.ui.onboarding.OnboardingFragment"
         android:label="OnboardingFragment"
         tools:layout="@layout/fragment_onboarding"/>
+        android:label="OnboardingFragment" />
+        
+    <fragment
+        android:id="@+id/uploadFragment"
+        android:name="com.ssafy.likloud.ui.upload.UploadFragment"
+        android:label="fragment_upload"
+        tools:layout="@layout/fragment_upload" />
 
 </navigation>

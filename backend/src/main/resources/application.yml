@@ -5,10 +5,14 @@ server:
 
 spring:
   # DB
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/backend
+#    username: root
+#    password: q1w2e3r4
   datasource:
-    url: jdbc:mysql://localhost:3306/backend
+    url: jdbc:mysql://localhost:3306/mydb
     username: root
-    password: q1w2e3r4
+    password: 1234
 
   jpa:
     hibernate:
@@ -63,5 +67,4 @@ jwt:
 
   refresh:
     expiration: 604800000 #  (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> ??) * 7(1?))
-
 

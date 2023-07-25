@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.upload.UploadFragment">
+
+    <TextView
+        android:id="@+id/text_upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="업로드"
+        style="@style/Theme.AppCompat.TextView.jua.dark.Size32"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_add_photo"
+        android:layout_width="200dp"
+        android:layout_height="400dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/rounded_border"
+        app:layout_constraintEnd_toStartOf="@+id/layout_warning_photo"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_upload">
+
+        <androidx.constraintlayout.utils.widget.ImageFilterButton
+            android:id="@+id/image_add_photo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/add_photo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="사진 추가하기"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image_add_photo" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_warning_photo"
+        android:layout_width="200dp"
+        android:layout_height="400dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_border"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/layout_add_photo"
+        app:layout_constraintTop_toBottomOf="@id/text_upload">
+
+        <TextView
+            android:id="@+id/text_warning_title"
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="주의!"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_warning_content"
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="그림을 그릴 수 있게\n구름과 하늘이 있는\n사진을 올려주세요!"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_warning_title" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview_image_warning_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/cardview_image_warning_notcloud"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_warning_content"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/image_warning_dark"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/cloud1"
+                app:layout_constraintHorizontal_bias="0.5" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/text_warning_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="밤하늘 X"
+            android:layout_marginTop="5dp"
+            style="@style/Theme.AppCompat.TextView.jua.Size14"
+            app:layout_constraintTop_toBottomOf="@id/cardview_image_warning_dark"
+            app:layout_constraintStart_toStartOf="@id/cardview_image_warning_dark"
+            app:layout_constraintEnd_toEndOf="@id/cardview_image_warning_dark"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview_image_warning_notcloud"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cardview_image_warning_dark"
+            app:layout_constraintTop_toBottomOf="@id/text_warning_content"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/image_warning_notcloud"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/cloud1"
+                app:layout_constraintHorizontal_bias="0.5" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/text_warning_notcloud"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="셀카 X"
+            android:layout_marginTop="5dp"
+            style="@style/Theme.AppCompat.TextView.jua.Size14"
+            app:layout_constraintTop_toBottomOf="@id/cardview_image_warning_notcloud"
+            app:layout_constraintStart_toStartOf="@id/cardview_image_warning_notcloud"
+            app:layout_constraintEnd_toEndOf="@id/cardview_image_warning_notcloud"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:background="@drawable/button_frame_skyblue"
+            android:text="이걸로 할래요"
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
+            app:layout_constraintTop_toBottomOf="@id/text_warning_dark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="50dp"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

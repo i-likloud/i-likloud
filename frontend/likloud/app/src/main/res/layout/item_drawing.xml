@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.jackandphantom.carouselrecyclerview.view.ReflectionViewContainer
+        android:layout_width="600dp"
+        android:orientation="vertical"
+        app:reflect_gap="5dp"
+        android:layout_height="400dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:layout_width="600dp"
+                android:layout_height="400dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/cloud1"
+                android:id="@+id/image_drawing"/>
+
+        </androidx.cardview.widget.CardView>
+
+    </com.jackandphantom.carouselrecyclerview.view.ReflectionViewContainer>
+
+</FrameLayout>
