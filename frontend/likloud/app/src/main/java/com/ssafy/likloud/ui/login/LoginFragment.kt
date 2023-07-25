@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
 import com.ssafy.likloud.databinding.FragmentExampleBinding
@@ -18,6 +20,7 @@ import kotlinx.coroutines.launch
 class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::bind, R.layout.fragment_login) {
 
     private val loginFragmentViewModel : LoginFragmentViewModel by viewModels()
+    private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,8 +32,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(binding.root)
 
-
+        initListener()
 //        viewLifecycleOwner.lifecycleScope.launch{
 //            loginFragmentViewModel.user.observe(requireActivity()){
 //
@@ -42,7 +46,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
 
     private fun initListener() {
         binding.kakaoLoginBtn.setOnClickListener {
-
+            navController.navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
         }
     }
 

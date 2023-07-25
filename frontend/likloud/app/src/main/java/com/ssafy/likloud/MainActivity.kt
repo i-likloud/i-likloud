@@ -21,11 +21,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initNavController()
-
-        // test 용 코드
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainerView, LoginFragment())
-            .commit()
     }
 
     private fun initNavController() {
