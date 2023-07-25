@@ -23,7 +23,6 @@ public class Photo  extends BaseEntity {
     @ManyToOne
     private Member memberId;
 
-    private BaseEntity createdAt;
 
     private String photoUrl;
 
