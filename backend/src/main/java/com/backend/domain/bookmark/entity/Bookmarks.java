@@ -1,8 +1,8 @@
-package com.backend.domain.like.entity;
+package com.backend.domain.bookmark.entity;
 
-import com.backend.domain.common.BaseEntity;
 import com.backend.domain.drawing.entity.Drawing;
 import com.backend.domain.member.entity.Member;
+import com.backend.domain.photo.entity.Photo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,18 +15,17 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Like extends BaseEntity {
+public class Bookmarks {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long likeId;
+    private Long bookmarkId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "drawing_id")
-    private Drawing drawing;
-
+    @JoinColumn(name = "photo_id")
+    private Photo photo;
 }
