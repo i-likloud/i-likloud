@@ -47,9 +47,9 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(authenticationInterceptor)
                 .order(1) // 가장 먼저 인증 인터셉터가 실행
                 .addPathPatterns("/api/**")
-                .excludePathPatterns("/api/oauth/login",
+                .excludePathPatterns("/api/login",
                         "/api/accounts/access-token/re",
-                        "/api/oauth/logout",
+                        "/api/logout",
                         "/api/feign/**");
 
         registry.addInterceptor(memberAuthorizationInterceptor)
@@ -57,8 +57,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/api/**")
                 .excludePathPatterns("/api/accounts/member/additional",
                         "/api/accounts/access-token/re",
-                        "/api/oauth/logout",
-                        "/api/oauth/login");
+                        "/api/logout",
+                        "/api/login");
 
 //        registry.addInterceptor(adminAuthorizationInterceptor)
 //                .order(2)
