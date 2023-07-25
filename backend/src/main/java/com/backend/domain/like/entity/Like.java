@@ -1,4 +1,4 @@
-package com.backend.domain.photo.entity;
+package com.backend.domain.like.entity;
 
 import com.backend.domain.common.BaseEntity;
 import com.backend.domain.drawing.entity.Drawing;
@@ -9,30 +9,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
-@Entity
 @Getter
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Photo extends BaseEntity {
+public class Like extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long photoId;
+    private Long likeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    private String photoUrl;
-
-    private int pickCnt;
-
-    @OneToMany(mappedBy = "photo", cascade = CascadeType.ALL)
-    private List<Drawing> drawings = new ArrayList<>();
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "drawing_id")
+    private Drawing drawing;
 
 }

@@ -88,6 +88,13 @@ public class Member extends BaseEntity {
         this.tokenExpirationTime = DateTimeUtils.convertToLocalDateTime(jwtDto.getRefreshTokenExpirationPeriod());
     }
 
+    public void updateAdditionalInfo(String nickname, ProfileFace profileFace, ProfileColor profileColor, Role role) {
+        this.nickname = nickname;
+        this.profileFace = profileFace;
+        this.profileColor = profileColor;
+        this.role = role;
+    }
+
     public void expireRefreshToken(LocalDateTime now) {
         this.tokenExpirationTime = now;
     }

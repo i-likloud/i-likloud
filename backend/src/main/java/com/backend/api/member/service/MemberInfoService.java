@@ -26,10 +26,7 @@ public class MemberInfoService {
     public MemberDto.Response updateAdditionalInfo(MemberDto.UpdateRequest request, String email) {
         Member member = memberService.findMemberByEmail(email);
 
-        member.updateNickname(request.getNickname());
-        member.updateProfileFace(request.getProfileFace());
-        member.updateProfileCOLOR(request.getProfileColor());
-        member.updateRole(Role.MEMBER);
+        member.updateAdditionalInfo(request.getNickname(), request.getProfileFace(), request.getProfileColor(), Role.MEMBER);
 
         return MemberDto.Response.builder()
                 .email(member.getEmail())
