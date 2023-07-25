@@ -1,4 +1,4 @@
-package com.backend.domain.like.entity;
+package com.backend.domain.likes.entity;
 
 import com.backend.domain.common.BaseEntity;
 import com.backend.domain.drawing.entity.Drawing;
