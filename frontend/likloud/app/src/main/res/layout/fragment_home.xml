@@ -8,6 +8,7 @@
     android:background="@color/main_sky_blue">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/layout_appbar"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@color/main_sky_blue"
@@ -80,5 +81,17 @@
         android:src="@drawable/button_game"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/frame_fragment_upload"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.55"
+        android:background="@drawable/frame_upload"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_appbar"
+        android:visibility="gone"
+        android:layout_margin="30dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,7 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
