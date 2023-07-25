@@ -1,6 +1,7 @@
 package com.backend.domain.member.entity;
 
 import com.backend.domain.common.BaseEntity;
+import com.backend.domain.drawing.entity.Drawing;
 import com.backend.domain.member.constant.ProfileColor;
 import com.backend.domain.member.constant.ProfileFace;
 import com.backend.domain.member.constant.Role;
@@ -14,6 +15,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -53,6 +56,10 @@ public class Member extends BaseEntity {
 
     private LocalDateTime tokenExpirationTime;
 
+
+    // 그림과 OneToMany 관계
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Drawing> drawings = new ArrayList<>();
 
     //== 멤버 필드 업데이트 ==//
     public void updateNickname(String updateNickname) {

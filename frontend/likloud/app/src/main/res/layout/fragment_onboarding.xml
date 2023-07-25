@@ -15,7 +15,7 @@
         android:layout_height="80dp"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/intro_viewpager"
+        app:layout_constraintBottom_toTopOf="@id/viewpager"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="-1dp">
 
@@ -35,7 +35,7 @@
     </LinearLayout>
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/intro_viewpager"
+        android:id="@+id/viewpager"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:overScrollMode="never"
@@ -46,7 +46,7 @@
 
 
     <TextView
-        android:id="@+id/start_text"
+        android:id="@+id/text_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/Theme.AppCompat.TextView.jua.dark.Size24"
@@ -56,7 +56,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/intro_viewpager" />
+        app:layout_constraintTop_toBottomOf="@id/viewpager" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
