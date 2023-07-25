@@ -49,7 +49,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
             //그림 목록 리사이클러뷰
             val drawingList = initDrawingList()
             val drawingListAdapter = DrawingListAdapter(drawingList)
-            drawingRecyclerview.apply {
+            recyclerviewDrawaing.apply {
                 this.adapter = drawingListAdapter
                 set3DItem(true)
                 setAlpha(true)
@@ -58,7 +58,10 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
                     //본인한테서 멈췄을 때 이벤트
                     override fun onItemSelected(position: Int) {
                         //Cente item
-                        binding.drawingExplainTv.text = drawingListAdapter.list[position].text
+                        binding.imageDrawingProfile.setImageResource(drawingListAdapter.list[position].img)
+                        binding.textDrawingNickname.text = drawingListAdapter.list[position].text + "NICKNAME"
+                        binding.textDrawingTitle.text = drawingListAdapter.list[position].text + "TITLE"
+                        binding.textDrawingExplain.text = drawingListAdapter.list[position].text + "EXPLAIN"
                         Toast.makeText(mainActivity, drawingListAdapter.list[position].text, Toast.LENGTH_SHORT).show()
                     }
                 })
@@ -66,14 +69,16 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
             //댓글 목록 리사이클러뷰
             val commentList = initCommentList()
             val commentListAdapter = CommentListAdapter(commentList)
-            drawingCommentRecyclerview.apply {
+            recyclerviewDrawingComment.apply {
                 this.adapter = commentListAdapter
                 this.layoutManager = LinearLayoutManager(mainActivity, LinearLayoutManager.VERTICAL,false)
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch{
+            drawingListFragmentViewModel.commentList.observe(mainActivity){
 
+            }
         }
     }
 
@@ -122,5 +127,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
 
         return list
     }
+
+
 
 }

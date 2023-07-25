@@ -17,11 +17,11 @@ class DrawingListAdapter  (var list : ArrayList<DrawingDto>): RecyclerView.Adapt
 //    }
 
     inner class DrawingHolder(binding: ItemDrawingBinding) : RecyclerView.ViewHolder(binding.root){
-        val drawingImg = binding.drawingImg
+        val imageDrawing = binding.imageDrawing
         fun bindInfo(drawing : DrawingDto){
-            Glide.with(drawingImg)
+            Glide.with(imageDrawing)
                 .load(drawing.img)
-                .into(drawingImg)
+                .into(imageDrawing)
             itemView.setOnClickListener{
             }
         }

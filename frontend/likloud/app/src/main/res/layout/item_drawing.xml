@@ -22,7 +22,7 @@
                 android:layout_height="400dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/cloud1"
-                android:id="@+id/drawing_img"/>
+                android:id="@+id/image_drawing"/>
 
         </androidx.cardview.widget.CardView>
 
