@@ -54,6 +54,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(binding.root)
 
+        init()
         initListener()
         initAnimation()
 
@@ -83,14 +84,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
         }
     }
 
+    /**
+     * 필요한 정보나 뷰를 init 합니다.
+     */
+    private fun init() {
+        binding.frameFragmentUpload.translationX = 1600f
+        binding.layoutProfile.translationX = 52f
+        binding.layoutProfile.translationY = -52f
+    }
 
     /**
      * 애니메이션을 init합니다.
      */
     private fun initAnimation() {
-        binding.frameFragmentUpload.alpha = 0f
-        binding.frameFragmentUpload.scaleX = 0f
-        binding.frameFragmentUpload.scaleY = 0f
+//        binding.frameFragmentUpload.alpha = 0f
+//        binding.frameFragmentUpload.scaleX = 0f
+//        binding.frameFragmentUpload.scaleY = 0f
+//        binding.frameFragmentUpload.translationX = 1600f
         binding.buttonCamera.animation = AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down)
         binding.buttonPainting.animation = AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down2)
         binding.buttonDrawingList.animation = AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down3)
@@ -140,7 +150,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
     /**
      * 버튼에 X축으로 움직이는 애니메이션을 적용시킵니다.
      */
-    private fun makeButtonAnimationX(button: ImageView, values: Float) {
+    private fun makeButtonAnimationX(button: View, values: Float) {
         ObjectAnimator.ofFloat(button, "translationX", values).apply {
             interpolator = DecelerateInterpolator()
             duration = 1000
@@ -151,7 +161,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
     /**
      * 버튼에 Y축으로 움직이는 애니메이션을 적용시킵니다.
      */
-    private fun makeButtonAnimationY(button: ImageView, values: Float) {
+    private fun makeButtonAnimationY(button: View, values: Float) {
         ObjectAnimator.ofFloat(button, "translationY", values).apply {
             interpolator = DecelerateInterpolator()
             duration = 1000
@@ -162,7 +172,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
     /**
      * 버튼에 크기를 조절하는 애니메이션을 적용시킵니다.
      */
-    private fun makeButtonAnimationScale(button: ImageView, values: Float) {
+    private fun makeButtonAnimationScale(button: View, values: Float) {
         ObjectAnimator.ofFloat(button, "scaleX", values).apply {
             duration = 1000
             start()
@@ -173,6 +183,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
         }
     }
 
+    /**
+     * 레이아웃에 사라지고 나타나는 애니메이션을 적용시킵니다.
+     */
     private fun makeAnimationFade(layout: FrameLayout, values: Float) {
         ObjectAnimator.ofFloat(layout, "alpha", values).apply {
             duration = 600
@@ -189,7 +202,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
     }
 
     private fun startUploadFragment() {
-        makeAnimationFade(binding.frameFragmentUpload, 1f)
+//        makeAnimationFade(binding.frameFragmentUpload, 1f)
+        makeButtonAnimationX(binding.frameFragmentUpload, 0f)
 
         childFragmentManager.beginTransaction()
             .add(R.id.frame_fragment_upload, UploadFragment())
@@ -197,6 +211,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
     }
 
     private fun endUploadFragment() {
-        makeAnimationFade(binding.frameFragmentUpload, 0f)
+//        makeAnimationFade(binding.frameFragmentUpload, 0f)
+        makeButtonAnimationX(binding.frameFragmentUpload, 1600f)
     }
 }

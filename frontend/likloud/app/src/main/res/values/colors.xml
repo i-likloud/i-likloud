@@ -12,7 +12,8 @@
     <color name="gray03">#EEEEEE</color>
     <color name="gray02">#F5F5F5</color>
     <color name="gray01">#FAFAFA</color>
-    <color name="main_sky_blue">#1DC9FF</color>
+<!--    <color name="main_sky_blue">#1DC9FF</color>-->
+    <color name="main_sky_blue">#C1F0FF</color>
     <color name="main_sky_blue_light"></color>
 
 
