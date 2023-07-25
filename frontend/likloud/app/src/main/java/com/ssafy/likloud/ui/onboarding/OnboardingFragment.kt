@@ -29,10 +29,10 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding>(FragmentOnboa
     }
 
 
-
+    // adapter에 onboarding 파일 연결
     private fun initAdapter() {
         onboardingAdapter = OnboardingAdapter()
-         binding.introViewpager.apply {
+         binding.viewpager.apply {
              onboardingAdapter.submitList(
                  listOf(
                      OnboardData(1, context.getString(R.string.onboarding_one), R.drawable.onboard_img_1),
@@ -43,7 +43,7 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding>(FragmentOnboa
              adapter = onboardingAdapter
 
          }
-        binding.springDotsIndicator.attachTo(binding.introViewpager)
+        binding.springDotsIndicator.attachTo(binding.viewpager)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -47,13 +47,9 @@ class OnboardingAdapter :
             ViewpagerOnboardingBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         return CustomViewHolder(binding).apply {
-            binding.root.setOnClickListener {
-//                Toast.makeText(
-//                    parent.context,
-//                    "onCreateViewHolder: adapterPosition:${adapterPosition}, layoutPosition: ${layoutPosition}",
-//                    Toast.LENGTH_SHORT
-//                ).show()
-            }
+//            binding.root.setOnClickListener {
+//
+//            }
         }
     }
 
