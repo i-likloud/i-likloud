@@ -1,5 +1,7 @@
 package com.backend.api.member.dto;
 
+import com.backend.domain.member.constant.ProfileColor;
+import com.backend.domain.member.constant.ProfileFace;
 import com.backend.domain.member.constant.Role;
 import com.backend.domain.member.constant.SocialType;
 import com.backend.domain.member.entity.Member;
@@ -17,9 +19,9 @@ public class MemberInfoResponseDto {
 
     private String nickname;
 
-    private String profile_image;
-
-    private String phone_number;
+    private ProfileFace profileFace;
+    private ProfileColor profileColor;
+    private int coinCount;
 
     private SocialType socialType;
 
@@ -30,8 +32,8 @@ public class MemberInfoResponseDto {
                 .memberId(member.getMemberId())
                 .nickname(member.getNickname())
                 .email(member.getEmail())
-                .profile_image(member.getProfile_image())
-                .phone_number(member.getPhone_number())
+                .profileFace(member.getProfileFace())
+                .profileColor(member.getProfileColor())
                 .role(member.getRole())
                 .socialType(member.getSocialType())
                 .build();

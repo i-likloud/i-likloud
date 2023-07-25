@@ -114,4 +114,7 @@ dependencies {
 
     //recyclerview
     implementation 'com.github.sparrow007:carouselrecyclerview:1.2.6'
+
+    //dotsindicator
+    implementation("com.tbuonomo:dotsindicator:4.3")
 }

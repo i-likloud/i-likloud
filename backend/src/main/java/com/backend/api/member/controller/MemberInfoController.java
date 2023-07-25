@@ -12,14 +12,17 @@ import com.backend.global.error.ErrorCode;
 import com.backend.global.error.exception.BusinessException;
 import com.backend.global.resolver.memberInfo.MemberInfo;
 import com.backend.global.resolver.memberInfo.MemberInfoDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+@Tag(name = "Auth", description = "소셜로그인 관련 api")
 @RestController
-@RequestMapping("/accounts/member")
+@RequestMapping("/api/oauth")
 @RequiredArgsConstructor
 public class MemberInfoController {
 
@@ -29,6 +32,7 @@ public class MemberInfoController {
     private final MemberService memberService;
 
     // 회원 정보 조회
+    @Operation(summary = "추가 정보", description = "회원가입후 회원 정보 조회 메서드입니다.")
     @GetMapping("/info")
     public ResponseEntity<MemberInfoResponseDto> getMemberInfo(@MemberInfo MemberInfoDto memberInfoDto) {
 
@@ -39,6 +43,7 @@ public class MemberInfoController {
     }
 
     // 추가정보 업데이트 메서드
+    @Operation(summary = "추가 정보", description = "회원가입후 추가정보 관련 메서드입니다.")
     @PatchMapping("/additional")
     public ResponseEntity<MemberDto.Response> updateAdditionalInfo(@RequestBody MemberDto.UpdateRequest request, @MemberInfo MemberInfoDto memberInfoDto) {
         // 닉네임 중복 검사

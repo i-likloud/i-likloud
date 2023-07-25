@@ -1,6 +1,9 @@
 package com.backend.domain.member.entity;
 
 import com.backend.domain.common.BaseEntity;
+import com.backend.domain.drawing.entity.Drawing;
+import com.backend.domain.member.constant.ProfileColor;
+import com.backend.domain.member.constant.ProfileFace;
 import com.backend.domain.member.constant.Role;
 import com.backend.domain.member.constant.SocialType;
 import com.backend.global.jwt.dto.JwtDto;
@@ -12,6 +15,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -29,13 +34,15 @@ public class Member extends BaseEntity {
     @Column(length = 30)
     private String nickname;
 
-    private String profile_face;
+    @Enumerated(EnumType.STRING)
+    private ProfileFace profileFace;
 
-    private String profile_color;
+    @Enumerated(EnumType.STRING)
+    private ProfileColor profileColor;
 
     private String wallet;
 
-    private int coin_cnt;
+    private int coinCount;
 
     @Enumerated(EnumType.STRING)
     private SocialType socialType;
@@ -50,22 +57,26 @@ public class Member extends BaseEntity {
     private LocalDateTime tokenExpirationTime;
 
 
+    // 그림과 OneToMany 관계
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Drawing> drawings = new ArrayList<>();
+
     //== 멤버 필드 업데이트 ==//
     public void updateNickname(String updateNickname) {
         this.nickname = updateNickname;
     }
 
-    public void updateProfileCOLOR(String profile_color){
-        this.profile_color = profile_color;
+    public void updateProfileCOLOR(ProfileColor profileColor){
+        this.profileColor = profileColor;
     }
 
-    public void updateProfileFace(String profile_face){
-        this.profile_face = profile_face;
+    public void updateProfileFace(ProfileFace profileFace){
+        this.profileFace = profileFace;
     }
 
 
-    public void updateCoin_cnt(int coin_cnt){
-        this.coin_cnt = coin_cnt;
+    public void updateCoinCount(int coinCount){
+        this.coinCount = coinCount;
     }
 
     public void updateRole(Role role){
@@ -82,14 +93,14 @@ public class Member extends BaseEntity {
     }
 
     @Builder
-    public Member(SocialType socialType, String email, String nickname,  int coin_cnt,
-                  String profile_color, String profile_face,Role role) {
+    public Member(SocialType socialType, String email, String nickname,  int coinCount,
+                  ProfileColor profileColor, ProfileFace profileFace,Role role) {
         this.socialType = socialType;
         this.email = email;
         this.nickname = nickname;
-        this.profile_color = profile_color;
-        this.profile_face = profile_face;
-        this.coin_cnt = coin_cnt;
+        this.profileColor = profileColor;
+        this.profileFace = profileFace;
+        this.coinCount = coinCount;
         this.role = role;
     }
 
