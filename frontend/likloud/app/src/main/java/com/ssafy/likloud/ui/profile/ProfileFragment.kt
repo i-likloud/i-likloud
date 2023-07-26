@@ -50,7 +50,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         initListener()
     }
 
-    private fun initListener() {
+    override fun initListener() {
         binding.waterDropWhite.setOnClickListener {
             changeWaterDrop(it, mainActivityViewModel.waterDropColorList[0])
         }
