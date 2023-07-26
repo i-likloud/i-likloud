@@ -108,6 +108,13 @@
     </style>
 
     <!--Jua14gray09-->
+    <style name="Theme.AppCompat.TextView.jua.Size12" parent="@style/Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/gray09</item>
+        <item name="android:textSize">@dimen/_12sdp</item>
+        <item name="fontFamily">@font/jua</item>
+    </style>
+
+    <!--Jua14gray09-->
     <style name="Theme.AppCompat.TextView.jua.Size08" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textColor">@color/gray09</item>
         <item name="android:textSize">@dimen/_8sdp</item>
