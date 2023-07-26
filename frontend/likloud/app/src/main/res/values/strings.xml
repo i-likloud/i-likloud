@@ -12,4 +12,6 @@
     <string name="caution_description">그림을 그릴 수 있게\n구름과 하늘이 있는\n사진을 올려주세요!</string>
     <string name="choose">이걸로 할래요</string>
 
+    <string name="home">홈</string>
+    <string name="profile_select">나만의 물방울을 만들어주세요</string>
 </resources>
