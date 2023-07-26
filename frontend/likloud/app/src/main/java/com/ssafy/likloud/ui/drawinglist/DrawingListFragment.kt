@@ -40,6 +40,10 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
+    override fun initListener() {
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

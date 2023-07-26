@@ -14,7 +14,7 @@
     <color name="gray01">#FAFAFA</color>
 <!--    <color name="main_sky_blue">#1DC9FF</color>-->
     <color name="main_sky_blue">#C1F0FF</color>
-    <color name="main_sky_blue_light"></color>
+    <color name="main_sky_blue_light_modal">#B2EDFF</color>
 
 
 </resources>

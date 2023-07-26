@@ -21,10 +21,12 @@ import com.ssafy.likloud.ui.drawinglist.DrawingListAdapter
 import com.ssafy.likloud.ui.drawinglist.DrawingListFragmentViewModel
 import kotlinx.coroutines.launch
 
+private const val TAG = "UploadFragment_싸피"
 
-class UploadFragment : BaseFragment<FragmentUploadBinding>(FragmentUploadBinding::bind, R.layout.fragment_upload) {
+class UploadFragment :
+    BaseFragment<FragmentUploadBinding>(FragmentUploadBinding::bind, R.layout.fragment_upload) {
 
-    private val uploadFragmentViewModel : UploadFragmentViewModel by viewModels()
+    private val uploadFragmentViewModel: UploadFragmentViewModel by viewModels()
     private lateinit var mainActivity: MainActivity
 
     override fun onAttach(context: Context) {
@@ -42,6 +44,37 @@ class UploadFragment : BaseFragment<FragmentUploadBinding>(FragmentUploadBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initListener()
+    }
+
+
+    override fun initListener() {
+        binding.layoutAddPhoto.setOnClickListener {
+            pushSettingDialog()
+        }
+
+    }
+
+
+
+    private fun pushSettingDialog() {
+        val dialog = CameraDialog(
+            clickGallery ={
+                openGallery()
+            }
+            ,
+            clickCamera = {
+                openCamera()
+            },
+        )
+        dialog.show(childFragmentManager, TAG)
+    }
+
+    private fun openCamera() {
+
+    }
+
+    private fun openGallery() {
 
     }
 }

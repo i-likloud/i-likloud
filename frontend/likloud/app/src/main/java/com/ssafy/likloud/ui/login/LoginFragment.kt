@@ -99,7 +99,7 @@ class LoginFragment :
     /**
      * 클릭 리스너를 init합니다.
      */
-    private fun initListener() {
+    override fun initListener() {
         binding.kakaoLoginBtn.setOnClickListener {
             startKakaoLogin()
         }

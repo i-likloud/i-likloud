@@ -26,6 +26,9 @@ class ExampleFragment : BaseFragment<FragmentExampleBinding>(FragmentExampleBind
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
+    override fun initListener() {
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

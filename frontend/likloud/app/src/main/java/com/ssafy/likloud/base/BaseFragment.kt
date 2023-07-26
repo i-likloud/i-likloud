@@ -30,6 +30,8 @@ abstract class BaseFragment<B : ViewBinding>(
         return binding.root
     }
 
+    abstract fun initListener()
+
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
