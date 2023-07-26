@@ -15,15 +15,13 @@ import javax.inject.Inject
 class LoginFragmentViewModel @Inject constructor(
     private val baseRepository: BaseRepository
 ) : ViewModel() {
-    private val _user = MutableLiveData<UserDto>()
-//    val user: LiveData<UserDto>
-//        get() = _user
-//
-//    fun getUserInfo(userId: Int) {
-//        viewModelScope.launch {
-//            baseRepository.getUser(userId).onSuccess {
-//                _user.value = it
-//            }
-//        }
-//    }
+    private val _isTokenReceived = MutableLiveData<Boolean>()
+    val isTokenReceived: LiveData<Boolean>
+        get() = _isTokenReceived
+
+     fun getTokenValidation(accessToken : String){
+        // token validation checking api 구현 필요
+        _isTokenReceived.value = true
+    }
+
 }

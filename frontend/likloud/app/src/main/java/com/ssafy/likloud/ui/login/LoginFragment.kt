@@ -69,7 +69,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
 
         init()
         initListener()
-    }
 
     /**
      * 필요한 정보를 init 합니다.
@@ -78,6 +77,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
 //        NaverIdLoginSDK.initialize(mActivity, R.string.naver_oauth_client_id.toString(), R.string.naver_oauth_client_secret.toString(), R.string.naver_oauth_client_name.toString())
         NaverIdLoginSDK.initialize(mActivity, OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_CLIENT_NAME)
         binding.buttonNaverLogin.setOAuthLogin(naverLoginLauncher)
+        viewLifecycleOwner.lifecycleScope.launch{
+            loginFragmentViewModel.isTokenReceived.observe(requireActivity()){
+                if(it == true) findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+            }
+        }
     }
 
     /**
@@ -85,53 +89,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
      */
     private fun initListener() {
         binding.kakaoLoginBtn.setOnClickListener {
-//            startKakaoLogin()
+           startKakaoLogin()
         }
     }
-
-//    /**
-//     * 카카오 로그인을 시작합니다.
-//     */
-//    private fun startKakaoLogin(context: Context =requireContext()) {
-//
-//    // 카카오계정으로 로그인 공통 callback 구성
-//    // 카카오톡으로 로그인 할 수 없어 카카오계정으로 로그인할 경우 사용됨
-//        val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
-//            if (error != null) {
-//                Log.e(ContentValues.TAG, "카카오계정으로 로그인 실패", error)
-//            } else if (token != null) {
-//                Log.i(ContentValues.TAG, "카카오톡으로 로그인 성공 accesstoken ${token.accessToken}")
-//                Log.i(ContentValues.TAG, "카카오톡으로 로그인 성공 refreshtoken ${token.refreshToken}")
-//                Log.i(ContentValues.TAG, "카카오톡: ${token.scopes?.get(2)}")
-//                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-//            }
-//        }
-//
-//        // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
-//        if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
-//            UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
-//                if (error != null) {
-//                    Log.e(ContentValues.TAG, "카카오톡으로 로그인 실패", error)
-//
-//                    // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
-//                    // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
-//                    if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-//                        return@loginWithKakaoTalk
-//                    }
-//
-//                    // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인 시도
-//                    UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
-//                } else if (token != null) {
-//                    Log.i(ContentValues.TAG, "카카오톡으로 로그인 성공 accesstoken ${token.accessToken}")
-//                    Log.i(ContentValues.TAG, "카카오톡으로 로그인 성공 refreshtoken ${token.refreshToken}")
-//                    Log.i(ContentValues.TAG, "카카오톡: ${token.scopes?.get(2)}")
-//                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-//                }
-//            }
-//        } else {
-//            UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
-//        }
-//    }
 
     /**
      * 네이버 로그인 런처입니다.
@@ -170,6 +130,45 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
                 val errorCode = NaverIdLoginSDK.getLastErrorCode().code
                 val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
                 showCustomToast("errorCode:$errorCode, errorDesc:$errorDescription")
+            }
+        }
+
+    private fun startKakaoLogin(context: Context =requireContext()) {
+
+    // 카카오계정으로 로그인 공통 callback 구성
+    // 카카오톡으로 로그인 할 수 없어 카카오계정으로 로그인할 경우 사용됨
+        val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+            if (error != null) {
+                Log.e(ContentValues.TAG, "카카오계정으로 로그인 실패", error)
+            } else if (token != null) {
+                Log.i(ContentValues.TAG, "카카오톡으로 로그인 성공 accesstoken ${token.accessToken}")
+                Log.i(ContentValues.TAG, "카카오톡으로 로그인 성공 refreshtoken ${token.refreshToken}")
+                Log.i(ContentValues.TAG, "카카오톡: ${token.scopes?.get(2)}")
+                loginFragmentViewModel.getTokenValidation(token.accessToken)
+
+            }
+        }
+
+        // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
+        if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
+            UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
+                if (error != null) {
+                    Log.e(ContentValues.TAG, "카카오톡으로 로그인 실패", error)
+
+                    // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
+                    // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
+                    if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
+                        return@loginWithKakaoTalk
+                    }
+
+                    // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인 시도
+                    UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
+                } else if (token != null) {
+                    Log.i(ContentValues.TAG, "카카오톡으로 로그인 성공 accesstoken ${token.accessToken}")
+                    Log.i(ContentValues.TAG, "카카오톡으로 로그인 성공 refreshtoken ${token.refreshToken}")
+                    Log.i(ContentValues.TAG, "카카오톡: ${token.scopes?.get(2)}")
+                    loginFragmentViewModel.getTokenValidation(token.accessToken)
+                }
             }
         }
     }
