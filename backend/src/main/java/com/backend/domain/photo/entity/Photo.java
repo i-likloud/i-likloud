@@ -32,6 +32,7 @@ public class Photo extends BaseEntity {
 
     private int pickCnt;
 
+    @Builder.Default
     @OneToMany(mappedBy = "photo", cascade = CascadeType.ALL)
     private List<Drawing> drawings = new ArrayList<>();
 
