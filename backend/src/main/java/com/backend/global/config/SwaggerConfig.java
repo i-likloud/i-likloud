@@ -13,7 +13,7 @@ public class SwaggerConfig {
     @Bean
     public GroupedOpenApi allApi() {
         return GroupedOpenApi.builder()
-                .group("전체조회")
+                .group("")
                 .pathsToMatch("/**")
                 .build();
     }
