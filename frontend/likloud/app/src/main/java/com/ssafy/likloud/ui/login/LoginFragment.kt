@@ -17,7 +17,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import com.android.volley.ClientError
+import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.common.model.ClientError
+import com.kakao.sdk.common.model.ClientErrorCause
+import com.kakao.sdk.user.UserApiClient
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.NidOAuthLogin
 import com.navercorp.nid.oauth.view.NidOAuthLoginButton.Companion.launcher
@@ -37,10 +40,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 private const val TAG = "LoginFragment_싸피"
-@AndroidEntryPoint
-class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::bind, R.layout.fragment_login) {
 
-    private val loginFragmentViewModel : LoginFragmentViewModel by viewModels()
+@AndroidEntryPoint
+class LoginFragment :
+    BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::bind, R.layout.fragment_login) {
+
+    private val loginFragmentViewModel: LoginFragmentViewModel by viewModels()
     private lateinit var mActivity: MainActivity
 
     private lateinit var OAUTH_CLIENT_ID: String
@@ -70,18 +75,25 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
         init()
         initListener()
 
+        viewLifecycleOwner.lifecycleScope.launch{
+            loginFragmentViewModel.isTokenReceived .observe(requireActivity()){
+               if(it==true) findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+            }
+        }
+    }
+
     /**
      * 필요한 정보를 init 합니다.
      */
     private fun init() {
 //        NaverIdLoginSDK.initialize(mActivity, R.string.naver_oauth_client_id.toString(), R.string.naver_oauth_client_secret.toString(), R.string.naver_oauth_client_name.toString())
-        NaverIdLoginSDK.initialize(mActivity, OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_CLIENT_NAME)
+        NaverIdLoginSDK.initialize(
+            mActivity,
+            OAUTH_CLIENT_ID,
+            OAUTH_CLIENT_SECRET,
+            OAUTH_CLIENT_NAME
+        )
         binding.buttonNaverLogin.setOAuthLogin(naverLoginLauncher)
-        viewLifecycleOwner.lifecycleScope.launch{
-            loginFragmentViewModel.isTokenReceived.observe(requireActivity()){
-                if(it == true) findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-            }
-        }
     }
 
     /**
@@ -89,20 +101,21 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
      */
     private fun initListener() {
         binding.kakaoLoginBtn.setOnClickListener {
-           startKakaoLogin()
+            startKakaoLogin()
         }
     }
 
     /**
      * 네이버 로그인 런처입니다.
      */
-    private val naverLoginLauncher = registerForActivityResult<Intent, ActivityResult>(ActivityResultContracts.StartActivityForResult()) { result ->
-        when(result.resultCode) {
-            AppCompatActivity.RESULT_OK -> {
-                // 네이버 로그인 인증이 성공했을 때 수행할 코드 추가
-                Log.d(TAG, ": AT = ${NaverIdLoginSDK.getAccessToken()}")
-                Log.d(TAG, ": RT = ${NaverIdLoginSDK.getRefreshToken()}")
-                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+    private val naverLoginLauncher =
+        registerForActivityResult<Intent, ActivityResult>(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                AppCompatActivity.RESULT_OK -> {
+                    // 네이버 로그인 인증이 성공했을 때 수행할 코드 추가
+                    Log.d(TAG, ": AT = ${NaverIdLoginSDK.getAccessToken()}")
+                    Log.d(TAG, ": RT = ${NaverIdLoginSDK.getRefreshToken()}")
+                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
 //                binding.tvExpires.text = NaverIdLoginSDK.getExpiresAt().toString()
 //                binding.tvType.text = NaverIdLoginSDK.getTokenType()
 //                binding.tvState.text = NaverIdLoginSDK.getState().toString()
@@ -124,19 +137,25 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
 //                }).toString()
 
 //                Toast.makeText(this, "id : ${NidOAuthLogin()}", Toast.LENGTH_SHORT).show()
+                }
+
+                AppCompatActivity.RESULT_CANCELED -> {
+                    // 실패 or 에러
+                    val errorCode = NaverIdLoginSDK.getLastErrorCode().code
+                    val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
+                    showCustomToast("errorCode:$errorCode, errorDesc:$errorDescription")
+                }
             }
-            AppCompatActivity.RESULT_CANCELED -> {
-                // 실패 or 에러
-                val errorCode = NaverIdLoginSDK.getLastErrorCode().code
-                val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
-                showCustomToast("errorCode:$errorCode, errorDesc:$errorDescription")
-            }
+
+
         }
 
-    private fun startKakaoLogin(context: Context =requireContext()) {
 
-    // 카카오계정으로 로그인 공통 callback 구성
-    // 카카오톡으로 로그인 할 수 없어 카카오계정으로 로그인할 경우 사용됨
+    private fun startKakaoLogin(context: Context = requireContext()) {
+        Log.d(TAG, "startKakaoLogin: clicked")
+
+        // 카카오계정으로 로그인 공통 callback 구성
+        // 카카오톡으로 로그인 할 수 없어 카카오계정으로 로그인할 경우 사용됨
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error != null) {
                 Log.e(ContentValues.TAG, "카카오계정으로 로그인 실패", error)
@@ -145,7 +164,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
                 Log.i(ContentValues.TAG, "카카오톡으로 로그인 성공 refreshtoken ${token.refreshToken}")
                 Log.i(ContentValues.TAG, "카카오톡: ${token.scopes?.get(2)}")
                 loginFragmentViewModel.getTokenValidation(token.accessToken)
-
             }
         }
 
@@ -162,15 +180,26 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
                     }
 
                     // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인 시도
-                    UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
+                    UserApiClient.instance.loginWithKakaoAccount(
+                        context,
+                        callback = callback
+                    )
                 } else if (token != null) {
-                    Log.i(ContentValues.TAG, "카카오톡으로 로그인 성공 accesstoken ${token.accessToken}")
-                    Log.i(ContentValues.TAG, "카카오톡으로 로그인 성공 refreshtoken ${token.refreshToken}")
+                    Log.i(
+                        ContentValues.TAG,
+                        "카카오톡으로 로그인 성공 accesstoken ${token.accessToken}"
+                    )
+                    Log.i(
+                        ContentValues.TAG,
+                        "카카오톡으로 로그인 성공 refreshtoken ${token.refreshToken}"
+                    )
                     Log.i(ContentValues.TAG, "카카오톡: ${token.scopes?.get(2)}")
                     loginFragmentViewModel.getTokenValidation(token.accessToken)
                 }
             }
         }
+        else {
+            UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
+        }
     }
-
 }
