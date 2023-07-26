@@ -36,9 +36,11 @@ public class Drawing extends BaseEntity {
 
     private int fromPhoto;
 
+    @Builder.Default
     @Column(nullable = false)
     private int viewCount = 0;
 
+    @Builder.Default
     @Column(nullable = false)
     private int likesCount = 0;
 
@@ -54,6 +56,7 @@ public class Drawing extends BaseEntity {
     @JoinColumn(name = "drawingFile_id")
     private DrawingFile drawingFile;
 
+    @Builder.Default
     @OneToMany(mappedBy = "drawing", cascade = CascadeType.ALL)
     private List<Likes> likes = new ArrayList<>();
 
