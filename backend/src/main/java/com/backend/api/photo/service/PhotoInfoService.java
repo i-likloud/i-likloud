@@ -27,4 +27,12 @@ public class PhotoInfoService {
 
         return ResponseEntity.ok(photoInfoResponseDtos);
     }
+
+    // 삭제
+    public void delete(Long id) {
+        Photo photo = photoRepository.findById(id)
+                .orElseThrow(()-> new IllegalArgumentException("해당 게시물이 존재하지 않습니다."));
+
+            photoRepository.delete(photo);
+    }
 }
