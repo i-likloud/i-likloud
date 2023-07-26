@@ -19,6 +19,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+
     public Member registerMember(Member member) {
         validateDuplicateMember(member);
         return memberRepository.save(member);
@@ -52,4 +53,5 @@ public class MemberService {
         return memberRepository.findByEmail(email)
                 .orElseThrow(() -> new BusinessException(ErrorCode.MEMBER_NOT_EXISTS));
     }
+
 }
