@@ -4,56 +4,56 @@
     <!--Jua56gray10-->
     <style name="Theme.AppCompat.TextView.jua.dark.Size56" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textColor">@color/gray10</item>
-        <item name="android:textSize">56dp</item>
+        <item name="android:textSize">@dimen/_56sdp</item>
         <item name="fontFamily">@font/jua</item>
     </style>
 
     <!--Jua48gray10-->
     <style name="Theme.AppCompat.TextView.jua.dark.Size48" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textColor">@color/gray10</item>
-        <item name="android:textSize">48dp</item>
+        <item name="android:textSize">@dimen/_48sdp</item>
         <item name="fontFamily">@font/jua</item>
     </style>
 
     <!--Jua32gray10-->
     <style name="Theme.AppCompat.TextView.jua.dark.Size32" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textColor">@color/gray10</item>
-        <item name="android:textSize">32dp</item>
+        <item name="android:textSize">@dimen/_32sdp</item>
         <item name="fontFamily">@font/jua</item>
     </style>
 
     <!--Jua24gray10-->
     <style name="Theme.AppCompat.TextView.jua.dark.Size24" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textColor">@color/gray10</item>
-        <item name="android:textSize">24dp</item>
+        <item name="android:textSize">@dimen/_24sdp</item>
         <item name="fontFamily">@font/jua</item>
     </style>
 
     <!--Jua20gray10-->
     <style name="Theme.AppCompat.TextView.jua.darkSize20" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textColor">@color/gray10</item>
-        <item name="android:textSize">20dp</item>
+        <item name="android:textSize">@dimen/_20sdp</item>
         <item name="fontFamily">@font/jua</item>
     </style>
 
     <!--Jua16gray10-->
     <style name="Theme.AppCompat.TextView.jua.dark.Size16" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textColor">@color/gray10</item>
-        <item name="android:textSize">16dp</item>
+        <item name="android:textSize">@dimen/_16sdp</item>
         <item name="fontFamily">@font/jua</item>
     </style>
 
     <!--Jua14gray10-->
     <style name="Theme.AppCompat.TextView.jua.dark.Size14" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textColor">@color/gray10</item>
-        <item name="android:textSize">14dp</item>
+        <item name="android:textSize">@dimen/_14sdp</item>
         <item name="fontFamily">@font/jua</item>
     </style>
 
     <!--Jua12gray10-->
     <style name="Theme.AppCompat.TextView.jua.dark.Size12" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textColor">@color/gray10</item>
-        <item name="android:textSize">12dp</item>
+        <item name="android:textSize">@dimen/_12sdp</item>
         <item name="fontFamily">@font/jua</item>
     </style>
 
@@ -61,49 +61,71 @@
     <!--Jua8gray10-->
     <style name="Theme.AppCompat.TextView.jua.dark.Size08" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textColor">@color/gray10</item>
-        <item name="android:textSize">8dp</item>
+        <item name="android:textSize">@dimen/_8sdp</item>
+        <item name="fontFamily">@font/jua</item>
+    </style>
+
+    <!--Jua8gray10-->
+    <style name="Theme.AppCompat.TextView.jua.dark.Size04" parent="@style/Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/gray10</item>
+        <item name="android:textSize">@dimen/_4sdp</item>
         <item name="fontFamily">@font/jua</item>
     </style>
 
     <!--Jua32gray09-->
     <style name="Theme.AppCompat.TextView.jua.Size32" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textColor">@color/gray09</item>
-        <item name="android:textSize">32dp</item>
+        <item name="android:textSize">@dimen/_32sdp</item>
         <item name="fontFamily">@font/jua</item>
     </style>
 
     <!--Jua24gray09-->
     <style name="Theme.AppCompat.TextView.jua.Size24" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textColor">@color/gray09</item>
-        <item name="android:textSize">24dp</item>
+        <item name="android:textSize">@dimen/_24sdp</item>
         <item name="fontFamily">@font/jua</item>
     </style>
 
     <!--Jua20gray09-->
     <style name="Theme.AppCompat.TextView.jua.Size20" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textColor">@color/gray09</item>
-        <item name="android:textSize">20dp</item>
+        <item name="android:textSize">@dimen/_20sdp</item>
         <item name="fontFamily">@font/jua</item>
     </style>
 
     <!--Jua16gray09-->
     <style name="Theme.AppCompat.TextView.jua.Size16" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textColor">@color/gray09</item>
-        <item name="android:textSize">16dp</item>
+        <item name="android:textSize">@dimen/_16sdp</item>
         <item name="fontFamily">@font/jua</item>
     </style>
 
     <!--Jua14gray09-->
     <style name="Theme.AppCompat.TextView.jua.Size14" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textColor">@color/gray09</item>
-        <item name="android:textSize">14dp</item>
+        <item name="android:textSize">@dimen/_14sdp</item>
+        <item name="fontFamily">@font/jua</item>
+    </style>
+
+    <!--Jua14gray09-->
+    <style name="Theme.AppCompat.TextView.jua.Size08" parent="@style/Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/gray09</item>
+        <item name="android:textSize">@dimen/_8sdp</item>
+        <item name="fontFamily">@font/jua</item>
+    </style>
+
+
+    <!--Jua14gray09-->
+    <style name="Theme.AppCompat.TextView.jua.Size04" parent="@style/Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/gray09</item>
+        <item name="android:textSize">@dimen/_4sdp</item>
         <item name="fontFamily">@font/jua</item>
     </style>
 
     <!--pretendard20gray10-->
     <style name="Theme.AppCompat.TextView.pretendard.Size20" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textColor">@color/gray10</item>
-        <item name="android:textSize">20dp</item>
+        <item name="android:textSize">@dimen/_20sdp</item>
         <item name="fontFamily">@font/pretendard_bold</item>
     </style>
 
@@ -111,7 +133,7 @@
     <!--pretendard18gray10-->
     <style name="Theme.AppCompat.TextView.pretendard.Size18" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textColor">@color/gray10</item>
-        <item name="android:textSize">18dp</item>
+        <item name="android:textSize">@dimen/_18sdp</item>
         <item name="fontFamily">@font/pretendard_medium</item>
     </style>
 
@@ -119,28 +141,28 @@
     <!--pretendard16gray10-->
     <style name="Theme.AppCompat.TextView.pretendard.Size16" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textColor">@color/gray10</item>
-        <item name="android:textSize">16dp</item>
+        <item name="android:textSize">@dimen/_16sdp</item>
         <item name="fontFamily">@font/pretendard_medium</item>
     </style>
 
     <!--pretendard14gray10light-->
     <style name="Theme.AppCompat.TextView.pretendard.light.Size14" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textColor">@color/gray10</item>
-        <item name="android:textSize">14dp</item>
+        <item name="android:textSize">@dimen/_14sdp</item>
         <item name="fontFamily">@font/pretendard_light</item>
     </style>
 
     <!--pretendard14gray10medium-->
     <style name="Theme.AppCompat.TextView.pretendard.medium.Size14" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textColor">@color/gray10</item>
-        <item name="android:textSize">14dp</item>
+        <item name="android:textSize">@dimen/_14sdp</item>
         <item name="fontFamily">@font/pretendard_medium</item>
     </style>
 
     <!--pretendard12gray10-->
     <style name="Theme.AppCompat.TextView.pretendard.Size12" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textColor">@color/gray10</item>
-        <item name="android:textSize">12dp</item>
+        <item name="android:textSize">@dimen/_12sdp</item>
         <item name="fontFamily">@font/pretendard_medium</item>
     </style>
 
