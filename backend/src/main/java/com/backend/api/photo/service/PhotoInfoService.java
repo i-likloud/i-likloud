@@ -28,6 +28,18 @@ public class PhotoInfoService {
         return ResponseEntity.ok(photoInfoResponseDtos);
     }
 
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<PhotoInfoResponseDto>> searchAllPickCntDesc(){
+        List<Photo> photos = photoRepository.findAllByOrderByPickCntDesc();
+
+        List<PhotoInfoResponseDto> photoInfoResponseDtos = photos.stream()
+                .map(PhotoInfoResponseDto::new)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(photoInfoResponseDtos);
+
+    }
+
     // 삭제
     public void delete(Long id) {
         Photo photo = photoRepository.findById(id)
