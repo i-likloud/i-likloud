@@ -1,12 +1,15 @@
 package com.backend.domain.photo.controller;
 
-import com.backend.api.photo.dto.PhotoDto;
+import com.backend.domain.photo.dto.PhotoResponseDto;
+import com.backend.domain.photo.entity.Photo;
 import com.backend.domain.photo.service.PhotoService;
+import com.backend.global.error.exception.BusinessException;
+import com.backend.global.resolver.memberInfo.MemberInfo;
+import com.backend.global.resolver.memberInfo.MemberInfoDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @RestController
@@ -14,8 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class PhotoController {
     private final PhotoService photoService;
 
-    @PostMapping("/register")
-    public Long register(@RequestBody PhotoDto requestDto) {
-        return photoService.register(requestDto);
+    @PostMapping("/upload")
+    public ResponseEntity<?> uploadPhoto(@RequestPart MultipartFile file, Photo photoRequest, @MemberInfo MemberInfoDto memberInfoDto){
+        try{
+            PhotoResponseDto photo = photoService.saveFileAndCreatePhotos(file, photoRequest, memberInfoDto);
+            return ResponseEntity.ok().body(photo);
+        }catch (BusinessException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
