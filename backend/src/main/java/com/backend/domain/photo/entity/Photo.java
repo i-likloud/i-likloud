@@ -16,6 +16,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Photo extends BaseEntity {
 
@@ -30,25 +31,37 @@ public class Photo extends BaseEntity {
     @Column(nullable = false)
     private String photoUrl;
 
+    @Column(nullable = false, columnDefinition = "int default 0")
     private int pickCnt;
 
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private int bookmarkCnt;
+
     @OneToMany(mappedBy = "photo", cascade = CascadeType.ALL)
-    private List<Drawing> drawings = new ArrayList<>();
+    private List<Drawing> drawings;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "photoFile_id")
     private PhotoFile photoFile;
 
+    // 생성자에서 drawings를 초기화하는 코드 추가
     @Builder
     public Photo(Long photoId, Member member, String photoUrl,
-                 int pickCnt, List<Drawing> drawings, PhotoFile photoFile){
+                 int pickCnt, List<Drawing> drawings, PhotoFile photoFile, int bookmarkCnt){
         this.photoId = photoId;
         this.member = member;
         this.photoUrl = photoUrl;
         this.pickCnt = pickCnt;
-        this.drawings = drawings;
-        this.photoFile = photoFile;
 
+        // drawings가 null인 경우 빈 리스트로 초기화
+        this.drawings = drawings != null ? drawings : new ArrayList<>();
+
+        this.photoFile = photoFile;
+        this.bookmarkCnt = bookmarkCnt;
     }
 
+    // setter를 이용해서 bookmarkCnt 업데이트
+    public void setBookmarkCnt(int bookmarkCnt) {
+        this.bookmarkCnt = bookmarkCnt;
+    }
 }

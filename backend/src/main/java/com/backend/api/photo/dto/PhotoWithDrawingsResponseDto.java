@@ -15,12 +15,14 @@ public class PhotoWithDrawingsResponseDto {
     private Long photoId;
     private String photoUrl;
     private int pickCnt;
+    private int bookmarkCnt;
     private List<DrawingResponseDto> drawings;
 
     public PhotoWithDrawingsResponseDto(Photo photo) {
         this.photoId = photo.getPhotoId();
         this.photoUrl = photo.getPhotoUrl();
         this.pickCnt = photo.getPickCnt();
+        this.bookmarkCnt = photo.getBookmarkCnt();
         this.drawings = photo.getDrawings().stream()
                 .map(DrawingResponseDto::new)
                 .collect(Collectors.toList());

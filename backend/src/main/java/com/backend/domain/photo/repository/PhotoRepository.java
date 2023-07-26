@@ -10,4 +10,6 @@ public interface PhotoRepository extends JpaRepository<Photo,Long> {
     List<Photo> findAllByOrderByCreatedAtDesc();
 
     List<Photo> findAllByOrderByPickCntDesc();
+
+    List<Photo> findAllByOrderByBookmarkCntDesc();
 }

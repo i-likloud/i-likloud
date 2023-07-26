@@ -16,7 +16,7 @@ public class PhotoInfoController {
 
     private final PhotoInfoService photoInfoService;
 
-    //전체 조회(북마크 순, 최신순)
+    //전체 조회(최신순)
     @GetMapping("/new")
     public ResponseEntity<List<PhotoInfoResponseDto>> searchAllDesc() {
         return photoInfoService.searchAllDesc();
@@ -28,7 +28,14 @@ public class PhotoInfoController {
         return photoInfoService.searchAllPickCntDesc();
     }
 
-    // 클릭한 photoId와 관련된 모든 drawings 조회
+    //전체 조회(북마크 순)
+    @GetMapping("/bookmarkdesc")
+    public ResponseEntity<List<PhotoInfoResponseDto>> searchAllBookmarkCntDesc() {
+        return photoInfoService.searchAllBookmarkCntDesc();
+    }
+
+
+        // 클릭한 photoId와 관련된 모든 drawings 조회
     @GetMapping("/{photoId}/alldrawings")
     public ResponseEntity<PhotoWithDrawingsResponseDto> getDrawingsByPhotoId(@PathVariable Long photoId) {
         return photoInfoService.searchDrawingsByPhotoId(photoId);
@@ -38,6 +45,18 @@ public class PhotoInfoController {
     @DeleteMapping("/delete/{id}")
     public void photoDelete(@PathVariable Long id){
         photoInfoService.delete(id);
+    }
+
+    // 사진 즐겨찾기
+    @PostMapping("/{photoId}/pick/{memberId}")
+    public ResponseEntity<String> pickPhoto(@PathVariable Long photoId, @PathVariable Long memberId) {
+        return photoInfoService.pickPhoto(photoId, memberId);
+    }
+
+    // 사진 즐겨찾기 취소
+    @PostMapping("/{photoId}/unpick/{memberId}")
+    public ResponseEntity<String> unpickPhoto(@PathVariable Long photoId, @PathVariable Long memberId) {
+        return photoInfoService.unpickPhoto(photoId, memberId);
     }
 }
 
