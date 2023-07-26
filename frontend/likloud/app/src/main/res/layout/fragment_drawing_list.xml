@@ -4,50 +4,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#66B3D6"
+    android:background="@color/main_sky_blue"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/_470sdp"
+        android:layout_height="@dimen/_280sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
             android:id="@+id/recyclerview_drawaing"
-            android:layout_width="600dp"
-            android:layout_height="600dp"
+            android:layout_width="@dimen/_230sdp"
+            android:layout_height="0dp"
             android:layout_gravity="center"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginVertical="@dimen/_30sdp"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="30dp"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/button_select"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text = "선택"
-            app:layout_constraintTop_toBottomOf="@id/recyclerview_drawaing"
-            app:layout_constraintStart_toStartOf="@id/recyclerview_drawaing"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:text="선택"
             app:layout_constraintEnd_toEndOf="@id/recyclerview_drawaing"
-            android:layout_marginTop="20dp"/>
+            app:layout_constraintStart_toStartOf="@id/recyclerview_drawaing"
+            app:layout_constraintTop_toBottomOf="@id/recyclerview_drawaing" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_info"
-            android:layout_width="500dp"
-            android:layout_height="300dp"
-            android:layout_marginStart="20dp"
+            android:layout_width="@dimen/_190sdp"
+            android:layout_height="@dimen/_124sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_8sdp"
             android:background="@drawable/frame_rounded_border_black_radius50"
             app:layout_constraintStart_toEndOf="@id/recyclerview_drawaing"
-            app:layout_constraintTop_toTopOf="@id/recyclerview_drawaing">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/image_drawing_profile"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:layout_marginTop="@dimen/_7sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,7 +59,7 @@
                 android:id="@+id/text_drawing_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="@dimen/_4sdp"
                 app:layout_constraintBottom_toBottomOf="@+id/image_drawing_profile"
                 app:layout_constraintStart_toEndOf="@id/image_drawing_profile"
                 app:layout_constraintTop_toTopOf="@id/image_drawing_profile" />
@@ -64,7 +68,7 @@
                 android:id="@+id/text_drawing_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/_4sdp"
                 app:layout_constraintStart_toStartOf="@id/image_drawing_profile"
                 app:layout_constraintTop_toBottomOf="@id/image_drawing_profile" />
 
@@ -72,8 +76,9 @@
                 android:id="@+id/text_drawing_explain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="@dimen/_7sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:textSize="@dimen/_5sdp"
                 android:text="이 그림에 대한 상세설명으로 길게 들어갈 내용입니다. 알겠습니까? 대답하세요! 얼른 대답!"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -83,39 +88,40 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_comment"
-            android:layout_width="500dp"
-            android:layout_height="280dp"
-            android:layout_marginStart="20dp"
+            android:layout_width="@dimen/_190sdp"
+            android:layout_height="@dimen/_124sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
             android:background="@drawable/frame_rounded_border_black_radius50"
-            app:layout_constraintStart_toEndOf="@id/recyclerview_drawaing"
-            app:layout_constraintBottom_toBottomOf="@id/recyclerview_drawaing">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/recyclerview_drawaing">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_drawing_comment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_height="@dimen/_86sdp"
+                android:layout_marginHorizontal="@dimen/_7sdp"
+                android:layout_marginTop="@dimen/_11sdp"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="30dp"
-                android:layout_marginHorizontal="20dp"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/edittext_drawing_comment"
-                android:layout_width="350dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/recyclerview_drawing_comment"
+                android:layout_width="@dimen/_130sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginHorizontal="@dimen/_7sdp"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginHorizontal="20dp"/>
+                app:layout_constraintTop_toBottomOf="@id/recyclerview_drawing_comment" />
 
             <Button
                 android:id="@+id/button_drawing_comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_20sdp"
                 android:text="입력"
-                app:layout_constraintTop_toTopOf="@id/edittext_drawing_comment"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/edittext_drawing_comment"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="@id/edittext_drawing_comment" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
