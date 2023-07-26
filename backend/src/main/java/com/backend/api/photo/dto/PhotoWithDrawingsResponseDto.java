@@ -1,6 +1,6 @@
 package com.backend.api.photo.dto;
 
-import com.backend.domain.drawing.dto.DrawingResponseDto;
+import com.backend.api.drawing.dto.DrawingFromPhotoDto;
 import com.backend.domain.photo.entity.Photo;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +16,7 @@ public class PhotoWithDrawingsResponseDto {
     private String photoUrl;
     private int pickCnt;
     private int bookmarkCnt;
-    private List<DrawingResponseDto> drawings;
+    private List<DrawingFromPhotoDto> drawings;
 
     public PhotoWithDrawingsResponseDto(Photo photo) {
         this.photoId = photo.getPhotoId();
@@ -24,7 +24,7 @@ public class PhotoWithDrawingsResponseDto {
         this.pickCnt = photo.getPickCnt();
         this.bookmarkCnt = photo.getBookmarkCnt();
         this.drawings = photo.getDrawings().stream()
-                .map(DrawingResponseDto::new)
+                .map(DrawingFromPhotoDto::new)
                 .collect(Collectors.toList());
     }
 }

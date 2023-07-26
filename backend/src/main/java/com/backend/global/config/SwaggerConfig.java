@@ -57,8 +57,8 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .components(new Components())
-                .info(new Info().title("Spring Boot API")
-                        .description("연봉 1조")
+                .info(new Info().title("연봉 1조")
+                        .description("<운이 좋아> 프로젝트 API")
                         .version("v0.0.1"));
     }
 }
