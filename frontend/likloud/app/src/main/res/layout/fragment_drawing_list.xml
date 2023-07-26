@@ -7,59 +7,127 @@
     android:background="@color/main_sky_blue"
     tools:context=".MainActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="@dimen/_470sdp"
-        android:layout_height="@dimen/_280sdp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/layout_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.1"
+        android:background="@color/main_sky_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/button_back"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/button_back_arrow" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="100dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="홈"
+                android:textSize="46dp"
+                android:layout_marginTop="10dp"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size32"/>
+
+        </LinearLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.9"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_appbar">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_toggle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_percent="0.1"
+            app:layout_constraintHeight_percent="0.9"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_ranking_order"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                app:layout_constraintWidth_percent="0.95"
+                android:background="@drawable/button_frame_black"
+                android:text="인기순"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size24"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_recent_order"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                app:layout_constraintWidth_percent="0.95"
+                android:background="@drawable/button_frame_black"
+                android:text="최신순"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size24"
+                app:layout_constraintTop_toBottomOf="@id/button_ranking_order"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
         <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
             android:id="@+id/recyclerview_drawaing"
-            android:layout_width="@dimen/_230sdp"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginVertical="@dimen/_30sdp"
+            app:layout_constraintHeight_percent="0.9"
+            app:layout_constraintWidth_percent="0.45"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/button_select"
-            android:layout_width="@dimen/_60sdp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_6sdp"
-            android:text="선택"
-            app:layout_constraintEnd_toEndOf="@id/recyclerview_drawaing"
-            app:layout_constraintStart_toStartOf="@id/recyclerview_drawaing"
-            app:layout_constraintTop_toBottomOf="@id/recyclerview_drawaing" />
+            app:layout_constraintStart_toEndOf="@id/layout_toggle"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="@dimen/_10sdp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_info"
-            android:layout_width="@dimen/_190sdp"
-            android:layout_height="@dimen/_124sdp"
-            android:layout_marginStart="@dimen/_8sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:background="@drawable/frame_rounded_border_black_radius50"
-            app:layout_constraintStart_toEndOf="@id/recyclerview_drawaing"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_percent="0.35"
+            android:background="@drawable/frame_rounded_border_radius50"
+            android:elevation="@dimen/_20sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.45"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="@dimen/_10sdp">
 
             <ImageView
                 android:id="@+id/image_drawing_profile"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginStart="@dimen/_7sdp"
                 android:layout_marginTop="@dimen/_7sdp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                 android:id="@+id/text_drawing_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_4sdp"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size24"
                 app:layout_constraintBottom_toBottomOf="@+id/image_drawing_profile"
                 app:layout_constraintStart_toEndOf="@id/image_drawing_profile"
                 app:layout_constraintTop_toTopOf="@id/image_drawing_profile" />
@@ -69,6 +137,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_4sdp"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
                 app:layout_constraintStart_toStartOf="@id/image_drawing_profile"
                 app:layout_constraintTop_toBottomOf="@id/image_drawing_profile" />
 
@@ -78,23 +147,45 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_7sdp"
                 android:layout_marginTop="@dimen/_4sdp"
-                android:textSize="@dimen/_5sdp"
                 android:text="이 그림에 대한 상세설명으로 길게 들어갈 내용입니다. 알겠습니까? 대답하세요! 얼른 대답!"
+                style="@style/Theme.AppCompat.TextView.pretendard.Size16"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_drawing_title" />
+
+            <ImageView
+                android:id="@+id/image_star"
+                android:src="@drawable/icon_unselected_star"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_margin="@dimen/_20sdp"/>
+
+            <ImageView
+                android:id="@+id/image_heart"
+                android:src="@drawable/icon_unselected_heart"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/image_star"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_5sdp"/>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_comment"
-            android:layout_width="@dimen/_190sdp"
-            android:layout_height="@dimen/_124sdp"
-            android:layout_marginStart="@dimen/_8sdp"
-            android:layout_marginBottom="@dimen/_8sdp"
-            android:background="@drawable/frame_rounded_border_black_radius50"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_percent="0.35"
+            app:layout_constraintHeight_percent="0.45"
+            android:layout_margin="@dimen/_10sdp"
+            android:background="@drawable/frame_rounded_border_radius50"
+            android:elevation="@dimen/_20sdp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/recyclerview_drawaing">
+            app:layout_constraintEnd_toEndOf="parent">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_drawing_comment"
