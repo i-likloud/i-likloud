@@ -28,6 +28,10 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding>(FragmentOnboa
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
+    override fun initListener() {
+
+    }
+
 
     // adapter에 onboarding 파일 연결
     private fun initAdapter() {
