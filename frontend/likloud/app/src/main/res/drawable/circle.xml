@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="#42C2F5" /><!-- 배경 색상 설정 -->
+<!--    <stroke-->
+<!--        android:width = "1dp"/>-->
+<!--    <gradient-->
+<!--        android:startColor="#ffffff"-->
+<!--        android:endColor="#29B6F6"-->
+<!--        android:angle="270"/>-->
+</shape>
