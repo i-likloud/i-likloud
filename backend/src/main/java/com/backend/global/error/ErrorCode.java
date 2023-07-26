@@ -26,10 +26,16 @@ public enum ErrorCode {
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "User-005", "인증에 실패하였습니다."),
     ROLE_NOT_EXISTS(HttpStatus.FORBIDDEN, "User-006", "해당 권한이 없습니다."),
 
+    // 그림
+
+    // 사진
+
+
     // 파일
     FILE_UPLOAD_CONFLICT(HttpStatus.CONFLICT, "File-001", "파일 업로드에 실패하였습니다."),
     INVALID_FILE_NAME(HttpStatus.BAD_REQUEST, "File-002", " 파일 이름이 올바르지 않습니다."),
-    NOT_FIND_FILE(HttpStatus.BAD_REQUEST, "File-003", "파일을 찾을 수 없습니다."),
+    NOT_FOUND_FILE(HttpStatus.NOT_FOUND, "File-003", "파일을 찾을 수 없습니다."),
+
     ;
 
     private HttpStatus httpStatus;

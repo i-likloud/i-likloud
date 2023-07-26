@@ -2,6 +2,7 @@ package com.backend.domain.member.entity;
 
 import com.backend.domain.common.BaseEntity;
 import com.backend.domain.drawing.entity.Drawing;
+import com.backend.domain.likes.entity.Likes;
 import com.backend.domain.member.constant.ProfileColor;
 import com.backend.domain.member.constant.ProfileFace;
 import com.backend.domain.member.constant.Role;
@@ -24,6 +25,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Member extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
@@ -56,10 +58,15 @@ public class Member extends BaseEntity {
 
     private LocalDateTime tokenExpirationTime;
 
-
     // 그림과 OneToMany 관계
+    @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Drawing> drawings = new ArrayList<>();
+
+    // 좋아요와 OneToMany 관계
+    @Builder.Default
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Likes> likes = new ArrayList<>();
 
     //== 멤버 필드 업데이트 ==//
     public void updateNickname(String updateNickname) {
@@ -110,8 +117,5 @@ public class Member extends BaseEntity {
         this.coinCount = coinCount;
         this.role = role;
     }
-
-
-
 
 }

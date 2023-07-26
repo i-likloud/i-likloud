@@ -4,17 +4,12 @@ server:
     context-path: /
 
 spring:
-#   DB
-  datasource:
-    url: jdbc:mysql://localhost:3306/backend
-    username: root
-    password: q1w2e3r4
-
-
+  profiles:
+    active: db,jwt,oauth
   jpa:
     hibernate:
-      ddl-auto: create
-    show-sql: true # 콘솔창에 sql 출력
+      ddl-auto: update
+#    show-sql: true # 콘솔창에 sql 출력
     properties:
       hibernate:
         format_sql: true # sql 예쁘게 출력
@@ -40,28 +35,3 @@ feign:
         # 타임아웃 제한 시간
         connectTimeout: 5000
         readTimeout: 5000
-
-jasypt:
-  encryptor:
-    password: ${PASSWORD}
-
-
-naver:
-  client:
-    id: ENC(KRdW8bICpIQtP0mBt93h7+zli3LeSOKD/KoFeEiN3dg=)
-    secret: ENC(5kBc7qZDzUR6UUYlBHzbpLt0GhiR1Opw)
-
-kakao:
-  client:
-    id: ENC(mPmSxLIS51lh6f0v1CBS/KmRHV5kkYVHcb3V4T7kkU2IBUKijH8UnVEAp5mlRIq4)
-    secret: ENC(m6LDkg35hfSU7cZphFTdbPpYPN7xym+oUOkUuDKyDT52LsBn6FHo1LAlFYdHd+cE)
-
-jwt:
-  secretKey: ENC(jITqh7LdWZ2jI6gk16C883+iH4ZUuKybQlt2vvSj7UM=)
-
-  access:
-    expiration: 1800000 # 30? (1000L(ms -> s) * 60L(s -> m) * 30L
-
-  refresh:
-    expiration: 604800000 #  (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> ??) * 7(1?))
-

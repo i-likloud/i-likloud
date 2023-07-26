@@ -93,5 +93,9 @@ public class PhotoService {
             throw new BusinessException(ErrorCode.FILE_UPLOAD_CONFLICT);
         }
     }
-    
+
+    public Photo findPhotoByPhotoId(Long photoId){
+        return photoRepository.findById(photoId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_FILE));
+    }
 }
