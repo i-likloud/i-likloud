@@ -54,7 +54,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(binding.root)
 
-        init()
+        initView()
         initListener()
         initAnimation()
 
@@ -85,12 +85,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
     }
 
     /**
-     * 필요한 정보나 뷰를 init 합니다.
+     * 뷰의 초기설정을 init 합니다.
      */
-    private fun init() {
+    private fun initView() {
         binding.frameFragmentUpload.translationX = 1600f
-        binding.layoutProfile.translationX = 52f
-        binding.layoutProfile.translationY = -52f
     }
 
     /**
