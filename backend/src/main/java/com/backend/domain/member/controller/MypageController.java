@@ -1,5 +1,7 @@
 package com.backend.domain.member.controller;
 
+import com.backend.domain.member.constant.ProfileColor;
+import com.backend.domain.member.constant.ProfileFace;
 import com.backend.domain.member.dto.MypageInfoDto;
 import com.backend.domain.member.dto.ProfileDto;
 import com.backend.domain.member.entity.Member;
@@ -26,10 +28,10 @@ public class MypageController {
 
 
     @Operation(summary = "마이페이지 홈 조회", description = "마이페이지 홈의 조회 메서드입니다.")
-    @GetMapping("/home") //마이페이지 조회
+    @GetMapping("/home")
     public ResponseEntity<MypageInfoDto> getMyInfo(HttpServletRequest request){
         try {
-            String userEmail = request.getRemoteUser(); // 현재 사용자 조회
+            String userEmail = request.getRemoteUser();
             MypageInfoDto myPageInfoDto = mypageService.getMyInfo(userEmail);
             return ResponseEntity.ok(myPageInfoDto);
         } catch (IllegalArgumentException e) {
@@ -41,7 +43,7 @@ public class MypageController {
 
     @Operation(summary = "닉네임 수정", description = "프로필의 닉네임 수정 메서드입니다.")
     @PutMapping("/nickname")
-    public ResponseEntity<Member> editNickname(HttpServletRequest request, @RequestParam String nickname) {
+    public ResponseEntity<Member> editNickname(HttpServletRequest request, @PathVariable String nickname) {
         String user = request.getRemoteUser();
         return ResponseEntity.ok(profileService.editNickname(user, nickname));
     }
@@ -50,7 +52,7 @@ public class MypageController {
     @GetMapping("/profile")
     public ResponseEntity<ProfileDto> getMyProfile(HttpServletRequest request){
         try {
-            String userEmail = request.getRemoteUser(); // 현재 사용자 조회
+            String userEmail = request.getRemoteUser();
             ProfileDto profileDto = mypageService.getMyProfile(userEmail);
             return ResponseEntity.ok(profileDto);
         } catch (IllegalArgumentException e) {
@@ -58,5 +60,13 @@ public class MypageController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @Operation(summary = "프로필 캐릭터 수정", description = "프로필 얼굴, 색깔, 아이템 수정 메서드입니다.")
+    @PutMapping("/profile")
+    public ResponseEntity<Member> editProfile(HttpServletRequest request,
+                                              @RequestParam ProfileFace profileFace, @RequestParam ProfileColor profileColor) {
+        String user = request.getRemoteUser();
+        return ResponseEntity.ok(profileService.editProfile(user, profileFace, profileColor));
     }
 }

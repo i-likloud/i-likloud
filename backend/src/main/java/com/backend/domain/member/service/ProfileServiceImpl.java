@@ -1,5 +1,7 @@
 package com.backend.domain.member.service;
 
+import com.backend.domain.member.constant.ProfileColor;
+import com.backend.domain.member.constant.ProfileFace;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +21,7 @@ public class ProfileServiceImpl implements ProfileService{
 
     @Override
     public Member editNickname(String email, String nickname) {
-        // 닉네임 중복확인
+
         validateDuplicateNickname(nickname);
 
         Optional<Member> optional = memberRepository.findByEmail(email);
@@ -27,7 +29,6 @@ public class ProfileServiceImpl implements ProfileService{
 
         if (optional.isEmpty()) {
             member = new Member();
-            log.info("AccountServiceImpl의 editNickname에서");
         } else {
             member = optional.get();
             member.setNickname(nickname);
@@ -37,10 +38,30 @@ public class ProfileServiceImpl implements ProfileService{
         return member;
     }
 
+    // 닉네임 중복확인
     private void validateDuplicateNickname(String nickname) {
 
         if (memberRepository.existsByNickname(nickname)) {
             throw new RuntimeException("이미 존재하는 nickname입니다.");
         }
     }
+
+    @Override
+    public Member editProfile(String email, ProfileFace profileFace, ProfileColor profileColor) {
+
+        Optional<Member> optional = memberRepository.findByEmail(email);
+        Member member = null;
+
+        if (optional.isEmpty()) {
+            member = new Member();
+        } else {
+            member = optional.get();
+            member.setProfileFace(profileFace);
+            member.setProfileColor(profileColor);
+            memberRepository.save(member);
+        }
+
+        return member;
+    }
+
 }
