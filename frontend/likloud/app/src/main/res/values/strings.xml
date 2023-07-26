@@ -16,4 +16,5 @@
 
     <string name="home">홈</string>
     <string name="profile_select">나만의 물방울을 만들어주세요</string>
+    <string name="choose_done">선택 완료</string>
 </resources>
