@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.R
@@ -27,6 +28,10 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
     private val drawingListFragmentViewModel : DrawingListFragmentViewModel by viewModels()
     private lateinit var mainActivity: MainActivity
 
+    private lateinit var rankingOrderDrawingList: ArrayList<DrawingDto>
+    private lateinit var recentOrderDrawingList: ArrayList<DrawingDto>
+    private lateinit var drawingList: ArrayList<DrawingDto>
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity = context as MainActivity
@@ -37,6 +42,9 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // rangkingOrderDrawingList, recentOrderDrawingList 여기서 두 개 각자 받자
+//        rankingOrderDrawingList =
+
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -47,9 +55,20 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         binding.apply {
+
+
+            //랭킹순 눌렀을 때
+            buttonRankingOrder.setOnClickListener{
+
+            }
+
+            //최신순 눌렀을 때
+            buttonRecentOrder.setOnClickListener {
+
+            }
+            
+
             //그림 목록 리사이클러뷰
             val drawingList = initDrawingList()
             val drawingListAdapter = DrawingListAdapter(drawingList)
@@ -62,7 +81,9 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
                     //본인한테서 멈췄을 때 이벤트
                     override fun onItemSelected(position: Int) {
                         //Cente item
-                        binding.imageDrawingProfile.setImageResource(drawingListAdapter.list[position].img)
+                        Glide.with(binding.imageDrawingProfile)
+                            .load(drawingListAdapter.list[position].img)
+                            .into(binding.imageDrawingProfile)
                         binding.textDrawingNickname.text = drawingListAdapter.list[position].text + "NICKNAME"
                         binding.textDrawingTitle.text = drawingListAdapter.list[position].text + "TITLE"
                         binding.textDrawingExplain.text = drawingListAdapter.list[position].text + "EXPLAIN"
@@ -77,11 +98,11 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
                 this.adapter = commentListAdapter
                 this.layoutManager = LinearLayoutManager(mainActivity, LinearLayoutManager.VERTICAL,false)
             }
-        }
 
+        }
         viewLifecycleOwner.lifecycleScope.launch{
             drawingListFragmentViewModel.commentList.observe(mainActivity){
-
+                //댓글창 라이브 데이터 관찰
             }
         }
     }
