@@ -1,6 +1,7 @@
 package com.backend.api.photo.service;
 
 import com.backend.api.photo.dto.PhotoInfoResponseDto;
+import com.backend.api.photo.dto.PhotoWithDrawingsResponseDto;
 import com.backend.domain.photo.entity.Photo;
 import com.backend.domain.photo.repository.PhotoRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,16 @@ public class PhotoInfoService {
 
         return ResponseEntity.ok(photoInfoResponseDtos);
 
+    }
+
+    @Transactional(readOnly = true)
+    public ResponseEntity<PhotoWithDrawingsResponseDto> searchDrawingsByPhotoId(Long photoId) {
+        Photo photo = photoRepository.findById(photoId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 photo가 존재하지 않습니다."));
+
+        PhotoWithDrawingsResponseDto responseDto = new PhotoWithDrawingsResponseDto(photo);
+
+        return ResponseEntity.ok(responseDto);
     }
 
     // 삭제

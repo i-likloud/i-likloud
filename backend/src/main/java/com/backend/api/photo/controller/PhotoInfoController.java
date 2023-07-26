@@ -1,6 +1,7 @@
 package com.backend.api.photo.controller;
 
 import com.backend.api.photo.dto.PhotoInfoResponseDto;
+import com.backend.api.photo.dto.PhotoWithDrawingsResponseDto;
 import com.backend.api.photo.service.PhotoInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,12 @@ public class PhotoInfoController {
     @GetMapping("/pick")
     public ResponseEntity<List<PhotoInfoResponseDto>> searchAllPickCntDesc() {
         return photoInfoService.searchAllPickCntDesc();
+    }
+
+    // 클릭한 photoId와 관련된 모든 drawings 조회
+    @GetMapping("/{photoId}/alldrawings")
+    public ResponseEntity<PhotoWithDrawingsResponseDto> getDrawingsByPhotoId(@PathVariable Long photoId) {
+        return photoInfoService.searchDrawingsByPhotoId(photoId);
     }
 
     // 삭제
