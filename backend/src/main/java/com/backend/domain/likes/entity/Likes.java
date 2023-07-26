@@ -3,10 +3,7 @@ package com.backend.domain.likes.entity;
 import com.backend.domain.common.BaseEntity;
 import com.backend.domain.drawing.entity.Drawing;
 import com.backend.domain.member.entity.Member;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -15,6 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Setter
 public class Likes extends BaseEntity {
 
     @Id
