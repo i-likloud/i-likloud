@@ -39,8 +39,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListener()
-    }
 
+        viewLifecycleOwner.lifecycleScope.launch{
+            loginFragmentViewModel.isTokenReceived.observe(requireActivity()){
+                if(it == true) findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+            }
+        }
+    }
 
 
     private fun initListener() {
@@ -63,7 +68,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
                 Log.i(ContentValues.TAG, "카카오톡으로 로그인 성공 accesstoken ${token.accessToken}")
                 Log.i(ContentValues.TAG, "카카오톡으로 로그인 성공 refreshtoken ${token.refreshToken}")
                 Log.i(ContentValues.TAG, "카카오톡: ${token.scopes?.get(2)}")
-                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                loginFragmentViewModel.getTokenValidation(token.accessToken)
+
             }
         }
 
@@ -85,7 +91,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::b
                     Log.i(ContentValues.TAG, "카카오톡으로 로그인 성공 accesstoken ${token.accessToken}")
                     Log.i(ContentValues.TAG, "카카오톡으로 로그인 성공 refreshtoken ${token.refreshToken}")
                     Log.i(ContentValues.TAG, "카카오톡: ${token.scopes?.get(2)}")
-                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                    loginFragmentViewModel.getTokenValidation(token.accessToken)
                 }
             }
         } else {
