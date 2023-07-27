@@ -15,7 +15,6 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Drawing extends BaseEntity {
 
     @Id
@@ -37,12 +36,12 @@ public class Drawing extends BaseEntity {
     private int fromPhoto;
 
     @Builder.Default
-    @Column(nullable = false)
-    private int viewCount = 0;
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private int viewCount;
 
     @Builder.Default
-    @Column(nullable = false)
-    private int likesCount = 0;
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private int likesCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
