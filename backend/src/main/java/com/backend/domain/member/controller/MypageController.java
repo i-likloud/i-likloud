@@ -56,10 +56,10 @@ public class MypageController {
 
     @Operation(summary = "마이페이지 프로필 캐릭터 조회", description = "캐릭터 꾸미기 전 프로필 정보 조회 메서드입니다.")
     @GetMapping("/profile")
-    public ResponseEntity<ProfileDto> getMyProfile(HttpServletRequest request){
+    public ResponseEntity<ProfileDto> getMyProfile(@MemberInfo MemberInfoDto memberInfoDto){
         try {
-            String userEmail = request.getRemoteUser();
-            ProfileDto profileDto = mypageService.getMyProfile(userEmail);
+            String email = memberInfoDto.getEmail();
+            ProfileDto profileDto = mypageService.getMyProfile(email);
             return ResponseEntity.ok(profileDto);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
