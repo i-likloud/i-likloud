@@ -62,53 +62,26 @@
         app:layout_constraintTop_toBottomOf="@id/layout_appbar">
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_toggle"
+
+        <androidx.cardview.widget.CardView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintWidth_percent="0.1"
+            app:cardCornerRadius="50dp"
             app:layout_constraintHeight_percent="0.9"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button_ranking_order"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                app:layout_constraintWidth_percent="0.95"
-                android:background="@drawable/button_frame_black"
-                android:text="@string/ranking_order"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button_recent_order"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                app:layout_constraintWidth_percent="0.95"
-                android:background="@drawable/button_frame_black"
-                android:text="@string/recent_order"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
-                app:layout_constraintTop_toBottomOf="@id/button_ranking_order"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
-            android:id="@+id/recyclerview_drawaing"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.9"
-            app:layout_constraintWidth_percent="0.45"
+            app:layout_constraintWidth_percent="0.55"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/layout_toggle"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="@dimen/_10sdp" />
+            android:layout_marginStart="@dimen/_15sdp">
+
+            <ImageView
+                android:id="@+id/recyclerview_drawaing"
+                android:src="@drawable/cloud1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY" />
+
+        </androidx.cardview.widget.CardView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_info"
@@ -120,7 +93,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.45"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_margin="@dimen/_10sdp">
+            android:layout_marginVertical="@dimen/_10sdp"
+            android:layout_marginHorizontal="@dimen/_15sdp">
 
             <ImageView
                 android:id="@+id/image_drawing_profile"
@@ -180,11 +154,12 @@
             android:layout_height="0dp"
             app:layout_constraintWidth_percent="0.35"
             app:layout_constraintHeight_percent="0.45"
-            android:layout_margin="@dimen/_10sdp"
             android:background="@drawable/frame_rounded_border_radius50"
             android:elevation="@dimen/_20sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginVertical="@dimen/_10sdp"
+            android:layout_marginHorizontal="@dimen/_15sdp"
             android:paddingHorizontal="@dimen/_10sdp"
             android:paddingVertical="@dimen/_5sdp">
 
@@ -235,4 +210,4 @@
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--</ScrollView>-->
+    <!--</ScrollView>-->
