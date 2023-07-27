@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Tag(name = "Photo", description = "사진 관련 api")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/photos")
+@RequestMapping("/api/photo")
 public class PhotoController {
     private final PhotoService photoService;
 
