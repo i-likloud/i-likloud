@@ -5,16 +5,19 @@ import com.backend.domain.member.dto.ProfileDto;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.service.MypageService;
 import com.backend.domain.member.service.ProfileService;
+import com.backend.global.resolver.memberInfo.MemberInfo;
+import com.backend.global.resolver.memberInfo.MemberInfoDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-
+@Slf4j
 @Tag(name = "Mypage", description = "마이페이지 관련 api")
 @RestController
 @RequestMapping("/api/mypage")
@@ -27,10 +30,12 @@ public class MypageController {
 
     @Operation(summary = "마이페이지 홈 조회", description = "마이페이지 홈의 조회 메서드입니다.")
     @GetMapping("/home")
-    public ResponseEntity<MypageInfoDto> getMyInfo(HttpServletRequest request){
+    public ResponseEntity<MypageInfoDto> getMyInfo(@MemberInfo MemberInfoDto memberInfoDto){
         try {
-            String userEmail = request.getRemoteUser();
-            MypageInfoDto myPageInfoDto = mypageService.getMyInfo(userEmail);
+//            String userEmail = request.getRemoteUser();
+            String email = memberInfoDto.getEmail();
+            log.info(email);
+            MypageInfoDto myPageInfoDto = mypageService.getMyInfo(email);
             return ResponseEntity.ok(myPageInfoDto);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
