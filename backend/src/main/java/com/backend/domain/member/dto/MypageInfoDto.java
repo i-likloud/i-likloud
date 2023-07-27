@@ -12,8 +12,8 @@ import lombok.Setter;
 public class MypageInfoDto {
     private long memberId;
     private String nickname;
-    private ProfileFace profileFace;
-    private ProfileColor profileColor;
+    private int profileFace;
+    private int profileColor;
     private int coinCount;
 
     public static MypageInfoDto of (Member member) {
