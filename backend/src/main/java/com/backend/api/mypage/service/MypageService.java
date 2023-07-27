@@ -1,9 +1,9 @@
-package com.backend.domain.member.service;
+package com.backend.api.mypage.service;
 
-
-import com.backend.domain.member.dto.MypageInfoDto;
-import com.backend.domain.member.dto.ProfileDto;
+import com.backend.api.mypage.dto.MypageInfoDto;
+import com.backend.api.mypage.dto.ProfileDto;
 import com.backend.domain.member.entity.Member;
+import com.backend.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

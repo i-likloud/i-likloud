@@ -1,4 +1,4 @@
-package com.backend.domain.member.dto;
+package com.backend.api.mypage.dto;
 
 import com.backend.domain.member.entity.Member;
 import lombok.Builder;

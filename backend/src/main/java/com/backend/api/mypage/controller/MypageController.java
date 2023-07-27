@@ -1,13 +1,10 @@
-package com.backend.domain.member.controller;
+package com.backend.api.mypage.controller;
 
-import com.backend.api.member.dto.MemberDto;
-import com.backend.domain.member.dto.MypageInfoDto;
-import com.backend.domain.member.dto.ProfileDto;
+import com.backend.api.mypage.dto.MypageInfoDto;
+import com.backend.api.mypage.dto.ProfileDto;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.repository.MemberRepository;
-import com.backend.domain.member.service.MemberService;
-import com.backend.domain.member.service.MypageService;
-import com.backend.domain.member.service.ProfileService;
+import com.backend.api.mypage.service.MypageService;
 import com.backend.global.error.ErrorCode;
 import com.backend.global.error.exception.BusinessException;
 import com.backend.global.resolver.memberInfo.MemberInfo;
@@ -20,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @Slf4j
@@ -31,8 +27,6 @@ import java.util.Optional;
 public class MypageController {
 
     private final MypageService mypageService;
-    private final ProfileService profileService;
-    private final MemberService memberService;
     private final MemberRepository memberRepository;
 
 
