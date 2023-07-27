@@ -1,6 +1,8 @@
 package com.ssafy.likloud
 
 import android.os.Bundle
+import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.ssafy.likloud.base.BaseActivity
@@ -17,6 +19,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     lateinit var baseRepository: BaseRepository
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
+
+    private val mainActivityViewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,5 +55,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 //                R.id.myPageFragment -> {}
 //            }
 //        }
+    }
+
+    /**
+     * 작은 프로필 창 프로필 이미지를 변경합니다.
+     */
+    fun changeProfileImage(num: Int) {
+        binding.imageProfile.setImageResource(mainActivityViewModel.waterDropColorList[num])
     }
 }

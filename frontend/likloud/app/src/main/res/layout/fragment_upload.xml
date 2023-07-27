@@ -30,11 +30,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_upload">
 
-        <ImageView
-            android:scaleType="centerCrop"
-            android:id="@+id/image_selected_photo"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
         <ImageView
             android:id="@+id/image_add_photo"
@@ -47,13 +42,19 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="사진 추가하기"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/image_add_photo" />
+
+        <ImageView
+            android:scaleType="centerCrop"
+            android:id="@+id/image_selected_photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -86,7 +87,7 @@
 
         <TextView
             android:id="@+id/text_warning_content"
-            style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/caution_description"
@@ -109,8 +110,8 @@
 
             <ImageView
                 android:id="@+id/image_warning_dark"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_30sdp"
                 android:scaleType="fitXY"
                 android:src="@drawable/cloud1"
                 app:layout_constraintHorizontal_bias="0.5" />
@@ -140,8 +141,8 @@
 
             <ImageView
                 android:id="@+id/image_warning_notcloud"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_30sdp"
                 android:scaleType="fitXY"
                 android:src="@drawable/cloud1"
                 app:layout_constraintHorizontal_bias="0.5" />
@@ -161,7 +162,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_choose"
-            style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_30sdp"
             android:layout_marginTop="@dimen/_10sdp"

@@ -115,7 +115,7 @@ class LoginFragment :
                     // 네이버 로그인 인증이 성공했을 때 수행할 코드 추가
                     Log.d(TAG, ": AT = ${NaverIdLoginSDK.getAccessToken()}")
                     Log.d(TAG, ": RT = ${NaverIdLoginSDK.getRefreshToken()}")
-                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                    findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
 //                binding.tvExpires.text = NaverIdLoginSDK.getExpiresAt().toString()
 //                binding.tvType.text = NaverIdLoginSDK.getTokenType()
 //                binding.tvState.text = NaverIdLoginSDK.getState().toString()

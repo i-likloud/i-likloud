@@ -13,6 +13,7 @@
     <string name="choose">이걸로 할래요</string>
     <string name="gallery">갤러리</string>
     <string name="camera">카메라</string>
+    <string name="how_to_upload">어떻게 사진을 업로드 할까요?</string>
 
     <!--drawingList-->
     <string name="title_drawingList">그림목록</string>
@@ -21,4 +22,5 @@
 
     <string name="home">홈</string>
     <string name="profile_select">나만의 물방울을 만들어주세요</string>
+    <string name="choose_done">선택 완료</string>
 </resources>

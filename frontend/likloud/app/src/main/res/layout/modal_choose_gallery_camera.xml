@@ -5,23 +5,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/frame_skybluelight_rounded_border_black_radius50"
-        android:paddingTop="24dp"
-        android:paddingBottom="24dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
+        android:paddingTop="@dimen/_12sdp"
+        android:paddingBottom="@dimen/_10sdp"
+        android:paddingLeft="@dimen/_10sdp"
+        android:paddingRight="@dimen/_10sdp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
         <TextView
             android:id="@+id/text_alert_title"
-            style="@style/Theme.AppCompat.TextView.jua.dark.Size32"
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="어떻게 사진을 업로드 할까요?"
+            android:text="@string/how_to_upload"
             android:gravity="center"/>
 
 
@@ -46,7 +46,7 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_gallery"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
                 android:layout_width="0dp"
                 android:layout_height="90dp"
                 android:layout_weight="1"
@@ -63,7 +63,7 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_camera"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
                 android:layout_width="0dp"
                 android:layout_height="90dp"
                 android:layout_weight="1"

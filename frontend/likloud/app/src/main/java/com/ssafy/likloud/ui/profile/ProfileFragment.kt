@@ -11,11 +11,11 @@ import android.view.animation.AnimationUtils
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
-import com.ssafy.likloud.databinding.FragmentExampleBinding
 import com.ssafy.likloud.databinding.FragmentProfileBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -29,6 +29,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     private val profileFragmentViewModel : ProfileFragmentViewModel by viewModels()
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var mActivity: MainActivity
+
+    private var selectedWaterDrop = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -48,35 +50,60 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
 
         initAnimation()
         initListener()
+        initObserver()
+    }
+
+    /**
+     * 옵저버를 init합니다
+     */
+    private fun initObserver() {
+        mainActivityViewModel.profileImage.observe(viewLifecycleOwner) {
+            CoroutineScope(Dispatchers.Main).launch {
+                mActivity.changeProfileImage(it)
+            }
+        }
     }
 
     override fun initListener() {
         binding.waterDropWhite.setOnClickListener {
             changeWaterDrop(it, mainActivityViewModel.waterDropColorList[0])
+            selectedWaterDrop = 0
         }
         binding.waterDropPurple.setOnClickListener {
             changeWaterDrop(it, mainActivityViewModel.waterDropColorList[1])
+            selectedWaterDrop = 1
         }
         binding.waterDropMint.setOnClickListener {
             changeWaterDrop(it, mainActivityViewModel.waterDropColorList[2])
+            selectedWaterDrop = 2
         }
         binding.waterDropBlue.setOnClickListener {
             changeWaterDrop(it, mainActivityViewModel.waterDropColorList[3])
+            selectedWaterDrop = 3
         }
         binding.waterDropOrange.setOnClickListener {
             changeWaterDrop(it, mainActivityViewModel.waterDropColorList[4])
+            selectedWaterDrop = 4
         }
         binding.waterDropRed.setOnClickListener {
             changeWaterDrop(it, mainActivityViewModel.waterDropColorList[5])
+            selectedWaterDrop = 5
         }
         binding.waterDropGreen.setOnClickListener {
             changeWaterDrop(it, mainActivityViewModel.waterDropColorList[6])
+            selectedWaterDrop = 6
         }
         binding.waterDropPink.setOnClickListener {
             changeWaterDrop(it, mainActivityViewModel.waterDropColorList[7])
+            selectedWaterDrop = 7
         }
         binding.waterDropLemon.setOnClickListener {
             changeWaterDrop(it, mainActivityViewModel.waterDropColorList[8])
+            selectedWaterDrop = 8
+        }
+        binding.buttonChooseDone.setOnClickListener {
+            mainActivityViewModel.setProfileImage(selectedWaterDrop)
+            findNavController().navigate(R.id.action_profileFragment_to_homeFragment)
         }
     }
 
