@@ -3,8 +3,6 @@ package com.backend.domain.member.entity;
 import com.backend.domain.common.BaseEntity;
 import com.backend.domain.drawing.entity.Drawing;
 import com.backend.domain.likes.entity.Likes;
-import com.backend.domain.member.constant.ProfileColor;
-import com.backend.domain.member.constant.ProfileFace;
 import com.backend.domain.member.constant.Role;
 import com.backend.domain.member.constant.SocialType;
 import com.backend.domain.photo.entity.Photo;
@@ -35,10 +33,10 @@ public class Member extends BaseEntity {
     private String nickname;
 
     @Enumerated(EnumType.STRING)
-    private ProfileFace profileFace;
+    private int profileFace;
 
     @Enumerated(EnumType.STRING)
-    private ProfileColor profileColor;
+    private int profileColor;
 
     private String wallet;
 
@@ -73,18 +71,6 @@ public class Member extends BaseEntity {
     private List<Likes> likes = new ArrayList<>();
 
     //== 멤버 필드 업데이트 ==//
-    public void updateNickname(String updateNickname) {
-        this.nickname = updateNickname;
-    }
-
-    public void updateProfileCOLOR(ProfileColor profileColor){
-        this.profileColor = profileColor;
-    }
-
-    public void updateProfileFace(ProfileFace profileFace){
-        this.profileFace = profileFace;
-    }
-
 
     public void updateCoinCount(int coinCount){
         this.coinCount = coinCount;
@@ -99,7 +85,7 @@ public class Member extends BaseEntity {
         this.tokenExpirationTime = DateTimeUtils.convertToLocalDateTime(jwtDto.getRefreshTokenExpirationPeriod());
     }
 
-    public void updateAdditionalInfo(String nickname, ProfileFace profileFace, ProfileColor profileColor, Role role) {
+    public void updateAdditionalInfo(String nickname, int profileFace, int profileColor, Role role) {
         this.nickname = nickname;
         this.profileFace = profileFace;
         this.profileColor = profileColor;
@@ -112,7 +98,7 @@ public class Member extends BaseEntity {
 
     @Builder
     public Member(SocialType socialType, String email, String nickname,  int coinCount,
-                  ProfileColor profileColor, ProfileFace profileFace,Role role) {
+                  int profileColor, int profileFace,Role role) {
         this.socialType = socialType;
         this.email = email;
         this.nickname = nickname;

@@ -1,7 +1,5 @@
 package com.backend.domain.member.dto;
 
-import com.backend.domain.member.constant.ProfileColor;
-import com.backend.domain.member.constant.ProfileFace;
 import com.backend.domain.member.entity.Member;
 import lombok.*;
 
@@ -11,8 +9,8 @@ import lombok.*;
 public class ProfileDto {
     private long memberId;
     private String nickname;
-    private ProfileFace profileFace;
-    private ProfileColor profileColor;
+    private int profileFace;
+    private int profileColor;
 
     public static ProfileDto of (Member member) {
         return ProfileDto.builder()

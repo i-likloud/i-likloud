@@ -1,7 +1,5 @@
 package com.backend.domain.member.controller;
 
-import com.backend.domain.member.constant.ProfileColor;
-import com.backend.domain.member.constant.ProfileFace;
 import com.backend.domain.member.dto.MypageInfoDto;
 import com.backend.domain.member.dto.ProfileDto;
 import com.backend.domain.member.entity.Member;
@@ -65,7 +63,7 @@ public class MypageController {
     @Operation(summary = "프로필 캐릭터 수정", description = "프로필 얼굴, 색깔, 아이템 수정 메서드입니다.")
     @PutMapping("/profile")
     public ResponseEntity<Member> editProfile(HttpServletRequest request,
-                                              @RequestParam ProfileFace profileFace, @RequestParam ProfileColor profileColor) {
+                                              @RequestParam int profileFace, @RequestParam int profileColor) {
         String user = request.getRemoteUser();
         return ResponseEntity.ok(profileService.editProfile(user, profileFace, profileColor));
     }

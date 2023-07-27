@@ -1,7 +1,5 @@
 package com.backend.domain.member.dto;
 
-import com.backend.domain.member.constant.ProfileColor;
-import com.backend.domain.member.constant.ProfileFace;
 import com.backend.domain.member.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
