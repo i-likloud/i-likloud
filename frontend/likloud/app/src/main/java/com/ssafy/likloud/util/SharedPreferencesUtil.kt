@@ -8,6 +8,10 @@ class SharedPreferencesUtil(context: Context) {
     private var preferences: SharedPreferences =
         context.getSharedPreferences(ApplicationClass.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
 
+    fun addUserAccessToken() {
+
+    }
+
     fun addUserCookie(cookies: HashSet<String>) {
         val editor = preferences.edit()
         editor.putStringSet(ApplicationClass.COOKIES_KEY_NAME, cookies)
@@ -24,8 +28,8 @@ class SharedPreferencesUtil(context: Context) {
 //    fun getUserid() : String {
 //       val id = preferences.getString("userid", "")
 //        return id!!
-
 //    }
+
     fun deleteUser() {
         val editor = preferences.edit()
         editor.clear()

@@ -26,6 +26,7 @@ import com.navercorp.nid.oauth.NidOAuthLogin
 import com.navercorp.nid.oauth.view.NidOAuthLoginButton.Companion.launcher
 import com.navercorp.nid.profile.NidProfileCallback
 import com.navercorp.nid.profile.data.NidProfileResponse
+import com.ssafy.likloud.ApplicationClass
 import com.ssafy.likloud.MainActivity
 //import com.kakao.sdk.auth.model.OAuthToken
 //import com.kakao.sdk.common.model.ClientError
@@ -115,10 +116,31 @@ class LoginFragment :
                     // 네이버 로그인 인증이 성공했을 때 수행할 코드 추가
                     Log.d(TAG, ": AT = ${NaverIdLoginSDK.getAccessToken()}")
                     Log.d(TAG, ": RT = ${NaverIdLoginSDK.getRefreshToken()}")
-                    findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
+                    ApplicationClass.X_ACCESS_TOKEN = NaverIdLoginSDK.getAccessToken().toString()
+//                    findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
 //                binding.tvExpires.text = NaverIdLoginSDK.getExpiresAt().toString()
 //                binding.tvType.text = NaverIdLoginSDK.getTokenType()
 //                binding.tvState.text = NaverIdLoginSDK.getState().toString()
+                    var email = ""
+                    var name = ""
+                    NidOAuthLogin().callProfileApi(object :
+                        NidProfileCallback<NidProfileResponse> {
+                        override fun onSuccess(response: NidProfileResponse) {
+                            email = response.profile?.email.toString()
+                            name = response.profile?.name.toString()
+                            Log.d(TAG, "onSuccess: 네이버 이메일: ${email}, ${name}")
+                        }
+
+                        override fun onFailure(httpStatus: Int, message: String) {
+                            val errorCode = NaverIdLoginSDK.getLastErrorCode().code
+                            val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
+                            email = ""
+                        }
+
+                        override fun onError(errorCode: Int, message: String) {
+                            onFailure(errorCode, message)
+                        }
+                    }).toString()
 //                binding.tvLoginInfo.text = NidOAuthLogin().callProfileApi(object :
 //                    NidProfileCallback<NidProfileResponse> {
 //                    override fun onSuccess(response: NidProfileResponse) {
