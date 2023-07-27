@@ -7,8 +7,15 @@ import com.ssafy.likloud.base.BaseDialog
 import com.ssafy.likloud.databinding.FragmentUploadBinding
 import com.ssafy.likloud.databinding.ModalChooseGalleryCameraBinding
 
+//data class RegisterAlertDialogModel(
+//    val title: String?,
+//    val description: String?,
+//    val image: Int?,
+//    val negativeContents: String?,
+//    val positiveContents: String
+//)
 
-class CameraDialog(
+class NotCloudDialog(
 //    private val alertDialogModel: RegisterAlertDialogModel,
     private val clickGallery: () -> Unit,
     private val clickCamera: () -> Unit,
