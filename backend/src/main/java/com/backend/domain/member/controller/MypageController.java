@@ -3,6 +3,7 @@ package com.backend.domain.member.controller;
 import com.backend.domain.member.dto.MypageInfoDto;
 import com.backend.domain.member.dto.ProfileDto;
 import com.backend.domain.member.entity.Member;
+import com.backend.domain.member.service.MemberService;
 import com.backend.domain.member.service.MypageService;
 import com.backend.domain.member.service.ProfileService;
 import com.backend.global.resolver.memberInfo.MemberInfo;
@@ -26,6 +27,7 @@ public class MypageController {
 
     private final MypageService mypageService;
     private final ProfileService profileService;
+    private final MemberService memberService;
 
 
     @Operation(summary = "마이페이지 홈 조회", description = "마이페이지 홈의 조회 메서드입니다.")
@@ -46,7 +48,8 @@ public class MypageController {
 
     @Operation(summary = "닉네임 수정", description = "프로필의 닉네임 수정 메서드입니다.")
     @PutMapping("/nickname")
-    public ResponseEntity<Member> editNickname(HttpServletRequest request, @PathVariable String nickname) {
+    public ResponseEntity<Member> editNickname(HttpServletRequest request, @PathVariable String nickname, @MemberInfo MemberInfoDto memberInfoDto) {
+        Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
         String user = request.getRemoteUser();
         return ResponseEntity.ok(profileService.editNickname(user, nickname));
     }
