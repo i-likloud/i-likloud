@@ -1,5 +1,6 @@
 package com.backend.domain.drawing.entity;
 
+import com.backend.domain.comment.entity.Comment;
 import com.backend.domain.common.BaseEntity;
 import com.backend.domain.likes.entity.Likes;
 import com.backend.domain.member.entity.Member;
@@ -34,15 +35,11 @@ public class Drawing extends BaseEntity {
     @Column(nullable = false)
     private String imageUrl;
 
-    private int fromPhoto;
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private int viewCount;
 
-    @Builder.Default
-    @Column(nullable = false)
-    private int viewCount = 0;
-
-    @Builder.Default
-    @Column(nullable = false)
-    private int likesCount = 0;
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private int likesCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -59,6 +56,11 @@ public class Drawing extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "drawing", cascade = CascadeType.ALL)
     private List<Likes> likes = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "drawing", cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
+
 
     @Builder
     public Drawing(Long drawingId, String title, String artist, String content, String imageUrl,

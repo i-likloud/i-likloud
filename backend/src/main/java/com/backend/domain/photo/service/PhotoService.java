@@ -39,7 +39,7 @@ public class PhotoService {
 
     private final Path fileStorageLocation = Paths.get("upload-photos");
 
-    public PhotoResponseDto saveFileAndCreatePhotos(MultipartFile file, Photo photoRequest, MemberInfoDto memberInfoDto) {
+    public PhotoResponseDto saveFileAndCreatePhotos(MultipartFile file, MemberInfoDto memberInfoDto) {
 
         log.info(memberInfoDto.getEmail());
         Member member = memberService.findMemberByEmail((memberInfoDto.getEmail()));
@@ -81,7 +81,7 @@ public class PhotoService {
                     .member(member)
                     .photoUrl(fileUrl)
                     .photoFile(photoFile)
-                    .pickCnt(photoRequest.getPickCnt())
+                    .pickCnt(0)
                     .build();
 
             photoFile.setPhoto(photo);

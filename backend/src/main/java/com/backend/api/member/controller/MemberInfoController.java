@@ -32,7 +32,7 @@ public class MemberInfoController {
     private final MemberService memberService;
 
     // 회원 정보 조회
-    @Operation(summary = "추가 정보", description = "회원가입후 회원 정보 조회 메서드입니다.")
+    @Operation(summary = "회원 정보", description = "회원가입후 회원 정보 조회 메서드입니다.")
     @GetMapping("/info")
     public ResponseEntity<MemberInfoResponseDto> getMemberInfo(@MemberInfo MemberInfoDto memberInfoDto) {
 
@@ -43,7 +43,7 @@ public class MemberInfoController {
     }
 
     // 추가정보 업데이트 메서드
-    @Operation(summary = "추가 정보", description = "회원가입후 추가정보 관련 메서드입니다.")
+    @Operation(summary = "추가 정보", description = "회원가입후 추가정보 관련 메서드입니다. \n body 지우고 nickname, profileColor, profileFace만 써서 요청해주세요")
     @PatchMapping("/additional")
     public ResponseEntity<MemberDto.Response> updateAdditionalInfo(@RequestBody MemberDto.UpdateRequest request, @MemberInfo MemberInfoDto memberInfoDto) {
         // 닉네임 중복 검사

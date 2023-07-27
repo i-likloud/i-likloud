@@ -18,9 +18,9 @@ public class PhotoController {
     private final PhotoService photoService;
 
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadPhoto(@RequestPart MultipartFile file, Photo photoRequest, @MemberInfo MemberInfoDto memberInfoDto){
+    public ResponseEntity<?> uploadPhoto(@RequestPart MultipartFile file, @MemberInfo MemberInfoDto memberInfoDto){
         try{
-            PhotoResponseDto photo = photoService.saveFileAndCreatePhotos(file, photoRequest, memberInfoDto);
+            PhotoResponseDto photo = photoService.saveFileAndCreatePhotos(file, memberInfoDto);
             return ResponseEntity.ok().body(photo);
         }catch (BusinessException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

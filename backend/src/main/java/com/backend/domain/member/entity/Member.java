@@ -7,6 +7,7 @@ import com.backend.domain.member.constant.ProfileColor;
 import com.backend.domain.member.constant.ProfileFace;
 import com.backend.domain.member.constant.Role;
 import com.backend.domain.member.constant.SocialType;
+import com.backend.domain.photo.entity.Photo;
 import com.backend.global.jwt.dto.JwtDto;
 import com.backend.global.util.DateTimeUtils;
 import lombok.AllArgsConstructor;
@@ -62,6 +63,11 @@ public class Member extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Drawing> drawings = new ArrayList<>();
+
+    // 사진과 OneToMany 관계
+    @Builder.Default
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Photo> photos = new ArrayList<>();
 
     // 좋아요와 OneToMany 관계
     @Builder.Default
