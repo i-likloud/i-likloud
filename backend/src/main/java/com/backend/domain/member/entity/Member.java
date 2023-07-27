@@ -71,6 +71,7 @@ public class Member extends BaseEntity {
     private List<Likes> likes = new ArrayList<>();
 
     //== 멤버 필드 업데이트 ==//
+    public void editNickname(String nickname){this.nickname = nickname;}
 
     public void updateCoinCount(int coinCount){
         this.coinCount = coinCount;

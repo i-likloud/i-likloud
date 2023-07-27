@@ -26,4 +26,10 @@ public class MypageService {
         return ProfileDto.of(member);
     }
 
+    @Transactional
+    public MypageInfoDto editNickname(String email, String nickname){
+        Member member = memberService.findMemberByEmail(email);
+        member.editNickname(nickname);
+        return MypageInfoDto.of(member);
+    }
 }
