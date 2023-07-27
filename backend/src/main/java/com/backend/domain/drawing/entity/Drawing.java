@@ -13,8 +13,8 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class Drawing extends BaseEntity {
 
     @Id
@@ -35,11 +35,9 @@ public class Drawing extends BaseEntity {
 
     private int fromPhoto;
 
-    @Builder.Default
     @Column(nullable = false, columnDefinition = "int default 0")
     private int viewCount;
 
-    @Builder.Default
     @Column(nullable = false, columnDefinition = "int default 0")
     private int likesCount;
 
@@ -55,9 +53,11 @@ public class Drawing extends BaseEntity {
     @JoinColumn(name = "drawingFile_id")
     private DrawingFile drawingFile;
 
-    @Builder.Default
     @OneToMany(mappedBy = "drawing", cascade = CascadeType.ALL)
     private List<Likes> likes = new ArrayList<>();
+
+//    public Drawing() {
+//    }
 
     @Builder
     public Drawing(Long drawingId, String title, String artist, String content, String imageUrl,
