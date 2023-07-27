@@ -1,9 +1,12 @@
 package com.backend.api.photo.service;
 
+import com.backend.api.drawing.dto.DrawingWithLikesDto;
 import com.backend.api.photo.dto.PhotoInfoResponseDto;
 import com.backend.api.photo.dto.PhotoWithDrawingsResponseDto;
 import com.backend.domain.bookmark.entity.Bookmarks;
 import com.backend.domain.bookmark.repository.BookmarkRepository;
+import com.backend.domain.drawing.entity.Drawing;
+import com.backend.domain.drawing.repository.DrawingRepository;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.repository.MemberRepository;
 import com.backend.domain.photo.entity.Photo;
@@ -25,6 +28,7 @@ public class PhotoInfoService {
     private final PhotoRepository photoRepository;
     private final MemberRepository memberRepository;
     private final BookmarkRepository bookmarkRepository;
+    private final DrawingRepository drawingRepository;
 
     // 최신순 전체 조회
     @Transactional(readOnly = true)
@@ -70,13 +74,15 @@ public class PhotoInfoService {
 
     // 특정 사진과 관련된 모든 그림
     @Transactional(readOnly = true)
-    public ResponseEntity<PhotoWithDrawingsResponseDto> searchDrawingsByPhotoId(Long photoId) {
+    public List<DrawingWithLikesDto> getDrawingsByPhotoId(Long photoId) {
         Photo photo = photoRepository.findById(photoId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 photo가 존재하지 않습니다."));
 
-        PhotoWithDrawingsResponseDto responseDto = new PhotoWithDrawingsResponseDto(photo);
+        List<Drawing> drawings = drawingRepository.findByPhotoOrderByLikesCountDesc(photo);
 
-        return ResponseEntity.ok(responseDto);
+        return drawings.stream()
+                .map(drawing -> new DrawingWithLikesDto(drawing))
+                .collect(Collectors.toList());
     }
 
     // 삭제

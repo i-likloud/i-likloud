@@ -13,8 +13,8 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class Drawing extends BaseEntity {
 
     @Id
@@ -55,6 +55,9 @@ public class Drawing extends BaseEntity {
 
     @OneToMany(mappedBy = "drawing", cascade = CascadeType.ALL)
     private List<Likes> likes = new ArrayList<>();
+
+//    public Drawing() {
+//    }
 
     @Builder
     public Drawing(Long drawingId, String title, String artist, String content, String imageUrl,
