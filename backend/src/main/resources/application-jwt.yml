@@ -1,0 +1,13 @@
+jwt:
+  secretKey: "dusqhd1whghk2xld"
+
+  access:
+    expiration: 1800000 # 30? (1000L(ms -> s) * 60L(s -> m) * 30L
+
+  refresh:
+    expiration: 604800000 #  (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> ??) * 7(1?))
+
+
+jasypt:
+  encryptor:
+    password: "dusqhd1whghk2xld"

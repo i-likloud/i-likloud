@@ -7,6 +7,8 @@ import com.backend.domain.member.dto.ProfileDto;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.service.MypageService;
 import com.backend.domain.member.service.ProfileService;
+import com.backend.global.resolver.memberInfo.MemberInfo;
+import com.backend.global.resolver.memberInfo.MemberInfoDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -29,10 +31,10 @@ public class MypageController {
 
     @Operation(summary = "마이페이지 홈 조회", description = "마이페이지 홈의 조회 메서드입니다.")
     @GetMapping("/home")
-    public ResponseEntity<MypageInfoDto> getMyInfo(HttpServletRequest request){
+    public ResponseEntity<MypageInfoDto> getMyInfo(@MemberInfo MemberInfoDto memberInfoDto){
         try {
-            String userEmail = request.getRemoteUser();
-            MypageInfoDto myPageInfoDto = mypageService.getMyInfo(userEmail);
+            String email = memberInfoDto.getEmail();
+            MypageInfoDto myPageInfoDto = mypageService.getMyInfo(email);
             return ResponseEntity.ok(myPageInfoDto);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -50,10 +52,10 @@ public class MypageController {
 
     @Operation(summary = "마이페이지 프로필 캐릭터 조회", description = "캐릭터 꾸미기 전 프로필 정보 조회 메서드입니다.")
     @GetMapping("/profile")
-    public ResponseEntity<ProfileDto> getMyProfile(HttpServletRequest request){
+    public ResponseEntity<ProfileDto> getMyProfile(@MemberInfo MemberInfoDto memberInfoDto){
         try {
-            String userEmail = request.getRemoteUser();
-            ProfileDto profileDto = mypageService.getMyProfile(userEmail);
+            String email = memberInfoDto.getEmail();
+            ProfileDto profileDto = mypageService.getMyProfile(email);
             return ResponseEntity.ok(profileDto);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
