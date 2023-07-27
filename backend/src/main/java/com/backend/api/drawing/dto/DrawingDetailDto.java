@@ -1,26 +1,29 @@
 package com.backend.api.drawing.dto;
 
+import com.backend.domain.comment.dto.CommentDto;
 import com.backend.domain.drawing.entity.Drawing;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 
-@Getter
-public class DrawingDetailDto {
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
-    private final String title;
-    private final String artist;
+@Getter
+public class DrawingDetailDto extends DrawingListDto {
+
     private final String content;
-    private final String imageUrl;
-    private final boolean memberLiked;
-    private final int viewCount;
-    private final int likesCount;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+    private final LocalDateTime createdAt;
+
+    private final List<CommentDto> comments;
 
     public DrawingDetailDto(Drawing drawing, boolean memberLiked) {
-        this.title = drawing.getTitle();
-        this.artist = drawing.getArtist();
+        super(drawing, memberLiked);
         this.content = drawing.getContent();
-        this.imageUrl = drawing.getImageUrl();
-        this.viewCount = drawing.getViewCount();
-        this.likesCount = drawing.getLikesCount();
-        this.memberLiked = memberLiked;
+        this.createdAt = drawing.getCreatedAt();
+        this.comments = drawing.getComments().stream().map(CommentDto::new).collect(Collectors.toList());
+
     }
 }

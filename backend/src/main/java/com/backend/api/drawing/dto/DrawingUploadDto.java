@@ -1,20 +1,17 @@
 package com.backend.api.drawing.dto;
 
+import com.backend.domain.drawing.dto.DrawingResponseDto;
 import com.backend.domain.drawing.entity.Drawing;
 import lombok.Getter;
 
 @Getter
-public class DrawingUploadDto {
+public class DrawingUploadDto extends DrawingResponseDto {
 
-    private final String title;
-    private final String artist;
     private final String content;
-    private final String imageUrl;
+
 
     public DrawingUploadDto(Drawing drawing) {
-        this.title = drawing.getTitle();
-        this.artist = drawing.getArtist();
+        super(drawing);
         this.content = drawing.getContent();
-        this.imageUrl = drawing.getImageUrl();
     }
 }
