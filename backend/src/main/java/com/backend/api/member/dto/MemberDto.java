@@ -29,7 +29,6 @@ public class MemberDto {
 
     @Getter
     public static class UpdateRequest {
-        private String email;
         private String nickname;
         private ProfileColor profileColor;
         private ProfileFace profileFace;

@@ -63,6 +63,7 @@ public class Member extends BaseEntity {
 
 
     // 사진과 OneToMany 관계
+    @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Photo> photos = new ArrayList<>();
 
