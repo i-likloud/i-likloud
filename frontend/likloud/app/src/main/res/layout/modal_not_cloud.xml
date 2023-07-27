@@ -21,8 +21,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@string/how_to_upload"
+            android:text="@string/alert_cloud_check"
             android:gravity="center"/>
+
+
+
+
+    <TextView
+        android:id="@+id/text_alert_description"
+        style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/alert_not_cloud_description"
+        app:layout_constraintTop_toBottomOf="@id/text_alert_title"
+        android:gravity="center"/>
 
 
         <ImageView
@@ -51,7 +65,7 @@
                 android:layout_height="@dimen/_40sdp"
                 android:layout_weight="1"
                 android:background="@drawable/button_frame_skyblue"
-                android:text="@string/gallery" />
+                android:text="@string/take_photo_again" />
 
 <!--            <TextView-->
 <!--                android:id="@+id/button_gallery"-->
@@ -68,6 +82,6 @@
                 android:layout_height="@dimen/_40sdp"
                 android:layout_weight="1"
                 android:background="@drawable/button_frame_skyblue"
-                android:text="@string/camera" />
+                android:text="@string/stop_tae_picture" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
