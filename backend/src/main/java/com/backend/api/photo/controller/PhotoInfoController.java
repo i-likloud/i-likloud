@@ -58,5 +58,12 @@ public class PhotoInfoController {
     public ResponseEntity<String> unpickPhoto(@PathVariable Long photoId, @PathVariable Long memberId) {
         return photoInfoService.unpickPhoto(photoId, memberId);
     }
+
+    // pickCnt 증가
+    @PostMapping("/{photoId}/plus")
+    public ResponseEntity<String> handlePhotoClick(@PathVariable Long photoId){
+        photoInfoService.handlePhotoClick(photoId);
+        return ResponseEntity.ok("사진의 pickCnt 증가가 정상적으로 완료돼었습니다.");
+    }
 }
 

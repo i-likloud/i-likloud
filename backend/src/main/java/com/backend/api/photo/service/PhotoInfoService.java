@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -121,5 +122,16 @@ public class PhotoInfoService {
         photoRepository.save(photo);
 
         return ResponseEntity.ok("사진 즐겨찾기를 취소했습니다.");
+    }
+
+    // 사진으로 그림그리면 pickCnt 1씩 올라가는 기능
+    public void handlePhotoClick(Long photoId) {
+        Photo photo = photoRepository.findById(photoId).orElseThrow(() -> new EntityNotFoundException("사진을 찾을 수 없습니다"));
+
+        // pickCnt를 증가시킴
+        photo.incrementPickCnt();
+
+        // 사진 엔티티 업데이트 저장
+        photoRepository.save(photo);
     }
 }
