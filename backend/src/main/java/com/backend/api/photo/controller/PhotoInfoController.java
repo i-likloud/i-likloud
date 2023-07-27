@@ -3,6 +3,10 @@ package com.backend.api.photo.controller;
 import com.backend.api.photo.dto.PhotoInfoResponseDto;
 import com.backend.api.photo.dto.PhotoWithDrawingsResponseDto;
 import com.backend.api.photo.service.PhotoInfoService;
+import com.backend.domain.member.entity.Member;
+import com.backend.domain.member.service.MemberService;
+import com.backend.global.resolver.memberInfo.MemberInfo;
+import com.backend.global.resolver.memberInfo.MemberInfoDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +19,7 @@ import java.util.List;
 public class PhotoInfoController {
 
     private final PhotoInfoService photoInfoService;
+    private final MemberService memberService;
 
     //전체 조회(최신순)
     @GetMapping("/new")
@@ -48,14 +53,18 @@ public class PhotoInfoController {
     }
 
     // 사진 즐겨찾기
-    @PostMapping("/{photoId}/pick/{memberId}")
-    public ResponseEntity<String> pickPhoto(@PathVariable Long photoId, @PathVariable Long memberId) {
+    @PostMapping("/{photoId}/pick")
+    public ResponseEntity<String> pickPhoto(@PathVariable Long photoId, @MemberInfo MemberInfoDto memberInfoDto) {
+        Member findMember = memberService.findMemberByEmail(memberInfoDto.getEmail());
+        Long memberId = findMember.getMemberId();
         return photoInfoService.pickPhoto(photoId, memberId);
     }
 
     // 사진 즐겨찾기 취소
-    @PostMapping("/{photoId}/unpick/{memberId}")
-    public ResponseEntity<String> unpickPhoto(@PathVariable Long photoId, @PathVariable Long memberId) {
+    @PostMapping("/{photoId}/unpick")
+    public ResponseEntity<String> unpickPhoto(@PathVariable Long photoId, @MemberInfo MemberInfoDto memberInfoDto) {
+        Member findMember = memberService.findMemberByEmail(memberInfoDto.getEmail());
+        Long memberId = findMember.getMemberId();
         return photoInfoService.unpickPhoto(photoId, memberId);
     }
 
