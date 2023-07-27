@@ -14,7 +14,7 @@ public class MypageInfoDto {
     private String nickname;
     private int profileFace;
     private int profileColor;
-    private int coinCount;
+    private int goldCoin;
 
     public static MypageInfoDto of (Member member) {
         return MypageInfoDto.builder()
@@ -22,7 +22,7 @@ public class MypageInfoDto {
                 .nickname(member.getNickname())
                 .profileFace(member.getProfileFace())
                 .profileColor(member.getProfileColor())
-                .coinCount(member.getCoinCount())
+                .goldCoin(member.getGoldCoin())
                 .build();
     }
 

@@ -13,15 +13,15 @@ public class MemberDto {
     private String nickname;
     private int profileColor;
     private int profileFace;
-    private int coinCount;
+    private int goldCoin;
 
     @Builder
-    public MemberDto(String email, String nickname, int profileFace, int profileColor, int coinCount) {
+    public MemberDto(String email, String nickname, int profileFace, int profileColor, int goldCoin) {
         this.email = email;
         this.nickname = nickname;
         this.profileFace = profileFace;
         this.profileColor = profileColor;
-        this.coinCount = coinCount;
+        this.goldCoin = goldCoin;
 
     }
 

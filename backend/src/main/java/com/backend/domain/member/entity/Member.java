@@ -40,7 +40,7 @@ public class Member extends BaseEntity {
 
     private String wallet;
 
-    private int coinCount;
+    private int goldCoin;
 
     @Enumerated(EnumType.STRING)
     private SocialType socialType;
@@ -79,8 +79,8 @@ public class Member extends BaseEntity {
         this.profileFace = profileFace;
     }
 
-    public void updateCoinCount(int coinCount){
-        this.coinCount = coinCount;
+    public void updateGoldCoin(int goldCoin){
+        this.goldCoin = goldCoin;
     }
 
     public void updateRole(Role role){
@@ -104,14 +104,14 @@ public class Member extends BaseEntity {
     }
 
     @Builder
-    public Member(SocialType socialType, String email, String nickname,  int coinCount,
+    public Member(SocialType socialType, String email, String nickname,  int goldCoin,
                   int profileColor, int profileFace,Role role) {
         this.socialType = socialType;
         this.email = email;
         this.nickname = nickname;
         this.profileColor = profileColor;
         this.profileFace = profileFace;
-        this.coinCount = coinCount;
+        this.goldCoin = goldCoin;
         this.role = role;
     }
 

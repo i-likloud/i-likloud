@@ -19,7 +19,7 @@ public class MemberInfoResponseDto {
 
     private int profileFace;
     private int profileColor;
-    private int coinCount;
+    private int goldCoin;
 
     private SocialType socialType;
 
