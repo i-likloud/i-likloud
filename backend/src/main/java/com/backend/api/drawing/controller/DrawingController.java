@@ -44,6 +44,7 @@ public class DrawingController {
 
     @PostMapping("/upload")
     @Operation(summary = "그림 업로드", description = "JWT토큰과 그림 파일, 제목, 내용을 요청으로 보내서 그림을 업로드합니다.")
+
     public ResponseEntity<?> uploadDrawing(@RequestPart MultipartFile file, Drawing drawingRequest, @MemberInfo MemberInfoDto memberInfoDto) {
         try {
             DrawingUploadDto uploadDrawing = drawingUploadService.CreateDrawings(file, drawingRequest, memberInfoDto);

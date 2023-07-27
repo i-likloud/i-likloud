@@ -8,14 +8,15 @@ import com.backend.domain.report.dto.ReportDto;
 import com.backend.domain.report.service.ReportService;
 import com.backend.global.resolver.memberInfo.MemberInfo;
 import com.backend.global.resolver.memberInfo.MemberInfoDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
-import java.util.Optional;
 
+@Tag(name = "Report", description = "신고 관련 api")
 @RestController
 @RequestMapping("/api/report")
 @RequiredArgsConstructor
@@ -26,6 +27,7 @@ public class ReportController {
     private final MemberService memberService;
 
     // 신고 생성
+    @Operation(summary = "신고하기", description = "특정 게시글을 신고할 수 있는 메소드입니다.")
     @PostMapping("/{drawingId}")
     public ResponseEntity<String> createReport(
 

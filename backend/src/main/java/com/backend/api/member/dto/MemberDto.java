@@ -1,7 +1,5 @@
 package com.backend.api.member.dto;
 
-import com.backend.domain.member.constant.ProfileColor;
-import com.backend.domain.member.constant.ProfileFace;
 import com.backend.domain.member.constant.Role;
 import com.backend.domain.member.constant.SocialType;
 import lombok.*;
@@ -13,12 +11,12 @@ public class MemberDto {
 
     private String email;
     private String nickname;
-    private ProfileColor profileColor;
-    private ProfileFace profileFace;
+    private int profileColor;
+    private int profileFace;
     private int coinCount;
 
     @Builder
-    public MemberDto(String email, String nickname, ProfileFace profileFace, ProfileColor profileColor, int coinCount) {
+    public MemberDto(String email, String nickname, int profileFace, int profileColor, int coinCount) {
         this.email = email;
         this.nickname = nickname;
         this.profileFace = profileFace;
@@ -30,8 +28,8 @@ public class MemberDto {
     @Getter
     public static class UpdateRequest {
         private String nickname;
-        private ProfileColor profileColor;
-        private ProfileFace profileFace;
+        private int profileColor;
+        private int profileFace;
     }
 
 
@@ -40,8 +38,8 @@ public class MemberDto {
     public static class Response {
         private String email;
         private String nickname;
-        private ProfileColor profileColor;
-        private ProfileFace profileFace;
+        private int profileColor;
+        private int profileFace;
         private SocialType socialType;
         private Role role;
 

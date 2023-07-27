@@ -7,6 +7,8 @@ import com.backend.domain.member.service.MemberService;
 import com.backend.domain.photo.entity.Photo;
 import com.backend.global.resolver.memberInfo.MemberInfo;
 import com.backend.global.resolver.memberInfo.MemberInfoDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Tag(name = "Bookmark", description = "즐겨찾기 관련 api")
 @RestController
 @RequestMapping("/api/bookmark")
 public class BookmarkController {
@@ -27,6 +30,7 @@ public class BookmarkController {
         this.memberService = memberService;
     }
 
+    @Operation(summary = "로그인 유저의 모든 즐겨찾기", description = "로그인한 유저가 즐겨찾기한 모든 사진을 보여주는 메소드입니다.")
     @GetMapping("/my-bookmarked-photos")
     public ResponseEntity<List<PhotoWithBookmarkDto>> getBookmarkedPhotosForCurrentUser(@MemberInfo MemberInfoDto memberInfoDto) {
         Member findMember = memberService.findMemberByEmail(memberInfoDto.getEmail());

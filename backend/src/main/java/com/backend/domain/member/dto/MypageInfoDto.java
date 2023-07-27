@@ -1,7 +1,5 @@
 package com.backend.domain.member.dto;
 
-import com.backend.domain.member.constant.ProfileColor;
-import com.backend.domain.member.constant.ProfileFace;
 import com.backend.domain.member.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,8 +12,8 @@ import lombok.Setter;
 public class MypageInfoDto {
     private long memberId;
     private String nickname;
-    private ProfileFace profileFace;
-    private ProfileColor profileColor;
+    private int profileFace;
+    private int profileColor;
     private int coinCount;
 
     public static MypageInfoDto of (Member member) {

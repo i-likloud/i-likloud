@@ -1,7 +1,5 @@
 package com.backend.domain.member.service;
 
-import com.backend.domain.member.constant.ProfileColor;
-import com.backend.domain.member.constant.ProfileFace;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +45,7 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     @Override
-    public Member editProfile(String email, ProfileFace profileFace, ProfileColor profileColor) {
+    public Member editProfile(String email, int profileFace, int profileColor) {
 
         Optional<Member> optional = memberRepository.findByEmail(email);
         Member member = null;
