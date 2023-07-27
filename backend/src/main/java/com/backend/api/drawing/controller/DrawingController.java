@@ -43,7 +43,13 @@ public class DrawingController {
 //    }
 
     @PostMapping("/upload")
+<<<<<<< HEAD
     @Operation(summary = "그림 업로드", description = "JWT토큰과 그림 파일, 제목, 내용을 요청으로 보내서 그림을 업로드합니다.")
+=======
+    @Operation(
+            summary = "그림 업로드"
+            , description = "JWT 토큰과 함께 그림 파일, 제목, 내용을 업로드한다.")
+>>>>>>> feature/editBookmarks
     public ResponseEntity<?> uploadDrawing(@RequestPart MultipartFile file, Drawing drawingRequest, @MemberInfo MemberInfoDto memberInfoDto) {
         try {
             DrawingUploadDto uploadDrawing = drawingUploadService.CreateDrawings(file, drawingRequest, memberInfoDto);
@@ -54,10 +60,17 @@ public class DrawingController {
     }
 
     @GetMapping("/")
+<<<<<<< HEAD
     @Operation(summary = "그림 게시물 전체 조회", description = "그림 게시물들을 전체 조회합니다.")
     public ResponseEntity<List<DrawingListDto>> drawingBoard(@MemberInfo MemberInfoDto memberInfoDto){
         Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
         List<DrawingListDto> drawings = drawingViewService.getAllDrawings(member.getMemberId());
+=======
+    @Operation(
+            summary = "그림 게시물 전체 조회")
+    public ResponseEntity<List<DrawingResponseDto>> drawingBoard(){
+        List<DrawingResponseDto> drawings = drawingService.getAllDrawings();
+>>>>>>> feature/editBookmarks
         return ResponseEntity.ok().body(drawings);
     }
 
