@@ -32,11 +32,11 @@ public class Member extends BaseEntity {
     @Column(length = 30)
     private String nickname;
 
-    @Enumerated(EnumType.STRING)
     private int profileFace;
 
-    @Enumerated(EnumType.STRING)
     private int profileColor;
+
+    private int profileAccessory;
 
     private String wallet;
 
