@@ -1,9 +1,0 @@
-version: "3"
-services:
-  jenkins:
-    image: jenkins/jenkins:lts
-    user: root
-    volumes:
-      - ./jenkins:/var/jenkins_home
-    ports:
-      - 8080:8080
