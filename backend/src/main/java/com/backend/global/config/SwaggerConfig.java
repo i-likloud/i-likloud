@@ -3,8 +3,6 @@ package com.backend.global.config;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springdoc.core.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +13,7 @@ public class SwaggerConfig {
     @Bean
     public GroupedOpenApi allApi() {
         return GroupedOpenApi.builder()
-                .group("")
+                .group("전체조회")
                 .pathsToMatch("/**")
                 .build();
     }
@@ -30,7 +28,7 @@ public class SwaggerConfig {
     public GroupedOpenApi mypageApi() {
         return GroupedOpenApi.builder()
                 .group("마이페이지")
-                .pathsToMatch("/api/mypage/**")
+                .pathsToMatch("/api/profile/**")
                 .build();
     }
     @Bean
@@ -58,11 +56,9 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .components(new Components().addSecuritySchemes("Bearer",
-                        new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")))
-                .addSecurityItem(new SecurityRequirement().addList("Bearer"))
-                .info(new Info().title("연봉 1조")
-                        .description("<운이 좋아> 프로젝트 API")
+                .components(new Components())
+                .info(new Info().title("Spring Boot API")
+                        .description("연봉 1조")
                         .version("v0.0.1"));
     }
 }

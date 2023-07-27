@@ -1,5 +1,6 @@
-package com.backend.domain.report.entity;
+package com.backend.domain.like.entity;
 
+import com.backend.domain.common.BaseEntity;
 import com.backend.domain.drawing.entity.Drawing;
 import com.backend.domain.member.entity.Member;
 import lombok.AllArgsConstructor;
@@ -9,26 +10,23 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
 @Getter
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Report {
+public class Like extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long reportId;
+    private Long likeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member memberId;
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "drawing_id")
-    private Drawing drawingId;
-
-    @Column(nullable = false, length = 300) // 최대 300자까지 저장 가능
-    private String content;
+    private Drawing drawing;
 
 }
