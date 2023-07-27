@@ -20,4 +20,11 @@ public class ProfileDto {
                 .profileColor(member.getProfileColor())
                 .build();
     }
+
+    @Getter
+    public static class editRequest{
+        private String nickname;
+        private int profileColor;
+        private int profileFace;
+    }
 }

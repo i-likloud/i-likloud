@@ -32,4 +32,12 @@ public class MypageService {
         member.editNickname(nickname);
         return MypageInfoDto.of(member);
     }
+
+    @Transactional
+    public ProfileDto editProfile(String email, ProfileDto.editRequest request){
+        Member member = memberService.findMemberByEmail(email);
+        member.editProfile(request.getNickname(),request.getProfileFace(), request.getProfileColor());
+        return ProfileDto.of(member);
+
+    }
 }

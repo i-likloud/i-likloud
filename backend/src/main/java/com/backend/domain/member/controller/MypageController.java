@@ -79,9 +79,9 @@ public class MypageController {
 
     @Operation(summary = "프로필 캐릭터 수정", description = "프로필 얼굴, 색깔, 아이템 수정 메서드입니다.")
     @PutMapping("/profile")
-    public ResponseEntity<Member> editProfile(HttpServletRequest request,
-                                              @RequestParam int profileFace, @RequestParam int profileColor) {
-        String user = request.getRemoteUser();
-        return ResponseEntity.ok(profileService.editProfile(user, profileFace, profileColor));
+    public ResponseEntity<ProfileDto> editProfile(@RequestBody ProfileDto.editRequest request, @MemberInfo MemberInfoDto memberInfoDto) {
+        String email = memberInfoDto.getEmail();
+        ProfileDto profileDto = mypageService.editProfile(email,request);
+        return ResponseEntity.ok(profileDto);
     }
 }

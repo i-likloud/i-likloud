@@ -73,6 +73,12 @@ public class Member extends BaseEntity {
     //== 멤버 필드 업데이트 ==//
     public void editNickname(String nickname){this.nickname = nickname;}
 
+    public void editProfile(String nickname, int profileFace, int profileColor){
+        this.nickname = nickname;
+        this.profileColor = profileColor;
+        this.profileFace = profileFace;
+    }
+
     public void updateCoinCount(int coinCount){
         this.coinCount = coinCount;
     }
