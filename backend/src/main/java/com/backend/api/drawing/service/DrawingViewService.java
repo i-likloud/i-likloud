@@ -9,6 +9,7 @@ import com.backend.domain.likes.repository.LikesRepository;
 import com.backend.global.error.ErrorCode;
 import com.backend.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +25,8 @@ public class DrawingViewService {
     private final LikesRepository likesRepository;
 
     // 전체 게시물 조회
-    public List<DrawingListDto> getAllDrawings(Long memberId){
-        List<Drawing> drawings = drawingRepository.findAll();
+    public List<DrawingListDto> getAllDrawings(Long memberId, String orderBy){
+        List<Drawing> drawings = drawingRepository.findAll(Sort.by(Sort.Direction.DESC, orderBy));
         return drawings.stream()
                 .map(drawing -> {
                     boolean memberLiked = likesRepository.existsByMemberMemberIdAndDrawingDrawingId(memberId, drawing.getDrawingId());
@@ -38,7 +39,7 @@ public class DrawingViewService {
     @Transactional
     public DrawingDetailDto getDrawing(Long drawingId, Long memberId){
         Drawing drawing = drawingRepository.findById(drawingId)
-                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_FILE));
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_DRAWING));
 
         // 조회수 증가
         drawing.setViewCount(drawing.getViewCount() + 1);
@@ -47,5 +48,18 @@ public class DrawingViewService {
         boolean memberLiked = likesRepository.existsByMemberMemberIdAndDrawingDrawingId(memberId, drawingId);
 
         return new DrawingDetailDto(drawing, memberLiked);
+    }
+
+    @Transactional
+    public void deleteDrawing(Long drawingId, Long memberId) {
+        Drawing drawing = drawingRepository.findById(drawingId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_DRAWING));
+
+        if(!drawing.getMember().getMemberId().equals(memberId)){
+            throw new BusinessException(ErrorCode.UNAUTHORIZED_DELETION);
+        }
+
+        drawingRepository.delete(drawing);
+
     }
 }
