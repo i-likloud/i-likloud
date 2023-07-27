@@ -32,6 +32,8 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
     private lateinit var recentOrderDrawingList: ArrayList<DrawingDto>
     private lateinit var drawingList: ArrayList<DrawingDto>
 
+    private lateinit var selectedDrawing: DrawingDto
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity = context as MainActivity
@@ -60,17 +62,27 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
 
             //랭킹순 눌렀을 때
             buttonRankingOrder.setOnClickListener{
-
+                drawingList = rankingOrderDrawingList
             }
 
             //최신순 눌렀을 때
             buttonRecentOrder.setOnClickListener {
-
+                drawingList = recentOrderDrawingList
             }
-            
 
-            //그림 목록 리사이클러뷰
+            //그림 목록 리사이클러뷰(최초에는 인기순)
             val drawingList = initDrawingList()
+//            drawingList = rankingOrderDrawingList
+
+            //맨 처음에는 리스트 가장 첫 번째 그림
+            selectedDrawing = drawingList[0]
+            Glide.with(binding.imageDrawingProfile)
+                .load(selectedDrawing.img)
+                .into(binding.imageDrawingProfile)
+            binding.textDrawingNickname.text = selectedDrawing.text + "NICKNAME"
+            binding.textDrawingTitle.text = selectedDrawing.text + "TITLE"
+            binding.textDrawingExplain.text = selectedDrawing.text + "EXPLAIN"
+
             val drawingListAdapter = DrawingListAdapter(drawingList)
             recyclerviewDrawaing.apply {
                 this.adapter = drawingListAdapter
@@ -80,14 +92,16 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
                 setItemSelectListener(object : CarouselLayoutManager.OnSelected {
                     //본인한테서 멈췄을 때 이벤트
                     override fun onItemSelected(position: Int) {
+
+                        selectedDrawing = drawingListAdapter.list[position]
                         //Cente item
                         Glide.with(binding.imageDrawingProfile)
-                            .load(drawingListAdapter.list[position].img)
+                            .load(selectedDrawing.img)
                             .into(binding.imageDrawingProfile)
-                        binding.textDrawingNickname.text = drawingListAdapter.list[position].text + "NICKNAME"
-                        binding.textDrawingTitle.text = drawingListAdapter.list[position].text + "TITLE"
-                        binding.textDrawingExplain.text = drawingListAdapter.list[position].text + "EXPLAIN"
-                        Toast.makeText(mainActivity, drawingListAdapter.list[position].text, Toast.LENGTH_SHORT).show()
+                        binding.textDrawingNickname.text = selectedDrawing.text + "NICKNAME"
+                        binding.textDrawingTitle.text = selectedDrawing.text + "TITLE"
+                        binding.textDrawingExplain.text = selectedDrawing.text + "EXPLAIN"
+                        Toast.makeText(mainActivity, selectedDrawing.text, Toast.LENGTH_SHORT).show()
                     }
                 })
             }
@@ -97,6 +111,16 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
             recyclerviewDrawingComment.apply {
                 this.adapter = commentListAdapter
                 this.layoutManager = LinearLayoutManager(mainActivity, LinearLayoutManager.VERTICAL,false)
+            }
+
+            //좋아요(하트)를 눌렀을 때
+            imageHeart.setOnClickListener {
+
+            }
+
+            //즐겨찾기(스타)를 눌렀을 때
+            imageStar.setOnClickListener {
+
             }
 
         }

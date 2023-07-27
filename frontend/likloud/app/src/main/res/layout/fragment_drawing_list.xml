@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:id="@+id/scrollview"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent">-->
+
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -34,7 +43,7 @@
                 android:layout_marginRight="100dp"
                 android:gravity="center"
                 android:layout_gravity="center"
-                android:text="홈"
+                android:text="@string/title_drawingList"
                 android:textSize="46dp"
                 android:layout_marginTop="10dp"
                 style="@style/Theme.AppCompat.TextView.jua.dark.Size32"/>
@@ -69,8 +78,8 @@
                 android:layout_height="50dp"
                 app:layout_constraintWidth_percent="0.95"
                 android:background="@drawable/button_frame_black"
-                android:text="인기순"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size24"
+                android:text="@string/ranking_order"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -81,8 +90,8 @@
                 android:layout_height="50dp"
                 app:layout_constraintWidth_percent="0.95"
                 android:background="@drawable/button_frame_black"
-                android:text="최신순"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size24"
+                android:text="@string/recent_order"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
                 app:layout_constraintTop_toBottomOf="@id/button_ranking_order"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -127,7 +136,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_4sdp"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size24"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
                 app:layout_constraintBottom_toBottomOf="@+id/image_drawing_profile"
                 app:layout_constraintStart_toEndOf="@id/image_drawing_profile"
                 app:layout_constraintTop_toTopOf="@id/image_drawing_profile" />
@@ -137,7 +146,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_4sdp"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
                 app:layout_constraintStart_toStartOf="@id/image_drawing_profile"
                 app:layout_constraintTop_toBottomOf="@id/image_drawing_profile" />
 
@@ -148,7 +157,7 @@
                 android:layout_marginHorizontal="@dimen/_7sdp"
                 android:layout_marginTop="@dimen/_4sdp"
                 android:text="이 그림에 대한 상세설명으로 길게 들어갈 내용입니다. 알겠습니까? 대답하세요! 얼른 대답!"
-                style="@style/Theme.AppCompat.TextView.pretendard.Size16"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_drawing_title" />
@@ -185,34 +194,49 @@
             android:background="@drawable/frame_rounded_border_radius50"
             android:elevation="@dimen/_20sdp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:paddingVertical="@dimen/_5sdp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_drawing_comment"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_86sdp"
-                android:layout_marginHorizontal="@dimen/_7sdp"
-                android:layout_marginTop="@dimen/_11sdp"
+                android:layout_height="0dp"
+                app:layout_constraintHeight_percent="0.8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/edittext_drawing_comment"
-                android:layout_width="@dimen/_130sdp"
-                android:layout_height="@dimen/_20sdp"
-                android:layout_marginHorizontal="@dimen/_7sdp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintHeight_percent="0.2"
+                app:layout_constraintTop_toBottomOf="@id/recyclerview_drawing_comment"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/recyclerview_drawing_comment" />
-
-            <Button
-                android:id="@+id/button_drawing_comment"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_20sdp"
-                android:text="입력"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/edittext_drawing_comment"
-                app:layout_constraintTop_toTopOf="@id/edittext_drawing_comment" />
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <EditText
+                    android:id="@+id/edittext_drawing_comment"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:layout_constraintWidth_percent="0.8"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_drawing_comment"
+                    android:layout_width="0dp"
+                    android:layout_height = "match_parent"
+                    app:layout_constraintWidth_percent="0.2"
+                    android:background="@drawable/button_frame_skyblue"
+                    android:text="입력"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/edittext_drawing_comment"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -220,3 +244,5 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--</ScrollView>-->
