@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/upload"
-        style="@style/Theme.AppCompat.TextView.jua.dark.Size32"
+        style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,6 +29,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_upload">
+
+        <ImageView
+            android:scaleType="centerCrop"
+            android:id="@+id/image_selected_photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <ImageView
             android:id="@+id/image_add_photo"
@@ -67,7 +73,7 @@
 
         <TextView
             android:id="@+id/text_warning_title"
-            style="@style/Theme.AppCompat.TextView.jua.dark.Size24"
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/caution"
@@ -80,7 +86,7 @@
 
         <TextView
             android:id="@+id/text_warning_content"
-            style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/caution_description"
@@ -112,7 +118,7 @@
 
         <TextView
             android:id="@+id/text_warning_dark"
-            style="@style/Theme.AppCompat.TextView.jua.Size14"
+            style="@style/Theme.AppCompat.TextView.jua.Size12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="밤하늘 X"
@@ -143,7 +149,7 @@
 
         <TextView
             android:id="@+id/text_warning_notcloud"
-            style="@style/Theme.AppCompat.TextView.jua.Size14"
+            style="@style/Theme.AppCompat.TextView.jua.Size12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="셀카 X"
@@ -156,9 +162,9 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_choose"
             style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="50dp"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:background="@drawable/button_frame_skyblue"
             android:text="@string/choose"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -20,7 +20,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initView()
         initNavController()
+    }
+
+    private fun initView() {
+        binding.layoutProfile.translationX = 52f
+        binding.layoutProfile.translationY = -52f
     }
 
     private fun initNavController() {
