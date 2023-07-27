@@ -6,19 +6,17 @@ import com.backend.domain.member.constant.ProfileColor;
 import com.backend.domain.member.constant.ProfileFace;
 import com.backend.domain.member.constant.Role;
 import com.backend.domain.member.constant.SocialType;
+import com.backend.domain.photo.entity.Photo;
 import com.backend.global.jwt.dto.JwtDto;
 import com.backend.global.util.DateTimeUtils;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
+@Getter @Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -60,6 +58,10 @@ public class Member extends BaseEntity {
     // 그림과 OneToMany 관계
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Drawing> drawings = new ArrayList<>();
+
+    // 사진과 OneToMany 관계
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Photo> photos = new ArrayList<>();
 
     //== 멤버 필드 업데이트 ==//
     public void updateNickname(String updateNickname) {

@@ -3,29 +3,23 @@ package com.backend.domain.member.dto;
 import com.backend.domain.member.constant.ProfileColor;
 import com.backend.domain.member.constant.ProfileFace;
 import com.backend.domain.member.entity.Member;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
-public class MypageInfoDto {
+public class ProfileDto {
     private long memberId;
     private String nickname;
     private ProfileFace profileFace;
     private ProfileColor profileColor;
-    private int coinCount;
 
-    public static MypageInfoDto of (Member member) {
-        return MypageInfoDto.builder()
+    public static ProfileDto of (Member member) {
+        return ProfileDto.builder()
                 .memberId(member.getMemberId())
                 .nickname(member.getNickname())
                 .profileFace(member.getProfileFace())
                 .profileColor(member.getProfileColor())
-                .coinCount(member.getCoinCount())
                 .build();
     }
-
 }

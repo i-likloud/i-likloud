@@ -11,6 +11,7 @@ spring:
     password: q1w2e3r4
 
 
+
   jpa:
     hibernate:
       ddl-auto: create
