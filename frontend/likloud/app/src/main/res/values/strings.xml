@@ -14,4 +14,9 @@
     <string name="gallery">갤러리</string>
     <string name="camera">카메라</string>
 
+    <!--drawingList-->
+    <string name="title_drawingList">그림목록</string>
+    <string name="ranking_order">인기순</string>
+    <string name="recent_order">최신순</string>
+
 </resources>

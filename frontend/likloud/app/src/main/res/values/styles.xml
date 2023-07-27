@@ -166,5 +166,25 @@
         <item name="fontFamily">@font/pretendard_medium</item>
     </style>
 
+    <!--pretendard10gray10-->
+    <style name="Theme.AppCompat.TextView.pretendard.Size10" parent="@style/Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/gray10</item>
+        <item name="android:textSize">@dimen/_10sdp</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
+    </style>
+
+    <!--pretendard08gray10-->
+    <style name="Theme.AppCompat.TextView.pretendard.Size08" parent="@style/Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/gray10</item>
+        <item name="android:textSize">@dimen/_8sdp</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
+    </style>
+
+    <!--pretendard06gray10Light-->
+    <style name="Theme.AppCompat.TextView.pretendard.light.Size06" parent="@style/Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/gray10</item>
+        <item name="android:textSize">@dimen/_6sdp</item>
+        <item name="fontFamily">@font/pretendard_light</item>
+    </style>
 
 </resources>
