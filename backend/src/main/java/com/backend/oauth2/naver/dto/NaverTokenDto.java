@@ -2,6 +2,7 @@ package com.backend.oauth2.naver.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 public class NaverTokenDto {
 
@@ -18,6 +19,7 @@ public class NaverTokenDto {
 
     // 응답 객체
     @Builder @Getter
+    @ToString
     public static class Response {
 
         private String access_token;
