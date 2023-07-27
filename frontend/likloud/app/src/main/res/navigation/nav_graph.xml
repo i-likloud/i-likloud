@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/photoListFragment">
 
     <fragment
         android:id="@+id/exampleFragment"
@@ -49,5 +49,9 @@
         android:name="com.ssafy.likloud.ui.upload.UploadFragment"
         android:label="fragment_upload"
         tools:layout="@layout/fragment_upload" />
+    <fragment
+        android:id="@+id/photoListFragment"
+        android:name="com.ssafy.likloud.ui.photolist.PhotoListFragment"
+        android:label="PhotoListFragment" />
 
 </navigation>
