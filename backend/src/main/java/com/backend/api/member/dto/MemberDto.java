@@ -13,16 +13,20 @@ public class MemberDto {
     private String nickname;
     private int profileColor;
     private int profileFace;
+    private int profileAccessory;
     private int goldCoin;
+    private int silverCoin;
 
     @Builder
-    public MemberDto(String email, String nickname, int profileFace, int profileColor, int goldCoin) {
+    public MemberDto(String email, String nickname, int profileFace,
+                     int profileColor, int profileAccessory, int goldCoin, int silverCoin) {
         this.email = email;
         this.nickname = nickname;
         this.profileFace = profileFace;
         this.profileColor = profileColor;
+        this.profileAccessory = profileAccessory;
         this.goldCoin = goldCoin;
-
+        this.silverCoin = silverCoin;
     }
 
     @Getter
@@ -30,6 +34,7 @@ public class MemberDto {
         private String nickname;
         private int profileColor;
         private int profileFace;
+        private int profileAccessory;
     }
 
 
@@ -40,6 +45,7 @@ public class MemberDto {
         private String nickname;
         private int profileColor;
         private int profileFace;
+        private int profileAccessory;
         private SocialType socialType;
         private Role role;
 

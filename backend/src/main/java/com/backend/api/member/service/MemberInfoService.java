@@ -26,13 +26,15 @@ public class MemberInfoService {
     public MemberDto.Response updateAdditionalInfo(MemberDto.UpdateRequest request, String email) {
         Member member = memberService.findMemberByEmail(email);
 
-        member.updateAdditionalInfo(request.getNickname(), request.getProfileFace(), request.getProfileColor(), Role.MEMBER);
+        member.updateAdditionalInfo(request.getNickname(), request.getProfileFace(), request.getProfileColor(),
+                request.getProfileAccessory(),Role.MEMBER);
 
         return MemberDto.Response.builder()
                 .email(member.getEmail())
                 .nickname(member.getNickname())
                 .profileColor(member.getProfileColor())
                 .profileFace(member.getProfileFace())
+                .profileAccessory(member.getProfileAccessory())
                 .role(member.getRole())
                 .socialType(member.getSocialType())
                 .build();

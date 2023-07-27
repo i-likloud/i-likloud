@@ -11,6 +11,7 @@ public class ProfileDto {
     private String nickname;
     private int profileFace;
     private int profileColor;
+    private int profileAccessory;
 
     public static ProfileDto of (Member member) {
         return ProfileDto.builder()
@@ -18,6 +19,7 @@ public class ProfileDto {
                 .nickname(member.getNickname())
                 .profileFace(member.getProfileFace())
                 .profileColor(member.getProfileColor())
+                .profileAccessory(member.getProfileAccessory())
                 .build();
     }
 
@@ -26,5 +28,6 @@ public class ProfileDto {
         private String nickname;
         private int profileColor;
         private int profileFace;
+        private int profileAccessory;
     }
 }

@@ -42,6 +42,8 @@ public class Member extends BaseEntity {
 
     private int goldCoin;
 
+    private int silverCoin;
+
     @Enumerated(EnumType.STRING)
     private SocialType socialType;
 
@@ -73,14 +75,19 @@ public class Member extends BaseEntity {
     //== 멤버 필드 업데이트 ==//
     public void editNickname(String nickname){this.nickname = nickname;}
 
-    public void editProfile(String nickname, int profileFace, int profileColor){
+    public void editProfile(String nickname, int profileFace, int profileColor, int profileAccessory){
         this.nickname = nickname;
         this.profileColor = profileColor;
         this.profileFace = profileFace;
+        this.profileAccessory = profileAccessory;
     }
 
     public void updateGoldCoin(int goldCoin){
         this.goldCoin = goldCoin;
+    }
+
+    public void updateSilverCoin(int silverCoin){
+        this.silverCoin = silverCoin;
     }
 
     public void updateRole(Role role){
@@ -92,10 +99,11 @@ public class Member extends BaseEntity {
         this.tokenExpirationTime = DateTimeUtils.convertToLocalDateTime(jwtDto.getRefreshTokenExpirationPeriod());
     }
 
-    public void updateAdditionalInfo(String nickname, int profileFace, int profileColor, Role role) {
+    public void updateAdditionalInfo(String nickname, int profileFace, int profileColor, int profileAccessory, Role role) {
         this.nickname = nickname;
         this.profileFace = profileFace;
         this.profileColor = profileColor;
+        this.profileAccessory = profileAccessory;
         this.role = role;
     }
 
@@ -105,12 +113,14 @@ public class Member extends BaseEntity {
 
     @Builder
     public Member(SocialType socialType, String email, String nickname,  int goldCoin,
-                  int profileColor, int profileFace,Role role) {
+                  int profileColor, int profileFace, int profileAccessory, int silverCoin, Role role) {
         this.socialType = socialType;
         this.email = email;
         this.nickname = nickname;
         this.profileColor = profileColor;
         this.profileFace = profileFace;
+        this.profileAccessory = profileAccessory;
+        this.silverCoin = silverCoin;
         this.goldCoin = goldCoin;
         this.role = role;
     }
