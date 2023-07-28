@@ -20,7 +20,7 @@ public class SwaggerConfig {
                 .build();
     }
     @Bean
-    public GroupedOpenApi memberApi() {
+    public GroupedOpenApi loginApi() {
         return GroupedOpenApi.builder()
                 .group("소셜로그인")
                 .pathsToMatch("/api/oauth/**")
@@ -65,13 +65,21 @@ public class SwaggerConfig {
     }
 
     @Bean
+    public GroupedOpenApi memberApi() {
+        return GroupedOpenApi.builder()
+                .group("멤버")
+                .pathsToMatch("/api/member/**")
+                .build();
+    }
+
+    @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .components(new Components().addSecuritySchemes("Bearer",
                         new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")))
                 .addSecurityItem(new SecurityRequirement().addList("Bearer"))
-                .info(new Info().title("연봉 1조")
-                        .description("<운이 좋아> 프로젝트 API")
+                .info(new Info().title("💧운이 좋아🌥")
+                        .description("<뭉게뭉게 도화지> 프로젝트 API")
                         .version("v0.0.1"));
     }
 }
