@@ -9,8 +9,8 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
-#    show-sql: true # 콘솔창에 sql 출력
+      ddl-auto: create
+    show-sql: true # 콘솔창에 sql 출력
     properties:
       hibernate:
         format_sql: true # sql 예쁘게 출력
