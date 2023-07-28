@@ -16,6 +16,7 @@ import com.backend.global.error.exception.BusinessException;
 import com.backend.global.resolver.memberInfo.MemberInfoDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,11 +78,28 @@ public class DrawingUploadService {
     @Transactional
     public DrawingFile uploadDrawingFile(MultipartFile file, String title) throws IOException {
         String folderName = "drawing/";
-        String filename = folderName + UUID.randomUUID() + file.getOriginalFilename();
+        String originalFileName = file.getOriginalFilename();
+        String filename = folderName + UUID.randomUUID() + originalFileName;
 
         // S3에 파일을 저장
         ObjectMetadata objMeta = new ObjectMetadata();
         objMeta.setContentLength(file.getSize());
+        // 확장자에 따른 Content-Type 설정
+        String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+        if (extension.equalsIgnoreCase("jpg")) {
+            objMeta.setContentType("image/jpg");
+        } else if (extension.equalsIgnoreCase("png")) {
+            objMeta.setContentType("image/png");
+        } else {
+            objMeta.setContentType("image/jpeg");
+        }
+        /**
+         * Content-Disposition
+         * inline : 웹에서 파일 조회
+         * attachment : 다운로드
+         */
+        objMeta.setContentType(file.getContentType());
+        objMeta.setHeader("Content-Disposition", "inline");
         InputStream newFile = file.getInputStream();
         amazonS3Client.putObject(bucket, filename, newFile, objMeta);
         String imageUrl = URLDecoder.decode(amazonS3Client.getUrl(bucket, filename).toString(), StandardCharsets.UTF_8);
