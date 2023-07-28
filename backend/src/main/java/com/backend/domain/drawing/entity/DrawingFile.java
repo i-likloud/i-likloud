@@ -1,10 +1,7 @@
 package com.backend.domain.drawing.entity;
 
 import com.backend.domain.common.BaseEntity;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,6 +10,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class DrawingFile extends BaseEntity {
 
     @Id
