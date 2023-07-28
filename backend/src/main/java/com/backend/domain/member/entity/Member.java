@@ -3,24 +3,19 @@ package com.backend.domain.member.entity;
 import com.backend.domain.common.BaseEntity;
 import com.backend.domain.drawing.entity.Drawing;
 import com.backend.domain.likes.entity.Likes;
-import com.backend.domain.member.constant.ProfileColor;
-import com.backend.domain.member.constant.ProfileFace;
 import com.backend.domain.member.constant.Role;
 import com.backend.domain.member.constant.SocialType;
 import com.backend.domain.photo.entity.Photo;
 import com.backend.global.jwt.dto.JwtDto;
 import com.backend.global.util.DateTimeUtils;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
+@Getter @Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,15 +32,15 @@ public class Member extends BaseEntity {
     @Column(length = 30)
     private String nickname;
 
-    @Enumerated(EnumType.STRING)
-    private ProfileFace profileFace;
+    private int profileFace;
 
-    @Enumerated(EnumType.STRING)
-    private ProfileColor profileColor;
+    private int profileColor;
+
+    private int profileAccessory;
 
     private String wallet;
 
-    private int coinCount;
+    private int goldCoin;
 
     @Enumerated(EnumType.STRING)
     private SocialType socialType;
@@ -75,21 +70,16 @@ public class Member extends BaseEntity {
     private List<Likes> likes = new ArrayList<>();
 
     //== 멤버 필드 업데이트 ==//
-    public void updateNickname(String updateNickname) {
-        this.nickname = updateNickname;
-    }
+    public void editNickname(String nickname){this.nickname = nickname;}
 
-    public void updateProfileCOLOR(ProfileColor profileColor){
+    public void editProfile(String nickname, int profileFace, int profileColor){
+        this.nickname = nickname;
         this.profileColor = profileColor;
-    }
-
-    public void updateProfileFace(ProfileFace profileFace){
         this.profileFace = profileFace;
     }
 
-
-    public void updateCoinCount(int coinCount){
-        this.coinCount = coinCount;
+    public void updateGoldCoin(int goldCoin){
+        this.goldCoin = goldCoin;
     }
 
     public void updateRole(Role role){
@@ -101,7 +91,7 @@ public class Member extends BaseEntity {
         this.tokenExpirationTime = DateTimeUtils.convertToLocalDateTime(jwtDto.getRefreshTokenExpirationPeriod());
     }
 
-    public void updateAdditionalInfo(String nickname, ProfileFace profileFace, ProfileColor profileColor, Role role) {
+    public void updateAdditionalInfo(String nickname, int profileFace, int profileColor, Role role) {
         this.nickname = nickname;
         this.profileFace = profileFace;
         this.profileColor = profileColor;
@@ -113,14 +103,14 @@ public class Member extends BaseEntity {
     }
 
     @Builder
-    public Member(SocialType socialType, String email, String nickname,  int coinCount,
-                  ProfileColor profileColor, ProfileFace profileFace,Role role) {
+    public Member(SocialType socialType, String email, String nickname,  int goldCoin,
+                  int profileColor, int profileFace,Role role) {
         this.socialType = socialType;
         this.email = email;
         this.nickname = nickname;
         this.profileColor = profileColor;
         this.profileFace = profileFace;
-        this.coinCount = coinCount;
+        this.goldCoin = goldCoin;
         this.role = role;
     }
 

@@ -6,6 +6,7 @@ server:
 spring:
   profiles:
     active: db,jwt,oauth
+
   jpa:
     hibernate:
       ddl-auto: update

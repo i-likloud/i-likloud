@@ -14,9 +14,8 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@NoArgsConstructor
 public class Drawing extends BaseEntity {
 
     @Id
@@ -53,7 +52,6 @@ public class Drawing extends BaseEntity {
     @JoinColumn(name = "drawingFile_id")
     private DrawingFile drawingFile;
 
-    @Builder.Default
     @OneToMany(mappedBy = "drawing", cascade = CascadeType.ALL)
     private List<Likes> likes = new ArrayList<>();
 
