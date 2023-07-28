@@ -24,18 +24,17 @@ public class LikesController {
     private final MemberService memberService;
 
     @PostMapping
-    @Operation(summary = "그림 게시물 좋아요", description = "그림Id만 url에 추가하면 됩니다")
-    public ResponseEntity<String> addLike(@PathVariable Long drawingId, @MemberInfo MemberInfoDto memberInfoDto) {
+    @Operation(summary = "좋아요", description = "토글 형식으로 이미 좋아요했으면 취소, 아니면 좋아요 등록")
+    public ResponseEntity<String> toggleLike(@PathVariable Long drawingId, @MemberInfo MemberInfoDto memberInfoDto) {
         Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
-        likesService.addLike(member, drawingId);
-        return ResponseEntity.ok(String.format("%d번 게시물 좋아요", drawingId));
+
+        if (likesService.isAlreadyLiked(member, drawingId)) {
+            likesService.removeLike(member, drawingId);
+            return ResponseEntity.ok(String.format("%d번 게시물 좋아요 취소", drawingId));
+        } else {
+            likesService.addLike(member, drawingId);
+            return ResponseEntity.ok(String.format("%d번 게시물 좋아요", drawingId));
+        }
     }
 
-    @DeleteMapping
-    @Operation(summary = "그림 게시물 좋아요 취소", description = "그림Id만 url에 추가하면 됩니다")
-    public ResponseEntity<String> removeLike(@PathVariable Long drawingId, @MemberInfo MemberInfoDto memberInfoDto) {
-        Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
-        likesService.removeLike(member, drawingId);
-        return ResponseEntity.ok(String.format("%d번 게시물 좋아요 취소", drawingId));
-    }
 }
