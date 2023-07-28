@@ -71,13 +71,22 @@
                 android:layout_weight="1"
                 android:src="@drawable/profile_water_drop_white" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:background="@drawable/frame_rounded_border_radius50"
                 android:layout_gravity="center"
-                android:text="이영준"
-                style="@style/Theme.AppCompat.TextView.pretendard.Size12"
-                android:textSize="60dp" />
+                android:layout_width="@dimen/_140sdp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_4sdp">
+
+                <EditText
+                    android:id="@+id/edittext_nickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:hint="이영준"
+                    style="@style/Theme.AppCompat.TextView.pretendard.Size20" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

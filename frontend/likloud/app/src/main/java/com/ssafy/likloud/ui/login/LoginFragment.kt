@@ -8,14 +8,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
+import com.ssafy.likloud.ApplicationClass.Companion.X_ACCESS_TOKEN
+import com.ssafy.likloud.ApplicationClass.Companion.sharedPreferences
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
@@ -23,21 +22,22 @@ import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.NidOAuthLogin
-import com.navercorp.nid.oauth.view.NidOAuthLoginButton.Companion.launcher
 import com.navercorp.nid.profile.NidProfileCallback
 import com.navercorp.nid.profile.data.NidProfileResponse
+import com.ssafy.likloud.ApplicationClass
+import com.ssafy.likloud.ApplicationClass.Companion.X_REFRESH_TOKEN
 import com.ssafy.likloud.MainActivity
-//import com.kakao.sdk.auth.model.OAuthToken
-//import com.kakao.sdk.common.model.ClientError
-//import com.kakao.sdk.common.model.ClientErrorCause
-//import com.kakao.sdk.user.UserApiClient
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
-import com.ssafy.likloud.databinding.FragmentExampleBinding
+import com.ssafy.likloud.data.repository.BaseRepository
+import com.ssafy.likloud.data.repository.BaseRepositoryImpl
 import com.ssafy.likloud.databinding.FragmentLoginBinding
-import com.ssafy.likloud.example.ExampleFragmentViewModel
+import com.ssafy.likloud.di.RepositoryModule
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private const val TAG = "LoginFragment_싸피"
 
@@ -74,10 +74,11 @@ class LoginFragment :
 
         init()
         initListener()
+        initObserver()
 
         viewLifecycleOwner.lifecycleScope.launch{
-            loginFragmentViewModel.isTokenReceived .observe(requireActivity()){
-               if(it==true) findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+            loginFragmentViewModel.isTokenReceived.observe(mActivity){
+                if(it == true) findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
             }
         }
     }
@@ -94,6 +95,21 @@ class LoginFragment :
             OAUTH_CLIENT_NAME
         )
         binding.buttonNaverLogin.setOAuthLogin(naverLoginLauncher)
+
+        if (sharedPreferences.getString(X_ACCESS_TOKEN) != null) {
+            Log.d(TAG, "init: ${sharedPreferences.getString(X_ACCESS_TOKEN)}")
+            Log.d(TAG, "init: ${sharedPreferences.getString(X_REFRESH_TOKEN)}")
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                withContext(Dispatchers.Main) {
+                    loginFragmentViewModel.getUserInfo("skdi6031@naver.com")
+                    Log.d(TAG, "로그인 된 유저 정보 == ${loginFragmentViewModel.memberInfo.value}")
+                }
+            }
+
+            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+
+        }
     }
 
     /**
@@ -105,6 +121,13 @@ class LoginFragment :
         }
     }
 
+    private fun initObserver() {
+        loginFragmentViewModel.loginResponse.observe(viewLifecycleOwner) {
+            sharedPreferences.putString(X_ACCESS_TOKEN, it.accessToken)
+            sharedPreferences.putString(X_REFRESH_TOKEN, it.refreshToken)
+        }
+    }
+
     /**
      * 네이버 로그인 런처입니다.
      */
@@ -113,12 +136,46 @@ class LoginFragment :
             when (result.resultCode) {
                 AppCompatActivity.RESULT_OK -> {
                     // 네이버 로그인 인증이 성공했을 때 수행할 코드 추가
-                    Log.d(TAG, ": AT = ${NaverIdLoginSDK.getAccessToken()}")
-                    Log.d(TAG, ": RT = ${NaverIdLoginSDK.getRefreshToken()}")
-                    findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
+                    val accessToken = NaverIdLoginSDK.getAccessToken()
+                    Log.d(TAG, "naver 로그인 : AT = $accessToken")
+//                    Log.d(TAG, ": RT = ${NaverIdLoginSDK.getRefreshToken()}")
+//                    findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
 //                binding.tvExpires.text = NaverIdLoginSDK.getExpiresAt().toString()
 //                binding.tvType.text = NaverIdLoginSDK.getTokenType()
 //                binding.tvState.text = NaverIdLoginSDK.getState().toString()
+                    var email = ""
+                    var name = ""
+                    NidOAuthLogin().callProfileApi(object :
+                        NidProfileCallback<NidProfileResponse> {
+                        override fun onSuccess(response: NidProfileResponse) {
+                            email = response.profile?.email.toString()
+                            name = response.profile?.name.toString()
+                            Log.d(TAG, "onSuccess: 네이버 이메일: ${email}, ${name}")
+
+                            sharedPreferences.putString(X_ACCESS_TOKEN, accessToken.toString())
+
+                            loginFragmentViewModel.postLogin(email, "NAVER")
+//                            loginFragmentViewModel.getTokenValidation(token.accessToken)
+                            findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
+
+                            Log.d(TAG, "onSuccess: 로그인 리스폰스 ${loginFragmentViewModel.loginResponse}")
+//                            Log.d(TAG, "onSuccess: 저장된 JWT AT ${sharedPreferences.getString(
+//                                X_ACCESS_TOKEN)}")
+//                            Log.d(TAG, "onSuccess: 저장된 JWT RT ${sharedPreferences.getString(
+//                                X_REFRESH_TOKEN)}")
+
+                        }
+
+                        override fun onFailure(httpStatus: Int, message: String) {
+                            val errorCode = NaverIdLoginSDK.getLastErrorCode().code
+                            val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
+                            email = ""
+                        }
+
+                        override fun onError(errorCode: Int, message: String) {
+                            onFailure(errorCode, message)
+                        }
+                    }).toString()
 //                binding.tvLoginInfo.text = NidOAuthLogin().callProfileApi(object :
 //                    NidProfileCallback<NidProfileResponse> {
 //                    override fun onSuccess(response: NidProfileResponse) {
