@@ -50,4 +50,9 @@ public class LikesService {
         drawing.setLikesCount(drawing.getLikesCount() - 1);
         drawingRepository.save(drawing);
     }
+
+    // 좋아요 확인
+    public boolean isAlreadyLiked(Member member, Long drawingId) {
+        return likesRepository.existsByMemberMemberIdAndDrawingDrawingId(member.getMemberId(), drawingId);
+    }
 }
