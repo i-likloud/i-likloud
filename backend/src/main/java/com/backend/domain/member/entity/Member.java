@@ -130,4 +130,10 @@ public class Member extends BaseEntity {
         this.role = role;
     }
 
+    public void incrementSilverCoin() {this.silverCoin++;}
+
+    public void minusSilverCoin() {
+        this.silverCoin -= 5;
+    }
+
 }
