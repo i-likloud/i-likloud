@@ -1,5 +1,6 @@
 package com.backend.domain.member.entity;
 
+import com.backend.domain.bookmark.entity.Bookmarks;
 import com.backend.domain.common.BaseEntity;
 import com.backend.domain.drawing.entity.Drawing;
 import com.backend.domain.likes.entity.Likes;
@@ -68,6 +69,11 @@ public class Member extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Likes> likes = new ArrayList<>();
+
+    // 북마크와 OneToMany 관계
+    @Builder.Default
+    @OneToMany(mappedBy = "photo", cascade = CascadeType.ALL)
+    private List<Bookmarks> bookmarks = new ArrayList<>();
 
     //== 멤버 필드 업데이트 ==//
     public void editNickname(String nickname){this.nickname = nickname;}
