@@ -31,7 +31,8 @@ public class DrawingController {
     private final DrawingViewService drawingViewService;
     private final MemberService memberService;
 
-    @PostMapping("/upload/from/{photoId}")
+    @PostMapping(value = "/upload/from/{photoId}",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "그림 업로드", description = "그림 파일, 제목, 내용을 요청으로 보내서 그림을 업로드합니다.")
 
 

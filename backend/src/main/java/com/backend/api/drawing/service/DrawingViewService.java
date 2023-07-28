@@ -50,6 +50,7 @@ public class DrawingViewService {
         return new DrawingDetailDto(drawing, memberLiked);
     }
 
+    // 그림 게시물 삭제
     @Transactional
     public void deleteDrawing(Long drawingId, Long memberId) {
         Drawing drawing = drawingRepository.findById(drawingId)
@@ -58,8 +59,6 @@ public class DrawingViewService {
         if(!drawing.getMember().getMemberId().equals(memberId)){
             throw new BusinessException(ErrorCode.UNAUTHORIZED_DELETION);
         }
-
         drawingRepository.delete(drawing);
-
     }
 }
