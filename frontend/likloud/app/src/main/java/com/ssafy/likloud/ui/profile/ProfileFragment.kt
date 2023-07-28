@@ -16,6 +16,7 @@ import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
+import com.ssafy.likloud.data.model.request.LoginAdditionalRequest
 import com.ssafy.likloud.databinding.FragmentProfileBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -103,6 +104,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         }
         binding.buttonChooseDone.setOnClickListener {
             mainActivityViewModel.setProfileImage(selectedWaterDrop)
+            val nickname = binding.edittextNickname.text.toString()
+            // 추가 정보 선택 완료시 진짜 키 받아오는 로직
+            profileFragmentViewModel.patchAdditionalInfo(LoginAdditionalRequest(nickname, selectedWaterDrop, 0))
             findNavController().navigate(R.id.action_profileFragment_to_homeFragment)
         }
     }

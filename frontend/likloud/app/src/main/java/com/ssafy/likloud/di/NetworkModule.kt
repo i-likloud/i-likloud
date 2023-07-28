@@ -4,6 +4,7 @@ package com.ssafy.likloud.di
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.ssafy.likloud.config.AddCookiesInterceptor
+import com.ssafy.likloud.config.BearerInterceptor
 import com.ssafy.likloud.config.ReceivedCookiesInterceptor
 import com.ssafy.likloud.config.XAccessTokenInterceptor
 import com.ssafy.likloud.data.api.ApiClient.BASE_URL
@@ -44,7 +45,7 @@ object NetworkModule {
             .connectTimeout(5000, TimeUnit.MILLISECONDS)
             .addNetworkInterceptor(XAccessTokenInterceptor()) // JWT 자동 헤더 전송
 //            .addInterceptor(EmptyBodyInterceptor())
-//            .addInterceptor(BearerInterceptor()) // Refresh Token
+            .addInterceptor(BearerInterceptor()) // Refresh Token
 //            .addInterceptor(ErrorResponseInterceptor()) // Error Response
 //            .addNetworkInterceptor(XAccessTokenInterceptor()) // JWT 자동 헤더 전송
             .addInterceptor(AddCookiesInterceptor())  //쿠키 전송

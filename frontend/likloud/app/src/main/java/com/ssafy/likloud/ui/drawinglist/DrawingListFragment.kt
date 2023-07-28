@@ -118,10 +118,6 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
 
             }
 
-            //즐겨찾기(스타)를 눌렀을 때
-            imageStar.setOnClickListener {
-
-            }
 
         }
         viewLifecycleOwner.lifecycleScope.launch{

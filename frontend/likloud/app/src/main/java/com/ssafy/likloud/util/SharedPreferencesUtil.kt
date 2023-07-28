@@ -24,8 +24,8 @@ class SharedPreferencesUtil(context: Context) {
 //    fun getUserid() : String {
 //       val id = preferences.getString("userid", "")
 //        return id!!
-
 //    }
+
     fun deleteUser() {
         val editor = preferences.edit()
         editor.clear()
@@ -39,12 +39,17 @@ class SharedPreferencesUtil(context: Context) {
         editor.apply()
     }
 
-
     fun getUserCookie(): MutableSet<String>? {
         return preferences.getStringSet(ApplicationClass.COOKIES_KEY_NAME, HashSet())
     }
 
     fun getString(key:String): String? {
         return preferences.getString(key, null)
+    }
+
+    fun putString(key:String, token:String) {
+        val editor = preferences.edit()
+        editor.putString(key, token)
+        editor.apply()
     }
 }
