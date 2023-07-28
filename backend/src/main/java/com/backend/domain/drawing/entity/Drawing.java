@@ -1,5 +1,6 @@
 package com.backend.domain.drawing.entity;
 
+import com.backend.domain.comment.entity.Comment;
 import com.backend.domain.common.BaseEntity;
 import com.backend.domain.likes.entity.Likes;
 import com.backend.domain.member.entity.Member;
@@ -33,8 +34,6 @@ public class Drawing extends BaseEntity {
     @Column(nullable = false)
     private String imageUrl;
 
-    private int fromPhoto;
-
     @Column(nullable = false, columnDefinition = "int default 0")
     private int viewCount;
 
@@ -56,8 +55,10 @@ public class Drawing extends BaseEntity {
     @OneToMany(mappedBy = "drawing", cascade = CascadeType.ALL)
     private List<Likes> likes = new ArrayList<>();
 
-//    public Drawing() {
-//    }
+    @Builder.Default
+    @OneToMany(mappedBy = "drawing", cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
+
 
     @Builder
     public Drawing(Long drawingId, String title, String artist, String content, String imageUrl,

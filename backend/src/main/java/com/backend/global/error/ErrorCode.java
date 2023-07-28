@@ -17,9 +17,10 @@ public enum ErrorCode {
     NOT_MATCH_BEARER_GRANT_TYPE(HttpStatus.UNAUTHORIZED, "Auth-007", "인증 타입이 Bearer 타입이 아닙니다."),
     FORBIDDEN_ADMIN(HttpStatus.FORBIDDEN, "Auth-008", "관리자가 아닙니다."),
     FORBIDDEN_MEMBER(HttpStatus.FORBIDDEN, "Auth-009", "회원이 아닙니다. 추가정보를 입력해 주세요."),
+    UNAUTHORIZED_DELETION(HttpStatus.UNAUTHORIZED, "Auth-010", "본인이 작성한 게시물만 삭제할 수 있습니다."),
 
     // 회원
-    INVALID_MEMBER_TYPE(HttpStatus.BAD_REQUEST, "User-001", "잘못된 회원 타입 입니다."),
+    INVALID_SOCIAL_TYPE(HttpStatus.BAD_REQUEST, "User-001", "잘못된 로그인 타입 입니다."),
     ALREADY_REGISTERED_MEMBER(HttpStatus.BAD_REQUEST, "User-002", "이미 가입된 회원 입니다."),
     ALREADY_REGISTERED_NICKNAME(HttpStatus.BAD_REQUEST, "User-003", "이미 등록된 닉네임입니다."),
     MEMBER_NOT_EXISTS(HttpStatus.BAD_REQUEST, "User-004", "해당 회원은 존재하지 않습니다."),
@@ -27,6 +28,7 @@ public enum ErrorCode {
     ROLE_NOT_EXISTS(HttpStatus.FORBIDDEN, "User-006", "해당 권한이 없습니다."),
 
     // 그림
+    NOT_FOUND_DRAWING(HttpStatus.NOT_FOUND, "Drawing-001", "그림을 찾을 수 없습니다."),
 
     // 사진
 

@@ -22,9 +22,9 @@ public class PhotoController {
 
     @Operation(summary = "사진 등록", description = "사진을 등록할 수 있는 메소드입니다.")
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadPhoto(@RequestPart MultipartFile file, Photo photoRequest, @MemberInfo MemberInfoDto memberInfoDto){
+    public ResponseEntity<?> uploadPhoto(@RequestPart MultipartFile file, @MemberInfo MemberInfoDto memberInfoDto){
         try{
-            PhotoResponseDto photo = photoService.saveFileAndCreatePhotos(file, photoRequest, memberInfoDto);
+            PhotoResponseDto photo = photoService.saveFileAndCreatePhotos(file, memberInfoDto);
             return ResponseEntity.ok().body(photo);
         }catch (BusinessException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

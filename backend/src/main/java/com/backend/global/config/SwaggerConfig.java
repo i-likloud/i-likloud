@@ -55,6 +55,15 @@ public class SwaggerConfig {
                 .pathsToMatch("/api/photo/**")
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi commentApi() {
+        return GroupedOpenApi.builder()
+                .group("댓글")
+                .pathsToMatch("/api/comment/**")
+                .build();
+    }
+
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()

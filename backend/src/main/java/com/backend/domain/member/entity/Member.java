@@ -59,7 +59,6 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Drawing> drawings = new ArrayList<>();
 
-
     // 사진과 OneToMany 관계
     @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
