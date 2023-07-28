@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/afterCloudValidFragment">
 
     <fragment
         android:id="@+id/exampleFragment"
@@ -64,5 +64,10 @@
             app:popEnterAnim="@anim/enter_from_left"
             app:popExitAnim="@anim/fade_out" />
     </fragment>
+    <fragment
+        android:id="@+id/afterCloudValidFragment"
+        android:name="com.ssafy.likloud.ui.aftercloudvalid.AfterCloudValidFragment"
+        android:label="fragment_after_cloud_valid"
+        tools:layout="@layout/fragment_after_cloud_valid" />
 
 </navigation>
