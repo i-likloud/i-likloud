@@ -28,8 +28,11 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "drawing_id")
     private Drawing drawing;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     @Column(length = 100)
     private String content;
-
 
 }
