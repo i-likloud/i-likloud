@@ -48,13 +48,13 @@ public class PhotoInfoController {
     }
 
 
-        // 클릭한 photoId와 관련된 모든 drawings 조회
-        @Operation(summary = "사진 관련 모든 그림", description = "특정 사진과 관련된 모든 그림을 출력하는 메소드입니다.")
-        @GetMapping("/{photoId}/alldrawings")
-        public ResponseEntity<List<DrawingWithLikesDto>> getDrawingsByPhotoId(@PathVariable Long photoId) {
-            List<DrawingWithLikesDto> drawings = photoInfoService.getDrawingsByPhotoId(photoId);
-            return ResponseEntity.ok(drawings);
-        }
+    // 클릭한 photoId와 관련된 모든 drawings 조회
+    @Operation(summary = "사진 관련 모든 그림", description = "특정 사진과 관련된 모든 그림을 출력하는 메소드입니다.")
+    @GetMapping("/{photoId}/alldrawings")
+    public ResponseEntity<List<DrawingWithLikesDto>> getDrawingsByPhotoId(@PathVariable Long photoId) {
+        List<DrawingWithLikesDto> drawings = photoInfoService.getDrawingsByPhotoId(photoId);
+        return ResponseEntity.ok(drawings);
+    }
 
     // 삭제
     @Operation(summary = "사진 삭제", description = "사진을 삭제하는 메소드입니다.")
