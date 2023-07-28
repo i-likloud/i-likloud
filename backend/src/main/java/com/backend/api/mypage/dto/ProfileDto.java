@@ -12,6 +12,8 @@ public class ProfileDto {
     private int profileFace;
     private int profileColor;
     private int profileAccessory;
+    private int goldCoin;
+    private int silverCoin;
 
     public static ProfileDto of (Member member) {
         return ProfileDto.builder()
@@ -20,6 +22,8 @@ public class ProfileDto {
                 .profileFace(member.getProfileFace())
                 .profileColor(member.getProfileColor())
                 .profileAccessory(member.getProfileAccessory())
+                .goldCoin(member.getGoldCoin())
+                .silverCoin(member.getSilverCoin())
                 .build();
     }
 

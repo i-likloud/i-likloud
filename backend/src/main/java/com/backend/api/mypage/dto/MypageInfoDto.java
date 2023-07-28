@@ -1,9 +1,12 @@
 package com.backend.api.mypage.dto;
 
+import com.backend.domain.likes.entity.Likes;
 import com.backend.domain.member.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 
 @Getter
@@ -17,6 +20,7 @@ public class MypageInfoDto {
     private int profileAccessory;
     private int goldCoin;
     private int silverCoin;
+    private List<Likes> likes;
 
     public static MypageInfoDto of (Member member) {
         return MypageInfoDto.builder()
@@ -27,7 +31,9 @@ public class MypageInfoDto {
                 .profileAccessory(member.getProfileAccessory())
                 .goldCoin(member.getGoldCoin())
                 .silverCoin(member.getSilverCoin())
+                .likes(member.getLikes())
                 .build();
     }
+
 
 }
