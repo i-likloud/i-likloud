@@ -90,6 +90,12 @@ public class PhotoInfoService {
         Photo photo = photoRepository.findById(id)
                 .orElseThrow(()-> new IllegalArgumentException("해당 게시물이 존재하지 않습니다."));
 
+        // Photo와 연관된 Drawing들의 photo 필드를 null로 설정하여 연관 관계 해제
+        List<Drawing> drawings = photo.getDrawings();
+        for (Drawing drawing : drawings) {
+            drawing.setPhoto(null);
+        }
+
             photoRepository.delete(photo);
     }
 
