@@ -55,10 +55,8 @@ public class Drawing extends BaseEntity {
     @OneToMany(mappedBy = "drawing", cascade = CascadeType.ALL)
     private List<Likes> likes = new ArrayList<>();
 
-    @Builder.Default
     @OneToMany(mappedBy = "drawing", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
-
 
     @Builder
     public Drawing(Long drawingId, String title, String artist, String content, String imageUrl,
