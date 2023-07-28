@@ -1,12 +1,10 @@
 package com.ssafy.likloud.ui.drawinglist
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.ssafy.likloud.R
 import com.ssafy.likloud.data.model.CommentDto
 import com.ssafy.likloud.databinding.ItemCommentBinding
 

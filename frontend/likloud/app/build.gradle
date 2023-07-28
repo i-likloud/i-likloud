@@ -130,5 +130,7 @@ dependencies {
     // naver login
     implementation("com.navercorp.nid:oauth:5.6.0") // jdk 11
 
+    //sdp
     implementation 'com.intuit.sdp:sdp-android:1.1.0'
+
 }
