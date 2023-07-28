@@ -64,5 +64,9 @@
             app:popEnterAnim="@anim/enter_from_left"
             app:popExitAnim="@anim/fade_out" />
     </fragment>
+    <fragment
+        android:id="@+id/photoListFragment"
+        android:name="com.ssafy.likloud.ui.photolist.PhotoListFragment"
+        android:label="PhotoListFragment" />
 
 </navigation>

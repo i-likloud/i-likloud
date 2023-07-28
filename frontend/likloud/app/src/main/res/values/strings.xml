@@ -24,9 +24,6 @@
     <string name="home">홈</string>
     <string name="profile_select">나만의 물방울을 만들어주세요!</string>
     <string name="choose_done">선택 완료</string>
-
-    <string name="profile_select">나만의 물방울을 만들어주세요</string>
-    <string name="choose_done">선택 완료</string>
     <string name="alert_cloud_check">앗! 사진을 확인해 주세요</string>
     <string name="alert_not_cloud_description">이 사진은 구름이 아닌 것 같아요</string>
     <string name="take_photo_again">다시 찍기</string>
