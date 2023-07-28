@@ -2,11 +2,16 @@ package com.ssafy.likloud.ui.upload
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ContentResolver
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Log
@@ -14,26 +19,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
-import com.ssafy.likloud.databinding.FragmentDrawingListBinding
 import com.ssafy.likloud.databinding.FragmentUploadBinding
-import com.ssafy.likloud.ui.drawinglist.CommentListAdapter
-import com.ssafy.likloud.ui.drawinglist.DrawingListAdapter
-import com.ssafy.likloud.ui.drawinglist.DrawingListFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -43,6 +39,10 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.InputStream
+import java.io.OutputStream
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 private const val PICK_IMAGE_REQUEST = 1
 private const val TAG = "UploadFragment_싸피"
@@ -53,6 +53,9 @@ class UploadFragment :
 
     private val uploadFragmentViewModel: UploadFragmentViewModel by viewModels()
     private lateinit var mainActivity: MainActivity
+    lateinit var currentPhotoPath: String
+    lateinit var photoUri: Uri
+    lateinit var file: File
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -70,12 +73,21 @@ class UploadFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListener()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            uploadFragmentViewModel.isPhotoMultipartCreated.observe(requireActivity()) {
+                if (it == true) uploadFragmentViewModel.photoMultipartBody.value?.let { multipart ->
+                    uploadFragmentViewModel.sendMultipart(
+                        multipart
+                    )
+                }
+            }
+        }
     }
 
     private val requestMultiplePermission =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { results ->
             results.forEach {
-                if (!it.value) showCustomToast("권한 허용 필요")
             }
         }
 
@@ -92,47 +104,14 @@ class UploadFragment :
     }
 
 
-//    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-//        super.onViewStateRestored(savedInstanceState)
-//
-//        // 선택한 이미지의 Uri를 처리하는 코드를 작성합니다.
-//        imageUri?.let { uri ->
-//            Glide.with(this)
-//                .load(uri)
-//                .transform(CenterCrop(), RoundedCorners(20))
-//                .into(binding.imageSelectedPhoto)
-//        }
-//    }
-
-//    @RequiresApi(Build.VERSION_CODES.S)
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
-//            val imageUri = data.data!!
-//
-//            //uri를 multipart로 변환한다
-//            if (imageUri != null) {
-//                uploadFragmentViewModel.photoMultipartBody =
-//                    createMultipartFromUri(requireContext(), imageUri)!!
-//            }
-//            Log.d(TAG, "onActivityResult: image binding")
-//
-//            // 선택한 이미지의 Uri를 처리하는 코드를 작성합니다.
-//            Glide.with(this)
-//                .load(imageUri)
-//                .transform(CenterCrop(), RoundedCorners(20))
-//                .into(binding.imageSelectedPhoto)
-//        }
-//    }
-
-
-
+    /**
+     * 카메라, 갤러리 모달창을 띄웁니다.
+     */
     private fun pushSettingDialog() {
         val dialog = CameraDialog(
-            clickGallery ={
+            clickGallery = {
                 openGallery()
-            }
-            ,
+            },
             clickCamera = {
                 openCamera()
             },
@@ -140,57 +119,142 @@ class UploadFragment :
         dialog.show(childFragmentManager, TAG)
     }
 
+    /**
+     * 카메라 앱을 띄워 사진을 받아옵니다.
+     */
     private fun openCamera() {
-
+        file = createImageFile()
+        //AndroidMenifest에 설정된 URI와 동일한 값으로 설정한다.
+        photoUri =
+            FileProvider.getUriForFile(requireContext(), "com.ssafy.likloud.fileprovider", file)
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+        cameraAcitityResult.launch(intent) //카메라 앱을 실행 한 후 결과를 받기 위해서 launch
     }
 
-//    val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-//        // 결과를 처리하는 코드를 작성합니다.
-//        // uri를 multipart로 변환한다
-//        if (uri != null) {
-//            uploadFragmentViewModel.photoMultipartBody =
-//                createMultipartFromUri(requireContext(), uri)!!
-//        }
-//
-//        Log.d(TAG, "onActivityResult: image binding")
-//
-//        // 선택한 이미지의 Uri를 처리하는 코드를 작성합니다.
-//        Glide.with(this)
-//            .load(uri)
-//            .transform(CenterCrop(), RoundedCorners(20))
-//            .into(binding.imageSelectedPhoto)
-//    }
 
-//    private fun openGallery() {
-//        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-//        startActivityForResult(intent, PICK_IMAGE_REQUEST)
-//
-//    }
+    val cameraAcitityResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                var bitmap: Bitmap
 
+                if (Build.VERSION.SDK_INT >= 29) {
+                    val source: ImageDecoder.Source = ImageDecoder.createSource(
+                        requireContext().contentResolver,
+                        Uri.fromFile(file)
+                    )
 
-    private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        // 결과를 처리하는 코드를 작성합니다.
-        // uri를 multipart로 변환한다
-        if (uri != null) {
-            uploadFragmentViewModel.photoMultipartBody =
-                createMultipartFromUri(requireContext(), uri)!!
-            Log.d(TAG, "onActivityResult: image binding")
+                    bitmap = ImageDecoder.decodeBitmap(source)
+
+                } else {
+                    bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        Uri.fromFile(file)
+                    )
+                }
+
+                binding.imageSelectedPhoto.setImageBitmap(bitmap)
+                binding.imageSelectedPhoto.setBackgroundResource(R.drawable.frame_rounded_border_transparent_radius20)
+                uploadFragmentViewModel.setMultipart(
+                    createMultipartFromUri(
+                        requireContext(),
+                        Uri.parse(
+                            saveImageToGallery(
+                                bitmap = bitmap,
+                                context = requireContext(),
+                                displayName = SimpleDateFormat("yyMMdd_HHmmss").format(Date())
+                            )
+                        )
+                    )!!
+                )
+            }
         }
 
 
+    /**
+     * 카메라에서 찍은 사진을 갤러리에 저장합니다.
+     */
+    fun saveImageToGallery(context: Context, bitmap: Bitmap, displayName: String): String? {
+        val contentResolver: ContentResolver = context.contentResolver
+        val contentValues = ContentValues().apply {
+            put(MediaStore.Images.Media.DISPLAY_NAME, displayName)
+            put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+            put(MediaStore.Images.Media.WIDTH, bitmap.width)
+            put(MediaStore.Images.Media.HEIGHT, bitmap.height)
+        }
 
-        // 선택한 이미지의 Uri를 처리하는 코드를 작성합니다.
-        Glide.with(this)
-            .load(uri)
-            .transform(CenterCrop(), RoundedCorners(20))
-            .into(binding.imageSelectedPhoto)
+        var outputStream: OutputStream? = null
+        try {
+            val collection =
+                MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+            val imageUri = contentResolver.insert(collection, contentValues)
+            if (imageUri != null) {
+                outputStream = contentResolver.openOutputStream(imageUri)
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
+                return imageUri.toString()
+            }
+        } catch (e: Exception) {
+            // 저장 실패 시 예외 처리
+            e.printStackTrace()
+        } finally {
+            outputStream?.close()
+        }
+        return null
     }
 
+    /**
+     * 카메라로 찍은 사진을 사진파일로 만듭니다.
+     */
+    private fun createImageFile(): File {
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File =
+            requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
+
+        Log.d(TAG, "getFileFromUri: uriToFilePath ${storageDir} ")
+
+        return File.createTempFile(
+            "JPEG_${timeStamp}_", /* prefix */
+            ".jpg", /* suffix */
+            storageDir /* directory */
+        ).apply {
+            // Save a file: path
+            currentPhotoPath = absolutePath
+        }
+    }
+
+
+    private val galleryActivityResult =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            // 결과를 처리하는 코드를 작성합니다.
+            // uri를 multipart로 변환한다
+            if (uri != null) {
+                uploadFragmentViewModel.setMultipart(
+                    createMultipartFromUri(
+                        requireContext(),
+                        uri
+                    )!!
+                )
+                Log.d(TAG, "onActivityResult: image binding")
+            }
+
+
+            // 선택한 이미지의 Uri를 처리하는 코드를 작성합니다.
+            Glide.with(this)
+                .load(uri)
+                .transform(CenterCrop(), RoundedCorners(20))
+                .into(binding.imageSelectedPhoto)
+        }
+
+    /**
+     * gallery ActivityForResult를 실행합니다.
+     */
     private fun openGallery() {
-        getContent.launch("image/*")
+        galleryActivityResult.launch("image/*")
     }
 
-
+    /**
+     * uri로 multipart 객체를 만듭니다.
+     */
     fun createMultipartFromUri(context: Context, uri: Uri): MultipartBody.Part? {
         val file: File? = getFileFromUri(context, uri)
         if (file == null) {
@@ -202,11 +266,17 @@ class UploadFragment :
         return MultipartBody.Part.createFormData("file", file.name, requestFile)
     }
 
+    /**
+     * uri로 사진 파일을 가져옵니다
+     */
     private fun getFileFromUri(context: Context, uri: Uri): File? {
         val filePath = uriToFilePath(context, uri)
         return if (filePath != null) File(filePath) else null
     }
 
+    /**
+     * 만들어진 uri를 파일로 변환합니다
+     */
     @SuppressLint("Range")
     private fun uriToFilePath(context: Context, uri: Uri): String? {
         lateinit var filePath: String
@@ -229,6 +299,9 @@ class UploadFragment :
         return filePath
     }
 
+    /**
+     * 저장된 사진 파일의 body를 가져옵니다
+     */
     private fun createRequestBodyFromFile(file: File): RequestBody {
         val MEDIA_TYPE_IMAGE = "image/*".toMediaTypeOrNull()
         val inputStream: InputStream = FileInputStream(file)

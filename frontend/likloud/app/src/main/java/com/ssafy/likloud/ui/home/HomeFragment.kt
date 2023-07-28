@@ -69,7 +69,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
      * 클릭 리스너를 init합니다.
      */
     override fun initListener() {
-
         binding.buttonCamera.setOnClickListener {
             moveButtonsToLeft()
             startUploadFragment()
