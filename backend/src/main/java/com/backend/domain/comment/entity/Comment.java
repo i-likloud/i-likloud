@@ -25,20 +25,11 @@ public class Comment extends BaseEntity {
     private String commentMember;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "drawing_id")
     private Drawing drawing;
 
     @Column(length = 100)
     private String content;
 
-    public Comment(String content, Member member){
-        this.content = content;
-        this.commentMember = member.getNickname();
-
-    }
 
 }
