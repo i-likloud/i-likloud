@@ -6,20 +6,11 @@ import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseDialog
 import com.ssafy.likloud.databinding.FragmentUploadBinding
 import com.ssafy.likloud.databinding.ModalChooseGalleryCameraBinding
-
-//data class RegisterAlertDialogModel(
-//    val title: String?,
-//    val description: String?,
-//    val image: Int?,
-//    val negativeContents: String?,
-//    val positiveContents: String
-//)
+import com.ssafy.likloud.databinding.ModalNotCloudBinding
 
 class NotCloudDialog(
-//    private val alertDialogModel: RegisterAlertDialogModel,
-    private val clickGallery: () -> Unit,
-    private val clickCamera: () -> Unit,
-) : BaseDialog<ModalChooseGalleryCameraBinding>(ModalChooseGalleryCameraBinding::bind, R.layout.modal_choose_gallery_camera) {
+    private val clickTakePhotoAgain: () -> Unit,
+) : BaseDialog<ModalNotCloudBinding>(ModalNotCloudBinding::bind, R.layout.modal_not_cloud) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -27,15 +18,13 @@ class NotCloudDialog(
     }
 
     override fun initListener() {
-        binding.buttonGallery.setOnClickListener {
-            clickGallery.invoke()
+        binding.buttonAgainPhoto.setOnClickListener {
+            clickTakePhotoAgain.invoke()
             dismiss()
         }
 
-        binding.buttonCamera.setOnClickListener {
-            clickCamera.invoke()
+        binding.buttonDismiss.setOnClickListener {
             dismiss()
         }
     }
-
 }

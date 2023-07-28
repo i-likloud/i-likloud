@@ -15,7 +15,6 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,9 +41,7 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 
-private const val PICK_IMAGE_REQUEST = 1
 private const val TAG = "UploadFragment_싸피"
 
 @AndroidEntryPoint
@@ -94,7 +91,7 @@ class UploadFragment :
     override fun initListener() {
         binding.layoutAddPhoto.setOnClickListener {
             requestMultiplePermission.launch(uploadFragmentViewModel.permissionList)
-            pushSettingDialog()
+            invokeCameraDialog()
         }
     }
 
@@ -107,7 +104,7 @@ class UploadFragment :
     /**
      * 카메라, 갤러리 모달창을 띄웁니다.
      */
-    private fun pushSettingDialog() {
+    private fun invokeCameraDialog() {
         val dialog = CameraDialog(
             clickGallery = {
                 openGallery()
@@ -115,6 +112,18 @@ class UploadFragment :
             clickCamera = {
                 openCamera()
             },
+        )
+        dialog.show(childFragmentManager, TAG)
+    }
+
+    /**
+     * AI 인식 실패시 모달창을 띄웁니다.
+     */
+    private fun invokeNotCloudDialog() {
+        val dialog = NotCloudDialog(
+            clickTakePhotoAgain = {
+                invokeCameraDialog()
+            }
         )
         dialog.show(childFragmentManager, TAG)
     }
@@ -204,13 +213,12 @@ class UploadFragment :
 
     /**
      * 카메라로 찍은 사진을 사진파일로 만듭니다.
+     * openCamera()로 결과를 반환합니다.
      */
     private fun createImageFile(): File {
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val storageDir: File =
             requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
-
-        Log.d(TAG, "getFileFromUri: uriToFilePath ${storageDir} ")
 
         return File.createTempFile(
             "JPEG_${timeStamp}_", /* prefix */
@@ -223,6 +231,9 @@ class UploadFragment :
     }
 
 
+    /**
+     * createMultipartFromUri로 갤러리에서 받아온 사진 multipart를 저장하고 사진을 뷰 바인딩합니다.
+     */
     private val galleryActivityResult =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             // 결과를 처리하는 코드를 작성합니다.
@@ -234,7 +245,6 @@ class UploadFragment :
                         uri
                     )!!
                 )
-                Log.d(TAG, "onActivityResult: image binding")
             }
 
 
@@ -268,6 +278,7 @@ class UploadFragment :
 
     /**
      * uri로 사진 파일을 가져옵니다
+     * createMultipartFromUri로 결과값을 반환합니다
      */
     private fun getFileFromUri(context: Context, uri: Uri): File? {
         val filePath = uriToFilePath(context, uri)
