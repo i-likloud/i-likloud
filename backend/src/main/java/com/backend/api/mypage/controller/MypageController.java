@@ -85,11 +85,30 @@ public class MypageController {
         return ResponseEntity.ok(profileDto);
     }
 
-    @Operation(summary = "나의 좋아요 그림 조회", description = "유저가 좋아요한 그림 리스트르르 출력하는 메서드입니다.")
+    @Operation(summary = "나의 좋아요 그림 조회", description = "유저가 좋아요한 그림 리스트를 출력하는 메서드입니다.")
     @GetMapping("/likes")
-    public ResponseEntity<List<Likes>> getMyLikes(@RequestParam Long memberId){
+    public ResponseEntity<List<Likes>> getMyLikes(@MemberInfo MemberInfoDto memberInfoDto){
         try {
+            String email = memberInfoDto.getEmail();
+            MypageInfoDto myPageInfoDto = mypageService.getMyInfo(email);
+            Long memberId = myPageInfoDto.getMemberId();
             List<Likes> likes = memberService.getLikesByMemberId(memberId);
+            return ResponseEntity.ok(likes);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @Operation(summary = "내가 그린 그림 조회", description = "유저가 그린 그림 리스트를 출력하는 메서드입니다.")
+    @GetMapping("/drawings")
+    public ResponseEntity<List<Likes>> getMyDrawings(@MemberInfo MemberInfoDto memberInfoDto){
+        try {
+            String email = memberInfoDto.getEmail();
+            MypageInfoDto myPageInfoDto = mypageService.getMyInfo(email);
+            Long memberId = myPageInfoDto.getMemberId();
+            List<Likes> likes = memberService.getDrawingsByMemberId(memberId);
             return ResponseEntity.ok(likes);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

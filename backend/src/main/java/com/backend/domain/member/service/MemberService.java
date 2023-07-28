@@ -63,12 +63,26 @@ public class MemberService {
                 .orElseThrow(() -> new EntityNotFoundException("Member not found with id: " + memberId));
     }
 
-//    public Likes findLikeMemberId(Long memberId){
-//        return likesRepository.findByMemberMemberId(memberId)
-//                .orElseThrow(() -> new EntityNotFoundException("Member not found with id: " + memberId));
-//    }
 
     public List<Likes> getLikesByMemberId(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid memberId: " + memberId));
+        return member.getLikes();
+    }
+
+    public List<Likes> getDrawingsByMemberId(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid memberId: " + memberId));
+        return member.getLikes();
+    }
+
+    public List<Likes> getBookmarkByMemberId(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid memberId: " + memberId));
+        return member.getLikes();
+    }
+
+    public List<Likes> getPhotosByMemberId(Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid memberId: " + memberId));
         return member.getLikes();
