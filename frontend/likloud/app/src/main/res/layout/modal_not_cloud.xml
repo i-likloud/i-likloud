@@ -59,7 +59,7 @@
             tools:layout_editor_absoluteX="24dp">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button_gallery"
+                android:id="@+id/button_again_photo"
                 style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_40sdp"
@@ -76,7 +76,7 @@
 <!--                tools:layout_editor_absoluteX="24dp" />-->
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button_camera"
+                android:id="@+id/button_dismiss"
                 style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_40sdp"

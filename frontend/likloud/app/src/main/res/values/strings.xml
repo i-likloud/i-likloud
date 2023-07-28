@@ -28,4 +28,6 @@
     <string name="alert_not_cloud_description">이 사진은 구름이 아닌 것 같아요</string>
     <string name="take_photo_again">다시 찍기</string>
     <string name="stop_tae_picture">그만하기</string>
+    <string name="upload_only">사진만 올릴래요!</string>
+    <string name="draw_instantly">바로 그림 그릴래요!</string>
 </resources>

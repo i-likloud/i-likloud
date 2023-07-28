@@ -65,8 +65,14 @@
             app:popExitAnim="@anim/fade_out" />
     </fragment>
     <fragment
+        android:id="@+id/afterCloudValidFragment"
+        android:name="com.ssafy.likloud.ui.aftercloudvalid.AfterCloudValidFragment"
+        android:label="fragment_after_cloud_valid"
+        tools:layout="@layout/fragment_after_cloud_valid" />
+    <fragment
         android:id="@+id/photoListFragment"
         android:name="com.ssafy.likloud.ui.photolist.PhotoListFragment"
         android:label="PhotoListFragment" />
+
 
 </navigation>
