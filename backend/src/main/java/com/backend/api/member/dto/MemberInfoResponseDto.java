@@ -19,7 +19,10 @@ public class MemberInfoResponseDto {
 
     private int profileFace;
     private int profileColor;
+    private int profileAccessory;
+
     private int goldCoin;
+    private int silverCoin;
 
     private SocialType socialType;
 
@@ -32,6 +35,7 @@ public class MemberInfoResponseDto {
                 .email(member.getEmail())
                 .profileFace(member.getProfileFace())
                 .profileColor(member.getProfileColor())
+                .profileAccessory(member.getProfileAccessory())
                 .role(member.getRole())
                 .socialType(member.getSocialType())
                 .build();

@@ -1,5 +1,7 @@
 package com.backend.domain.member.service;
 
+import com.backend.domain.likes.entity.Likes;
+import com.backend.domain.likes.repository.LikesRepository;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.repository.MemberRepository;
 import com.backend.global.error.ErrorCode;
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,7 +22,7 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-
+    private final LikesRepository likesRepository;
 
     public Member registerMember(Member member) {
         validateDuplicateMember(member);
@@ -60,4 +63,14 @@ public class MemberService {
                 .orElseThrow(() -> new EntityNotFoundException("Member not found with id: " + memberId));
     }
 
+//    public Likes findLikeMemberId(Long memberId){
+//        return likesRepository.findByMemberMemberId(memberId)
+//                .orElseThrow(() -> new EntityNotFoundException("Member not found with id: " + memberId));
+//    }
+
+    public List<Likes> getLikesByMemberId(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid memberId: " + memberId));
+        return member.getLikes();
+    }
 }

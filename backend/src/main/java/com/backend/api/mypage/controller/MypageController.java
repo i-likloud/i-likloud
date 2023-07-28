@@ -2,9 +2,12 @@ package com.backend.api.mypage.controller;
 
 import com.backend.api.mypage.dto.MypageInfoDto;
 import com.backend.api.mypage.dto.ProfileDto;
+import com.backend.domain.likes.entity.Likes;
+import com.backend.domain.likes.repository.LikesRepository;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.repository.MemberRepository;
 import com.backend.api.mypage.service.MypageService;
+import com.backend.domain.member.service.MemberService;
 import com.backend.global.error.ErrorCode;
 import com.backend.global.error.exception.BusinessException;
 import com.backend.global.resolver.memberInfo.MemberInfo;
@@ -17,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -28,6 +32,8 @@ public class MypageController {
 
     private final MypageService mypageService;
     private final MemberRepository memberRepository;
+    private final LikesRepository likesRepository;
+    private final MemberService memberService;
 
 
     @Operation(summary = "마이페이지 홈 조회", description = "마이페이지 홈의 조회 메서드입니다.")
@@ -77,5 +83,18 @@ public class MypageController {
         String email = memberInfoDto.getEmail();
         ProfileDto profileDto = mypageService.editProfile(email,request);
         return ResponseEntity.ok(profileDto);
+    }
+
+    @Operation(summary = "나의 좋아요 그림 조회", description = "유저가 좋아요한 그림 리스트르르 출력하는 메서드입니다.")
+    @GetMapping("/likes")
+    public ResponseEntity<List<Likes>> getMyLikes(@RequestParam Long memberId){
+        try {
+            List<Likes> likes = memberService.getLikesByMemberId(memberId);
+            return ResponseEntity.ok(likes);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }
