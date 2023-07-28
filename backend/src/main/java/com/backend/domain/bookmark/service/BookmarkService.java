@@ -29,7 +29,7 @@ public class BookmarkService {
 
         // 북마크된 사진들을 리스트로 반환
         List<PhotoWithBookmarkDto> bookmarkedPhotoDtos = bookmarks.stream()
-                .map(bookmark -> new PhotoWithBookmarkDto(bookmark.getPhoto().getPhotoUrl()))
+                .map(bookmark -> new PhotoWithBookmarkDto(bookmark.getPhoto()))
                 .collect(Collectors.toList());
 
         return bookmarkedPhotoDtos;
