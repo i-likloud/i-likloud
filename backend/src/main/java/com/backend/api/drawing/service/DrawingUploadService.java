@@ -48,8 +48,8 @@ public class DrawingUploadService {
 
 //    private final S3Storage s3Storage;
 
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
+//    @Value("${cloud.aws.s3.bucket}")
+//    private String bucket;
 
     private final Path fileStorageLocation = Paths.get("upload-drawings");
 

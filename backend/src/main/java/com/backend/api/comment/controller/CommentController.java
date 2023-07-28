@@ -1,7 +1,7 @@
 package com.backend.api.comment.controller;
 
 
-import com.backend.api.comment.dto.CommentRequestDto;
+import com.backend.api.comment.dto.CommentReqDto;
 import com.backend.api.comment.service.CommentService;
 import com.backend.domain.comment.dto.CommentDto;
 import com.backend.domain.member.entity.Member;
@@ -26,7 +26,7 @@ public class CommentController {
     @PostMapping("/to/{drawingId}")
     @Operation(summary = "댓글 작성", description = "그림 게시물에 댓글을 생성합니다. URL에 작성할 그림 게시물의 ID를 넣어주세요.")
     public CommentDto createComment(@PathVariable Long drawingId,
-                                                 @RequestBody CommentRequestDto request,
+                                                 @RequestBody CommentReqDto request,
                                                  @MemberInfo MemberInfoDto memberInfoDto) {
         Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
         return commentService.createComment(drawingId, request.getContent(), member);
