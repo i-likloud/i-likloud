@@ -4,6 +4,7 @@ import com.backend.domain.likes.entity.Likes;
 import com.backend.domain.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface LikesRepository extends JpaRepository<Likes, Long> {
@@ -13,4 +14,6 @@ public interface LikesRepository extends JpaRepository<Likes, Long> {
     Optional<Likes> findByMemberMemberIdAndDrawingDrawingId(Long memberId, Long drawingId);
 
     Optional<Likes> findByMemberMemberId(Long memberId);
+
+    List<Likes> findAllByMemberMemberId(Long memberId);
 }
