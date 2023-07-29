@@ -43,7 +43,8 @@ public class MemberInfoController {
     }
 
     // 추가정보 업데이트 메서드
-    @Operation(summary = "추가 정보", description = "회원가입후 추가정보 관련 메서드입니다. \n body 지우고 nickname, profileColor, profileFace, profileAccessory만 써서 요청해주세요")
+    @Operation(summary = "추가 정보", description = "회원가입후 추가정보 관련 메서드입니다. \n\n " +
+            "body 지우고 nickname, profileColor, profileFace, profileAccessory만 써서 요청해주세요")
     @PatchMapping("/additional")
     public ResponseEntity<MemberDto.Response> updateAdditionalInfo(@RequestBody MemberDto.UpdateRequest request, @MemberInfo MemberInfoDto memberInfoDto) {
         // 닉네임 중복 검사

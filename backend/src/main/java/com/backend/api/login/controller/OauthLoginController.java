@@ -27,7 +27,8 @@ public class OauthLoginController {
     private final OauthValidator oauthValidator;
     private final OauthLoginService oauthLoginService;
 
-    @Operation(summary = "로그인", description = "로그인 및 회원가입 메서드입니다.")
+    @Operation(summary = "로그인", description = "로그인 및 회원가입 메서드입니다.\n\n" +
+            "소셜타입 대문자로 써서 요청해주세요")
     @PostMapping("/login")
     public ResponseEntity<OauthLoginDto.Response> oauthLogin(@RequestBody OauthLoginDto.Request oauthLoginRequestDto,
                                                              HttpServletRequest httpServletRequest) {
