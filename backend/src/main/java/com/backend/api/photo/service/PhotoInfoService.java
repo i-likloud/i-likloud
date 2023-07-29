@@ -2,7 +2,6 @@ package com.backend.api.photo.service;
 
 import com.backend.api.drawing.dto.DrawingWithLikesDto;
 import com.backend.api.photo.dto.PhotoInfoResponseDto;
-import com.backend.api.photo.dto.PhotoWithDrawingsResponseDto;
 import com.backend.domain.bookmark.entity.Bookmarks;
 import com.backend.domain.bookmark.repository.BookmarkRepository;
 import com.backend.domain.drawing.entity.Drawing;
@@ -16,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,11 +36,6 @@ public class PhotoInfoService {
         List<PhotoInfoResponseDto> photoInfoResponseDtos = photos.stream()
                 .map(PhotoInfoResponseDto::new)
                 .collect(Collectors.toList());
-
-
-        Principal principal;
-
-
 
         return ResponseEntity.ok(photoInfoResponseDtos);
     }
@@ -136,14 +129,4 @@ public class PhotoInfoService {
         return ResponseEntity.ok("사진 즐겨찾기를 취소했습니다.");
     }
 
-    // 사진으로 그림그리면 pickCnt 1씩 올라가는 기능
-    public void handlePhotoClick(Long photoId) {
-        Photo photo = photoRepository.findById(photoId).orElseThrow(() -> new EntityNotFoundException("사진을 찾을 수 없습니다"));
-
-        // pickCnt를 증가시킴
-        photo.incrementPickCnt();
-
-        // 사진 엔티티 업데이트 저장
-        photoRepository.save(photo);
-    }
 }
