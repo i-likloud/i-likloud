@@ -1,5 +1,7 @@
 package com.backend.api.mypage.controller;
 
+import com.backend.api.drawing.dto.DrawingListDto;
+import com.backend.api.drawing.service.DrawingViewService;
 import com.backend.api.mypage.dto.MypageInfoDto;
 import com.backend.api.mypage.dto.ProfileDto;
 import com.backend.domain.likes.entity.Likes;
@@ -34,6 +36,7 @@ public class MypageController {
     private final MemberRepository memberRepository;
     private final LikesRepository likesRepository;
     private final MemberService memberService;
+    private final DrawingViewService drawingViewService;
 
 
     @Operation(summary = "마이페이지 홈 조회", description = "마이페이지 홈의 조회 메서드입니다.")
@@ -87,13 +90,13 @@ public class MypageController {
 
     @Operation(summary = "나의 좋아요 그림 조회", description = "유저가 좋아요한 그림 리스트를 출력하는 메서드입니다.")
     @GetMapping("/likes")
-    public ResponseEntity<List<Likes>> getMyLikes(@MemberInfo MemberInfoDto memberInfoDto){
+    public ResponseEntity<List<DrawingListDto>> getMyLikes(@MemberInfo MemberInfoDto memberInfoDto){
         try {
             String email = memberInfoDto.getEmail();
             MypageInfoDto myPageInfoDto = mypageService.getMyInfo(email);
             Long memberId = myPageInfoDto.getMemberId();
-            List<Likes> likes = memberService.getLikesByMemberId(memberId);
-            return ResponseEntity.ok(likes);
+            List<DrawingListDto> result = mypageService.likeDrawing(memberId);
+            return ResponseEntity.ok(result);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } catch (Exception e) {

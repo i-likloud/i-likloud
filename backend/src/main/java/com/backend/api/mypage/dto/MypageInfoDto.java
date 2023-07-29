@@ -1,10 +1,7 @@
 package com.backend.api.mypage.dto;
 
-import com.backend.domain.bookmark.entity.Bookmarks;
-import com.backend.domain.drawing.entity.Drawing;
-import com.backend.domain.likes.entity.Likes;
+
 import com.backend.domain.member.entity.Member;
-import com.backend.domain.photo.entity.Photo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
