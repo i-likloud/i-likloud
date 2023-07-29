@@ -4,6 +4,11 @@ import com.backend.api.drawing.dto.DrawingListDto;
 import com.backend.api.drawing.service.DrawingViewService;
 import com.backend.api.mypage.dto.MypageInfoDto;
 import com.backend.api.mypage.dto.ProfileDto;
+import com.backend.api.photo.dto.PhotoWithDrawingsResponseDto;
+import com.backend.domain.bookmark.entity.Bookmarks;
+import com.backend.domain.bookmark.repository.BookmarkRepository;
+import com.backend.domain.drawing.entity.Drawing;
+import com.backend.domain.drawing.repository.DrawingRepository;
 import com.backend.domain.likes.entity.Likes;
 import com.backend.domain.likes.repository.LikesRepository;
 import com.backend.domain.member.entity.Member;
@@ -22,6 +27,8 @@ public class MypageService {
     private final MemberService memberService;
     private final LikesRepository likesRepository;
     private final DrawingViewService drawingViewService;
+    private final DrawingRepository drawingRepository;
+    private final BookmarkRepository bookmarkRepository;
 
     @Transactional(readOnly = true)
     public MypageInfoDto getMyInfo(String email) {
@@ -67,5 +74,32 @@ public class MypageService {
                     .collect(Collectors.toList());
     }
 
+    public List<DrawingListDto> getMyDrawing(Long memberId) {
+        List<Drawing> list = drawingRepository.findDrawingByMember_MemberId(memberId);
+        return list.stream()
+                .map(drawing -> {
+                    boolean memberLiked = likesRepository.existsByMemberMemberIdAndDrawingDrawingId(memberId, drawing.getDrawingId());
+                    return new DrawingListDto(drawing, memberLiked);
+                })
+                .collect(Collectors.toList());
+    }
 
+//    public List<PhotoWithDrawingsResponseDto> bookmarkPhoto(memeberId){
+//
+//        List<Bookmarks> list = bookmarkRepository.findByMember(member);
+//        return list.stream()
+//                .map(bookmarks -> {
+//                    return new DrawingListDto(bookmarks.getPhoto(), member.getMemberId());
+//                })
+//                .collect(Collectors.toList());
+//    }
+//
+//    public List<PhotoWithDrawingsResponseDto> getMyPhoto(Long memberId) {
+//        List<Drawing> list = drawingRepository.findDrawingByMember_MemberId(memberId);
+//        return list.stream()
+//                .map(drawing -> {
+//                    return new DrawingListDto(drawing, memberLiked);
+//                })
+//                .collect(Collectors.toList());
+//    }
 }

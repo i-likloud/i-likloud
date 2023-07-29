@@ -4,6 +4,9 @@ import com.backend.api.drawing.dto.DrawingListDto;
 import com.backend.api.drawing.service.DrawingViewService;
 import com.backend.api.mypage.dto.MypageInfoDto;
 import com.backend.api.mypage.dto.ProfileDto;
+import com.backend.api.photo.dto.PhotoWithDrawingsResponseDto;
+import com.backend.domain.drawing.entity.Drawing;
+import com.backend.domain.drawing.repository.DrawingRepository;
 import com.backend.domain.likes.entity.Likes;
 import com.backend.domain.likes.repository.LikesRepository;
 import com.backend.domain.member.entity.Member;
@@ -37,6 +40,7 @@ public class MypageController {
     private final LikesRepository likesRepository;
     private final MemberService memberService;
     private final DrawingViewService drawingViewService;
+    private final DrawingRepository drawingRepository;
 
 
     @Operation(summary = "마이페이지 홈 조회", description = "마이페이지 홈의 조회 메서드입니다.")
@@ -106,17 +110,48 @@ public class MypageController {
 
     @Operation(summary = "내가 그린 그림 조회", description = "유저가 그린 그림 리스트를 출력하는 메서드입니다.")
     @GetMapping("/drawings")
-    public ResponseEntity<List<Likes>> getMyDrawings(@MemberInfo MemberInfoDto memberInfoDto){
+    public ResponseEntity<List<DrawingListDto>> getMyDrawings(@MemberInfo MemberInfoDto memberInfoDto){
         try {
             String email = memberInfoDto.getEmail();
             MypageInfoDto myPageInfoDto = mypageService.getMyInfo(email);
             Long memberId = myPageInfoDto.getMemberId();
-            List<Likes> likes = memberService.getDrawingsByMemberId(memberId);
-            return ResponseEntity.ok(likes);
+            List<DrawingListDto> result = mypageService.getMyDrawing(memberId);
+            return ResponseEntity.ok(result);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+//    @Operation(summary = "나의 좋아요 그림 조회", description = "유저가 좋아요한 그림 리스트를 출력하는 메서드입니다.")
+//    @GetMapping("/bookmarks")
+//    public ResponseEntity<List<PhotoWithDrawingsResponseDto>> getMyBookmarks(@MemberInfo MemberInfoDto memberInfoDto){
+//        try {
+//            String email = memberInfoDto.getEmail();
+//            MypageInfoDto myPageInfoDto = mypageService.getMyInfo(email);
+//            Long memberId = myPageInfoDto.getMemberId();
+//            List<PhotoWithDrawingsResponseDto> result = mypageService.bookmarkPhoto(memberId);
+//            return ResponseEntity.ok(result);
+//        } catch (IllegalArgumentException e) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//        }
+//    }
+//
+//    @Operation(summary = "내가 그린 그림 조회", description = "유저가 그린 그림 리스트를 출력하는 메서드입니다.")
+//    @GetMapping("/photos")
+//    public ResponseEntity<List<PhotoWithDrawingsResponseDto>> getMyPhotos(@MemberInfo MemberInfoDto memberInfoDto){
+//        try {
+//            String email = memberInfoDto.getEmail();
+//            MypageInfoDto myPageInfoDto = mypageService.getMyInfo(email);
+//            Long memberId = myPageInfoDto.getMemberId();
+//            List<PhotoWithDrawingsResponseDto> result = mypageService.getMyPhoto(memberId);
+//            return ResponseEntity.ok(result);
+//        } catch (IllegalArgumentException e) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//        }
+//    }
 }
