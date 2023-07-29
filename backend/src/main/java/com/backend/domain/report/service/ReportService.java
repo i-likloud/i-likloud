@@ -6,6 +6,8 @@ import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.repository.MemberRepository;
 import com.backend.domain.report.entity.Report;
 import com.backend.domain.report.repository.ReportRepository;
+import com.backend.global.error.ErrorCode;
+import com.backend.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,20 +21,20 @@ public class ReportService {
     private final DrawingRepository drawingRepository;
 
     @Transactional
-    public void createReport(Long memberId, Long drawingId, String content){
-        System.out.println(memberId);
+    public Report createReport(Member member, Long drawingId, String content){
+        System.out.println(member.getMemberId());
         System.out.println(drawingId);
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("Reporter not found with ID: " + memberId));
 
         Drawing drawing = drawingRepository.findById(drawingId)
-                .orElseThrow(() -> new IllegalArgumentException("Drawing not found with ID: " + drawingId));
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_DRAWING));
 
         Report report = Report.builder()
-                .memberId(member)
-                .drawingId(drawing)
+                .member(member)
+                .drawing(drawing)
                 .content(content)
                 .build();
         reportRepository.save(report);
+
+        return report;
     }
 }
