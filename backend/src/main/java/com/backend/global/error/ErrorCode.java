@@ -31,6 +31,7 @@ public enum ErrorCode {
     NOT_FOUND_DRAWING(HttpStatus.NOT_FOUND, "Drawing-001", "그림을 찾을 수 없습니다."),
 
     // 사진
+    NOT_FOUND_PHOTO(HttpStatus.NOT_FOUND, "Photo-001", "사진을 찾을 수 없습니다."),
 
     // 댓글
     NOT_FOUND_COMMENT(HttpStatus.NOT_FOUND, "Comment-001", "댓글을 찾을 수 없습니다."),
@@ -39,7 +40,6 @@ public enum ErrorCode {
     FILE_UPLOAD_CONFLICT(HttpStatus.CONFLICT, "File-001", "파일 업로드에 실패하였습니다."),
     INVALID_FILE_NAME(HttpStatus.BAD_REQUEST, "File-002", " 파일 이름이 올바르지 않습니다."),
     NOT_FOUND_FILE(HttpStatus.NOT_FOUND, "File-003", "파일을 찾을 수 없습니다."),
-
     ;
 
     private HttpStatus httpStatus;

@@ -27,8 +27,7 @@ public class MypageService {
     }
 
     @Transactional
-    public MypageInfoDto editNickname(String email, String nickname){
-        Member member = memberService.findMemberByEmail(email);
+    public MypageInfoDto editNickname(Member member, String nickname){
         member.editNickname(nickname);
         return MypageInfoDto.of(member);
     }
