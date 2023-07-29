@@ -12,4 +12,6 @@ public interface PhotoRepository extends JpaRepository<Photo,Long> {
     List<Photo> findAllByOrderByPickCntDesc();
 
     List<Photo> findAllByOrderByBookmarkCntDesc();
+
+    List<Photo> findAllByMemberMemberId(Long memberId);
 }
