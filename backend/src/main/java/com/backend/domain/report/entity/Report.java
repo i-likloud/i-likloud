@@ -22,11 +22,11 @@ public class Report {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member memberId;
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "drawing_id")
-    private Drawing drawingId;
+    private Drawing drawing;
 
     @Column(nullable = false, length = 300) // 최대 300자까지 저장 가능
     private String content;

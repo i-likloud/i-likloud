@@ -10,6 +10,7 @@ import com.backend.domain.drawing.repository.DrawingRepository;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.service.MemberService;
 import com.backend.domain.photo.entity.Photo;
+import com.backend.domain.photo.repository.PhotoRepository;
 import com.backend.domain.photo.service.PhotoService;
 import com.backend.global.error.ErrorCode;
 import com.backend.global.error.exception.BusinessException;
@@ -24,6 +25,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLDecoder;
@@ -44,6 +46,8 @@ public class DrawingUploadService {
     private final DrawingFileRepository drawingfileRepository;
 
     private final PhotoService photoService;
+
+    private final PhotoRepository photoRepository;
 
     private final MemberService memberService;
 
@@ -66,6 +70,12 @@ public class DrawingUploadService {
             Drawing drawing = createDrawing(title, content, member, drawingFile, photoId);
 
             drawingFile.setDrawing(drawing);
+
+            // 연결된 사진의 선택 횟수 증가
+            Photo photo = photoRepository.findById(photoId)
+                    .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_PHOTO));
+
+            photo.incrementPickCnt();
 
             return new DrawingUploadDto(drawing);
 
@@ -147,7 +157,5 @@ public class DrawingUploadService {
         drawingRepository.save(drawing);
         return drawing;
     }
-
-
 
 }

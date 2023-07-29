@@ -78,7 +78,9 @@ public class Member extends BaseEntity {
     private List<Bookmarks> bookmarks = new ArrayList<>();
 
     //== 멤버 필드 업데이트 ==//
-    public void editNickname(String nickname){this.nickname = nickname;}
+    public void editNickname(String nickname){
+        this.nickname = nickname;
+    }
 
     public void editProfile(String nickname, int profileFace, int profileColor, int profileAccessory){
         this.nickname = nickname;

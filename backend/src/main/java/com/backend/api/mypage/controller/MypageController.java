@@ -2,6 +2,8 @@ package com.backend.api.mypage.controller;
 
 import com.backend.api.mypage.dto.MypageInfoDto;
 import com.backend.api.mypage.dto.ProfileDto;
+import com.backend.api.photo.dto.PhotoWithBookmarkDto;
+import com.backend.domain.bookmark.service.BookmarkService;
 import com.backend.domain.likes.entity.Likes;
 import com.backend.domain.likes.repository.LikesRepository;
 import com.backend.domain.member.entity.Member;
@@ -34,6 +36,7 @@ public class MypageController {
     private final MemberRepository memberRepository;
     private final LikesRepository likesRepository;
     private final MemberService memberService;
+    private final BookmarkService bookmarkService;
 
 
     @Operation(summary = "마이페이지 홈 조회", description = "마이페이지 홈의 조회 메서드입니다.")
@@ -41,10 +44,11 @@ public class MypageController {
     public ResponseEntity<MypageInfoDto> getMyInfo(@MemberInfo MemberInfoDto memberInfoDto){
         try {
             String email = memberInfoDto.getEmail();
+            if (email == null) {
+                throw new BusinessException(ErrorCode.MEMBER_NOT_EXISTS);
+            }
             MypageInfoDto myPageInfoDto = mypageService.getMyInfo(email);
             return ResponseEntity.ok(myPageInfoDto);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -58,8 +62,8 @@ public class MypageController {
         if (findByNickname.isPresent()) {
             throw new BusinessException(ErrorCode.ALREADY_REGISTERED_NICKNAME);
         }
-        String email = memberInfoDto.getEmail();
-        MypageInfoDto mypageInfoDto = mypageService.editNickname(email,nickname);
+        Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
+        MypageInfoDto mypageInfoDto = mypageService.editNickname(member,nickname);
         return ResponseEntity.ok(mypageInfoDto);
     }
 
@@ -94,8 +98,6 @@ public class MypageController {
             Long memberId = myPageInfoDto.getMemberId();
             List<Likes> likes = memberService.getLikesByMemberId(memberId);
             return ResponseEntity.ok(likes);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -110,10 +112,16 @@ public class MypageController {
             Long memberId = myPageInfoDto.getMemberId();
             List<Likes> likes = memberService.getDrawingsByMemberId(memberId);
             return ResponseEntity.ok(likes);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @Operation(summary = "내가 즐겨찾기한 사진 조회", description = "즐겨찾기한 모든 사진을 보여주는 메소드입니다.")
+    @GetMapping("/bookmarks")
+    public ResponseEntity<List<PhotoWithBookmarkDto>> getBookmarkedPhotosForCurrentUser(@MemberInfo MemberInfoDto memberInfoDto) {
+        Member findMember = memberService.findMemberByEmail(memberInfoDto.getEmail());
+        List<PhotoWithBookmarkDto> bookmarkedPhotos = bookmarkService.getBookmarkedPhotosForUser(findMember);
+        return ResponseEntity.ok(bookmarkedPhotos);
     }
 }
