@@ -26,10 +26,9 @@ public class OauthLoginController {
 
     private final OauthValidator oauthValidator;
     private final OauthLoginService oauthLoginService;
-    private final MemberService memberService;
-    private final MemberInfoService memberInfoService;
 
-    @Operation(summary = "로그인", description = "로그인 및 회원가입 메서드입니다.")
+    @Operation(summary = "로그인", description = "로그인 및 회원가입 메서드입니다.\n\n" +
+            "소셜타입 대문자로 써서 요청해주세요")
     @PostMapping("/login")
     public ResponseEntity<OauthLoginDto.Response> oauthLogin(@RequestBody OauthLoginDto.Request oauthLoginRequestDto,
                                                              HttpServletRequest httpServletRequest) {
@@ -43,33 +42,4 @@ public class OauthLoginController {
 
         return ResponseEntity.ok(jwtResponseDto);
     }
-
-    @Operation(summary = "은코인 1 상승", description = "게임에서 성공하면 은코인이 1 상승하는 메소드입니다.")
-    @PostMapping("/silvercoinplus")
-    public ResponseEntity<String> plusSilverCoin(@MemberInfo MemberInfoDto memberInfoDto){
-        Member findMember = memberService.findMemberByEmail(memberInfoDto.getEmail());
-        Long memberId = findMember.getMemberId();
-        memberInfoService.plusSilverCoin(memberId);
-        return ResponseEntity.ok("은코인이 1 증가하였습니다.");
-    }
-
-    @Operation(summary = "은코인 5(임시) 삭제", description = "그림을 NFT화하면 은코인을 감소하는 메소드입니다.")
-    @PostMapping("/silvercoinminus")
-    public ResponseEntity<String> minusSilverCoin(@MemberInfo MemberInfoDto memberInfoDto) {
-        Member findMember = memberService.findMemberByEmail(memberInfoDto.getEmail());
-        Long memberId = findMember.getMemberId();
-
-        int currentSilverCoin = memberInfoService.getSilverCoin(memberId);
-        int coinsToDeduct = 5;
-
-        if (currentSilverCoin >= coinsToDeduct) {
-            memberInfoService.minusSilverCoin(memberId, coinsToDeduct);
-            return ResponseEntity.ok("은코인이 5 감소하였습니다");
-        }
-        else{
-            return ResponseEntity.ok("은코인이 부족합니다");
-        }
-
-    }
-
 }

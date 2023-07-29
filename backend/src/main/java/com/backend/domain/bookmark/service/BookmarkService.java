@@ -22,8 +22,7 @@ public class BookmarkService {
         this.memberService = memberService;
     }
 
-    public List<PhotoWithBookmarkDto> getBookmarkedPhotosForUser(Long memberId) {
-        Member member = memberService.findMemberById(memberId); // memberId로부터 Member 객체 조회
+    public List<PhotoWithBookmarkDto> getBookmarkedPhotosForUser(Member member) {
 
         List<Bookmarks> bookmarks = bookmarkRepository.findByMember(member);
 

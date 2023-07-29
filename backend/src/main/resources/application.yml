@@ -18,7 +18,7 @@ spring:
 
   servlet:
     multipart:
-      max-file-size: 10MB # 파일 업로드 요청 시 하나의 파일 크기를 10MB 제한
+      max-file-size: 20MB # 파일 업로드 요청 시 하나의 파일 크기를 10MB 제한
       max-request-size: 100MB # 파일 업로드 요청 시 모든 파일 크기합을 100MB 제한
 
   mvc:

@@ -80,13 +80,5 @@ public class PhotoInfoController {
         Long memberId = findMember.getMemberId();
         return photoInfoService.unpickPhoto(photoId, memberId);
     }
-
-    // pickCnt 증가
-    @Operation(summary = "그림 그리면 사진의 인기도 상승", description = "그림을 그리면 그 기반의 사진의 인기도를 상승시키는 메소드입니다.")
-    @PostMapping("/{photoId}/plus")
-    public ResponseEntity<String> handlePhotoClick(@PathVariable Long photoId){
-        photoInfoService.handlePhotoClick(photoId);
-        return ResponseEntity.ok("사진의 pickCnt 증가가 정상적으로 완료돼었습니다.");
-    }
 }
 

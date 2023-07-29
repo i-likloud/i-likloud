@@ -70,5 +70,7 @@ public class Photo extends BaseEntity {
     }
 
     // 사진으로 그림을 그리면 pickCnt가 증가하는 메소드
-     public void incrementPickCnt() {this.pickCnt++;}
+     public void incrementPickCnt() {
+        this.pickCnt++;
+    }
 }

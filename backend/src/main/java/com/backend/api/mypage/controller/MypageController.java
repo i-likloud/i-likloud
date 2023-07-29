@@ -144,4 +144,12 @@ public class MypageController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @Operation(summary = "내가 즐겨찾기한 사진 조회", description = "즐겨찾기한 모든 사진을 보여주는 메소드입니다.")
+    @GetMapping("/bookmarks")
+    public ResponseEntity<List<PhotoWithBookmarkDto>> getBookmarkedPhotosForCurrentUser(@MemberInfo MemberInfoDto memberInfoDto) {
+        Member findMember = memberService.findMemberByEmail(memberInfoDto.getEmail());
+        List<PhotoWithBookmarkDto> bookmarkedPhotos = bookmarkService.getBookmarkedPhotosForUser(findMember);
+        return ResponseEntity.ok(bookmarkedPhotos);
+    }
 }
