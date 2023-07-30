@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StoreResponseDto {
-//    private int goldCoin;
+    private int goldCoin;
     private ProfileDto profile;
     private List<StoreWithAccessoryDto> myAccessory;
     private List<StoreWithAccessoryDto> allAccessoriesWithOwnership;

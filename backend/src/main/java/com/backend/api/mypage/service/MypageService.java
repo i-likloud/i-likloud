@@ -9,6 +9,7 @@ import com.backend.api.photo.dto.PhotoWithBookmarkDto;
 import com.backend.api.photo.dto.PhotoWithDrawingsResponseDto;
 import com.backend.domain.accessory.entity.Accessory;
 import com.backend.domain.accessory.repository.AccessoryRepository;
+import com.backend.domain.accessory.repository.AccessoryUploadRequestDto;
 import com.backend.domain.bookmark.entity.Bookmarks;
 import com.backend.domain.bookmark.repository.BookmarkRepository;
 import com.backend.domain.drawing.entity.Drawing;
@@ -21,6 +22,7 @@ import com.backend.domain.photo.entity.Photo;
 import com.backend.domain.photo.repository.PhotoRepository;
 import com.backend.domain.store.dto.StoreWithAccessoryDto;
 import com.backend.domain.store.entity.Store;
+import com.backend.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -36,11 +38,11 @@ public class MypageService {
 
     private final MemberService memberService;
     private final LikesRepository likesRepository;
-    private final DrawingViewService drawingViewService;
     private final DrawingRepository drawingRepository;
     private final BookmarkRepository bookmarkRepository;
     private final PhotoRepository photoRepository;
     private final AccessoryRepository accessoryRepository;
+    private final StoreRepository storeRepository;
 
 
     @Transactional(readOnly = true)
@@ -131,4 +133,64 @@ public class MypageService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
+    public ProfileDto buyAccessory(String email, Long accessoryId) {
+        Member member = memberService.findMemberByEmail(email);
+
+        int currentGoldCoin = member.getGoldCoin();
+
+        if (currentGoldCoin < 1) {
+            throw new RuntimeException("goldcoin이 부족합니다.");
+        }
+
+        List<Accessory> myAccessories = accessoryRepository.findByMember(member);
+        boolean alreadyOwned = myAccessories.stream().anyMatch(accessory -> accessory.getAccessoryId().equals(accessoryId));
+
+        if (!alreadyOwned) {
+            member.setGoldCoin(currentGoldCoin - 1);
+
+            Accessory purchasedAccessory = accessoryRepository.findById(accessoryId)
+                    .orElseThrow(() -> new RuntimeException("악세사리를 찾을 수 없습니다."));
+
+            // storeRepository를 사용하여 악세사리의 store 정보를 가져옴
+            Store store = storeRepository.findById(purchasedAccessory.getStore().getStoreId())
+                    .orElseThrow(() -> new RuntimeException("악세사리의 store 정보를 찾을 수 없습니다."));
+
+
+            purchasedAccessory.setStore(store);
+            purchasedAccessory.setMember(member);
+            accessoryRepository.save(purchasedAccessory);
+        }
+
+        return ProfileDto.of(member);
+    }
+
+    @Transactional
+    public StoreWithAccessoryDto uploadAccessory(AccessoryUploadRequestDto requestDto) {
+        Store store = Store.builder()
+                .itemName(requestDto.getItemName())
+                .itemPrice(requestDto.getItemPrice())
+                .build();
+
+        store = storeRepository.save(store);
+
+        // Accessory 테이블에도 추가
+        Accessory accessory = Accessory.builder()
+                .store(store)
+                .build();
+
+        accessory = accessoryRepository.save(accessory);
+
+        return new StoreWithAccessoryDto(store);
+    }
+
+    public List<StoreWithAccessoryDto> getAccessory(Long memberId) {
+        Member member = memberService.findMemberById(memberId);
+        List<Accessory> accessories = accessoryRepository.findByMember(member);
+
+        return accessories.stream()
+                .map(accessory -> new StoreWithAccessoryDto(accessory.getStore()))
+                .collect(Collectors.toList());
+    }
 }
+
