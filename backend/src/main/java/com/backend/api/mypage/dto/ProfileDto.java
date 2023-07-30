@@ -29,7 +29,6 @@ public class ProfileDto {
 
     @Getter
     public static class editRequest{
-        private String nickname;
         private int profileColor;
         private int profileFace;
         private int profileAccessory;
