@@ -1,5 +1,6 @@
 package com.backend.api.photo.service;
 
+import com.backend.api.drawing.dto.DrawingWithBookmarksDto;
 import com.backend.api.drawing.dto.DrawingWithLikesDto;
 import com.backend.api.photo.dto.PhotoInfoResponseDto;
 import com.backend.domain.bookmark.entity.Bookmarks;
@@ -67,14 +68,14 @@ public class PhotoInfoService {
 
     // 특정 사진과 관련된 모든 그림
     @Transactional(readOnly = true)
-    public List<DrawingWithLikesDto> getDrawingsByPhotoId(Long photoId) {
+    public List<DrawingWithBookmarksDto> getDrawingsByPhotoId(Long photoId) {
         Photo photo = photoRepository.findById(photoId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 photo가 존재하지 않습니다."));
 
         List<Drawing> drawings = drawingRepository.findByPhotoOrderByLikesCountDesc(photo);
 
         return drawings.stream()
-                .map(drawing -> new DrawingWithLikesDto(drawing))
+                .map(DrawingWithBookmarksDto::new)
                 .collect(Collectors.toList());
     }
 
@@ -127,6 +128,11 @@ public class PhotoInfoService {
         photoRepository.save(photo);
 
         return ResponseEntity.ok("사진 즐겨찾기를 취소했습니다.");
+    }
+
+    // 북마크확인
+    public boolean isAlreadyBookmarked(Member member, Long photoId) {
+        return bookmarkRepository.existsByMemberMemberIdAndPhotoPhotoId(member.getMemberId(), photoId);
     }
 
 }

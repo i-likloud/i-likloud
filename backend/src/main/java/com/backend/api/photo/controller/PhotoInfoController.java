@@ -1,5 +1,6 @@
 package com.backend.api.photo.controller;
 
+import com.backend.api.drawing.dto.DrawingWithBookmarksDto;
 import com.backend.api.drawing.dto.DrawingWithLikesDto;
 import com.backend.api.photo.dto.PhotoInfoResponseDto;
 import com.backend.api.photo.dto.PhotoWithDrawingsResponseDto;
@@ -51,8 +52,8 @@ public class PhotoInfoController {
     // 클릭한 photoId와 관련된 모든 drawings 조회
     @Operation(summary = "사진 관련 모든 그림", description = "특정 사진과 관련된 모든 그림을 출력하는 메소드입니다.")
     @GetMapping("/{photoId}/alldrawings")
-    public ResponseEntity<List<DrawingWithLikesDto>> getDrawingsByPhotoId(@PathVariable Long photoId) {
-        List<DrawingWithLikesDto> drawings = photoInfoService.getDrawingsByPhotoId(photoId);
+    public ResponseEntity<List<DrawingWithBookmarksDto>> getDrawingsByPhotoId(@PathVariable Long photoId) {
+        List<DrawingWithBookmarksDto> drawings = photoInfoService.getDrawingsByPhotoId(photoId);
         return ResponseEntity.ok(drawings);
     }
 
@@ -63,22 +64,21 @@ public class PhotoInfoController {
         photoInfoService.delete(id);
     }
 
-    // 사진 즐겨찾기
-    @Operation(summary = "즐겨찾기 추가", description = "사진을 즐겨찾기 할 수 있는 메소드입니다.")
-    @PostMapping("/{photoId}/pick")
+    // 사진 즐겨찾기 퇴글
+    @Operation(summary = "즐겨찾기 추가", description = "사진을 즐겨찾기 토글을 할 수 있는 메소드입니다.")
+    @PostMapping("/{photoId}/bookmark")
     public ResponseEntity<String> pickPhoto(@PathVariable Long photoId, @MemberInfo MemberInfoDto memberInfoDto) {
-        Member findMember = memberService.findMemberByEmail(memberInfoDto.getEmail());
-        Long memberId = findMember.getMemberId();
-        return photoInfoService.pickPhoto(photoId, memberId);
+        Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
+
+        if(photoInfoService.isAlreadyBookmarked(member, photoId)) {
+            photoInfoService.unpickPhoto(photoId, member.getMemberId());
+            return  ResponseEntity.ok(String.format("%번 사진 북마크 취소", photoId));
+        }
+        else {
+            photoInfoService.pickPhoto(photoId, member.getMemberId());
+            return  ResponseEntity.ok(String.format("%번 사진 북마크", photoId));
+        }
     }
 
-    // 사진 즐겨찾기 취소
-    @Operation(summary = "즐겨찾기 제거", description = "즐겨찾기한 사진을 해제 할 수 있는 메소드입니다.")
-    @PostMapping("/{photoId}/unpick")
-    public ResponseEntity<String> unpickPhoto(@PathVariable Long photoId, @MemberInfo MemberInfoDto memberInfoDto) {
-        Member findMember = memberService.findMemberByEmail(memberInfoDto.getEmail());
-        Long memberId = findMember.getMemberId();
-        return photoInfoService.unpickPhoto(photoId, memberId);
-    }
 }
 
