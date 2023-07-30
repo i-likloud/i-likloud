@@ -1,5 +1,6 @@
 package com.backend.domain.accessory.entity;
 
+import com.backend.domain.common.BaseEntity;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.store.entity.Store;
 import lombok.*;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Setter
-public class Accessory {
+public class Accessory extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +26,5 @@ public class Accessory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
-
 
 }
