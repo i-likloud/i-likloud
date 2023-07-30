@@ -72,11 +72,11 @@ public class PhotoInfoController {
 
         if(photoInfoService.isAlreadyBookmarked(member, photoId)) {
             photoInfoService.unpickPhoto(photoId, member.getMemberId());
-            return  ResponseEntity.ok(String.format("%번 사진 북마크 취소", photoId));
+            return  ResponseEntity.ok(String.format("%d번 사진 북마크 취소", photoId));
         }
         else {
             photoInfoService.pickPhoto(photoId, member.getMemberId());
-            return  ResponseEntity.ok(String.format("%번 사진 북마크", photoId));
+            return  ResponseEntity.ok(String.format("%d번 사진 북마크", photoId));
         }
     }
 
