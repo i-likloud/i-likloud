@@ -42,6 +42,7 @@ public class MypageService {
     private final PhotoRepository photoRepository;
     private final AccessoryRepository accessoryRepository;
 
+
     @Transactional(readOnly = true)
     public MypageInfoDto getMyInfo(String email) {
         Member member = memberService.findMemberByEmail(email);
@@ -116,6 +117,18 @@ public class MypageService {
                 .collect(Collectors.toList());
 
 
+    }
+
+    public List<StoreWithAccessoryDto> getAllAccessoriesWithOwnership(Long memberId) {
+        List<Accessory> allAccessories = accessoryRepository.findAll();
+        List<StoreWithAccessoryDto> ownedAccessoryIds = getMyAccessory(memberId);
+
+        return allAccessories.stream()
+                .map(accessory -> {
+                    boolean owned = ownedAccessoryIds.contains(accessory.getStore().getStoreId());
+                    return new StoreWithAccessoryDto(accessory.getStore());
+                })
+                .collect(Collectors.toList());
     }
 
 }
