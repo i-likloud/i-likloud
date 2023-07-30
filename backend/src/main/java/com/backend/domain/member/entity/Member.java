@@ -1,5 +1,6 @@
 package com.backend.domain.member.entity;
 
+import com.backend.domain.accessory.entity.Accessory;
 import com.backend.domain.bookmark.entity.Bookmarks;
 import com.backend.domain.common.BaseEntity;
 import com.backend.domain.drawing.entity.Drawing;
@@ -72,9 +73,14 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Likes> likes = new ArrayList<>();
 
+    // 악세사리와 OnetoMany 관계
+    @Builder.Default
+    @OneToMany(mappedBy = "member")
+    private List<Accessory> accessories = new ArrayList<>();
+
     // 북마크와 OneToMany 관계
     @Builder.Default
-    @OneToMany(mappedBy = "photo", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Bookmarks> bookmarks = new ArrayList<>();
 
     //== 멤버 필드 업데이트 ==//

@@ -7,6 +7,8 @@ import com.backend.api.mypage.dto.ProfileDto;
 import com.backend.api.photo.dto.PhotoInfoResponseDto;
 import com.backend.api.photo.dto.PhotoWithBookmarkDto;
 import com.backend.api.photo.dto.PhotoWithDrawingsResponseDto;
+import com.backend.domain.accessory.entity.Accessory;
+import com.backend.domain.accessory.repository.AccessoryRepository;
 import com.backend.domain.bookmark.entity.Bookmarks;
 import com.backend.domain.bookmark.repository.BookmarkRepository;
 import com.backend.domain.drawing.entity.Drawing;
@@ -17,6 +19,8 @@ import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.service.MemberService;
 import com.backend.domain.photo.entity.Photo;
 import com.backend.domain.photo.repository.PhotoRepository;
+import com.backend.domain.store.dto.StoreWithAccessoryDto;
+import com.backend.domain.store.entity.Store;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -36,6 +40,7 @@ public class MypageService {
     private final DrawingRepository drawingRepository;
     private final BookmarkRepository bookmarkRepository;
     private final PhotoRepository photoRepository;
+    private final AccessoryRepository accessoryRepository;
 
     @Transactional(readOnly = true)
     public MypageInfoDto getMyInfo(String email) {
@@ -99,6 +104,18 @@ public class MypageService {
         return list.stream()
                 .map(photo -> new PhotoWithBookmarkDto(photo))
                 .collect(Collectors.toList());
+    }
+
+
+    public List<StoreWithAccessoryDto> getMyAccessory(Long memberId) {
+        Member member = memberService.findMemberById(memberId);
+        List<Accessory> accessories = accessoryRepository.findByMember(member.getMemberId());
+
+        return accessories.stream()
+                .map(accessory -> new StoreWithAccessoryDto(accessory.getStore()))
+                .collect(Collectors.toList());
+
+
     }
 
 }

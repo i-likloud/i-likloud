@@ -17,6 +17,7 @@ import com.backend.api.mypage.service.MypageService;
 import com.backend.domain.member.service.MemberService;
 import com.backend.domain.photo.entity.Photo;
 import com.backend.domain.photo.repository.PhotoRepository;
+import com.backend.domain.store.dto.StoreWithAccessoryDto;
 import com.backend.global.error.ErrorCode;
 import com.backend.global.error.exception.BusinessException;
 import com.backend.global.resolver.memberInfo.MemberInfo;
@@ -144,6 +145,19 @@ public class MypageController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @Operation(summary = "내가 가진 아이템 조회", description = "본인이 가진 아이템 목록을 출력하는 메서드입니다.")
+    @GetMapping("/accessory")
+    public ResponseEntity<List<StoreWithAccessoryDto>> getMyAccessorys (@MemberInfo MemberInfoDto memberInfoDto){
+        try{
+            Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
+            List<StoreWithAccessoryDto> result = mypageService.getMyAccessory(member.getMemberId());
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 
 //    @Operation(summary = "내가 즐겨찾기한 사진 조회", description = "즐겨찾기한 모든 사진을 보여주는 메소드입니다.")
 //    @GetMapping("/bookmarks")
