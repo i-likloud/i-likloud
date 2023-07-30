@@ -3,7 +3,6 @@ package com.backend.domain.photo.service;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.backend.domain.member.entity.Member;
-import com.backend.domain.photo.dto.PhotoResponseDto;
 import com.backend.domain.photo.dto.PhotoUploadDto;
 import com.backend.domain.photo.entity.Photo;
 import com.backend.domain.photo.entity.PhotoFile;
@@ -46,7 +45,7 @@ public class PhotoService {
     public PhotoUploadDto saveFileAndCreatePhotos(MultipartFile file, Member member) {
 
         try {
-            PhotoFile photoFile = uploadPhotoFile(file);
+            PhotoFile photoFile = uploadPhotoFile(file, "cloud");
 
             Photo photo = createPhoto(photoFile, member);
 
@@ -61,8 +60,16 @@ public class PhotoService {
 
     // 사진 파일 저장
     @Transactional
-    public PhotoFile uploadPhotoFile(MultipartFile file) throws IOException {
-        String folderName = "photo/";
+    public PhotoFile uploadPhotoFile(MultipartFile file, String photoType) throws IOException {
+        // 사진 상태에 따라 폴더 나눔
+        String folderName;
+        if (photoType.equals("cloud")){
+            folderName = "photo/";
+        } else if (photoType.equals("noCloud")){
+            folderName = "no-cloud/";
+        } else{
+            folderName = "danger/";
+        }
         String photoFilename = folderName + UUID.randomUUID() + file.getOriginalFilename();
 
         // S3에 파일을 저장

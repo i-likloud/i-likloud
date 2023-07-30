@@ -32,6 +32,7 @@ public enum ErrorCode {
 
     // 사진
     NOT_FOUND_PHOTO(HttpStatus.NOT_FOUND, "Photo-001", "사진을 찾을 수 없습니다."),
+    INVALID_PHOTO(HttpStatus.BAD_REQUEST, "Photo-002", "적합하지 않은 사진입니다."),
 
     // 댓글
     NOT_FOUND_COMMENT(HttpStatus.NOT_FOUND, "Comment-001", "댓글을 찾을 수 없습니다."),

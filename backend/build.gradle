@@ -28,6 +28,7 @@ ext {
 dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+		mavenBom "org.springframework.cloud:spring-cloud-gcp-dependencies:1.2.8.RELEASE"
 	}
 }
 
@@ -47,6 +48,12 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 	// Apache Commons IO
 	implementation 'commons-io:commons-io:2.8.0'
+	// GCP
+//	implementation 'com.google.cloud:google-cloud-vision:3.19.0'
+	implementation 'com.google.cloud:spring-cloud-gcp-starter-vision:3.6.1'
+	implementation 'com.google.cloud:spring-cloud-gcp-starter:3.6.1'
+
+
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.mysql:mysql-connector-j'
