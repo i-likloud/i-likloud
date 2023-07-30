@@ -5,6 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ssafy.likloud.ApplicationClass
+import com.ssafy.likloud.ApplicationClass.Companion.X_ACCESS_TOKEN
+import com.ssafy.likloud.ApplicationClass.Companion.sharedPreferences
 import com.ssafy.likloud.data.api.onSuccess
 import com.ssafy.likloud.data.model.request.LoginAdditionalRequest
 import com.ssafy.likloud.data.model.response.LoginAdditionalResponse
@@ -27,6 +30,8 @@ class ProfileFragmentViewModel @Inject constructor(
                 if (this.code() == 200) {
                     val token = this.headers().get("newtoken")
                     Log.d(TAG, "patchAdditionalInfo: 찐 토큰을 받아왔어용 ${token}")
+                    // 토큰 받아오면 바로 shared로 저장해서 통신 준비
+                    sharedPreferences.putString(X_ACCESS_TOKEN, token.toString())
                 }
             }
         }

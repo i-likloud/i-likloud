@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/nftListFragment">
+    app:startDestination="@id/profileFragment">
 
     <fragment
         android:id="@+id/exampleFragment"
@@ -39,7 +39,22 @@
         android:id="@+id/homeFragment"
         android:name="com.ssafy.likloud.ui.home.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_onboarding"/>
+        tools:layout="@layout/fragment_onboarding">
+        <action
+            android:id="@+id/action_homeFragment_to_drawingListFragment"
+            app:destination="@id/drawingListFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_photoListFragment"
+            app:destination="@id/photoListFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
+    </fragment>
 
     <fragment
         android:id="@+id/onboardingFragment"

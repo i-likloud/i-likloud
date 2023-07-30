@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -116,6 +117,10 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
             //즐겨찾기(스타)를 눌렀을 때
             imageStar.setOnClickListener {
 
+            }
+
+            buttonBack.setOnClickListener {
+                findNavController().popBackStack()
             }
 
         }
