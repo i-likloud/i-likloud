@@ -88,8 +88,7 @@ public class Member extends BaseEntity {
         this.nickname = nickname;
     }
 
-    public void editProfile(String nickname, int profileFace, int profileColor, int profileAccessory){
-        this.nickname = nickname;
+    public void editProfile(int profileFace, int profileColor, int profileAccessory){
         this.profileColor = profileColor;
         this.profileFace = profileFace;
         this.profileAccessory = profileAccessory;

@@ -63,7 +63,7 @@ public class MypageService {
     @Transactional
     public ProfileDto editProfile(String email, ProfileDto.editRequest request){
         Member member = memberService.findMemberByEmail(email);
-        member.editProfile(request.getNickname(),request.getProfileFace(), request.getProfileColor(), request.getProfileAccessory());
+        member.editProfile(request.getProfileFace(), request.getProfileColor(), request.getProfileAccessory());
         return ProfileDto.of(member);
 
     }
