@@ -52,4 +52,18 @@ public class MemberCoinController {
             return ResponseEntity.ok("은코인이 부족합니다");
         }
     }
+
+
+    @Operation(summary = "금코인 상승", description = "NFT를 통해 금코인이 상승하는 메소드입니다. 현재 코인 증가값은 1입니다.")
+    @PostMapping("/plusGold")
+    public ResponseEntity<String> plusGoldCoin(@MemberInfo MemberInfoDto memberInfoDto){
+        Member findMember = memberService.findMemberByEmail(memberInfoDto.getEmail());
+        Long memberId = findMember.getMemberId();
+
+        int coins = 1;
+        memberCoinService.plusGoldCoin(memberId, coins);
+        return ResponseEntity.ok(String.format("금코인이 %d개 증가하였습니다.", coins));
+
+    }
+
 }

@@ -94,13 +94,6 @@ public class Member extends BaseEntity {
         this.profileAccessory = profileAccessory;
     }
 
-    public void updateGoldCoin(int goldCoin){
-        this.goldCoin = goldCoin;
-    }
-
-    public void updateSilverCoin(int silverCoin){
-        this.silverCoin = silverCoin;
-    }
 
     public void updateRole(Role role){
         this.role = role;
@@ -143,6 +136,10 @@ public class Member extends BaseEntity {
 
     public void minusSilverCoin(int coins) {
         this.silverCoin -= coins;
+    }
+
+    public void incrementGoldCoin(int coins) {
+        this.goldCoin += coins;
     }
 
 }
