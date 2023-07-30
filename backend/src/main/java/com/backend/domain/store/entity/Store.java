@@ -24,17 +24,14 @@ public class Store extends BaseEntity {
     @Column
     private int itemPrice;
 
-    private boolean owned;
-
     // 악세사리와 OnetoMany 관계
     @OneToMany(mappedBy = "store")
     private List<Accessory> accessories = new ArrayList<>();
 
     @Builder
-    public Store (Long storeId, String itemName, int itemPrice, boolean owned){
+    public Store (Long storeId, String itemName, int itemPrice){
         this.storeId = storeId;
         this.itemName = itemName;
         this.itemPrice = itemPrice;
-        this.owned = owned;
     }
 }
