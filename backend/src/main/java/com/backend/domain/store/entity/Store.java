@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Store extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +25,6 @@ public class Store extends BaseEntity {
     private int itemPrice;
 
     // 악세사리와 OnetoMany 관계
-    @Builder.Default
     @OneToMany(mappedBy = "store")
     private List<Accessory> accessories = new ArrayList<>();
 
