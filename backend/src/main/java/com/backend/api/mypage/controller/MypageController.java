@@ -1,23 +1,14 @@
 package com.backend.api.mypage.controller;
 
 import com.backend.api.drawing.dto.DrawingListDto;
-import com.backend.api.drawing.service.DrawingViewService;
 import com.backend.api.mypage.dto.MypageInfoDto;
 import com.backend.api.mypage.dto.ProfileDto;
-import com.backend.api.photo.dto.PhotoInfoResponseDto;
+import com.backend.api.mypage.service.MypageService;
 import com.backend.api.photo.dto.PhotoWithBookmarkDto;
-import com.backend.api.photo.dto.PhotoWithDrawingsResponseDto;
-import com.backend.domain.drawing.entity.Drawing;
-import com.backend.domain.drawing.repository.DrawingRepository;
-import com.backend.domain.likes.entity.Likes;
-import com.backend.domain.likes.repository.LikesRepository;
+import com.backend.domain.accessory.dto.AccessoryDto;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.repository.MemberRepository;
-import com.backend.api.mypage.service.MypageService;
 import com.backend.domain.member.service.MemberService;
-import com.backend.domain.photo.entity.Photo;
-import com.backend.domain.photo.repository.PhotoRepository;
-import com.backend.domain.store.dto.StoreWithAccessoryDto;
 import com.backend.global.error.ErrorCode;
 import com.backend.global.error.exception.BusinessException;
 import com.backend.global.resolver.memberInfo.MemberInfo;
@@ -43,7 +34,6 @@ public class MypageController {
     private final MypageService mypageService;
     private final MemberRepository memberRepository;
     private final MemberService memberService;
-    private final PhotoRepository photoRepository;
 
 
     @Operation(summary = "마이페이지 홈 조회", description = "마이페이지 홈의 조회 메서드입니다.")
@@ -72,20 +62,6 @@ public class MypageController {
         Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
         MypageInfoDto mypageInfoDto = mypageService.editNickname(member,nickname);
         return ResponseEntity.ok(mypageInfoDto);
-    }
-
-    @Operation(summary = "마이페이지 프로필 캐릭터 조회", description = "캐릭터 꾸미기 전 프로필 정보 조회 메서드입니다.")
-    @GetMapping("/profile")
-    public ResponseEntity<ProfileDto> getMyProfile(@MemberInfo MemberInfoDto memberInfoDto){
-        try {
-            String email = memberInfoDto.getEmail();
-            ProfileDto profileDto = mypageService.getMyProfile(email);
-            return ResponseEntity.ok(profileDto);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
     }
 
     @Operation(summary = "프로필 캐릭터 수정", description = "프로필 얼굴, 색깔, 아이템 수정 메서드입니다.")
@@ -148,10 +124,10 @@ public class MypageController {
 
     @Operation(summary = "내가 가진 아이템 조회", description = "본인이 가진 아이템 목록을 출력하는 메서드입니다.")
     @GetMapping("/accessory")
-    public ResponseEntity<List<StoreWithAccessoryDto>> getMyAccessorys (@MemberInfo MemberInfoDto memberInfoDto){
+    public ResponseEntity<List<AccessoryDto>> getMyAccessorys (@MemberInfo MemberInfoDto memberInfoDto){
         try{
             Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
-            List<StoreWithAccessoryDto> result = mypageService.getMyAccessory(member.getMemberId());
+            List<AccessoryDto> result = mypageService.getMyAccessory(member.getMemberId());
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
