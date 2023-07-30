@@ -109,7 +109,7 @@ public class MypageService {
 
     public List<StoreWithAccessoryDto> getMyAccessory(Long memberId) {
         Member member = memberService.findMemberById(memberId);
-        List<Accessory> accessories = accessoryRepository.findByMember(member.getMemberId());
+        List<Accessory> accessories = accessoryRepository.findByMember(member);
 
         return accessories.stream()
                 .map(accessory -> new StoreWithAccessoryDto(accessory.getStore()))
