@@ -73,6 +73,14 @@ public class SwaggerConfig {
     }
 
     @Bean
+    public GroupedOpenApi visionApi() {
+        return GroupedOpenApi.builder()
+                .group("GCP")
+                .pathsToMatch("/api/vision/**")
+                .build();
+    }
+
+    @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .components(new Components().addSecuritySchemes("Bearer",
