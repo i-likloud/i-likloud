@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/app_background_3">
+    >
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/layout_appbar"
@@ -64,50 +64,51 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layout_selected_character"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                android:id="@+id/layout_selected_character"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="0dp"-->
+<!--                android:layout_weight="1">-->
 
                 <ImageView
                     android:id="@+id/image_profile_now"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:src="@drawable/profile_water_drop_white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/image_face_now"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:src="@drawable/face_normal"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+<!--                <ImageView-->
+<!--                    android:id="@+id/image_face_now"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:src="@drawable/face_normal"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
 
-            <LinearLayout
-                android:background="@drawable/frame_rounded_border_radius50"
-                android:layout_gravity="center"
-                android:layout_width="@dimen/_140sdp"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/_4sdp">
+<!--            <LinearLayout-->
+<!--                android:background="@drawable/frame_rounded_border_radius50"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_width="@dimen/_140sdp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:padding="@dimen/_4sdp">-->
 
-                <EditText
-                    android:id="@+id/edittext_nickname"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:hint="이영준"
-                    style="@style/Theme.AppCompat.TextView.pretendard.Size20" />
+<!--                <EditText-->
+<!--                    android:id="@+id/edittext_nickname"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:hint="이영준"-->
+<!--                    style="@style/Theme.AppCompat.TextView.pretendard.Size20" />-->
 
-            </LinearLayout>
+<!--            </LinearLayout>-->
 
         </LinearLayout>
 
@@ -209,33 +210,33 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="@dimen/_230sdp"
-                android:layout_height="0dp"
-                android:layout_weight="1">
+<!--            <LinearLayout-->
+<!--                android:layout_width="@dimen/_230sdp"-->
+<!--                android:layout_height="0dp"-->
+<!--                android:layout_weight="1">-->
 
-                <ImageView
-                    android:id="@+id/image_face_normal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/face_normal" />
+<!--                <ImageView-->
+<!--                    android:id="@+id/image_face_normal"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:src="@drawable/face_normal" />-->
 
-                <ImageView
-                    android:id="@+id/image_face_smile"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/face_smile" />
+<!--                <ImageView-->
+<!--                    android:id="@+id/image_face_smile"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:src="@drawable/face_smile" />-->
 
-                <ImageView
-                    android:id="@+id/image_face_qqiu"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/face_ggiu" />
+<!--                <ImageView-->
+<!--                    android:id="@+id/image_face_qqiu"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:src="@drawable/face_ggiu" />-->
 
-            </LinearLayout>
+<!--            </LinearLayout>-->
 
             <LinearLayout
                 android:id="@+id/button_choose_done"

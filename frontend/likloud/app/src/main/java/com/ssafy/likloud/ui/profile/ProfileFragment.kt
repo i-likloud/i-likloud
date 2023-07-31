@@ -59,16 +59,16 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
      * 옵저버를 init합니다
      */
     private fun initObserver() {
-        mainActivityViewModel.profileColor.observe(viewLifecycleOwner) {
-            CoroutineScope(Dispatchers.Main).launch {
-                mActivity.changeProfileColor(it)
-            }
-        }
-        mainActivityViewModel.profileFace.observe(viewLifecycleOwner) {
-            CoroutineScope(Dispatchers.Main).launch {
-                mActivity.changeProfileFace(it)
-            }
-        }
+//        mainActivityViewModel.profileColor.observe(viewLifecycleOwner) {
+//            CoroutineScope(Dispatchers.Main).launch {
+//                mActivity.changeProfileColor(it)
+//            }
+//        }
+//        mainActivityViewModel.profileFace.observe(viewLifecycleOwner) {
+//            CoroutineScope(Dispatchers.Main).launch {
+//                mActivity.changeProfileFace(it)
+//            }
+//        }
     }
 
     override fun initListener() {
@@ -108,23 +108,23 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             changeWaterDropColor(it, mainActivityViewModel.waterDropColorList[8])
             selectedWaterDropColor = 8
         }
-        binding.imageFaceNormal.setOnClickListener {
-            changeWaterDropFace(it, mainActivityViewModel.waterDropFaceList[0])
-            selectedWaterDropFace = 0
-        }
-        binding.imageFaceSmile.setOnClickListener {
-            changeWaterDropFace(it, mainActivityViewModel.waterDropFaceList[1])
-            selectedWaterDropFace = 1
-        }
-        binding.imageFaceQqiu.setOnClickListener {
-            changeWaterDropFace(it, mainActivityViewModel.waterDropFaceList[2])
-            selectedWaterDropFace = 2
-        }
+//        binding.imageFaceNormal.setOnClickListener {
+//            changeWaterDropFace(it, mainActivityViewModel.waterDropFaceList[0])
+//            selectedWaterDropFace = 0
+//        }
+//        binding.imageFaceSmile.setOnClickListener {
+//            changeWaterDropFace(it, mainActivityViewModel.waterDropFaceList[1])
+//            selectedWaterDropFace = 1
+//        }
+//        binding.imageFaceQqiu.setOnClickListener {
+//            changeWaterDropFace(it, mainActivityViewModel.waterDropFaceList[2])
+//            selectedWaterDropFace = 2
+//        }
         binding.buttonChooseDone.setOnClickListener {
             mainActivityViewModel.setProfileImage(selectedWaterDropColor, selectedWaterDropFace)
-            val nickname = binding.edittextNickname.text.toString()
+//            val nickname = binding.edittextNickname.text.toString()
             // 추가 정보 선택 완료시 진짜 키 받아오는 로직
-            profileFragmentViewModel.patchAdditionalInfo(LoginAdditionalRequest(nickname, selectedWaterDropColor, 0, 0))
+//            profileFragmentViewModel.patchAdditionalInfo(LoginAdditionalRequest(nickname, selectedWaterDropColor, 0, 0))
             findNavController().navigate(R.id.action_profileFragment_to_homeFragment)
         }
     }
@@ -133,7 +133,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
      * 애니메이션을 init합니다.
      */
     private fun initAnimation() {
-        binding.layoutSelectedCharacter.animation = AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down)
+//        binding.layoutSelectedCharacter.animation = AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down)
+        binding.imageProfileNow.animation = AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down)
     }
 
     /**
@@ -192,8 +193,12 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         clickedAnimation(view)
     }
 
-    private fun changeWaterDropFace(view: View, colorDrawable: Int) {
-        binding.imageFaceNow.setImageResource(colorDrawable)
-        clickedAnimation(view)
+//    private fun changeWaterDropFace(view: View, colorDrawable: Int) {
+//        binding.imageFaceNow.setImageResource(colorDrawable)
+//        clickedAnimation(view)
+//    }
+    override fun onPause() {
+        super.onPause()
+
     }
 }

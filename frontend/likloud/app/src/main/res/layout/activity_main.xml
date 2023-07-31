@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/app_background_3">
+    android:layout_height="match_parent">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
@@ -18,30 +17,30 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/nav_graph" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_profile"
-        android:layout_width="@dimen/_48sdp"
-        android:layout_height="@dimen/_48sdp"
-        android:background="@drawable/circle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/layout_profile"-->
+<!--        android:layout_width="@dimen/_48sdp"-->
+<!--        android:layout_height="@dimen/_48sdp"-->
+<!--        android:background="@drawable/circle"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
 
-        <ImageView
-            android:id="@+id/profile_color"
-            android:layout_width="@dimen/_38sdp"
-            android:layout_height="@dimen/_38sdp"
-            android:src="@drawable/profile_water_drop_white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+<!--        <ImageView-->
+<!--            android:id="@+id/profile_color"-->
+<!--            android:layout_width="@dimen/_38sdp"-->
+<!--            android:layout_height="@dimen/_38sdp"-->
+<!--            android:src="@drawable/profile_water_drop_white"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
 
-        <ImageView
-            android:id="@+id/profile_face"
-            android:layout_width="@dimen/_38sdp"
-            android:layout_height="@dimen/_38sdp"
-            android:src="@drawable/face_normal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+<!--        <ImageView-->
+<!--            android:id="@+id/profile_face"-->
+<!--            android:layout_width="@dimen/_38sdp"-->
+<!--            android:layout_height="@dimen/_38sdp"-->
+<!--            android:src="@drawable/face_normal"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
