@@ -17,7 +17,7 @@ class XAccessTokenInterceptor : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         val builder: Request.Builder = chain.request().newBuilder()
-        
+        Log.d(TAG, "intercept XAccessTokenInterceptor: ${sharedPreferences.getString(X_ACCESS_TOKEN)}")
         try {
             sharedPreferences.getString(X_ACCESS_TOKEN).let { token ->
                 token?.let {

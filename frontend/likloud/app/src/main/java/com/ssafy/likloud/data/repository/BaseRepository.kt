@@ -24,7 +24,6 @@ interface BaseRepository {
 
     // 토큰 리프래쉬
     suspend fun postRefreshToken(
-        refresh_token: String
     ): NetworkResult<ReLoginResponse>
 
     /**
@@ -46,5 +45,5 @@ interface BaseRepository {
      */
     suspend fun patchAdditionalInfo(
         loginAdditionalRequest: LoginAdditionalRequest
-    ): retrofit2.Response<LoginAdditionalResponse>
+    ): retrofit2.Response<ReLoginResponse>
 }

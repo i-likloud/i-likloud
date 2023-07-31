@@ -10,5 +10,8 @@ data class LoginAdditionalRequest(
     val profileColor: Int,
 
     @SerializedName("profileFace")
-    val profileFace: Int
+    val profileFace: Int,
+
+    @SerializedName("profileAccessory")
+    val profileAccessory : Int
 )

@@ -46,6 +46,7 @@ class LoginFragmentViewModel @Inject constructor(
             baseRepository.postLogin(LoginRequest(email, socialType)).onSuccess {
                 _loginResponse.value = it
                 sharedPreferences.putString(X_ACCESS_TOKEN, it.accessToken)
+                Log.d(TAG, "postLogin 찐 refresh: ${it.refreshToken}")
                 sharedPreferences.putString(X_REFRESH_TOKEN, it.refreshToken)
             }
         }
