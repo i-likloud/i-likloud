@@ -19,6 +19,7 @@ import retrofit2.Retrofit
 import javax.inject.Inject
 
 private const val TAG = "UploadFragmentViewModel_싸피"
+
 @HiltViewModel
 class UploadFragmentViewModel @Inject constructor(
     private val baseRepository: BaseRepository,
@@ -26,15 +27,16 @@ class UploadFragmentViewModel @Inject constructor(
 ) : ViewModel() {
     // photo의 multipart
     private val _photoMultipartBody = MutableLiveData<MultipartBody.Part>()
-    val photoMultipartBody: LiveData<MultipartBody.Part>
-        get() = _photoMultipartBody
+    val photoMultipartBody: LiveData<MultipartBody.Part> get() = _photoMultipartBody
 
     private val _photoUrl = MutableLiveData<String>()
-    val photoUrl: LiveData<String>
-        get() = _photoUrl
+    val photoUrl: LiveData<String> get() = _photoUrl
 
-    private val _isPhotoMultipartCreated = MutableLiveData<Boolean>()
-    val isPhotoMultipartCreated: LiveData<Boolean> get() = _isPhotoMultipartCreated
+    private val _isPhotoMultipartValidated = MutableLiveData<Boolean>()
+    val isPhotoMultipartValidated: LiveData<Boolean> get() = _isPhotoMultipartValidated
+
+    private val _notCloudErrorMessage = MutableLiveData<String>()
+    val notCloudErrorMessage: LiveData<String> get() = _notCloudErrorMessage
 
     // 요청하고자 하는 권한들
     val permissionList = arrayOf(
@@ -49,7 +51,6 @@ class UploadFragmentViewModel @Inject constructor(
 
     fun setMultipart(multipartBody: MultipartBody.Part) {
         _photoMultipartBody.value = multipartBody
-        _isPhotoMultipartCreated.value = true
     }
 
     /**
@@ -59,11 +60,15 @@ class UploadFragmentViewModel @Inject constructor(
     fun sendMultipart(multipartBody: MultipartBody.Part) {
         viewModelScope.launch {
             try {
-                val response = baseRepository.postPhotoMultipart(listOf(multipartBody), MemberInfoDto("email", "role"))
+                val response = baseRepository.postPhotoMultipart(
+                    listOf(multipartBody),
+                    MemberInfoDto("email", "role")
+                )
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
-                        Log.d(TAG, "sendMultipart is cloud: $responseBody")
+                        Log.d(TAG, "sendMultipart is cloud: ${responseBody[0].photoUrl} ")
+                        _isPhotoMultipartValidated.value = true
                     } else {
                         Log.e(TAG, "sendMultipart: Response body is null.")
                     }
@@ -77,7 +82,9 @@ class UploadFragmentViewModel @Inject constructor(
 
                     if (errorBody != null) {
                         Log.d(TAG, "sendMultipart: ${errorBody.message}")
+                        _notCloudErrorMessage.value = errorBody.message
                         Log.d(TAG, "sendMultipart: ${errorBody.photoUrl}")
+                        _isPhotoMultipartValidated.value = false
                     } else {
                         Log.e(TAG, "sendMultipart: Error body is null.")
                     }
