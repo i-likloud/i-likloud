@@ -36,7 +36,7 @@ public class StoreController {
         ProfileDto profileDto = mypageService.getMyProfile(email);
 
         // 상점 아이템리스트 + 보유여부
-        List<StoreWithAccessoryDto> allAccessoriesWithOwnership = storeService.getAllItemsWithOwnership(profileDto.getMemberId());
+        List<StoreWithAccessoryDto> allAccessoriesWithOwnership = storeService.getAllAccessorysWithOwnership(profileDto.getMemberId());
 
         StoreResponseDto responseDto = StoreResponseDto.builder()
                 .profile(profileDto)
@@ -47,10 +47,10 @@ public class StoreController {
     }
 
     @Operation(summary = "악세사리 구매", description = "악세사리를 구매하는 메서드입니다.")
-    @PostMapping("/buy/{accessoryId}")
-    public ResponseEntity<StoreBuyResponseDto> buyAccessory(@RequestParam Long accessoryId,@MemberInfo MemberInfoDto memberInfoDto) {
+    @PostMapping("/buy/{storeId}")
+    public ResponseEntity<StoreBuyResponseDto> buyAccessory(@RequestParam Long storeId,@MemberInfo MemberInfoDto memberInfoDto) {
         String email = memberInfoDto.getEmail();
-        ProfileDto profileDto = storeService.buyAccessory(email, accessoryId);
+        ProfileDto profileDto = storeService.buyAccessory(email, storeId);
 
         // 보유 아이템 목록 응답
         List<AccessoryDto> myAccessories = mypageService.getMyAccessory(profileDto.getMemberId());

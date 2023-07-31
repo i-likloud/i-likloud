@@ -10,14 +10,14 @@ import lombok.Setter;
 public class StoreWithAccessoryDto {
 
     private Long storeId;
-    private String itemName;
-    private int itemPrice;
+    private String accessoryName;
+    private int accessoryPrice;
     private boolean owned;
 
     public StoreWithAccessoryDto(Store store, boolean owned) {
         this.storeId = store.getStoreId();
-        this.itemName = store.getItemName();
-        this.itemPrice = store.getItemPrice();
+        this.accessoryName = store.getAccessoryName();
+        this.accessoryPrice = store.getAccessoryPrice();
         this.owned = owned;
     }
 }
