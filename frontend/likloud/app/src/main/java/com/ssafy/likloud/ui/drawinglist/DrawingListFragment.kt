@@ -48,12 +48,6 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    override fun initListener() {
-        binding.buttonBack.setOnClickListener {
-            findNavController().popBackStack()
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -68,7 +62,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
 
             drawingListFragmentViewModel.getRankingOrderDrawingDtoList()
             drawingListFragmentViewModel.getRecentOrderDrawingDtoList()
-            drawingListFragmentViewModel.changeCurrentDrawingDtoList(drawingListFragmentViewModel.recentOrderDrawingDtoList)
+//            drawingListFragmentViewModel.changeCurrentDrawingDtoList(drawingListFragmentViewModel.recentOrderDrawingDtoList)
             //맨 처음에는 리스트 가장 첫 번째 그림
             drawingListFragmentViewModel.changeSelectedDrawingListDto(drawingListFragmentViewModel.currentDrawingDtoList[0])
 
@@ -103,6 +97,10 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
                 }else{
                     binding.imageHeart.setImageResource(R.drawable.icon_unselected_heart)
                 }
+            }
+
+            buttonBack.setOnClickListener {
+                findNavController().popBackStack()
             }
         }
     }

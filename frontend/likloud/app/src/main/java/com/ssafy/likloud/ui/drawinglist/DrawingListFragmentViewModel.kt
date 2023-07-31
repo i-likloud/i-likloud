@@ -33,7 +33,7 @@ class DrawingListFragmentViewModel @Inject constructor(
         // api 호출해서 _recentOrderDrawingDtoList에 넣어줘라
     }
 
-    private var _currentDrawingDtoList = mutableListOf<DrawingListDto>()
+    private var _currentDrawingDtoList = mutableListOf<DrawingListDto>(DrawingListDto(), DrawingListDto())
     val currentDrawingDtoList: MutableList<DrawingListDto>
         get() = _currentDrawingDtoList
     fun changeCurrentDrawingDtoList(list: MutableList<DrawingListDto>){
