@@ -93,6 +93,12 @@ class UploadFragment :
             requestMultiplePermission.launch(uploadFragmentViewModel.permissionList)
             invokeCameraDialog()
         }
+
+        binding.buttonChoose.setOnClickListener {
+            if(uploadFragmentViewModel.photoMultipartBody.value!=null){
+
+            }
+        }
     }
 
     override fun onDestroy() {
@@ -114,6 +120,12 @@ class UploadFragment :
             },
         )
         dialog.show(childFragmentManager, TAG)
+    }
+
+    private fun invokeAICheckingDialog(){
+        val dialog = AICheckingDialog()
+        dialog.show(childFragmentManager,TAG)
+
     }
 
     /**

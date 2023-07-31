@@ -1,8 +1,8 @@
 package com.ssafy.likloud.data.api
 
-import com.ssafy.likloud.ApplicationClass.Companion.X_REFRESH_TOKEN
-import com.ssafy.likloud.ApplicationClass.Companion.sharedPreferences
 import com.ssafy.likloud.base.BaseResponse
+import com.ssafy.likloud.data.model.MemberInfoDto
+import com.ssafy.likloud.data.model.PhotoUploadResponseDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
 import com.ssafy.likloud.data.model.response.ReLoginResponse
@@ -10,8 +10,8 @@ import com.ssafy.likloud.data.model.SampleDto
 import com.ssafy.likloud.data.model.UserDto
 import com.ssafy.likloud.data.model.request.LoginAdditionalRequest
 import com.ssafy.likloud.data.model.request.MemberInfoRequest
-import com.ssafy.likloud.data.model.response.LoginAdditionalResponse
 import com.ssafy.likloud.data.model.response.MemberInfoResponse
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -41,6 +41,14 @@ interface BaseService {
     // MEMBER로 올리고, newToken을 헤더에 담아 받아온다.
     @PATCH("api/member/additional")
     suspend fun patchAdditionalInfo(@Body body: LoginAdditionalRequest): Response<ReLoginResponse>
+
+    @Multipart
+    @POST("api/photo/upload")
+    suspend fun postPhotoMultipart(
+        @Part files: List<MultipartBody.Part>,
+        @Part("memberInfoDto") memberInfoDto: MemberInfoDto
+    ): Response<List<PhotoUploadResponseDto>>
+
 }
 
 //api 만드는 과정
