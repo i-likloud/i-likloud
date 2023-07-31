@@ -35,7 +35,6 @@ public class LikesService {
 
         // 좋아요 수 증가
         drawing.setLikesCount(drawing.getLikesCount() + 1);
-        drawingRepository.save(drawing);
     }
 
     // 좋아요 취소
@@ -48,7 +47,6 @@ public class LikesService {
         // 좋아요 수 감소
         Drawing drawing = likes.getDrawing();
         drawing.setLikesCount(drawing.getLikesCount() - 1);
-        drawingRepository.save(drawing);
     }
 
     // 좋아요 확인

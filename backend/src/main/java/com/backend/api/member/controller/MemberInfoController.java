@@ -46,7 +46,7 @@ public class MemberInfoController {
     @Operation(summary = "추가 정보", description = "회원가입후 추가정보 관련 메서드입니다. \n\n " +
             "body 지우고 nickname, profileColor, profileFace, profileAccessory만 써서 요청해주세요")
     @PatchMapping("/additional")
-    public ResponseEntity<MemberDto.Response> updateAdditionalInfo(@RequestBody MemberDto.UpdateRequest request, @MemberInfo MemberInfoDto memberInfoDto) {
+    public ResponseEntity<AccessTokenResponseDto> updateAdditionalInfo(@RequestBody MemberDto.UpdateRequest request, @MemberInfo MemberInfoDto memberInfoDto) {
         // 닉네임 중복 검사
         Optional<Member> findByNickname = memberRepository.findByNickname(request.getNickname());
         if (findByNickname.isPresent()) {
@@ -61,7 +61,7 @@ public class MemberInfoController {
         // 본문에는 response, 헤더에는 새 토큰을 추가하여 ResponseEntity 생성
         return ResponseEntity.ok()
                 .header("newToken", newToken.getAccessToken())
-                .body(response);
+                .body(newToken);
     }
 
 }
