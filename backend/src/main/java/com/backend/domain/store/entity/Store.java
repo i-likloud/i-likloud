@@ -19,19 +19,19 @@ public class Store extends BaseEntity {
     private Long storeId;
 
     @Column
-    private String itemName;
+    private String accessoryName;
 
     @Column
-    private int itemPrice;
+    private int accessoryPrice;
 
     // 악세사리와 OnetoMany 관계
     @OneToMany(mappedBy = "store")
     private List<Accessory> accessories = new ArrayList<>();
 
     @Builder
-    public Store (Long storeId, String itemName, int itemPrice){
+    public Store (Long storeId, String accessoryName, int accessoryPrice){
         this.storeId = storeId;
-        this.itemName = itemName;
-        this.itemPrice = itemPrice;
+        this.accessoryName = accessoryName;
+        this.accessoryPrice = accessoryPrice;
     }
 }

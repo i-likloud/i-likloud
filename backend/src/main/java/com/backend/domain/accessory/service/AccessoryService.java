@@ -14,10 +14,6 @@ public class AccessoryService {
 
     private final AccessoryRepository accessoryRepository;
 
-    public Accessory findAccessoryByAccessoryId(Long accessoryId){
-        return accessoryRepository.findById(accessoryId)
-                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_ACCESSORY));
-    }
 
     // 보유여부 확인
     public boolean isAlreadyOwned(Member member, Long storeId) {

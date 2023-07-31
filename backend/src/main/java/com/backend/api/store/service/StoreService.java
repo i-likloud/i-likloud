@@ -10,6 +10,8 @@ import com.backend.domain.member.service.MemberService;
 import com.backend.domain.store.dto.StoreWithAccessoryDto;
 import com.backend.domain.store.entity.Store;
 import com.backend.domain.store.repository.StoreRepository;
+import com.backend.global.error.ErrorCode;
+import com.backend.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,12 +29,13 @@ public class StoreService {
     private final MemberService memberService;
 
 
-    // 상점 아이템 조회(보유 여부 추가)
-    public List<StoreWithAccessoryDto> getAllItemsWithOwnership(Long memberId) {
-        Member member = memberService.findMemberById(memberId);
-        List<Store> allItems = storeRepository.findAll();
 
-        return allItems.stream()
+    // 상점 아이템 조회(보유 여부 추가)
+    public List<StoreWithAccessoryDto> getAllAccessorysWithOwnership(Long memberId) {
+        Member member = memberService.findMemberById(memberId);
+        List<Store> allaccessorys = storeRepository.findAll();
+
+        return allaccessorys.stream()
                 .map(store -> {
                     boolean owned = accessoryService.isAlreadyOwned(member, store.getStoreId());
                     return new StoreWithAccessoryDto(store, owned);
@@ -40,12 +43,18 @@ public class StoreService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
-    public ProfileDto buyAccessory(String email, Long accessoryId) {
-        Member member = memberService.findMemberByEmail(email);
-        Accessory buyAccessory = accessoryService.findAccessoryByAccessoryId(accessoryId);
+    public Store findStoreByStoreId(Long storeId){
+        return storeRepository.findById(storeId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_ACCESSORY));
+    }
 
-        int targetCoin = buyAccessory.getStore().getItemPrice();
+    @Transactional
+    public ProfileDto buyAccessory(String email, Long storeId) {
+        Member member = memberService.findMemberByEmail(email);
+        Store buyStore = findStoreByStoreId(storeId);
+//
+//        if (AllAccessoriesWithOwnership)
+        int targetCoin = buyStore.getAccessoryPrice();
         int currentGoldCoin = member.getGoldCoin();
 
         if (currentGoldCoin < targetCoin) {
@@ -53,19 +62,23 @@ public class StoreService {
         }
 
         List<Accessory> myAccessories = accessoryRepository.findByMember(member);
-        boolean alreadyOwned = myAccessories.stream().anyMatch(accessory -> accessory.getAccessoryId().equals(accessoryId));
+        boolean alreadyOwned = myAccessories.stream().anyMatch(accessory -> accessory.getAccessoryId().equals(storeId));
 
         if (!alreadyOwned) {
             member.setGoldCoin(currentGoldCoin - targetCoin);
 
-            // storeRepository를 사용하여 악세사리의 store 정보를 가져옴
-            Store store = storeRepository.findById(buyAccessory.getStore().getStoreId())
-                    .orElseThrow(() -> new RuntimeException("악세사리의 store 정보를 찾을 수 없습니다."));
+//            // storeRepository를 사용하여 악세사리의 store 정보를 가져옴
+//            Store store = storeRepository.findById(buyAccessory.getStoreId())
+//                    .orElseThrow(() -> new RuntimeException("악세사리의 store 정보를 찾을 수 없습니다."));
 
             // member가 sotr_id번의 buyAccessory를 샀다.
-            buyAccessory.setStore(store);
-            buyAccessory.setMember(member);
-            accessoryRepository.save(buyAccessory);
+            Accessory accessory = Accessory.builder()
+                    .store(buyStore)
+                    .member(member)
+                    .build();
+
+
+            accessoryRepository.save(accessory);
         }
 
         return ProfileDto.of(member);
@@ -74,8 +87,8 @@ public class StoreService {
     @Transactional
     public Store uploadAccessory(AccessoryUploadRequestDto requestDto) {
         Store store = Store.builder()
-                .itemName(requestDto.getItemName())
-                .itemPrice(requestDto.getItemPrice())
+                .accessoryName(requestDto.getAccessoryName())
+                .accessoryPrice(requestDto.getAccessoryPrice())
                 .build();
 
         store = storeRepository.save(store);

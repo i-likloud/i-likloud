@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class AccessoryUploadRequestDto {
-    private String itemName;
-    private int itemPrice;
+    private String accessoryName;
+    private int accessoryPrice;
 }

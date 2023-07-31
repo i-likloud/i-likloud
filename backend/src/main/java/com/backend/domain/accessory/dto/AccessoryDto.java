@@ -18,8 +18,8 @@ public class AccessoryDto {
 
     public AccessoryDto(Accessory accessory){
         this.accessoryId = accessory.getAccessoryId();
-        this.accessoryName = accessory.getStore().getItemName();
-        this.accessoryPrice = accessory.getStore().getItemPrice();
+        this.accessoryName = accessory.getStore().getAccessoryName();
+        this.accessoryPrice = accessory.getStore().getAccessoryPrice();
 
     }
 }
