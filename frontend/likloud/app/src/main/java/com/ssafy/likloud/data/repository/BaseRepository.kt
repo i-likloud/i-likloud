@@ -2,6 +2,7 @@ package com.ssafy.likloud.data.repository
 
 import androidx.lifecycle.MutableLiveData
 import com.ssafy.likloud.data.api.NetworkResult
+import com.ssafy.likloud.data.model.DrawingDetailDto
 import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
@@ -57,5 +58,9 @@ interface BaseRepository {
      */
     suspend fun getDrawingList(
         orderBy: String
-    ): NetworkResult<MutableLiveData<MutableList<DrawingListDto>>>
+    ): NetworkResult<MutableList<DrawingListDto>>
+
+    suspend fun getDrawingDetail(
+        drawingId: Int
+    ): NetworkResult<DrawingDetailDto>
 }

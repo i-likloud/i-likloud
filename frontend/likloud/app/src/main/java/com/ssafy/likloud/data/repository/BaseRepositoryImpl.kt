@@ -6,6 +6,7 @@ import com.ssafy.likloud.ApplicationClass
 import com.ssafy.likloud.data.api.BaseService
 import com.ssafy.likloud.data.api.NetworkResult
 import com.ssafy.likloud.data.api.handleApi
+import com.ssafy.likloud.data.model.DrawingDetailDto
 import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
@@ -51,7 +52,11 @@ class BaseRepositoryImpl @Inject constructor(
         return baseAPIService.patchAdditionalInfo(loginAdditionalRequest)
     }
 
-    override suspend fun getDrawingList(orderBy: String): NetworkResult<MutableLiveData<MutableList<DrawingListDto>>> {
+    override suspend fun getDrawingList(orderBy: String): NetworkResult<MutableList<DrawingListDto>> {
         return handleApi { baseAPIService.getDrawingList(orderBy).body()!! }
+    }
+
+    override suspend fun getDrawingDetail(drawingId: Int): NetworkResult<DrawingDetailDto> {
+        return handleApi { baseAPIService.getDrawingDetail(drawingId).body()!! }
     }
 }

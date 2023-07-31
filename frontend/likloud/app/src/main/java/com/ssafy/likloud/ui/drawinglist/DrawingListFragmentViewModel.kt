@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ssafy.likloud.data.api.onError
 import com.ssafy.likloud.data.api.onSuccess
 import com.ssafy.likloud.data.model.CommentDto
 import com.ssafy.likloud.data.model.DrawingDetailDto
@@ -13,6 +14,8 @@ import com.ssafy.likloud.data.model.UserDto
 import com.ssafy.likloud.data.repository.BaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import org.apache.commons.lang3.mutable.Mutable
+import retrofit2.http.Path
 import javax.inject.Inject
 
 private const val TAG = "차선호"
@@ -28,9 +31,9 @@ class DrawingListFragmentViewModel @Inject constructor(
 
         viewModelScope.launch {
             // api 호출해서 _rankingOrderDrawingDtoList에 넣어줘라
-            baseRepository.getDrawingList("?orderBy=likesCount").onSuccess {
-                _rankingOrderDrawingListDtoList = it
-                Log.d(TAG, "getRankingOrderDrawingListDtoList 결과 : ${it.value} ")
+            baseRepository.getDrawingList("likesCount").onSuccess {
+                _rankingOrderDrawingListDtoList.value = it
+                Log.d(TAG, "getRankingOrderDrawingListDtoList 결과 : $it ")
             }
         }
     }
@@ -41,10 +44,9 @@ class DrawingListFragmentViewModel @Inject constructor(
     fun getRecentOrderDrawingListDtoList(){
         // api 호출해서 _recentOrderDrawingDtoList에 넣어줘라
         viewModelScope.launch {
-            // api 호출해서 _rankingOrderDrawingDtoList에 넣어줘라
             baseRepository.getDrawingList("").onSuccess {
-                _recentOrderDrawingListDtoList = it
-                Log.d(TAG, "getRecentOrderDrawingListDtoList 결과: ${it.value}")
+                _recentOrderDrawingListDtoList.value = it
+                Log.d(TAG, "getRecentOrderDrawingListDtoList 결과: $it")
             }
         }
     }
@@ -56,10 +58,11 @@ class DrawingListFragmentViewModel @Inject constructor(
         _currentDrawingListDtoList.value = list
     }
     fun changeCurrentToRanking(){
-        _currentDrawingListDtoList = _rankingOrderDrawingListDtoList
+        _currentDrawingListDtoList.value = _rankingOrderDrawingListDtoList.value
     }
     fun changeCurrentToRecent(){
-        _currentDrawingListDtoList = _recentOrderDrawingListDtoList
+        _currentDrawingListDtoList.value = _recentOrderDrawingListDtoList.value
+        Log.d(TAG, "changeCurrentToRecent 결과 : ${_currentDrawingListDtoList} ")
     }
 
     private var _selectedDrawingListDto = DrawingListDto()
@@ -69,14 +72,19 @@ class DrawingListFragmentViewModel @Inject constructor(
         _selectedDrawingListDto = dto
     }
 
-    private var _selectedDrawingDetailDto = DrawingDetailDto()
-    val selectedDrawingDetailDto: DrawingDetailDto
+    private var _selectedDrawingDetailDto = MutableLiveData<DrawingDetailDto>()
+    val selectedDrawingDetailDto: LiveData<DrawingDetailDto>
         get() = _selectedDrawingDetailDto
     fun getSelectedDrawingDetailDto(dto: DrawingListDto){
         //여기서 api호출해서 받아라
+        viewModelScope.launch {
+            baseRepository.getDrawingDetail(dto._id).onSuccess {
+                _selectedDrawingDetailDto.value = it
+            }
+        }
     }
     fun changeSelectedDrawingDetailDtoMemberLiked(){
-        _selectedDrawingDetailDto.memberLiked = !_selectedDrawingDetailDto.memberLiked
+        _selectedDrawingDetailDto.value!!.memberLiked = !_selectedDrawingDetailDto.value!!.memberLiked
         // api 호출
     }
 

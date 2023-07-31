@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.ssafy.likloud.ApplicationClass.Companion.X_REFRESH_TOKEN
 import com.ssafy.likloud.ApplicationClass.Companion.sharedPreferences
 import com.ssafy.likloud.base.BaseResponse
+import com.ssafy.likloud.data.model.DrawingDetailDto
 import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
@@ -48,12 +49,16 @@ interface BaseService {
      * 그림 게시물 조회
      * orderBy에 "?orderBy=likesCount"(좋아요 순), "?orderBy=viewCount"(조회수 순)
      */
-    @GET("api/drawings/{orderBy}")
-    suspend fun getDrawingList(@Path("orderBy") orderBy: String): Response<MutableLiveData<MutableList<DrawingListDto>>>
+    @GET("api/drawings/")
+    suspend fun getDrawingList(@Query("orderBy") orderBy: String): Response<MutableList<DrawingListDto>>
+
+    @GET("api/drawings/{drawingId}")
+    suspend fun getDrawingDetail(@Path("drawingId") drawingId: Int): Response<DrawingDetailDto>
+
 }
 
 //api 만드는 과정
-//1. api service 작성 (BaseService 참고)
+//1. api service 작성 (BaseService 참고)S
 //2. api service를 사용하는 Repository Interface 생성 (BaseRepository 참고)
 //3. repository Interface 구현체인 Impl 파일 생성 (BaseRepositoryImpl 참고)
 //4. respository module에 내가 만든 repository 등록 (RepositoryModule 참고)
