@@ -208,6 +208,9 @@ class LoginFragment :
         }
 
 
+    /**
+     * 카카오 SDK 로그인 구현부입니다.
+     */
     private fun startKakaoLogin(context: Context = requireContext()) {
         Log.d(TAG, "startKakaoLogin: clicked")
 
@@ -219,8 +222,10 @@ class LoginFragment :
             } else if (token != null) {
                 Log.i(ContentValues.TAG, "카카오톡으로 로그인 성공 accesstoken ${token.accessToken}")
                 Log.i(ContentValues.TAG, "카카오톡으로 로그인 성공 refreshtoken ${token.refreshToken}")
-                Log.i(ContentValues.TAG, "카카오톡: ${token.scopes?.get(2)}")
-                loginFragmentViewModel.getTokenValidation(token.accessToken)
+//                Log.i(ContentValues.TAG, "카카오톡: ${token.scopes?.get(2)}")
+                sharedPreferences.putString(X_ACCESS_TOKEN, token.accessToken)
+                loginFragmentViewModel.postLogin("email", "KAKAO")
+//                loginFragmentViewModel.getTokenValidation(token.accessToken)
             }
         }
 
@@ -246,12 +251,9 @@ class LoginFragment :
                         ContentValues.TAG,
                         "카카오톡으로 로그인 성공 accesstoken ${token.accessToken}"
                     )
-                    Log.i(
-                        ContentValues.TAG,
-                        "카카오톡으로 로그인 성공 refreshtoken ${token.refreshToken}"
-                    )
                     Log.i(ContentValues.TAG, "카카오톡: ${token.scopes?.get(2)}")
-                    loginFragmentViewModel.getTokenValidation(token.accessToken)
+                    sharedPreferences.putString(X_ACCESS_TOKEN, token.accessToken)
+                    loginFragmentViewModel.postLogin("email", "KAKAO")
                 }
             }
         }

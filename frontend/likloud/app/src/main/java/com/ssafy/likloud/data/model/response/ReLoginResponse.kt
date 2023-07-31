@@ -9,6 +9,6 @@ data class ReLoginResponse (
     @SerializedName("accessToken")
     val accessToken: String,
 
-    @SerializedName("accessTokenExpirationPeriod")
+    @SerializedName("accessTokenExpirePeriod")
     val accessTokenExpirationPeriod: String,
 )
