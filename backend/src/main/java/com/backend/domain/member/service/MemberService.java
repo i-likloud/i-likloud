@@ -1,5 +1,7 @@
 package com.backend.domain.member.service;
 
+import com.backend.domain.drawing.entity.Drawing;
+import com.backend.domain.drawing.repository.DrawingRepository;
 import com.backend.domain.likes.entity.Likes;
 import com.backend.domain.likes.repository.LikesRepository;
 import com.backend.domain.member.entity.Member;
@@ -23,10 +25,33 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final LikesRepository likesRepository;
+    private final DrawingRepository drawingRepository;
 
     public Member registerMember(Member member) {
         validateDuplicateMember(member);
         return memberRepository.save(member);
+    }
+
+    public Member updateMember(Member updatedMember) {
+        Long memberId = updatedMember.getMemberId();
+        Member existingMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new EntityNotFoundException("Member not found with id: " + memberId));
+
+        // 업데이트할 필드가 있다면 각 필드를 새로운 값으로 업데이트
+        if (updatedMember.getFirebaseToken() != null) {
+            existingMember.setFirebaseToken(updatedMember.getFirebaseToken());
+        }
+
+        // 회원 정보 업데이트
+        return memberRepository.save(existingMember);
+    }
+
+    public String getAuthorFirebaseToken(Long drawingId) {
+        Drawing drawing = drawingRepository.findById(drawingId)
+                .orElseThrow(() -> new EntityNotFoundException("Drawing not found with id: " + drawingId));
+
+        Member author = drawing.getMember(); // Drawing 엔티티에 작성자(Member) 정보가 있는 가정하에 작성자를 가져옴
+        return author.getFirebaseToken();
     }
 
     // 중복 검증

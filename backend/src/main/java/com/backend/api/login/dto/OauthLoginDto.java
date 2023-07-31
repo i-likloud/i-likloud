@@ -13,6 +13,7 @@ public class OauthLoginDto {
     public static class Request {
         private String email;
         private String socialType;
+        private String firebaseToken;
     }
 
     @Getter
