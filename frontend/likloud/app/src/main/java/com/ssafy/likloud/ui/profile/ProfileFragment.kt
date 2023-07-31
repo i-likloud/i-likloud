@@ -12,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
@@ -53,6 +54,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         initAnimation()
         initListener()
         initObserver()
+        initAdapter()
     }
 
     /**
@@ -72,54 +74,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     }
 
     override fun initListener() {
-        binding.waterDropWhite.setOnClickListener {
-            changeWaterDropColor(it, mainActivityViewModel.waterDropColorList[0])
-            selectedWaterDropColor = 0
-        }
-        binding.waterDropPurple.setOnClickListener {
-            changeWaterDropColor(it, mainActivityViewModel.waterDropColorList[1])
-            selectedWaterDropColor = 1
-        }
-        binding.waterDropMint.setOnClickListener {
-            changeWaterDropColor(it, mainActivityViewModel.waterDropColorList[2])
-            selectedWaterDropColor = 2
-        }
-        binding.waterDropBlue.setOnClickListener {
-            changeWaterDropColor(it, mainActivityViewModel.waterDropColorList[3])
-            selectedWaterDropColor = 3
-        }
-        binding.waterDropOrange.setOnClickListener {
-            changeWaterDropColor(it, mainActivityViewModel.waterDropColorList[4])
-            selectedWaterDropColor = 4
-        }
-        binding.waterDropRed.setOnClickListener {
-            changeWaterDropColor(it, mainActivityViewModel.waterDropColorList[5])
-            selectedWaterDropColor = 5
-        }
-        binding.waterDropGreen.setOnClickListener {
-            changeWaterDropColor(it, mainActivityViewModel.waterDropColorList[6])
-            selectedWaterDropColor = 6
-        }
-        binding.waterDropPink.setOnClickListener {
-            changeWaterDropColor(it, mainActivityViewModel.waterDropColorList[7])
-            selectedWaterDropColor = 7
-        }
-        binding.waterDropLemon.setOnClickListener {
-            changeWaterDropColor(it, mainActivityViewModel.waterDropColorList[8])
-            selectedWaterDropColor = 8
-        }
-        binding.imageFaceNormal.setOnClickListener {
-            changeWaterDropFace(it, mainActivityViewModel.waterDropFaceList[0])
-            selectedWaterDropFace = 0
-        }
-        binding.imageFaceSmile.setOnClickListener {
-            changeWaterDropFace(it, mainActivityViewModel.waterDropFaceList[1])
-            selectedWaterDropFace = 1
-        }
-        binding.imageFaceQqiu.setOnClickListener {
-            changeWaterDropFace(it, mainActivityViewModel.waterDropFaceList[2])
-            selectedWaterDropFace = 2
-        }
         binding.buttonChooseDone.setOnClickListener {
             val nickname = binding.edittextNickname.text.toString()
 
@@ -131,6 +85,32 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                 // 추가 정보 선택 완료시 진짜 키 받아오는 로직
                 profileFragmentViewModel.patchAdditionalInfo(LoginAdditionalRequest(nickname, selectedWaterDropColor, selectedWaterDropFace, 0))
                 findNavController().navigate(R.id.action_profileFragment_to_homeFragment)
+            }
+        }
+    }
+
+    /**
+     * 리스트 어뎁터를 init합니다.
+     */
+    private fun initAdapter() {
+        val colorListAdapter = ProfileListAdapter()
+        colorListAdapter.submitList(mainActivityViewModel.waterDropColorList)
+        binding.recyclerviewColor.layoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerviewColor.adapter = colorListAdapter
+        colorListAdapter.itemClickListener = object: ProfileListAdapter.ItemClickListener {
+            override fun onClick(view: View, position: Int) {
+                changeWaterDropColor(view, mainActivityViewModel.waterDropColorList[position].resourceId)
+                selectedWaterDropColor = mainActivityViewModel.waterDropColorList[position].num
+            }
+        }
+        val faceListAdapter = ProfileListAdapter()
+        faceListAdapter.submitList(mainActivityViewModel.waterDropFaceList)
+        binding.recyclerviewFace.layoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerviewFace.adapter = faceListAdapter
+        faceListAdapter.itemClickListener = object: ProfileListAdapter.ItemClickListener {
+            override fun onClick(view: View, position: Int) {
+                changeWaterDropFace(view, mainActivityViewModel.waterDropFaceList[position].resourceId)
+                selectedWaterDropFace = mainActivityViewModel.waterDropFaceList[position].num
             }
         }
     }
@@ -168,6 +148,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         }
     }
 
+    /**
+     * 뷰에 위아래로 두번 흔드는듯한 애니메이션을 적용시킵니다.
+     */
     private fun makeAnimationSwingY(view: View, values: Float) {
         CoroutineScope(Dispatchers.Main).launch {
             makeAnimationY(view, values)
@@ -211,7 +194,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         binding.imageColorNow.setImageResource(colorDrawable)
         clickedAnimation(view)
     }
-
     private fun changeWaterDropFace(view: View, colorDrawable: Int) {
         binding.imageFaceNow.setImageResource(colorDrawable)
         clickedAnimation(view)
