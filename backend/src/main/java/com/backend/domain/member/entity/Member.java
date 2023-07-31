@@ -52,6 +52,9 @@ public class Member extends BaseEntity {
     @Column(length = 250)
     private String refreshToken;
 
+    @Column(name = "firebase_token")
+    private String firebaseToken;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
@@ -94,6 +97,14 @@ public class Member extends BaseEntity {
         this.profileAccessory = profileAccessory;
     }
 
+    // 가져오기
+    public String getFirebaseToken() {
+        return firebaseToken;
+    }
+
+    public void setFirebaseToken(String firebaseToken) {
+        this.firebaseToken = firebaseToken;
+    }
 
     public void updateRole(Role role){
         this.role = role;

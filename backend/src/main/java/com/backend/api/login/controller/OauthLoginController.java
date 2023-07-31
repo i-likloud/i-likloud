@@ -37,8 +37,9 @@ public class OauthLoginController {
         oauthValidator.validateSocialType(oauthLoginRequestDto.getSocialType());
 
         String accessToken = authorizationHeader.split(" ")[1]; // 소셜에서 받은 accesstoken
+        String firebaseToken = oauthLoginRequestDto.getFirebaseToken(); // Firebase 토큰 값
         OauthLoginDto.Response jwtResponseDto = oauthLoginService.oauthLogin(accessToken,
-                SocialType.from(oauthLoginRequestDto.getSocialType()));
+                SocialType.from(oauthLoginRequestDto.getSocialType()),firebaseToken);
 
         return ResponseEntity.ok(jwtResponseDto);
     }
