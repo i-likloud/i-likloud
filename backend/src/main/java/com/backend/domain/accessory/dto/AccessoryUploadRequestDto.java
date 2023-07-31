@@ -1,4 +1,4 @@
-package com.backend.domain.accessory.repository;
+package com.backend.domain.accessory.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

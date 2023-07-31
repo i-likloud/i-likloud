@@ -14,11 +14,10 @@ public class StoreWithAccessoryDto {
     private int itemPrice;
     private boolean owned;
 
-    public StoreWithAccessoryDto(Store store) {
+    public StoreWithAccessoryDto(Store store, boolean owned) {
         this.storeId = store.getStoreId();
         this.itemName = store.getItemName();
         this.itemPrice = store.getItemPrice();
-        this.owned = store.isOwned();
+        this.owned = owned;
     }
-
 }

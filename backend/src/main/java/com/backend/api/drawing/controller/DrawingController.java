@@ -3,9 +3,8 @@ package com.backend.api.drawing.controller;
 import com.backend.api.drawing.dto.DrawingDetailDto;
 import com.backend.api.drawing.dto.DrawingListDto;
 import com.backend.api.drawing.dto.DrawingUploadDto;
-import com.backend.api.drawing.service.DrawingViewService;
-import com.backend.domain.drawing.entity.Drawing;
 import com.backend.api.drawing.service.DrawingUploadService;
+import com.backend.api.drawing.service.DrawingViewService;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.service.MemberService;
 import com.backend.global.error.exception.BusinessException;
@@ -51,7 +50,7 @@ public class DrawingController {
     @Operation(summary = "그림 게시물 전체 조회", description = "그림 게시물들을 전체 조회합니다. \n 기본값은 최신순 파라미터로 ?orderBy=likesCount면 좋아요 \n ?orderBy=viewCount면 조회수순")
     public ResponseEntity<List<DrawingListDto>> drawingBoard(@MemberInfo MemberInfoDto memberInfoDto, @RequestParam(defaultValue = "createdAt") String orderBy){
         Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
-        List<DrawingListDto> drawings = drawingViewService.getAllDrawings(member.getMemberId(), orderBy);
+        List<DrawingListDto> drawings = drawingViewService.getAllDrawings(member, orderBy);
         return ResponseEntity.ok().body(drawings);
     }
 

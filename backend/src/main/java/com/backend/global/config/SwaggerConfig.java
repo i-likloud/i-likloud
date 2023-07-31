@@ -88,6 +88,6 @@ public class SwaggerConfig {
                 .addSecurityItem(new SecurityRequirement().addList("Bearer"))
                 .info(new Info().title("💧운이 좋아🌥")
                         .description("<뭉게뭉게 도화지> 프로젝트 API")
-                        .version("v0.0.1"));
+                        .version("v2.6.2"));
     }
 }
