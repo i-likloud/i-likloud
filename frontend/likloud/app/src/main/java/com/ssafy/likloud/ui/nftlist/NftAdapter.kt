@@ -12,7 +12,7 @@ import androidx.core.animation.doOnEnd
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ssafy.likloud.R
-import com.ssafy.likloud.data.model.DrawingDto
+import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.databinding.ItemNftBinding
 import com.ssafy.likloud.databinding.ItemPhotoBinding
 import com.ssafy.likloud.ui.photolist.PhotoListAdapter
@@ -21,7 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class NftAdapter (var context: Context, var list : ArrayList<DrawingDto>): RecyclerView.Adapter<NftAdapter.NftHolder>() {
+class NftAdapter (var context: Context, var list : ArrayList<DrawingListDto>): RecyclerView.Adapter<NftAdapter.NftHolder>() {
 
 //    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 //        val image : ImageView = itemView.findViewById(R.id.image)
@@ -33,7 +33,7 @@ class NftAdapter (var context: Context, var list : ArrayList<DrawingDto>): Recyc
         val frontLayout = binding.layoutFront
         val backLayout = binding.layoutBack
 
-        fun bindInfo(drawing : DrawingDto){
+        fun bindInfo(drawing : DrawingListDto){
 
             drawingLayout.setOnClickListener{
                 if (backLayout.visibility == View.INVISIBLE) {
@@ -63,7 +63,7 @@ class NftAdapter (var context: Context, var list : ArrayList<DrawingDto>): Recyc
         }
     }
 
-    fun updateData(list: ArrayList<DrawingDto>) {
+    fun updateData(list: ArrayList<DrawingListDto>) {
         this.list = list
         notifyDataSetChanged()
     }
@@ -71,7 +71,7 @@ class NftAdapter (var context: Context, var list : ArrayList<DrawingDto>): Recyc
     //Use the method for item changed
     fun itemChanged() {
         // remove last item for test purposes
-        this.list[0] = (DrawingDto(R.drawable.cloud1, "Thi is cool"))
+        this.list[0] = (DrawingListDto())
         notifyItemChanged(0)
 
     }
@@ -80,7 +80,7 @@ class NftAdapter (var context: Context, var list : ArrayList<DrawingDto>): Recyc
     fun removeData() {
         // remove last item for test purposes
         val orgListSize = list.size
-        this.list = this.list.subList(0, orgListSize - 1).toList() as ArrayList<DrawingDto>
+        this.list = this.list.subList(0, orgListSize - 1).toList() as ArrayList<DrawingListDto>
         notifyItemRemoved(orgListSize - 1)
     }
 

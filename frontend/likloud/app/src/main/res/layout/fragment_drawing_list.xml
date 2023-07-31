@@ -132,7 +132,7 @@
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
-                android:id="@+id/text_drawing_nickname"
+                android:id="@+id/text_drawing_artist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_4sdp"
@@ -151,7 +151,7 @@
                 app:layout_constraintTop_toBottomOf="@id/image_drawing_profile" />
 
             <TextView
-                android:id="@+id/text_drawing_explain"
+                android:id="@+id/text_drawing_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_7sdp"

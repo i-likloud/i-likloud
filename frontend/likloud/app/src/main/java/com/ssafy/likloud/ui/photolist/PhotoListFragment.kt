@@ -18,7 +18,7 @@ import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
 import com.ssafy.likloud.data.model.CommentDto
-import com.ssafy.likloud.data.model.DrawingDto
+import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.databinding.FragmentPhotoListBinding
 import com.ssafy.likloud.ui.drawinglist.CommentListAdapter
 import com.ssafy.likloud.ui.drawinglist.DrawingListAdapter
@@ -29,11 +29,11 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
     private val photoListFragmentViewModel : PhotoListFragmentViewModel by viewModels()
     private lateinit var mainActivity: MainActivity
 
-    private lateinit var rankifgOrderPhotoList: ArrayList<DrawingDto>
-    private lateinit var recentOrderPhotoList: ArrayList<DrawingDto>
-    private lateinit var photoList: ArrayList<DrawingDto>
+    private lateinit var rankifgOrderPhotoList: ArrayList<DrawingListDto>
+    private lateinit var recentOrderPhotoList: ArrayList<DrawingListDto>
+    private lateinit var photoList: ArrayList<DrawingListDto>
 
-    private lateinit var selectedPhoto: DrawingDto
+    private lateinit var selectedPhoto: DrawingListDto
 
     private lateinit var layoutPhotoDrawingList: ConstraintLayout
 
@@ -80,9 +80,9 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
             //맨 처음에는 리스트 가장 첫 번째 그림
             selectedPhoto = photoList[0]
             Glide.with(binding.imageDrawingProfile)
-                .load(selectedPhoto.img)
+                .load(selectedPhoto.imageUrl)
                 .into(binding.imageDrawingProfile)
-            binding.textDrawingNickname.text = selectedPhoto.text + "NICKNAME"
+            binding.textDrawingNickname.text = selectedPhoto.artist
 
             val photoListAdapter = PhotoListAdapter(photoList)
             recyclerviewDrawaing.apply {
@@ -97,10 +97,9 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
                         selectedPhoto = photoListAdapter.list[position]
                         //Cente item
                         Glide.with(binding.imageDrawingProfile)
-                            .load(selectedPhoto.img)
+                            .load(selectedPhoto.imageUrl)
                             .into(binding.imageDrawingProfile)
-                        binding.textDrawingNickname.text = selectedPhoto.text + "NICKNAME"
-                        Toast.makeText(mainActivity, selectedPhoto.text, Toast.LENGTH_SHORT).show()
+                        binding.textDrawingNickname.text = selectedPhoto.artist + "NICKNAME"
                     }
                 })
             }
@@ -131,34 +130,12 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
         layoutPhotoDrawingList.alpha = targetAlpha
     }
 
-    private fun initDrawingList(): ArrayList<DrawingDto>{
-        val list = ArrayList<DrawingDto>()
+    private fun initDrawingList(): ArrayList<DrawingListDto>{
+        val list = ArrayList<DrawingListDto>()
 
-        list.add(DrawingDto(R.drawable.cloud1, "Thi is cloud1"))
-        list.add(DrawingDto(R.drawable.cloud2, "Thi is cloud2"))
-        list.add(DrawingDto(R.drawable.cloud3, "Thi is cloud3"))
-        list.add(DrawingDto(R.drawable.cloud4, "Thi is cloud4"))
-        list.add(DrawingDto(R.drawable.cloud5, "Thi is cloud5"))
-        list.add(DrawingDto(R.drawable.cloud1, "Thi is cloud1"))
-        list.add(DrawingDto(R.drawable.cloud2, "Thi is cloud2"))
-        list.add(DrawingDto(R.drawable.cloud3, "Thi is cloud3"))
-        list.add(DrawingDto(R.drawable.cloud4, "Thi is cloud4"))
-        list.add(DrawingDto(R.drawable.cloud5, "Thi is cloud5"))
-        list.add(DrawingDto(R.drawable.cloud1, "Thi is cloud1"))
-        list.add(DrawingDto(R.drawable.cloud2, "Thi is cloud2"))
-        list.add(DrawingDto(R.drawable.cloud3, "Thi is cloud3"))
-        list.add(DrawingDto(R.drawable.cloud4, "Thi is cloud4"))
-        list.add(DrawingDto(R.drawable.cloud5, "Thi is cloud5"))
-        list.add(DrawingDto(R.drawable.cloud1, "Thi is cloud1"))
-        list.add(DrawingDto(R.drawable.cloud2, "Thi is cloud2"))
-        list.add(DrawingDto(R.drawable.cloud3, "Thi is cloud3"))
-        list.add(DrawingDto(R.drawable.cloud4, "Thi is cloud4"))
-        list.add(DrawingDto(R.drawable.cloud5, "Thi is cloud5"))
-        list.add(DrawingDto(R.drawable.cloud1, "Thi is cloud1"))
-        list.add(DrawingDto(R.drawable.cloud2, "Thi is cloud2"))
-        list.add(DrawingDto(R.drawable.cloud3, "Thi is cloud3"))
-        list.add(DrawingDto(R.drawable.cloud4, "Thi is cloud4"))
-        list.add(DrawingDto(R.drawable.cloud5, "Thi is cloud5"))
+        list.add(DrawingListDto())
+        list.add(DrawingListDto())
+        list.add(DrawingListDto())
 
         return list
     }
