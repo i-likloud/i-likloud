@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
-import com.ssafy.likloud.data.model.DrawingDto
+import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.databinding.FragmentNftListBinding
 import com.ssafy.likloud.databinding.FragmentPhotoDrawingDetailBinding
 import com.ssafy.likloud.ui.photolist.PhotoDrawingDetailFragmentViewModel
@@ -61,34 +61,14 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
         }
     }
 
-    private fun initDrawingList(): ArrayList<DrawingDto>{
-        val list = ArrayList<DrawingDto>()
+    private fun initDrawingList(): ArrayList<DrawingListDto>{
+        val list = ArrayList<DrawingListDto>()
 
-        list.add(DrawingDto(R.drawable.cloud1, "Thi is cloud1"))
-        list.add(DrawingDto(R.drawable.cloud2, "Thi is cloud2"))
-        list.add(DrawingDto(R.drawable.cloud3, "Thi is cloud3"))
-        list.add(DrawingDto(R.drawable.cloud4, "Thi is cloud4"))
-        list.add(DrawingDto(R.drawable.cloud5, "Thi is cloud5"))
-        list.add(DrawingDto(R.drawable.cloud1, "Thi is cloud1"))
-        list.add(DrawingDto(R.drawable.cloud2, "Thi is cloud2"))
-        list.add(DrawingDto(R.drawable.cloud3, "Thi is cloud3"))
-        list.add(DrawingDto(R.drawable.cloud4, "Thi is cloud4"))
-        list.add(DrawingDto(R.drawable.cloud5, "Thi is cloud5"))
-        list.add(DrawingDto(R.drawable.cloud1, "Thi is cloud1"))
-        list.add(DrawingDto(R.drawable.cloud2, "Thi is cloud2"))
-        list.add(DrawingDto(R.drawable.cloud3, "Thi is cloud3"))
-        list.add(DrawingDto(R.drawable.cloud4, "Thi is cloud4"))
-        list.add(DrawingDto(R.drawable.cloud5, "Thi is cloud5"))
-        list.add(DrawingDto(R.drawable.cloud1, "Thi is cloud1"))
-        list.add(DrawingDto(R.drawable.cloud2, "Thi is cloud2"))
-        list.add(DrawingDto(R.drawable.cloud3, "Thi is cloud3"))
-        list.add(DrawingDto(R.drawable.cloud4, "Thi is cloud4"))
-        list.add(DrawingDto(R.drawable.cloud5, "Thi is cloud5"))
-        list.add(DrawingDto(R.drawable.cloud1, "Thi is cloud1"))
-        list.add(DrawingDto(R.drawable.cloud2, "Thi is cloud2"))
-        list.add(DrawingDto(R.drawable.cloud3, "Thi is cloud3"))
-        list.add(DrawingDto(R.drawable.cloud4, "Thi is cloud4"))
-        list.add(DrawingDto(R.drawable.cloud5, "Thi is cloud5"))
+        list.add(DrawingListDto())
+        list.add(DrawingListDto())
+        list.add(DrawingListDto())
+        list.add(DrawingListDto())
+        list.add(DrawingListDto())
 
         return list
     }

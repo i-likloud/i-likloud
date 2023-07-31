@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.ssafy.likloud.data.model.CommentDto
 import com.ssafy.likloud.databinding.ItemCommentBinding
 
-class CommentListAdapter (var list : ArrayList<CommentDto>): RecyclerView.Adapter<CommentListAdapter.CommentHolder>() {
+class CommentListAdapter (var list : MutableList<CommentDto>): RecyclerView.Adapter<CommentListAdapter.CommentHolder>() {
 
 //    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 //        val image : ImageView = itemView.findViewById(R.id.image)

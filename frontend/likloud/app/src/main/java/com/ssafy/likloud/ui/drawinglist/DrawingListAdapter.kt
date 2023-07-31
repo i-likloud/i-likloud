@@ -4,23 +4,39 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ssafy.likloud.R
-import com.ssafy.likloud.data.model.DrawingDto
+import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.databinding.ItemDrawingBinding
+import com.ssafy.likloud.ui.onboarding.OnboardData
+import com.ssafy.likloud.ui.onboarding.OnboardingAdapter
 
-class DrawingListAdapter  (var list : ArrayList<DrawingDto>): RecyclerView.Adapter<DrawingListAdapter.DrawingHolder>() {
+class DrawingListAdapter  (var list : MutableList<DrawingListDto>): ListAdapter<DrawingListDto, DrawingListAdapter.DrawingListHolder>(
+    DrawingListComparator
+) {
 
 //    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 //        val image : ImageView = itemView.findViewById(R.id.image)
 //    }
 
-    inner class DrawingHolder(binding: ItemDrawingBinding) : RecyclerView.ViewHolder(binding.root){
+    companion object DrawingListComparator : DiffUtil.ItemCallback<DrawingListDto>() {
+        override fun areItemsTheSame(oldItem: DrawingListDto, newItem: DrawingListDto): Boolean {
+            return oldItem == newItem
+        }
+
+        override fun areContentsTheSame(oldItem: DrawingListDto, newItem: DrawingListDto): Boolean {
+            return oldItem._id  == newItem._id
+        }
+    }
+
+    inner class DrawingListHolder(binding: ItemDrawingBinding) : RecyclerView.ViewHolder(binding.root){
         val imageDrawing = binding.imageDrawing
-        fun bindInfo(drawing : DrawingDto){
+        fun bindInfo(drawing : DrawingListDto){
             Glide.with(imageDrawing)
-                .load(drawing.img)
+                .load(drawing.imageUrl)
                 .into(imageDrawing)
             itemView.setOnClickListener{
             }
@@ -28,10 +44,10 @@ class DrawingListAdapter  (var list : ArrayList<DrawingDto>): RecyclerView.Adapt
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DrawingHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DrawingListHolder {
         val binding = ItemDrawingBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 //        return RecyclerView.ViewHolder(inflater)
-        return DrawingHolder(binding)
+        return DrawingListHolder(binding)
     }
 
 
@@ -39,30 +55,20 @@ class DrawingListAdapter  (var list : ArrayList<DrawingDto>): RecyclerView.Adapt
         return list.size
     }
 
-    override fun onBindViewHolder(holder: DrawingHolder, position: Int) {
+    override fun onBindViewHolder(holder: DrawingListHolder, position: Int) {
         holder.apply {
             bindInfo(list.get(position))
         }
     }
 
-    fun updateData(list: ArrayList<DrawingDto>) {
+    fun updateData(list: ArrayList<DrawingListDto>) {
         this.list = list
-        notifyDataSetChanged()
     }
-
-    //Use the method for item changed
-    fun itemChanged() {
-        // remove last item for test purposes
-        this.list[0] = (DrawingDto(R.drawable.cloud1, "Thi is cool"))
-        notifyItemChanged(0)
-
-    }
-
     //Use the method for checking the itemRemoved
     fun removeData() {
         // remove last item for test purposes
         val orgListSize = list.size
-        this.list = this.list.subList(0, orgListSize - 1).toList() as ArrayList<DrawingDto>
+        this.list = this.list.subList(0, orgListSize - 1).toList() as ArrayList<DrawingListDto>
         notifyItemRemoved(orgListSize - 1)
     }
 

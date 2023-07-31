@@ -12,11 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager
+import com.ssafy.likloud.ApplicationClass
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
 import com.ssafy.likloud.data.model.CommentDto
-import com.ssafy.likloud.data.model.DrawingDto
+import com.ssafy.likloud.data.model.DrawingDetailDto
+import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.databinding.FragmentDrawingListBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -28,11 +30,6 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
     private val drawingListFragmentViewModel : DrawingListFragmentViewModel by viewModels()
     private lateinit var mainActivity: MainActivity
 
-    private lateinit var rankingOrderDrawingList: ArrayList<DrawingDto>
-    private lateinit var recentOrderDrawingList: ArrayList<DrawingDto>
-    private lateinit var drawingList: ArrayList<DrawingDto>
-
-    private lateinit var selectedDrawing: DrawingDto
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -50,40 +47,63 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    override fun initListener() {
-
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        init()
+        initListener()
+        initObserver()
+
+    }
+
+    private fun init(){
         binding.apply {
 
+            drawingListFragmentViewModel.getRankingOrderDrawingDtoList()
+            drawingListFragmentViewModel.getRecentOrderDrawingDtoList()
+            drawingListFragmentViewModel.changeCurrentDrawingDtoList(drawingListFragmentViewModel.recentOrderDrawingDtoList)
+            //맨 처음에는 리스트 가장 첫 번째 그림
+            drawingListFragmentViewModel.changeSelectedDrawingListDto(drawingListFragmentViewModel.currentDrawingDtoList[0])
 
+            drawingListFragmentViewModel.getSelectedDrawingDetailDto(drawingListFragmentViewModel.selectedDrawingListDto)
+            Glide.with(binding.imageDrawingProfile)
+                .load(drawingListFragmentViewModel.selectedDrawingListDto.imageUrl)
+                .into(binding.imageDrawingProfile)
+            binding.textDrawingArtist.text = drawingListFragmentViewModel.selectedDrawingListDto.artist
+            binding.textDrawingTitle.text = drawingListFragmentViewModel.selectedDrawingListDto.title
+
+            initRecyclerView()
+        }
+    }
+
+    override fun initListener(){
+
+        binding.apply {
             //랭킹순 눌렀을 때
             buttonRankingOrder.setOnClickListener{
-                drawingList = rankingOrderDrawingList
+                drawingListFragmentViewModel.changeCurrentDrawingDtoList(drawingListFragmentViewModel.rankingOrderDrawingListDto)
             }
 
             //최신순 눌렀을 때
             buttonRecentOrder.setOnClickListener {
-                drawingList = recentOrderDrawingList
+                drawingListFragmentViewModel.changeCurrentDrawingDtoList(drawingListFragmentViewModel.recentOrderDrawingDtoList)
             }
 
-            //그림 목록 리사이클러뷰(최초에는 인기순)
-            val drawingList = initDrawingList()
-//            drawingList = rankingOrderDrawingList
+            imageHeart.setOnClickListener {
+                drawingListFragmentViewModel.changeSelectedDrawingDetailDtoMemberLiked()
+                if(drawingListFragmentViewModel.selectedDrawingDetailDto.memberLiked){
+                    binding.imageHeart.setImageResource(R.drawable.icon_selected_heart)
+                }else{
+                    binding.imageHeart.setImageResource(R.drawable.icon_unselected_heart)
+                }
+            }
+        }
+    }
 
-            //맨 처음에는 리스트 가장 첫 번째 그림
-            selectedDrawing = drawingList[0]
-            Glide.with(binding.imageDrawingProfile)
-                .load(selectedDrawing.img)
-                .into(binding.imageDrawingProfile)
-            binding.textDrawingNickname.text = selectedDrawing.text + "NICKNAME"
-            binding.textDrawingTitle.text = selectedDrawing.text + "TITLE"
-            binding.textDrawingExplain.text = selectedDrawing.text + "EXPLAIN"
-
-            val drawingListAdapter = DrawingListAdapter(drawingList)
+    private fun initRecyclerView(){
+        binding.apply {
+            val drawingListAdapter =
+                DrawingListAdapter(drawingListFragmentViewModel.currentDrawingDtoList)
             recyclerviewDrawaing.apply {
                 this.adapter = drawingListAdapter
                 set3DItem(true)
@@ -92,87 +112,43 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
                 setItemSelectListener(object : CarouselLayoutManager.OnSelected {
                     //본인한테서 멈췄을 때 이벤트
                     override fun onItemSelected(position: Int) {
+                        drawingListFragmentViewModel.changeSelectedDrawingListDto(drawingListAdapter.list[position])
 
-                        selectedDrawing = drawingListAdapter.list[position]
-                        //Cente item
+                        //여기서 selectedDrawing을 가지고 DrawingDetailDto 받아라
+                        drawingListFragmentViewModel.getSelectedDrawingDetailDto(drawingListFragmentViewModel.selectedDrawingListDto)
+
+                        //
                         Glide.with(binding.imageDrawingProfile)
-                            .load(selectedDrawing.img)
+                            .load(drawingListFragmentViewModel.selectedDrawingDetailDto.imageUrl)
                             .into(binding.imageDrawingProfile)
-                        binding.textDrawingNickname.text = selectedDrawing.text + "NICKNAME"
-                        binding.textDrawingTitle.text = selectedDrawing.text + "TITLE"
-                        binding.textDrawingExplain.text = selectedDrawing.text + "EXPLAIN"
-                        Toast.makeText(mainActivity, selectedDrawing.text, Toast.LENGTH_SHORT).show()
+                        binding.textDrawingArtist.text = drawingListFragmentViewModel.selectedDrawingDetailDto.artist
+                        binding.textDrawingTitle.text = drawingListFragmentViewModel.selectedDrawingDetailDto.title
+                        binding.textDrawingContent.text = drawingListFragmentViewModel.selectedDrawingDetailDto.content
+                        if(drawingListFragmentViewModel.selectedDrawingDetailDto.memberLiked){
+                            binding.imageHeart.setImageResource(R.drawable.icon_selected_heart)
+                        }else{
+                            binding.imageHeart.setImageResource(R.drawable.icon_unselected_heart)
+                        }
+                        drawingListFragmentViewModel.changeSelectedDrawingCommentList(drawingListFragmentViewModel.selectedDrawingDetailDto.commentList)
                     }
                 })
             }
+
             //댓글 목록 리사이클러뷰
-            val commentList = initCommentList()
-            val commentListAdapter = CommentListAdapter(commentList)
-            recyclerviewDrawingComment.apply {
-                this.adapter = commentListAdapter
-                this.layoutManager = LinearLayoutManager(mainActivity, LinearLayoutManager.VERTICAL,false)
-            }
-
-            //좋아요(하트)를 눌렀을 때
-            imageHeart.setOnClickListener {
-
-            }
-
-
-        }
-        viewLifecycleOwner.lifecycleScope.launch{
-            drawingListFragmentViewModel.commentList.observe(mainActivity){
-                //댓글창 라이브 데이터 관찰
+            if(drawingListFragmentViewModel.selectedDrawingCommentList.value != null) {
+                val commentListAdapter =
+                    CommentListAdapter(drawingListFragmentViewModel.selectedDrawingCommentList.value!!)
+                recyclerviewDrawingComment.apply {
+                    this.adapter = commentListAdapter
+                    this.layoutManager =
+                        LinearLayoutManager(mainActivity, LinearLayoutManager.VERTICAL, false)
+                }
             }
         }
     }
 
-    private fun initCommentList(): ArrayList<CommentDto>{
-        val commentList = ArrayList<CommentDto>()
-        commentList.add(CommentDto(R.drawable.profile_water_drop_blue, "영준 어린이","아놔 나두라고 나 댓글 달거라고~~~ 응애 응애 나 댓글 달게 놔둬줘!!! 제발아아아아", "10 : 19"))
-        commentList.add(CommentDto(R.drawable.profile_water_drop_orange, "영준 어린이","아놔 나두라고 나 댓글 달거라고~~~ 응애 응애 나 댓글 달게 놔둬줘!!! 제발아아아아", "10 : 19"))
-        commentList.add(CommentDto(R.drawable.profile_water_drop_blue, "영준 어린이","아놔 나두라고 나 댓글 달거라고~~~ 응애 응애 나 댓글 달게 놔둬줘!!! 제발아아아아", "10 : 19"))
-        commentList.add(CommentDto(R.drawable.profile_water_drop_lemon, "영준 어린이","아놔 나두라고 나 댓글 달거라고~~~ 응애 응애 나 댓글 달게 놔둬줘!!! 제발아아아아", "10 : 19"))
-        commentList.add(CommentDto(R.drawable.profile_water_drop_blue, "영준 어린이","아놔 나두라고 나 댓글 달거라고~~~ 응애 응애 나 댓글 달게 놔둬줘!!! 제발아아아아", "10 : 19"))
-        commentList.add(CommentDto(R.drawable.profile_water_drop_lemon, "영준 어린이","아놔 나두라고 나 댓글 달거라고~~~ 응애 응애 나 댓글 달게 놔둬줘!!! 제발아아아아", "10 : 19"))
-        commentList.add(CommentDto(R.drawable.profile_water_drop_blue, "영준 어린이","아놔 나두라고 나 댓글 달거라고~~~ 응애 응애 나 댓글 달게 놔둬줘!!! 제발아아아아", "10 : 19"))
-        commentList.add(CommentDto(R.drawable.profile_water_drop_orange, "영준 어린이","아놔 나두라고 나 댓글 달거라고~~~ 응애 응애 나 댓글 달게 놔둬줘!!! 제발아아아아", "10 : 19"))
-        commentList.add(CommentDto(R.drawable.profile_water_drop_blue, "영준 어린이","아놔 나두라고 나 댓글 달거라고~~~ 응애 응애 나 댓글 달게 놔둬줘!!! 제발아아아아", "10 : 19"))
-        return commentList
+    private fun initObserver(){
+        drawingListFragmentViewModel.selectedDrawingCommentList.observe(viewLifecycleOwner) {
+        }
     }
-
-    private fun initDrawingList(): ArrayList<DrawingDto>{
-        val list = ArrayList<DrawingDto>()
-
-        list.add(DrawingDto(R.drawable.cloud1, "Thi is cloud1"))
-        list.add(DrawingDto(R.drawable.cloud2, "Thi is cloud2"))
-        list.add(DrawingDto(R.drawable.cloud3, "Thi is cloud3"))
-        list.add(DrawingDto(R.drawable.cloud4, "Thi is cloud4"))
-        list.add(DrawingDto(R.drawable.cloud5, "Thi is cloud5"))
-        list.add(DrawingDto(R.drawable.cloud1, "Thi is cloud1"))
-        list.add(DrawingDto(R.drawable.cloud2, "Thi is cloud2"))
-        list.add(DrawingDto(R.drawable.cloud3, "Thi is cloud3"))
-        list.add(DrawingDto(R.drawable.cloud4, "Thi is cloud4"))
-        list.add(DrawingDto(R.drawable.cloud5, "Thi is cloud5"))
-        list.add(DrawingDto(R.drawable.cloud1, "Thi is cloud1"))
-        list.add(DrawingDto(R.drawable.cloud2, "Thi is cloud2"))
-        list.add(DrawingDto(R.drawable.cloud3, "Thi is cloud3"))
-        list.add(DrawingDto(R.drawable.cloud4, "Thi is cloud4"))
-        list.add(DrawingDto(R.drawable.cloud5, "Thi is cloud5"))
-        list.add(DrawingDto(R.drawable.cloud1, "Thi is cloud1"))
-        list.add(DrawingDto(R.drawable.cloud2, "Thi is cloud2"))
-        list.add(DrawingDto(R.drawable.cloud3, "Thi is cloud3"))
-        list.add(DrawingDto(R.drawable.cloud4, "Thi is cloud4"))
-        list.add(DrawingDto(R.drawable.cloud5, "Thi is cloud5"))
-        list.add(DrawingDto(R.drawable.cloud1, "Thi is cloud1"))
-        list.add(DrawingDto(R.drawable.cloud2, "Thi is cloud2"))
-        list.add(DrawingDto(R.drawable.cloud3, "Thi is cloud3"))
-        list.add(DrawingDto(R.drawable.cloud4, "Thi is cloud4"))
-        list.add(DrawingDto(R.drawable.cloud5, "Thi is cloud5"))
-
-        return list
-    }
-
-
-
 }

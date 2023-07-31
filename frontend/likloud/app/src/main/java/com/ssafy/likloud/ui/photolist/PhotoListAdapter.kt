@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ssafy.likloud.R
-import com.ssafy.likloud.data.model.DrawingDto
+import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.databinding.ItemDrawingBinding
 import com.ssafy.likloud.databinding.ItemPhotoBinding
 import com.ssafy.likloud.ui.drawinglist.DrawingListAdapter
 
-class PhotoListAdapter (var list : ArrayList<DrawingDto>): RecyclerView.Adapter<PhotoListAdapter.PhotoHolder>() {
+class PhotoListAdapter (var list : ArrayList<DrawingListDto>): RecyclerView.Adapter<PhotoListAdapter.PhotoHolder>() {
 
 //    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 //        val image : ImageView = itemView.findViewById(R.id.image)
@@ -19,9 +19,9 @@ class PhotoListAdapter (var list : ArrayList<DrawingDto>): RecyclerView.Adapter<
 
     inner class PhotoHolder(binding: ItemPhotoBinding) : RecyclerView.ViewHolder(binding.root){
         val imageDrawing = binding.imageDrawing
-        fun bindInfo(drawing : DrawingDto){
+        fun bindInfo(drawing : DrawingListDto){
             Glide.with(imageDrawing)
-                .load(drawing.img)
+                .load(drawing.imageUrl)
                 .into(imageDrawing)
             itemView.setOnClickListener{
             }
@@ -46,7 +46,7 @@ class PhotoListAdapter (var list : ArrayList<DrawingDto>): RecyclerView.Adapter<
         }
     }
 
-    fun updateData(list: ArrayList<DrawingDto>) {
+    fun updateData(list: ArrayList<DrawingListDto>) {
         this.list = list
         notifyDataSetChanged()
     }
@@ -54,7 +54,7 @@ class PhotoListAdapter (var list : ArrayList<DrawingDto>): RecyclerView.Adapter<
     //Use the method for item changed
     fun itemChanged() {
         // remove last item for test purposes
-        this.list[0] = (DrawingDto(R.drawable.cloud1, "Thi is cool"))
+        this.list[0] = (DrawingListDto())
         notifyItemChanged(0)
 
     }
@@ -63,7 +63,7 @@ class PhotoListAdapter (var list : ArrayList<DrawingDto>): RecyclerView.Adapter<
     fun removeData() {
         // remove last item for test purposes
         val orgListSize = list.size
-        this.list = this.list.subList(0, orgListSize - 1).toList() as ArrayList<DrawingDto>
+        this.list = this.list.subList(0, orgListSize - 1).toList() as ArrayList<DrawingListDto>
         notifyItemRemoved(orgListSize - 1)
     }
 

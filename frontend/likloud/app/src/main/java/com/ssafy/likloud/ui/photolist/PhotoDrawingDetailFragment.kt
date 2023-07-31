@@ -17,7 +17,6 @@ import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
 import com.ssafy.likloud.data.model.CommentDto
-import com.ssafy.likloud.data.model.DrawingDto
 import com.ssafy.likloud.databinding.FragmentDrawingListBinding
 import com.ssafy.likloud.databinding.FragmentPhotoDrawingDetailBinding
 import com.ssafy.likloud.ui.drawinglist.CommentListAdapter
