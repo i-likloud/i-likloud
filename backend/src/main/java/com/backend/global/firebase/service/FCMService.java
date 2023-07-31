@@ -24,6 +24,7 @@ public class FCMService {
 
             // FCM으로 알림 전송
             String response = FirebaseMessaging.getInstance().send(message);
+            System.out.println("Successfully sent message: " + response);
         } catch (Exception e) {
             e.printStackTrace();;
         }
