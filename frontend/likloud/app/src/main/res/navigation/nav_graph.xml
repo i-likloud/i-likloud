@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/exampleFragment"
         android:name="com.ssafy.likloud.example.ExampleFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_example" />
-        
+
     <fragment
         android:id="@+id/drawingListFragment"
         android:name="com.ssafy.likloud.ui.drawinglist.DrawingListFragment"
@@ -39,14 +39,29 @@
         android:id="@+id/homeFragment"
         android:name="com.ssafy.likloud.ui.home.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_onboarding"/>
+        tools:layout="@layout/fragment_onboarding">
+        <action
+            android:id="@+id/action_homeFragment_to_drawingListFragment"
+            app:destination="@id/drawingListFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_photoListFragment"
+            app:destination="@id/photoListFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
+    </fragment>
 
     <fragment
         android:id="@+id/onboardingFragment"
         android:name="com.ssafy.likloud.ui.onboarding.OnboardingFragment"
         android:label="OnboardingFragment"
-        tools:layout="@layout/fragment_onboarding"/>
-        
+        tools:layout="@layout/fragment_onboarding" />
+
     <fragment
         android:id="@+id/uploadFragment"
         android:name="com.ssafy.likloud.ui.upload.UploadFragment"
@@ -55,7 +70,7 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.ssafy.likloud.ui.profile.ProfileFragment"
-        android:label="ProfileFragment" >
+        android:label="ProfileFragment">
         <action
             android:id="@+id/action_profileFragment_to_homeFragment"
             app:destination="@id/homeFragment"

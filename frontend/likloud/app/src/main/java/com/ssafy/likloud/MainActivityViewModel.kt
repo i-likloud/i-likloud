@@ -22,12 +22,22 @@ class MainActivityViewModel @Inject constructor() : ViewModel() {
         R.drawable.profile_water_drop_lemon,
     )
 
-    // 작은 프로필 창 이미지를 변경하는데 사용
-    private val _profileImage = MutableLiveData<Int>()
-    val profileImage: LiveData<Int>
-        get() = _profileImage
+    val waterDropFaceList: List<Int> = listOf(
+        R.drawable.face_normal,
+        R.drawable.face_smile,
+        R.drawable.face_ggiu,
+    )
 
-    fun setProfileImage(num: Int) {
-        _profileImage.value = num
+    // 작은 프로필 창 이미지를 변경하는데 사용
+    private val _profileColor = MutableLiveData<Int>()
+    val profileColor: LiveData<Int>
+        get() = _profileColor
+    private val _profileFace = MutableLiveData<Int>()
+    val profileFace: LiveData<Int>
+        get() = _profileFace
+
+    fun setProfileImage(color: Int, face: Int) {
+        _profileColor.value = color
+        _profileFace.value = face
     }
 }

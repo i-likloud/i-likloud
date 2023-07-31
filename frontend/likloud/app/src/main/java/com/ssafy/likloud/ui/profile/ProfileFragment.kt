@@ -31,7 +31,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var mActivity: MainActivity
 
-    private var selectedWaterDrop = 0
+    private var selectedWaterDropColor = 0
+    private var selectedWaterDropFace = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -58,55 +59,72 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
      * 옵저버를 init합니다
      */
     private fun initObserver() {
-        mainActivityViewModel.profileImage.observe(viewLifecycleOwner) {
+        mainActivityViewModel.profileColor.observe(viewLifecycleOwner) {
             CoroutineScope(Dispatchers.Main).launch {
-                mActivity.changeProfileImage(it)
+                mActivity.changeProfileColor(it)
+            }
+        }
+        mainActivityViewModel.profileFace.observe(viewLifecycleOwner) {
+            CoroutineScope(Dispatchers.Main).launch {
+                mActivity.changeProfileFace(it)
             }
         }
     }
 
     override fun initListener() {
         binding.waterDropWhite.setOnClickListener {
-            changeWaterDrop(it, mainActivityViewModel.waterDropColorList[0])
-            selectedWaterDrop = 0
+            changeWaterDropColor(it, mainActivityViewModel.waterDropColorList[0])
+            selectedWaterDropColor = 0
         }
         binding.waterDropPurple.setOnClickListener {
-            changeWaterDrop(it, mainActivityViewModel.waterDropColorList[1])
-            selectedWaterDrop = 1
+            changeWaterDropColor(it, mainActivityViewModel.waterDropColorList[1])
+            selectedWaterDropColor = 1
         }
         binding.waterDropMint.setOnClickListener {
-            changeWaterDrop(it, mainActivityViewModel.waterDropColorList[2])
-            selectedWaterDrop = 2
+            changeWaterDropColor(it, mainActivityViewModel.waterDropColorList[2])
+            selectedWaterDropColor = 2
         }
         binding.waterDropBlue.setOnClickListener {
-            changeWaterDrop(it, mainActivityViewModel.waterDropColorList[3])
-            selectedWaterDrop = 3
+            changeWaterDropColor(it, mainActivityViewModel.waterDropColorList[3])
+            selectedWaterDropColor = 3
         }
         binding.waterDropOrange.setOnClickListener {
-            changeWaterDrop(it, mainActivityViewModel.waterDropColorList[4])
-            selectedWaterDrop = 4
+            changeWaterDropColor(it, mainActivityViewModel.waterDropColorList[4])
+            selectedWaterDropColor = 4
         }
         binding.waterDropRed.setOnClickListener {
-            changeWaterDrop(it, mainActivityViewModel.waterDropColorList[5])
-            selectedWaterDrop = 5
+            changeWaterDropColor(it, mainActivityViewModel.waterDropColorList[5])
+            selectedWaterDropColor = 5
         }
         binding.waterDropGreen.setOnClickListener {
-            changeWaterDrop(it, mainActivityViewModel.waterDropColorList[6])
-            selectedWaterDrop = 6
+            changeWaterDropColor(it, mainActivityViewModel.waterDropColorList[6])
+            selectedWaterDropColor = 6
         }
         binding.waterDropPink.setOnClickListener {
-            changeWaterDrop(it, mainActivityViewModel.waterDropColorList[7])
-            selectedWaterDrop = 7
+            changeWaterDropColor(it, mainActivityViewModel.waterDropColorList[7])
+            selectedWaterDropColor = 7
         }
         binding.waterDropLemon.setOnClickListener {
-            changeWaterDrop(it, mainActivityViewModel.waterDropColorList[8])
-            selectedWaterDrop = 8
+            changeWaterDropColor(it, mainActivityViewModel.waterDropColorList[8])
+            selectedWaterDropColor = 8
+        }
+        binding.imageFaceNormal.setOnClickListener {
+            changeWaterDropFace(it, mainActivityViewModel.waterDropFaceList[0])
+            selectedWaterDropFace = 0
+        }
+        binding.imageFaceSmile.setOnClickListener {
+            changeWaterDropFace(it, mainActivityViewModel.waterDropFaceList[1])
+            selectedWaterDropFace = 1
+        }
+        binding.imageFaceQqiu.setOnClickListener {
+            changeWaterDropFace(it, mainActivityViewModel.waterDropFaceList[2])
+            selectedWaterDropFace = 2
         }
         binding.buttonChooseDone.setOnClickListener {
-            mainActivityViewModel.setProfileImage(selectedWaterDrop)
+            mainActivityViewModel.setProfileImage(selectedWaterDropColor, selectedWaterDropFace)
             val nickname = binding.edittextNickname.text.toString()
             // 추가 정보 선택 완료시 진짜 키 받아오는 로직
-            profileFragmentViewModel.patchAdditionalInfo(LoginAdditionalRequest(nickname, selectedWaterDrop, 0))
+            profileFragmentViewModel.patchAdditionalInfo(LoginAdditionalRequest(nickname, selectedWaterDropColor, 0, 0))
             findNavController().navigate(R.id.action_profileFragment_to_homeFragment)
         }
     }
@@ -115,7 +133,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
      * 애니메이션을 init합니다.
      */
     private fun initAnimation() {
-        binding.imageProfileNow.animation = AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down)
+        binding.layoutSelectedCharacter.animation = AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down)
     }
 
     /**
@@ -124,10 +142,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     private fun clickedAnimation(view: View) {
         val nowProfileImage = binding.imageProfileNow
 
-        nowProfileImage.scaleX = 0.1f
-        nowProfileImage.scaleY = 0.1f
+//        nowProfileImage.scaleX = 0.1f
+//        nowProfileImage.scaleY = 0.1f
 
-        makeAnimationScale(nowProfileImage, 1f)
+//        makeAnimationScale(nowProfileImage, 1f)
         makeAnimationSpringY(view, -20f)
     }
 
@@ -169,8 +187,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     /**
      * 현재 선택된 물방울을 바꾸고, 애니메이션을 넣습니다.
      */
-    private fun changeWaterDrop(view: View, colorDrawable: Int) {
+    private fun changeWaterDropColor(view: View, colorDrawable: Int) {
         binding.imageProfileNow.setImageResource(colorDrawable)
+        clickedAnimation(view)
+    }
+
+    private fun changeWaterDropFace(view: View, colorDrawable: Int) {
+        binding.imageFaceNow.setImageResource(colorDrawable)
         clickedAnimation(view)
     }
 }
