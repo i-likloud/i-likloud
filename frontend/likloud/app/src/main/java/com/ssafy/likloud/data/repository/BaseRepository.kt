@@ -2,7 +2,7 @@ package com.ssafy.likloud.data.repository
 
 import com.ssafy.likloud.data.api.NetworkResult
 import com.ssafy.likloud.data.model.MemberInfoDto
-import com.ssafy.likloud.data.model.PhotoUploadResponseDto
+import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
 import com.ssafy.likloud.data.model.response.ReLoginResponse
@@ -48,7 +48,7 @@ interface BaseRepository {
      */
     suspend fun patchAdditionalInfo(
         loginAdditionalRequest: LoginAdditionalRequest
-    ): retrofit2.Response<ReLoginResponse>
+    ): Response<ReLoginResponse>
 
     /**
      * 사진을 업로드 하여 구름인지 아닌지 결과값을 가져옵니다.
@@ -57,4 +57,10 @@ interface BaseRepository {
         multipartBodyPartList : List<MultipartBody.Part>,
         memberInfoDto: MemberInfoDto
     ) : Response<List<PhotoUploadResponseDto>>
+
+
+    suspend fun postSinglePhotoMultipart(
+        multipartBodyPart : MultipartBody.Part,
+        memberInfoDto: MemberInfoDto
+    ) : NetworkResult<List<PhotoUploadResponseDto>>
 }

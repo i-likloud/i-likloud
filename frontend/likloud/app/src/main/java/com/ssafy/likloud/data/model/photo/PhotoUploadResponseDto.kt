@@ -1,4 +1,4 @@
-package com.ssafy.likloud.data.model
+package com.ssafy.likloud.data.model.photo
 
 
 import com.google.gson.annotations.SerializedName

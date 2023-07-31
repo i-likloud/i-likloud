@@ -1,17 +1,28 @@
 package com.ssafy.likloud.ui.upload
 
 import android.Manifest
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.ssafy.likloud.data.api.getOrElse
+import com.ssafy.likloud.data.api.onError
+import com.ssafy.likloud.data.api.onSuccess
+import com.ssafy.likloud.data.model.MemberInfoDto
+import com.ssafy.likloud.data.model.photo.PhotoErrorResponseDto
 import com.ssafy.likloud.data.repository.BaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
+import retrofit2.Retrofit
 import javax.inject.Inject
 
+private const val TAG = "UploadFragmentViewModel_싸피"
 @HiltViewModel
 class UploadFragmentViewModel @Inject constructor(
-    private val baseRepository: BaseRepository
+    private val baseRepository: BaseRepository,
+    private val retrofit: Retrofit
 ) : ViewModel() {
     // photo의 multipart
     private val _photoMultipartBody = MutableLiveData<MultipartBody.Part>()
@@ -41,8 +52,41 @@ class UploadFragmentViewModel @Inject constructor(
         _isPhotoMultipartCreated.value = true
     }
 
+    /**
+     * 이미지가 구름인지 아닌지에 따라서 error 혹은 success에 다른 responseDto가 옵니다.
+     * errorBody를 받기 위해 NetworkResult가 아닌 Response객체로 받아 PhotoErrorResponseDto로 errorBody를 매핑합니다.
+     */
     fun sendMultipart(multipartBody: MultipartBody.Part) {
-        // multipart post
+        viewModelScope.launch {
+            try {
+                val response = baseRepository.postPhotoMultipart(listOf(multipartBody), MemberInfoDto("email", "role"))
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    if (responseBody != null) {
+                        Log.d(TAG, "sendMultipart is cloud: $responseBody")
+                    } else {
+                        Log.e(TAG, "sendMultipart: Response body is null.")
+                    }
+                } else {
+                    val errorBody = response.errorBody()?.let {
+                        retrofit.responseBodyConverter<PhotoErrorResponseDto>(
+                            PhotoErrorResponseDto::class.java,
+                            PhotoErrorResponseDto::class.java.annotations
+                        ).convert(it)
+                    }
+
+                    if (errorBody != null) {
+                        Log.d(TAG, "sendMultipart: ${errorBody.message}")
+                        Log.d(TAG, "sendMultipart: ${errorBody.photoUrl}")
+                    } else {
+                        Log.e(TAG, "sendMultipart: Error body is null.")
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "sendMultipart: Exception occurred: ${e.message}", e)
+            }
+        }
     }
+
 
 }

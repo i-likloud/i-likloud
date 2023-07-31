@@ -2,7 +2,7 @@ package com.ssafy.likloud.data.api
 
 import com.ssafy.likloud.base.BaseResponse
 import com.ssafy.likloud.data.model.MemberInfoDto
-import com.ssafy.likloud.data.model.PhotoUploadResponseDto
+import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
 import com.ssafy.likloud.data.model.response.ReLoginResponse
@@ -28,7 +28,7 @@ interface BaseService {
     // JWT 토큰 재발급
 //    @Headers()
     @POST("api/accounts/access-token/re")
-    suspend fun postRefreshToken(@Header("Authorization") Authorization : String): Response<ReLoginResponse>
+    suspend fun postRefreshToken(@Header("Authorization") Authorization: String): Response<ReLoginResponse>
 
     // 회원가입 / (로그인)
     @POST("api/oauth/login")
@@ -45,7 +45,14 @@ interface BaseService {
     @Multipart
     @POST("api/photo/upload")
     suspend fun postPhotoMultipart(
-        @Part files: List<MultipartBody.Part>,
+        @Part multipartFiles: List<MultipartBody.Part>,
+        @Part ("memberInfoDto") memberInfoDto: MemberInfoDto
+    ): Response<List<PhotoUploadResponseDto>>
+
+    @Multipart
+    @POST("api/photo/upload")
+    suspend fun postSinglePhotoMultipart(
+        @Part multipartFiles: MultipartBody.Part,
         @Part("memberInfoDto") memberInfoDto: MemberInfoDto
     ): Response<List<PhotoUploadResponseDto>>
 

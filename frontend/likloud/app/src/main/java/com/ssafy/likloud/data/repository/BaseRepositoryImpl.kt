@@ -6,7 +6,7 @@ import com.ssafy.likloud.data.api.BaseService
 import com.ssafy.likloud.data.api.NetworkResult
 import com.ssafy.likloud.data.api.handleApi
 import com.ssafy.likloud.data.model.MemberInfoDto
-import com.ssafy.likloud.data.model.PhotoUploadResponseDto
+import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
 import com.ssafy.likloud.data.model.response.ReLoginResponse
@@ -56,6 +56,13 @@ class BaseRepositoryImpl @Inject constructor(
         memberInfoDto: MemberInfoDto
     ): Response<List<PhotoUploadResponseDto>> {
         return baseAPIService.postPhotoMultipart(multipartBodyPart, memberInfoDto)
+    }
+
+    override suspend fun postSinglePhotoMultipart(
+        multipartBodyPart: MultipartBody.Part,
+        memberInfoDto: MemberInfoDto
+    ): NetworkResult<List<PhotoUploadResponseDto>> {
+        return handleApi { baseAPIService.postSinglePhotoMultipart(multipartBodyPart, memberInfoDto).body()!! }
     }
 
 }

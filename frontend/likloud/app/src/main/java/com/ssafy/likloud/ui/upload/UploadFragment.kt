@@ -71,15 +71,15 @@ class UploadFragment :
         super.onViewCreated(view, savedInstanceState)
         initListener()
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            uploadFragmentViewModel.isPhotoMultipartCreated.observe(requireActivity()) {
-                if (it == true) uploadFragmentViewModel.photoMultipartBody.value?.let { multipart ->
-                    uploadFragmentViewModel.sendMultipart(
-                        multipart
-                    )
-                }
-            }
-        }
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            uploadFragmentViewModel.isPhotoMultipartCreated.observe(requireActivity()) {
+//                if (it == true) uploadFragmentViewModel.photoMultipartBody.value?.let { multipart ->
+//                    uploadFragmentViewModel.sendMultipart(
+//                        multipart
+//                    )
+//                }
+//            }
+//        }
     }
 
     private val requestMultiplePermission =
@@ -96,7 +96,10 @@ class UploadFragment :
 
         binding.buttonChoose.setOnClickListener {
             if(uploadFragmentViewModel.photoMultipartBody.value!=null){
-
+                uploadFragmentViewModel.sendMultipart(uploadFragmentViewModel.photoMultipartBody.value!!)
+            }
+            else{
+                Log.d(TAG, "initListener: no multipart")
             }
         }
     }
@@ -285,7 +288,7 @@ class UploadFragment :
         }
 
         val requestFile: RequestBody = createRequestBodyFromFile(file)
-        return MultipartBody.Part.createFormData("file", file.name, requestFile)
+        return MultipartBody.Part.createFormData("multipartFiles", file.name, requestFile)
     }
 
     /**
@@ -326,7 +329,7 @@ class UploadFragment :
      * 저장된 사진 파일의 body를 가져옵니다
      */
     private fun createRequestBodyFromFile(file: File): RequestBody {
-        val MEDIA_TYPE_IMAGE = "image/*".toMediaTypeOrNull()
+        val MEDIA_TYPE_IMAGE = "multipart/form-data".toMediaTypeOrNull()
         val inputStream: InputStream = FileInputStream(file)
         val byteArray = inputStream.readBytes()
         return RequestBody.create(MEDIA_TYPE_IMAGE, byteArray)
