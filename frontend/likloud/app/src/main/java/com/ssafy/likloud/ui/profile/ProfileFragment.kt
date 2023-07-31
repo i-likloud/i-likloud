@@ -59,16 +59,16 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
      * 옵저버를 init합니다
      */
     private fun initObserver() {
-//        mainActivityViewModel.profileColor.observe(viewLifecycleOwner) {
-//            CoroutineScope(Dispatchers.Main).launch {
-//                mActivity.changeProfileColor(it)
-//            }
-//        }
-//        mainActivityViewModel.profileFace.observe(viewLifecycleOwner) {
-//            CoroutineScope(Dispatchers.Main).launch {
-//                mActivity.changeProfileFace(it)
-//            }
-//        }
+        mainActivityViewModel.profileColor.observe(viewLifecycleOwner) {
+            CoroutineScope(Dispatchers.Main).launch {
+                mActivity.changeProfileColor(it)
+            }
+        }
+        mainActivityViewModel.profileFace.observe(viewLifecycleOwner) {
+            CoroutineScope(Dispatchers.Main).launch {
+                mActivity.changeProfileFace(it)
+            }
+        }
     }
 
     override fun initListener() {
@@ -108,24 +108,30 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             changeWaterDropColor(it, mainActivityViewModel.waterDropColorList[8])
             selectedWaterDropColor = 8
         }
-//        binding.imageFaceNormal.setOnClickListener {
-//            changeWaterDropFace(it, mainActivityViewModel.waterDropFaceList[0])
-//            selectedWaterDropFace = 0
-//        }
-//        binding.imageFaceSmile.setOnClickListener {
-//            changeWaterDropFace(it, mainActivityViewModel.waterDropFaceList[1])
-//            selectedWaterDropFace = 1
-//        }
-//        binding.imageFaceQqiu.setOnClickListener {
-//            changeWaterDropFace(it, mainActivityViewModel.waterDropFaceList[2])
-//            selectedWaterDropFace = 2
-//        }
+        binding.imageFaceNormal.setOnClickListener {
+            changeWaterDropFace(it, mainActivityViewModel.waterDropFaceList[0])
+            selectedWaterDropFace = 0
+        }
+        binding.imageFaceSmile.setOnClickListener {
+            changeWaterDropFace(it, mainActivityViewModel.waterDropFaceList[1])
+            selectedWaterDropFace = 1
+        }
+        binding.imageFaceQqiu.setOnClickListener {
+            changeWaterDropFace(it, mainActivityViewModel.waterDropFaceList[2])
+            selectedWaterDropFace = 2
+        }
         binding.buttonChooseDone.setOnClickListener {
-            mainActivityViewModel.setProfileImage(selectedWaterDropColor, selectedWaterDropFace)
-//            val nickname = binding.edittextNickname.text.toString()
-            // 추가 정보 선택 완료시 진짜 키 받아오는 로직
-//            profileFragmentViewModel.patchAdditionalInfo(LoginAdditionalRequest(nickname, selectedWaterDropColor, 0, 0))
-            findNavController().navigate(R.id.action_profileFragment_to_homeFragment)
+            val nickname = binding.edittextNickname.text.toString()
+
+            if (nickname.isEmpty()) {
+                showCustomToast("닉네임을 입력해주세요!")
+            } else {
+                mActivity.changeProfileLayoutVisible()
+                mainActivityViewModel.setProfileImage(selectedWaterDropColor, selectedWaterDropFace)
+                // 추가 정보 선택 완료시 진짜 키 받아오는 로직
+                profileFragmentViewModel.patchAdditionalInfo(LoginAdditionalRequest(nickname, selectedWaterDropColor, selectedWaterDropFace, 0))
+                findNavController().navigate(R.id.action_profileFragment_to_homeFragment)
+            }
         }
     }
 
@@ -133,20 +139,21 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
      * 애니메이션을 init합니다.
      */
     private fun initAnimation() {
-//        binding.layoutSelectedCharacter.animation = AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down)
-        binding.imageProfileNow.animation = AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down)
+        binding.layoutSelectedCharacter.animation = AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down)
     }
 
     /**
      * 클릭했을 때 애니메이션을 구성합니다.
      */
     private fun clickedAnimation(view: View) {
-        val nowProfileImage = binding.imageProfileNow
+        val nowProfileColor = binding.imageColorNow
+        val nowProfileFace = binding.imageFaceNow
 
 //        nowProfileImage.scaleX = 0.1f
 //        nowProfileImage.scaleY = 0.1f
 
 //        makeAnimationScale(nowProfileImage, 1f)
+        makeAnimationSwingY(nowProfileFace, 20f)
         makeAnimationSpringY(view, -20f)
     }
 
@@ -157,6 +164,18 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         CoroutineScope(Dispatchers.Main).launch {
             makeAnimationY(view, values)
             delay(250)
+            makeAnimationY(view, 0f)
+        }
+    }
+
+    private fun makeAnimationSwingY(view: View, values: Float) {
+        CoroutineScope(Dispatchers.Main).launch {
+            makeAnimationY(view, values)
+            delay(200)
+            makeAnimationY(view, 0f)
+            delay(200)
+            makeAnimationY(view, values)
+            delay(200)
             makeAnimationY(view, 0f)
         }
     }
@@ -189,14 +208,15 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
      * 현재 선택된 물방울을 바꾸고, 애니메이션을 넣습니다.
      */
     private fun changeWaterDropColor(view: View, colorDrawable: Int) {
-        binding.imageProfileNow.setImageResource(colorDrawable)
+        binding.imageColorNow.setImageResource(colorDrawable)
         clickedAnimation(view)
     }
 
-//    private fun changeWaterDropFace(view: View, colorDrawable: Int) {
-//        binding.imageFaceNow.setImageResource(colorDrawable)
-//        clickedAnimation(view)
-//    }
+    private fun changeWaterDropFace(view: View, colorDrawable: Int) {
+        binding.imageFaceNow.setImageResource(colorDrawable)
+        clickedAnimation(view)
+    }
+
     override fun onPause() {
         super.onPause()
 
