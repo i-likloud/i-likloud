@@ -73,18 +73,6 @@
             app:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button_ranking_order"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                app:layout_constraintWidth_percent="0.95"
-                android:background="@drawable/button_frame_black"
-                android:text="@string/ranking_order"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
-
-            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_recent_order"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
@@ -92,7 +80,19 @@
                 android:background="@drawable/button_frame_black"
                 android:text="@string/recent_order"
                 style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
-                app:layout_constraintTop_toBottomOf="@id/button_ranking_order"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_ranking_order"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                app:layout_constraintWidth_percent="0.95"
+                android:background="@drawable/button_frame_black"
+                android:text="@string/ranking_order"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
+                app:layout_constraintTop_toBottomOf="@id/button_recent_order"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 

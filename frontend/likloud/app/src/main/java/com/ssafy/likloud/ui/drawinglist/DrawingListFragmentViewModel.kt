@@ -24,53 +24,34 @@ class DrawingListFragmentViewModel @Inject constructor(
     private val baseRepository: BaseRepository
 ) : ViewModel() {
 
-    private var _rankingOrderDrawingListDtoList = MutableLiveData<MutableList<DrawingListDto>>()
-    val rankingOrderDrawingListDtoList: LiveData<MutableList<DrawingListDto>>
-        get() = _rankingOrderDrawingListDtoList
-    fun getRankingOrderDrawingListDtoList(){
-
-        viewModelScope.launch {
-            // api 호출해서 _rankingOrderDrawingDtoList에 넣어줘라
-            baseRepository.getDrawingList("likesCount").onSuccess {
-                _rankingOrderDrawingListDtoList.value = it
-                Log.d(TAG, "getRankingOrderDrawingListDtoList 결과 : $it ")
-            }
-        }
-    }
-
-    private var _recentOrderDrawingListDtoList =  MutableLiveData<MutableList<DrawingListDto>>()
-    val recentOrderDrawingListDtoList: LiveData<MutableList<DrawingListDto>>
-        get() = _recentOrderDrawingListDtoList
-    fun getRecentOrderDrawingListDtoList(){
-        // api 호출해서 _recentOrderDrawingDtoList에 넣어줘라
-        viewModelScope.launch {
-            baseRepository.getDrawingList("").onSuccess {
-                _recentOrderDrawingListDtoList.value = it
-                Log.d(TAG, "getRecentOrderDrawingListDtoList 결과: $it")
-            }
-        }
-    }
 
     private var _currentDrawingListDtoList = MutableLiveData<MutableList<DrawingListDto>>()
     val currentDrawingListDtoList: LiveData<MutableList<DrawingListDto>>
         get() = _currentDrawingListDtoList
-    fun changeCurrentDrawingListDtoList(list: MutableList<DrawingListDto>){
-        _currentDrawingListDtoList.value = list
+
+    fun getRankingOrderDrawingListDtoList(){
+        viewModelScope.launch {
+            // api 호출해서 _rankingOrderDrawingDtoList에 넣어줘라
+            baseRepository.getDrawingList("likesCount").onSuccess {
+                Log.d(TAG, "getRankingOrderDrawingListDtoList 결과 : $it ")
+                _currentDrawingListDtoList.value = it
+            }
+        }
     }
-    fun changeCurrentToRanking(){
-        _currentDrawingListDtoList.value = _rankingOrderDrawingListDtoList.value
-    }
-    fun changeCurrentToRecent(){
-        _currentDrawingListDtoList.value = _recentOrderDrawingListDtoList.value
-        Log.d(TAG, "changeCurrentToRecent 결과 : ${_currentDrawingListDtoList} ")
+    fun getRecentOrderDrawingListDtoList(){
+        // api 호출해서 _recentOrderDrawingDtoList에 넣어줘라
+        viewModelScope.launch {
+            baseRepository.getDrawingList("").onSuccess {
+                Log.d(TAG, "getRecentOrderDrawingListDtoList 결과: $it")
+                _currentDrawingListDtoList.value = it
+            }
+        }
     }
 
-    private var _selectedDrawingListDto = DrawingListDto()
-    val selectedDrawingListDto: DrawingListDto
-        get() = _selectedDrawingListDto
-    fun changeSelectedDrawingListDto(dto: DrawingListDto){
-        _selectedDrawingListDto = dto
-    }
+
+
+
+    /////////////////////////////////////////////////////////   선택된 drawing  ////////////////////////////////////////////////////////////////////////
 
     private var _selectedDrawingDetailDto = MutableLiveData<DrawingDetailDto>()
     val selectedDrawingDetailDto: LiveData<DrawingDetailDto>
@@ -89,6 +70,7 @@ class DrawingListFragmentViewModel @Inject constructor(
     }
 
 
+    /////////////////////////////////////////////////////////   댓글  ////////////////////////////////////////////////////////////////////////
 
     private val _selectedDrawingCommentList = MutableLiveData<MutableList<CommentDto>>()
     val selectedDrawingCommentList: LiveData<MutableList<CommentDto>>
@@ -96,7 +78,6 @@ class DrawingListFragmentViewModel @Inject constructor(
     fun changeSelectedDrawingCommentList(list: MutableList<CommentDto>){
         _selectedDrawingCommentList.value = list
     }
-
 //    fun addToCommentList(comment: CommentDto) {
 //        viewModelScope.launch {
 //            selectedDrawingCommentList.value?.add(comment)

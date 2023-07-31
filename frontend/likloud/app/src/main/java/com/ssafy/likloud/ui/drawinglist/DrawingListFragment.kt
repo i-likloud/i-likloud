@@ -23,7 +23,10 @@ import com.ssafy.likloud.data.model.DrawingDetailDto
 import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.databinding.FragmentDrawingListBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private const val TAG = "차선호"
 @AndroidEntryPoint
@@ -65,14 +68,12 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         binding.apply {
             //랭킹순 눌렀을 때
             buttonRankingOrder.setOnClickListener{
-//                drawingListFragmentViewModel.changeCurrentDrawingListDtoList(drawingListFragmentViewModel.rankingOrderDrawingListDtoList.value!!)
-                drawingListFragmentViewModel.changeCurrentToRanking()
+                drawingListFragmentViewModel.getRankingOrderDrawingListDtoList()
             }
 
             //최신순 눌렀을 때
             buttonRecentOrder.setOnClickListener {
-//                drawingListFragmentViewModel.changeCurrentDrawingListDtoList(drawingListFragmentViewModel.recentOrderDrawingListDtoList.value!!)
-                drawingListFragmentViewModel.changeCurrentToRecent()
+                drawingListFragmentViewModel.getRecentOrderDrawingListDtoList()
             }
 
             imageHeart.setOnClickListener {
@@ -91,9 +92,10 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
     }
 
     private fun initRecyclerView(){
-        binding.apply {
-            val drawingListAdapter =
+        val drawingListAdapter =
                 DrawingListAdapter(drawingListFragmentViewModel.currentDrawingListDtoList.value!!)
+        binding.apply {
+            Log.d(TAG, "selectedDrawing : ${drawingListFragmentViewModel.selectedDrawingDetailDto.value} ")
             recyclerviewDrawaing.apply {
                 this.adapter = drawingListAdapter
                 set3DItem(true)
@@ -102,70 +104,38 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
                 setItemSelectListener(object : CarouselLayoutManager.OnSelected {
                     //본인한테서 멈췄을 때 이벤트
                     override fun onItemSelected(position: Int) {
-//                        drawingListFragmentViewModel.changeSelectedDrawingListDto(drawingListAdapter.list[position])
-
                         //여기서 selectedDrawing을 가지고 DrawingDetailDto 받아라
                         drawingListFragmentViewModel.getSelectedDrawingDetailDto(drawingListAdapter.list[position])
                         Log.d(TAG, "SelectedDrawingDetail : ${drawingListFragmentViewModel.selectedDrawingDetailDto.value} ")
-
-                        //
-//                        Glide.with(binding.imageDrawingProfile)
-//                            .load(drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.imageUrl)
-//                            .into(binding.imageDrawingProfile)
-//                        binding.textDrawingArtist.text = drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.artist
-//                        binding.textDrawingTitle.text = drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.title
-//                        binding.textDrawingContent.text = drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.content
-//                        if(drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.memberLiked){
-//                            binding.imageHeart.setImageResource(R.drawable.icon_selected_heart)
-//                        }else{
-//                            binding.imageHeart.setImageResource(R.drawable.icon_unselected_heart)
-//                        }
-//                        drawingListFragmentViewModel.changeSelectedDrawingCommentList(drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.commentList)
                     }
                 })
-            }
-
-            //댓글 목록 리사이클러뷰
-            if(drawingListFragmentViewModel.selectedDrawingCommentList.value != null) {
-                val commentListAdapter =
-                    CommentListAdapter(drawingListFragmentViewModel.selectedDrawingCommentList.value!!)
-                recyclerviewDrawingComment.apply {
-                    this.adapter = commentListAdapter
-                    this.layoutManager =
-                        LinearLayoutManager(mainActivity, LinearLayoutManager.VERTICAL, false)
-                }
             }
         }
     }
 
     private fun initObserver(){
-        drawingListFragmentViewModel.recentOrderDrawingListDtoList.observe(viewLifecycleOwner){
-            drawingListFragmentViewModel.changeCurrentToRecent()
-            Log.d(TAG, "init currentDrawingListDtoList :  ${drawingListFragmentViewModel.currentDrawingListDtoList}")
-        }
-
-        drawingListFragmentViewModel.rankingOrderDrawingListDtoList.observe(viewLifecycleOwner){
-            drawingListFragmentViewModel.changeCurrentToRanking()
-            Log.d(TAG, "init currentDrawingListDtoList :  ${drawingListFragmentViewModel.currentDrawingListDtoList}")
-        }
 
         drawingListFragmentViewModel.currentDrawingListDtoList.observe(viewLifecycleOwner){
             Log.d(TAG, "currentDrawingListDtoList observe 발동... ")
-            Glide.with(binding.imageDrawingProfile)
-                .load(drawingListFragmentViewModel.currentDrawingListDtoList.value!![0].imageUrl)
-                .into(binding.imageDrawingProfile)
-            binding.textDrawingArtist.text = drawingListFragmentViewModel.currentDrawingListDtoList.value!![0].artist
-            binding.textDrawingTitle.text = drawingListFragmentViewModel.currentDrawingListDtoList.value!![0].title
             initRecyclerView()
+            drawingListFragmentViewModel.getSelectedDrawingDetailDto(drawingListFragmentViewModel.currentDrawingListDtoList.value!![0])
         }
 
         drawingListFragmentViewModel.selectedDrawingDetailDto.observe(viewLifecycleOwner){
             Log.d(TAG, "selectedDrawing : ${drawingListFragmentViewModel.selectedDrawingDetailDto.value} ")
-            Glide.with(binding.imageDrawingProfile)
-                .load(drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.imageUrl)
-                .into(binding.imageDrawingProfile)
-            binding.textDrawingArtist.text = drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.artist
-            binding.textDrawingTitle.text = drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.title
+            binding.apply {
+                Glide.with(binding.imageDrawingProfile)
+                    .load(drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.imageUrl)
+                    .into(binding.imageDrawingProfile)
+                textDrawingArtist.text = drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.artist
+                textDrawingTitle.text = drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.title
+                textDrawingContent.text = drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.content
+                if (drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.memberLiked) {
+                    imageHeart.setImageResource(R.drawable.icon_selected_heart)
+                } else {
+                    imageHeart.setImageResource(R.drawable.icon_unselected_heart)
+                }
+            }
         }
 
         drawingListFragmentViewModel.selectedDrawingCommentList.observe(viewLifecycleOwner) {
