@@ -1,6 +1,7 @@
 package com.ssafy.likloud.data.repository
 
 
+import com.ssafy.likloud.ApplicationClass
 import com.ssafy.likloud.data.api.BaseService
 import com.ssafy.likloud.data.api.NetworkResult
 import com.ssafy.likloud.data.api.handleApi
@@ -32,8 +33,8 @@ class BaseRepositoryImpl @Inject constructor(
         return handleApi { baseAPIService.getPosts(id).body()!! }
     }
 
-    override suspend fun postRefreshToken(refresh_token: String): NetworkResult<ReLoginResponse> {
-        return handleApi { baseAPIService.postRefreshToken().body()!! }
+    override suspend fun postRefreshToken(): NetworkResult<ReLoginResponse> {
+        return handleApi { baseAPIService.postRefreshToken("Bearer ${ApplicationClass.sharedPreferences.getString("refresh_token")}").body()!! }
     }
 
     override suspend fun postLogin(loginRequest: LoginRequest): NetworkResult<LoginResponse> {
@@ -44,7 +45,7 @@ class BaseRepositoryImpl @Inject constructor(
         return handleApi { baseAPIService.getUserInfo(memberInfoRequest).body()!! }
     }
 
-    override suspend fun patchAdditionalInfo(loginAdditionalRequest: LoginAdditionalRequest): Response<LoginAdditionalResponse> {
+    override suspend fun patchAdditionalInfo(loginAdditionalRequest: LoginAdditionalRequest): Response<ReLoginResponse> {
         return baseAPIService.patchAdditionalInfo(loginAdditionalRequest)
     }
 }

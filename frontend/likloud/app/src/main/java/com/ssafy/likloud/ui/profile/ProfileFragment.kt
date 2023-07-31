@@ -124,7 +124,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             mainActivityViewModel.setProfileImage(selectedWaterDropColor, selectedWaterDropFace)
             val nickname = binding.edittextNickname.text.toString()
             // 추가 정보 선택 완료시 진짜 키 받아오는 로직
-            profileFragmentViewModel.patchAdditionalInfo(LoginAdditionalRequest(nickname, selectedWaterDropColor, selectedWaterDropColor))
+            profileFragmentViewModel.patchAdditionalInfo(LoginAdditionalRequest(nickname, selectedWaterDrop, 0, 0))
             findNavController().navigate(R.id.action_profileFragment_to_homeFragment)
         }
     }

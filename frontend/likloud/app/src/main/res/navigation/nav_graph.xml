@@ -10,7 +10,7 @@
         android:name="com.ssafy.likloud.example.ExampleFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_example" />
-        
+
     <fragment
         android:id="@+id/drawingListFragment"
         android:name="com.ssafy.likloud.ui.drawinglist.DrawingListFragment"
@@ -60,8 +60,8 @@
         android:id="@+id/onboardingFragment"
         android:name="com.ssafy.likloud.ui.onboarding.OnboardingFragment"
         android:label="OnboardingFragment"
-        tools:layout="@layout/fragment_onboarding"/>
-        
+        tools:layout="@layout/fragment_onboarding" />
+
     <fragment
         android:id="@+id/uploadFragment"
         android:name="com.ssafy.likloud.ui.upload.UploadFragment"
@@ -70,7 +70,7 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.ssafy.likloud.ui.profile.ProfileFragment"
-        android:label="ProfileFragment" >
+        android:label="ProfileFragment">
         <action
             android:id="@+id/action_profileFragment_to_homeFragment"
             app:destination="@id/homeFragment"
