@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class FCMService {
 
-    public void sengFCMNotification(String token, String title, String body) {
+    public void sendFCMNotification(String token, String title, String body) {
         try{
             // 알림 내용 설정
             Notification notification = Notification.builder()

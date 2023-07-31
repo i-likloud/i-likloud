@@ -40,10 +40,13 @@ public class LikesController {
             // 그림 작성자의 Firebase 토큰 가져오기
             String authorToken = memberService.getAuthorFirebaseToken(drawingId);
 
+            // 현재 유저의 닉네임
+            String CurrentUserNickname = member.getNickname();
+
             // 작성자에게 알림 보내기
             String title = "뭉게뭉게 도화지";
-            String body = "당신의 그림이 새로운 좋아요를 받았습니다";
-            fcmService.sengFCMNotification(authorToken,title,body);
+            String body = String.format("%s 님이 회원님의 그림을 좋아합니다.",CurrentUserNickname);
+            fcmService.sendFCMNotification(authorToken,title,body);
             return ResponseEntity.ok(String.format("%d번 게시물 좋아요", drawingId));
         }
     }
