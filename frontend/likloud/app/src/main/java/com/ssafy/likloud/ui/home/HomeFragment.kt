@@ -12,6 +12,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
+import android.view.animation.OvershootInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.fragment.app.viewModels
@@ -77,6 +78,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
         binding.buttonGame.setOnClickListener {
             moveButtonsToRight()
             endUploadFragment()
+        }
+
+        binding.buttonPainting.setOnClickListener {
+            navController.navigate(R.id.action_homeFragment_to_photoListFragment)
+        }
+
+        binding.buttonDrawingList.setOnClickListener {
+            navController.navigate(R.id.action_homeFragment_to_drawingListFragment)
         }
     }
 
@@ -146,8 +155,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
      */
     private fun makeButtonAnimationX(button: View, values: Float) {
         ObjectAnimator.ofFloat(button, "translationX", values).apply {
-            interpolator = DecelerateInterpolator()
-            duration = 1000
+//            interpolator = DecelerateInterpolator()
+            interpolator = OvershootInterpolator()
+            duration = 500
             start()
         }
     }
@@ -157,8 +167,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
      */
     private fun makeButtonAnimationY(button: View, values: Float) {
         ObjectAnimator.ofFloat(button, "translationY", values).apply {
-            interpolator = DecelerateInterpolator()
-            duration = 1000
+//            interpolator = DecelerateInterpolator()
+            interpolator = OvershootInterpolator()
+//            duration = 500
             start()
         }
     }
@@ -168,11 +179,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
      */
     private fun makeButtonAnimationScale(button: View, values: Float) {
         ObjectAnimator.ofFloat(button, "scaleX", values).apply {
-            duration = 1000
+            duration = 500
             start()
         }
         ObjectAnimator.ofFloat(button, "scaleY", values).apply {
-            duration = 1000
+            duration = 500
             start()
         }
     }

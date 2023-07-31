@@ -43,7 +43,7 @@
                 android:layout_marginRight="100dp"
                 android:gravity="center"
                 android:layout_gravity="center"
-                android:text="@string/title_drawingList"
+                android:text="@string/title_photo_list"
                 android:textSize="46dp"
                 android:layout_marginTop="10dp"
                 style="@style/Theme.AppCompat.TextView.jua.dark.Size32"/>

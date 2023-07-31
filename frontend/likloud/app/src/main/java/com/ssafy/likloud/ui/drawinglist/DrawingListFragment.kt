@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -51,7 +52,9 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
     }
 
     override fun initListener() {
-
+        binding.buttonBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -118,6 +121,9 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
 
             }
 
+            buttonBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
 
         }
         viewLifecycleOwner.lifecycleScope.launch{

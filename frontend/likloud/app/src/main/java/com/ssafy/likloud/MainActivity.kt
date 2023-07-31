@@ -3,6 +3,7 @@ package com.ssafy.likloud
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.ssafy.likloud.base.BaseActivity
@@ -60,7 +61,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     /**
      * 작은 프로필 창 프로필 이미지를 변경합니다.
      */
-    fun changeProfileImage(num: Int) {
-        binding.imageProfile.setImageResource(mainActivityViewModel.waterDropColorList[num])
+    fun changeProfileColor(num: Int) {
+        binding.profileColor.setImageResource(mainActivityViewModel.waterDropColorList[num])
+    }
+
+    fun changeProfileFace(num: Int) {
+        binding.profileFace.setImageResource(mainActivityViewModel.waterDropFaceList[num])
     }
 }
