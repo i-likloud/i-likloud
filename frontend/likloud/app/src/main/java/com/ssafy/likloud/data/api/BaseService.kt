@@ -1,8 +1,10 @@
 package com.ssafy.likloud.data.api
 
+import androidx.lifecycle.MutableLiveData
 import com.ssafy.likloud.ApplicationClass.Companion.X_REFRESH_TOKEN
 import com.ssafy.likloud.ApplicationClass.Companion.sharedPreferences
 import com.ssafy.likloud.base.BaseResponse
+import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
 import com.ssafy.likloud.data.model.response.ReLoginResponse
@@ -41,6 +43,13 @@ interface BaseService {
     // MEMBER로 올리고, newToken을 헤더에 담아 받아온다.
     @PATCH("api/member/additional")
     suspend fun patchAdditionalInfo(@Body body: LoginAdditionalRequest): Response<ReLoginResponse>
+
+    /**
+     * 그림 게시물 조회
+     * orderBy에 "?orderBy=likesCount"(좋아요 순), "?orderBy=viewCount"(조회수 순)
+     */
+    @GET("api/drawings/{orderBy}")
+    suspend fun getDrawingList(@Path("orderBy") orderBy: String): Response<MutableLiveData<MutableList<DrawingListDto>>>
 }
 
 //api 만드는 과정

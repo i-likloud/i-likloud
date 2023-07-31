@@ -1,6 +1,8 @@
 package com.ssafy.likloud.data.repository
 
+import androidx.lifecycle.MutableLiveData
 import com.ssafy.likloud.data.api.NetworkResult
+import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
 import com.ssafy.likloud.data.model.response.ReLoginResponse
@@ -10,6 +12,8 @@ import com.ssafy.likloud.data.model.request.LoginAdditionalRequest
 import com.ssafy.likloud.data.model.request.MemberInfoRequest
 import com.ssafy.likloud.data.model.response.LoginAdditionalResponse
 import com.ssafy.likloud.data.model.response.MemberInfoResponse
+import retrofit2.Response
+import retrofit2.http.Path
 
 interface BaseRepository {
 
@@ -46,4 +50,12 @@ interface BaseRepository {
     suspend fun patchAdditionalInfo(
         loginAdditionalRequest: LoginAdditionalRequest
     ): retrofit2.Response<ReLoginResponse>
+
+    /**
+     * 그림 게시물 조회
+     * orderBy에 "?orderBy=likesCount"(좋아요 순), "?orderBy=viewCount"(조회수 순)
+     */
+    suspend fun getDrawingList(
+        orderBy: String
+    ): NetworkResult<MutableLiveData<MutableList<DrawingListDto>>>
 }

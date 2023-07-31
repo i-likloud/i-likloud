@@ -1,10 +1,12 @@
 package com.ssafy.likloud.data.repository
 
 
+import androidx.lifecycle.MutableLiveData
 import com.ssafy.likloud.ApplicationClass
 import com.ssafy.likloud.data.api.BaseService
 import com.ssafy.likloud.data.api.NetworkResult
 import com.ssafy.likloud.data.api.handleApi
+import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
 import com.ssafy.likloud.data.model.response.ReLoginResponse
@@ -47,5 +49,9 @@ class BaseRepositoryImpl @Inject constructor(
 
     override suspend fun patchAdditionalInfo(loginAdditionalRequest: LoginAdditionalRequest): Response<ReLoginResponse> {
         return baseAPIService.patchAdditionalInfo(loginAdditionalRequest)
+    }
+
+    override suspend fun getDrawingList(orderBy: String): NetworkResult<MutableLiveData<MutableList<DrawingListDto>>> {
+        return handleApi { baseAPIService.getDrawingList(orderBy).body()!! }
     }
 }

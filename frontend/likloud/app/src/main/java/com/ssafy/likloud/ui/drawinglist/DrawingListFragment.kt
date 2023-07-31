@@ -2,6 +2,7 @@ package com.ssafy.likloud.ui.drawinglist
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +25,7 @@ import com.ssafy.likloud.databinding.FragmentDrawingListBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
+private const val TAG = "차선호"
 @AndroidEntryPoint
 class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDrawingListBinding::bind, R.layout.fragment_drawing_list) {
 
@@ -51,29 +52,18 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initObserver()
         init()
         initListener()
-        initObserver()
-
     }
 
     private fun init(){
         binding.apply {
 
-            drawingListFragmentViewModel.getRankingOrderDrawingDtoList()
-            drawingListFragmentViewModel.getRecentOrderDrawingDtoList()
-//            drawingListFragmentViewModel.changeCurrentDrawingDtoList(drawingListFragmentViewModel.recentOrderDrawingDtoList)
-            //맨 처음에는 리스트 가장 첫 번째 그림
-            drawingListFragmentViewModel.changeSelectedDrawingListDto(drawingListFragmentViewModel.currentDrawingDtoList[0])
+            drawingListFragmentViewModel.getRankingOrderDrawingListDtoList()
+            drawingListFragmentViewModel.getRecentOrderDrawingListDtoList()
 
-            drawingListFragmentViewModel.getSelectedDrawingDetailDto(drawingListFragmentViewModel.selectedDrawingListDto)
-            Glide.with(binding.imageDrawingProfile)
-                .load(drawingListFragmentViewModel.selectedDrawingListDto.imageUrl)
-                .into(binding.imageDrawingProfile)
-            binding.textDrawingArtist.text = drawingListFragmentViewModel.selectedDrawingListDto.artist
-            binding.textDrawingTitle.text = drawingListFragmentViewModel.selectedDrawingListDto.title
 
-            initRecyclerView()
         }
     }
 
@@ -82,12 +72,14 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         binding.apply {
             //랭킹순 눌렀을 때
             buttonRankingOrder.setOnClickListener{
-                drawingListFragmentViewModel.changeCurrentDrawingDtoList(drawingListFragmentViewModel.rankingOrderDrawingListDto)
+//                drawingListFragmentViewModel.changeCurrentDrawingListDtoList(drawingListFragmentViewModel.rankingOrderDrawingListDtoList.value!!)
+                drawingListFragmentViewModel.changeCurrentToRanking()
             }
 
             //최신순 눌렀을 때
             buttonRecentOrder.setOnClickListener {
-                drawingListFragmentViewModel.changeCurrentDrawingDtoList(drawingListFragmentViewModel.recentOrderDrawingDtoList)
+//                drawingListFragmentViewModel.changeCurrentDrawingListDtoList(drawingListFragmentViewModel.recentOrderDrawingListDtoList.value!!)
+                drawingListFragmentViewModel.changeCurrentToRecent()
             }
 
             imageHeart.setOnClickListener {
@@ -108,7 +100,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
     private fun initRecyclerView(){
         binding.apply {
             val drawingListAdapter =
-                DrawingListAdapter(drawingListFragmentViewModel.currentDrawingDtoList)
+                DrawingListAdapter(drawingListFragmentViewModel.currentDrawingListDtoList.value!!)
             recyclerviewDrawaing.apply {
                 this.adapter = drawingListAdapter
                 set3DItem(true)
@@ -153,6 +145,38 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
     }
 
     private fun initObserver(){
+        drawingListFragmentViewModel.recentOrderDrawingListDtoList.observe(viewLifecycleOwner){
+            drawingListFragmentViewModel.changeCurrentToRecent()
+            Log.d(TAG, "init currentDrawingListDtoList :  ${drawingListFragmentViewModel.currentDrawingListDtoList}")
+
+            //맨 처음에는 리스트 가장 첫 번째 그림
+//            drawingListFragmentViewModel.changeSelectedDrawingListDto(drawingListFragmentViewModel.currentDrawingListDtoList[0])
+
+            drawingListFragmentViewModel.getSelectedDrawingDetailDto(drawingListFragmentViewModel.selectedDrawingListDto)
+            Glide.with(binding.imageDrawingProfile)
+                .load(drawingListFragmentViewModel.selectedDrawingListDto.imageUrl)
+                .into(binding.imageDrawingProfile)
+            binding.textDrawingArtist.text = drawingListFragmentViewModel.selectedDrawingListDto.artist
+            binding.textDrawingTitle.text = drawingListFragmentViewModel.selectedDrawingListDto.title
+            initRecyclerView()
+        }
+
+        drawingListFragmentViewModel.rankingOrderDrawingListDtoList.observe(viewLifecycleOwner){
+            drawingListFragmentViewModel.changeCurrentToRanking()
+            Log.d(TAG, "init currentDrawingListDtoList :  ${drawingListFragmentViewModel.currentDrawingListDtoList}")
+
+            //맨 처음에는 리스트 가장 첫 번째 그림
+//            drawingListFragmentViewModel.changeSelectedDrawingListDto(drawingListFragmentViewModel.currentDrawingListDtoList[0])
+
+            drawingListFragmentViewModel.getSelectedDrawingDetailDto(drawingListFragmentViewModel.selectedDrawingListDto)
+            Glide.with(binding.imageDrawingProfile)
+                .load(drawingListFragmentViewModel.selectedDrawingListDto.imageUrl)
+                .into(binding.imageDrawingProfile)
+            binding.textDrawingArtist.text = drawingListFragmentViewModel.selectedDrawingListDto.artist
+            binding.textDrawingTitle.text = drawingListFragmentViewModel.selectedDrawingListDto.title
+            initRecyclerView()
+        }
+
         drawingListFragmentViewModel.selectedDrawingCommentList.observe(viewLifecycleOwner) {
         }
     }
