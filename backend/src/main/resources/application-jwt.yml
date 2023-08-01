@@ -10,4 +10,4 @@ jwt:
 
 jasypt:
   encryptor:
-    password: ENC(UoSA2pnIzSG+x4PBxrOc/jXGD4P+KfCuEyC107z//+g=)
+    password: ${PASSWORD}
