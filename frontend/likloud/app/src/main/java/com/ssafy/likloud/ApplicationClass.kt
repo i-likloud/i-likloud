@@ -23,6 +23,7 @@ class ApplicationClass : Application() {
          //JWT Token Header 키 값
         const val X_ACCESS_TOKEN = "access_token"
         const val X_REFRESH_TOKEN = "refresh_token"
+        const val USER_EMAIL = "user_email"
         const val SHARED_PREFERENCES_NAME = "SSAFY_TEMPLATE_APP"
         const val COOKIES_KEY_NAME = "cookies"
     }

@@ -25,6 +25,7 @@ import com.navercorp.nid.oauth.NidOAuthLogin
 import com.navercorp.nid.profile.NidProfileCallback
 import com.navercorp.nid.profile.data.NidProfileResponse
 import com.ssafy.likloud.ApplicationClass
+import com.ssafy.likloud.ApplicationClass.Companion.USER_EMAIL
 import com.ssafy.likloud.ApplicationClass.Companion.X_REFRESH_TOKEN
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.R
@@ -72,9 +73,9 @@ class LoginFragment :
         OAUTH_CLIENT_SECRET = "Vc24r3C8eP"
         OAUTH_CLIENT_NAME = "운이 좋아"
 
+        initObserver()
         init()
         initListener()
-        initObserver()
 
         viewLifecycleOwner.lifecycleScope.launch{
             loginFragmentViewModel.isTokenReceived.observe(mActivity){
@@ -102,13 +103,11 @@ class LoginFragment :
 
             viewLifecycleOwner.lifecycleScope.launch {
                 withContext(Dispatchers.Main) {
-                    loginFragmentViewModel.getUserInfo("skdi6031@naver.com")
-                    Log.d(TAG, "로그인 된 유저 정보 == ${loginFragmentViewModel.memberInfo.value}")
+                    loginFragmentViewModel.getUserInfo(sharedPreferences.getString(USER_EMAIL).toString())
                 }
             }
 
             findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-
         }
     }
 
@@ -125,6 +124,19 @@ class LoginFragment :
         loginFragmentViewModel.loginResponse.observe(viewLifecycleOwner) {
             sharedPreferences.putString(X_ACCESS_TOKEN, it.accessToken)
             sharedPreferences.putString(X_REFRESH_TOKEN, it.refreshToken)
+        }
+        // 자동 로그인 시 멤버 정보 받아오고나서 로직
+//        loginFragmentViewModel.memberInfo.observe(viewLifecycleOwner) {
+//            mActivity.changeProfileLayoutVisible()
+//            mActivity.changeProfileColor(it.profileColor)
+//            mActivity.changeProfileFace(it.profileFace)
+//        }
+        viewLifecycleOwner.lifecycleScope.launch{
+            loginFragmentViewModel.memberInfo.observe(mActivity) {
+                mActivity.changeProfileLayoutVisible()
+                mActivity.changeProfileColor(it.profileColor)
+                mActivity.changeProfileFace(it.profileFace)
+            }
         }
     }
 
@@ -152,7 +164,10 @@ class LoginFragment :
                             name = response.profile?.name.toString()
                             Log.d(TAG, "onSuccess: 네이버 이메일: ${email}, ${name}")
 
+                            // 네이버 accessToken을 넣고
                             sharedPreferences.putString(X_ACCESS_TOKEN, accessToken.toString())
+                            // 이메일을 넣고
+                            sharedPreferences.putString(USER_EMAIL, email)
 
                             loginFragmentViewModel.postLogin(email, "NAVER")
 //                            loginFragmentViewModel.getTokenValidation(token.accessToken)
