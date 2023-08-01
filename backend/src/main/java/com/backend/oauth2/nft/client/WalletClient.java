@@ -12,5 +12,16 @@ public interface WalletClient {
             @RequestHeader("x-chain-id") String chainId,
             @RequestHeader("Authorization") String authorizationHeader
                         );
+//
+//
+//    WalletDto.Request walletRequestDto = WalletDto.Request.builder()
+//            .accessKeyId(accessKeyId)
+//            .accessKeySecret(accessKeyId)
+//            .authorizationHeader(authorization)
+//            .xChainId("1001")
+//            .build();
+//
+//    String walletResponse = walletClient.createWallet(walletRequestDto.getXChainId(), walletRequestDto.getAuthorizationHeader());
+
 
 }

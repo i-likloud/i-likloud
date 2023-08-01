@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 public class DrawingDetailDto extends DrawingListDto {
 
     private final String content;
+    private final Long memberId;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private final LocalDateTime createdAt;
@@ -21,6 +22,7 @@ public class DrawingDetailDto extends DrawingListDto {
 
     public DrawingDetailDto(Drawing drawing, boolean memberLiked) {
         super(drawing, memberLiked);
+        this.memberId = drawing.getMember().getMemberId();
         this.content = drawing.getContent();
         this.createdAt = drawing.getCreatedAt();
         this.comments = drawing.getComments().stream().map(CommentDto::new).collect(Collectors.toList());
