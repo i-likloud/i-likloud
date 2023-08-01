@@ -3,24 +3,16 @@ package com.ssafy.likloud.ui.drawinglist
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.ssafy.likloud.R
 import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.databinding.ItemDrawingBinding
-import com.ssafy.likloud.ui.onboarding.OnboardData
-import com.ssafy.likloud.ui.onboarding.OnboardingAdapter
 
 class DrawingListAdapter  (var list : MutableList<DrawingListDto>): ListAdapter<DrawingListDto, DrawingListAdapter.DrawingListHolder>(
     DrawingListComparator
 ) {
-
-//    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-//        val image : ImageView = itemView.findViewById(R.id.image)
-//    }
 
     companion object DrawingListComparator : DiffUtil.ItemCallback<DrawingListDto>() {
         override fun areItemsTheSame(oldItem: DrawingListDto, newItem: DrawingListDto): Boolean {
@@ -28,7 +20,7 @@ class DrawingListAdapter  (var list : MutableList<DrawingListDto>): ListAdapter<
         }
 
         override fun areContentsTheSame(oldItem: DrawingListDto, newItem: DrawingListDto): Boolean {
-            return oldItem._id  == newItem._id
+            return oldItem.drawingId  == newItem.drawingId
         }
     }
 

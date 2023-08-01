@@ -84,12 +84,27 @@
     <fragment
         android:id="@+id/photoListFragment"
         android:name="com.ssafy.likloud.ui.photolist.PhotoListFragment"
-        android:label="PhotoListFragment" />
+        android:label="PhotoListFragment" >
+        <action
+            android:id="@+id/action_photoListFragment_to_photoDrawingDetailFragment"
+            app:destination="@id/photoDrawingDetailFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/nftListFragment"
         android:name="com.ssafy.likloud.ui.nftlist.NftListFragment"
         android:label="fragment_nft_list"
         tools:layout="@layout/fragment_nft_list" />
+
+    <fragment
+        android:id="@+id/photoDrawingDetailFragment"
+        android:name="com.ssafy.likloud.ui.photolist.PhotoDrawingDetailFragment"
+        android:label="PhotoDrawingDetailFragment">
+        <argument
+            android:name="drawingId"
+            app:argType="integer"/>
+
+    </fragment>
 
 
 </navigation>
