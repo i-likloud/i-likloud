@@ -1,8 +1,14 @@
 package com.ssafy.likloud
 
+import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.activity.viewModels
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -28,12 +34,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         super.onCreate(savedInstanceState)
         initView()
         initNavController()
+
+        initListener()
+    }
+
+    private fun initListener() {
+        binding.layoutProfile.setOnClickListener {
+
+        }
     }
 
     private fun initView() {
         binding.layoutProfile.translationX = 52f
         binding.layoutProfile.translationY = -52f
         binding.layoutProfile.visibility = View.INVISIBLE
+        binding.profileColor.animation = AnimationUtils.loadAnimation(this, R.anim.rotation)
+        binding.profileFace.animation = AnimationUtils.loadAnimation(this, R.anim.rotation)
     }
 
     private fun initNavController() {

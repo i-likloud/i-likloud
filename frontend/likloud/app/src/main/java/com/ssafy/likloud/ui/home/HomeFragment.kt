@@ -15,6 +15,7 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -38,6 +39,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
     private val homeFragmentViewModel : HomeFragmentViewModel by viewModels()
     private lateinit var navController: NavController
     private lateinit var mActivity: MainActivity
+
+    private var isCameraOpened = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -76,8 +79,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
         }
 
         binding.buttonGame.setOnClickListener {
-            moveButtonsToRight()
-            endUploadFragment()
+
         }
 
         binding.buttonPainting.setOnClickListener {
@@ -87,6 +89,29 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
         binding.buttonDrawingList.setOnClickListener {
             navController.navigate(R.id.action_homeFragment_to_drawingListFragment)
         }
+
+        binding.layoutHomeBackground.setOnClickListener {
+            when(isCameraOpened) {
+                true -> {
+                    endUploadFragment()
+                }
+                else -> {  }
+            }
+        }
+
+        // 안드로이드 뒤로가기 버튼 눌렀을 때
+        mActivity.onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                when (isCameraOpened) {
+                    true -> {
+                        endUploadFragment()
+                    }
+                    false -> {
+                        mActivity.finish()
+                    }
+                }
+            }
+        })
     }
 
     /**
@@ -100,10 +125,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
      * 애니메이션을 init합니다.
      */
     private fun initAnimation() {
-//        binding.frameFragmentUpload.alpha = 0f
-//        binding.frameFragmentUpload.scaleX = 0f
-//        binding.frameFragmentUpload.scaleY = 0f
-//        binding.frameFragmentUpload.translationX = 1600f
         binding.buttonCamera.animation = AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down)
         binding.buttonPainting.animation = AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down2)
         binding.buttonDrawingList.animation = AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down3)
@@ -208,6 +229,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
 
     private fun startUploadFragment() {
 //        makeAnimationFade(binding.frameFragmentUpload, 1f)
+        isCameraOpened = true
+        moveButtonsToLeft()
         makeButtonAnimationX(binding.frameFragmentUpload, 0f)
 
         childFragmentManager.beginTransaction()
@@ -217,6 +240,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
 
     private fun endUploadFragment() {
 //        makeAnimationFade(binding.frameFragmentUpload, 0f)
+        isCameraOpened = false
+        moveButtonsToRight()
         makeButtonAnimationX(binding.frameFragmentUpload, 1600f)
     }
 }
