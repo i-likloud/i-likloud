@@ -8,9 +8,9 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_custom"
         style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_30sdp"
-        android:background="@drawable/button_frame_skyblue"
+        android:layout_width="@dimen/_120sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:background="@drawable/button_frame_large_cloud"
         android:text="@string/choose"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

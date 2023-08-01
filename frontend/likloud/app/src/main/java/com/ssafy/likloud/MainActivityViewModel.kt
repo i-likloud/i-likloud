@@ -38,8 +38,18 @@ class MainActivityViewModel @Inject constructor() : ViewModel() {
     val profileFace: LiveData<Int>
         get() = _profileFace
 
+    // 최종적으로 업로드 결정된 사진url
+    private val _uploadingPhotoUrl = MutableLiveData<String>()
+    val uploadingPhotoUrl : LiveData<String>
+    get()  = _uploadingPhotoUrl
+
     fun setProfileImage(color: Int, face: Int) {
         _profileColor.value = color
         _profileFace.value = face
     }
+
+    fun setUploadingPhotoUrl(url : String){
+        _uploadingPhotoUrl.value = url
+    }
+
 }

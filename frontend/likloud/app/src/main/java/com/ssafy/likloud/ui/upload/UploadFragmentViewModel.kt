@@ -13,8 +13,15 @@ import com.ssafy.likloud.data.model.MemberInfoDto
 import com.ssafy.likloud.data.model.photo.PhotoErrorResponseDto
 import com.ssafy.likloud.data.repository.BaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
+import org.apache.commons.lang3.mutable.Mutable
 import retrofit2.Retrofit
 import javax.inject.Inject
 
@@ -32,11 +39,15 @@ class UploadFragmentViewModel @Inject constructor(
     private val _photoUrl = MutableLiveData<String>()
     val photoUrl: LiveData<String> get() = _photoUrl
 
-    private val _isPhotoMultipartValidated = MutableLiveData<Boolean>()
-    val isPhotoMultipartValidated: LiveData<Boolean> get() = _isPhotoMultipartValidated
+    private val _isPhotoMultipartValidated: MutableSharedFlow<Boolean> = MutableSharedFlow()
+    val isPhotoMultipartValidated: SharedFlow<Boolean> get() = _isPhotoMultipartValidated.asSharedFlow()
 
     private val _notCloudErrorMessage = MutableLiveData<String>()
     val notCloudErrorMessage: LiveData<String> get() = _notCloudErrorMessage
+
+
+    private val _uploadPhotoUrl = MutableLiveData<String>()
+    val uploadPhotoUrl: LiveData<String> get() = _uploadPhotoUrl
 
     // 요청하고자 하는 권한들
     val permissionList = arrayOf(
@@ -67,8 +78,9 @@ class UploadFragmentViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
+                        _uploadPhotoUrl.value = responseBody[0].photoUrl
                         Log.d(TAG, "sendMultipart is cloud: ${responseBody[0].photoUrl} ")
-                        _isPhotoMultipartValidated.value = true
+                        _isPhotoMultipartValidated.emit(true)
                     } else {
                         Log.e(TAG, "sendMultipart: Response body is null.")
                     }
@@ -84,7 +96,7 @@ class UploadFragmentViewModel @Inject constructor(
                         Log.d(TAG, "sendMultipart: ${errorBody.message}")
                         _notCloudErrorMessage.value = errorBody.message
                         Log.d(TAG, "sendMultipart: ${errorBody.photoUrl}")
-                        _isPhotoMultipartValidated.value = false
+                        _isPhotoMultipartValidated.emit(false)
                     } else {
                         Log.e(TAG, "sendMultipart: Error body is null.")
                     }
@@ -93,6 +105,13 @@ class UploadFragmentViewModel @Inject constructor(
                 Log.e(TAG, "sendMultipart: Exception occurred: ${e.message}", e)
             }
         }
+    }
+
+    fun setValidatedTrue() {
+        viewModelScope.launch {
+            _isPhotoMultipartValidated.emit(true)
+        }
+
     }
 
 

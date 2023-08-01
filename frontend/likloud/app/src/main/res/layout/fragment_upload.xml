@@ -1,34 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.upload.UploadFragment">
 
     <TextView
         android:id="@+id/text_upload"
+        style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="@string/upload"
-        style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_add_photo"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginVertical="20dp"
         android:layout_marginHorizontal="20dp"
-        app:layout_constraintWidth="0.5"
+        android:layout_marginVertical="20dp"
         android:background="@drawable/frame_rounded_border_gray05_radius10sdp"
+        android:elevation="@dimen/_3sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/layout_warning_photo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_upload">
+        app:layout_constraintTop_toBottomOf="@id/text_upload"
+        app:layout_constraintWidth="0.5">
 
 
         <ImageView
@@ -53,20 +54,17 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:cardBackgroundColor="@color/transparent"
             app:cardCornerRadius="20dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="@color/transparent">
+            app:cardElevation="0dp">
 
             <ImageView
-                android:scaleType="centerCrop"
                 android:id="@+id/image_selected_photo"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
 
         </androidx.cardview.widget.CardView>
-
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -78,6 +76,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginVertical="20dp"
         android:background="@drawable/frame_rounded_border_gray05_radius10sdp"
+        android:elevation="@dimen/_3sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -116,6 +115,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:cardCornerRadius="10dp"
+            android:elevation="@dimen/_10sdp"
             app:layout_constraintEnd_toStartOf="@+id/cardview_image_warning_notcloud"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
@@ -124,9 +124,9 @@
             <ImageView
                 android:id="@+id/image_warning_dark"
                 android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_height="@dimen/_40sdp"
                 android:scaleType="fitXY"
-                android:src="@drawable/cloud1"
+                android:src="@drawable/image_night_sky"
                 app:layout_constraintHorizontal_bias="0.5" />
         </androidx.cardview.widget.CardView>
 
@@ -147,6 +147,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             app:cardCornerRadius="10dp"
+            android:elevation="10dp"
+            android:background="@drawable/frame_rounded_border_transparent_radius20_stroke5"
             app:layout_constraintBottom_toTopOf="@id/text_warning_notcloud"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/cardview_image_warning_dark"
@@ -155,9 +157,9 @@
             <ImageView
                 android:id="@+id/image_warning_notcloud"
                 android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_height="@dimen/_40sdp"
                 android:scaleType="fitXY"
-                android:src="@drawable/cloud1"
+                android:src="@drawable/image_selfie"
                 app:layout_constraintHorizontal_bias="0.5" />
         </androidx.cardview.widget.CardView>
 
@@ -167,6 +169,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="셀카 X"
+            android:layout_marginTop="@dimen/_5sdp"
             app:layout_constraintBottom_toTopOf="@id/button_choose"
             app:layout_constraintEnd_toEndOf="@id/cardview_image_warning_notcloud"
             app:layout_constraintStart_toStartOf="@id/cardview_image_warning_notcloud"
@@ -188,10 +191,6 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
