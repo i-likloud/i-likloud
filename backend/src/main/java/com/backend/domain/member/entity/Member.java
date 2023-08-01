@@ -62,6 +62,7 @@ public class Member extends BaseEntity {
 
     private LocalDateTime tokenExpirationTime;
 
+
     // 그림과 OneToMany 관계
     @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
