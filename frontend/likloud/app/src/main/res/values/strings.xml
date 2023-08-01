@@ -42,4 +42,8 @@
     <string name="cnt_ticket">티켓 : </string>
     <string name="cnt_stamp">스탬프 : </string>
 
+    <!--game-->
+    <string name="title_game">게임</string>
+    <string name="header_quiz">Q.</string>
+
 </resources>
