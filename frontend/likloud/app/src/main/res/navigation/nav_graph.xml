@@ -99,6 +99,11 @@
         android:name="com.ssafy.likloud.ui.nftlist.NftListFragment"
         android:label="fragment_nft_list"
         tools:layout="@layout/fragment_nft_list" />
+    <fragment
+        android:id="@+id/drawingPadFragment"
+        android:name="com.ssafy.likloud.example.DrawingPadFragment"
+        android:label="DrawingPadFragment"
+        tools:layout="@layout/fragment_drawing_pad"/>
 
 
 </navigation>

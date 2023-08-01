@@ -3,6 +3,7 @@ package com.ssafy.likloud.ui.aftercloudvalid
 import android.content.Context
 import android.content.res.Resources
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -18,6 +19,7 @@ import com.ssafy.likloud.databinding.FragmentAfterCloudValidBinding
 import com.ssafy.likloud.ui.home.HomeFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
+private const val TAG = "AfterCloudValidFragment_싸피"
 @AndroidEntryPoint
 class AfterCloudValidFragment : BaseFragment<FragmentAfterCloudValidBinding>(FragmentAfterCloudValidBinding ::bind, R.layout.fragment_after_cloud_valid ) {
 
@@ -47,20 +49,26 @@ class AfterCloudValidFragment : BaseFragment<FragmentAfterCloudValidBinding>(Fra
         binding.buttonUploadOnly.setText(getString(R.string.upload_only))
         binding.buttonDrawInstantly.setText(getString(R.string.draw_instantly))
         initImageMaxWidth()
-        Glide.with(requireContext())
-            .load(mainActivityViewModel.uploadingPhotoUrl)
-            .transform(CenterCrop())
-            .into(binding.imageChosenPhoto)
+
+        Log.d(TAG, "initView: ${mainActivityViewModel.uploadingPhotoUrl.value}")
+
+        activity?.let {
+            Glide.with(it)
+                .load(mainActivityViewModel.uploadingPhotoUrl.value)
+                .into(binding.imageChosenPhoto)
+        }
     }
 
     private fun initImageMaxWidth() {
         val screenWidth = Resources.getSystem().displayMetrics.widthPixels
-        val maxWidth = (screenWidth * 0.7).toInt()
+        val maxWidth = (screenWidth * 0.3).toInt()
 
-       binding.layoutChosenPhoto.layoutParams.apply {
-           if(width > maxWidth){
-               width =maxWidth
+       binding.layoutCardview.apply {
+           val layoutParams = this.layoutParams
+           if(layoutParams.width>maxWidth){
+               layoutParams.width = maxWidth
            }
+           this.layoutParams = layoutParams
        }
     }
 
