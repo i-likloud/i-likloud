@@ -4,6 +4,7 @@ import com.backend.domain.comment.entity.Comment;
 import com.backend.domain.common.BaseEntity;
 import com.backend.domain.likes.entity.Likes;
 import com.backend.domain.member.entity.Member;
+import com.backend.domain.nft.entity.Nft;
 import com.backend.domain.photo.entity.Photo;
 import lombok.*;
 
@@ -51,6 +52,10 @@ public class Drawing extends BaseEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "drawingFile_id")
     private DrawingFile drawingFile;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "nft_id")
+    private Nft nft;
 
     @OneToMany(mappedBy = "drawing", cascade = CascadeType.ALL)
     private List<Likes> likes = new ArrayList<>();

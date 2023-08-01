@@ -7,6 +7,7 @@ import com.backend.domain.drawing.entity.Drawing;
 import com.backend.domain.likes.entity.Likes;
 import com.backend.domain.member.constant.Role;
 import com.backend.domain.member.constant.SocialType;
+import com.backend.domain.nft.entity.Nft;
 import com.backend.domain.photo.entity.Photo;
 import com.backend.global.jwt.dto.JwtDto;
 import com.backend.global.util.DateTimeUtils;
@@ -85,6 +86,12 @@ public class Member extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Bookmarks> bookmarks = new ArrayList<>();
+
+    // NFT와 OneToMany 관계
+    @Builder.Default
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Nft> nfts = new ArrayList<>();
+
 
     //== 멤버 필드 업데이트 ==//
     public void editNickname(String nickname){

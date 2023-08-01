@@ -2,6 +2,7 @@ package com.backend.api.photo.service;
 
 import com.backend.api.drawing.dto.DrawingWithBookmarksDto;
 import com.backend.api.drawing.dto.DrawingWithLikesDto;
+import com.backend.api.likes.service.LikesService;
 import com.backend.api.photo.dto.PhotoInfoResponseDto;
 import com.backend.domain.bookmark.entity.Bookmarks;
 import com.backend.domain.bookmark.repository.BookmarkRepository;
@@ -11,6 +12,7 @@ import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.repository.MemberRepository;
 import com.backend.domain.photo.entity.Photo;
 import com.backend.domain.photo.repository.PhotoRepository;
+import com.backend.global.resolver.memberInfo.MemberInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,7 @@ public class PhotoInfoService {
     private final MemberRepository memberRepository;
     private final BookmarkRepository bookmarkRepository;
     private final DrawingRepository drawingRepository;
+    private final LikesService likesService;
 
     // 최신순 전체 조회
     @Transactional(readOnly = true)
@@ -75,7 +78,9 @@ public class PhotoInfoService {
         List<Drawing> drawings = drawingRepository.findByPhotoOrderByLikesCountDesc(photo);
 
         return drawings.stream()
-                .map(DrawingWithBookmarksDto::new)
+                .map(drawing ->{
+                    boolean memberLiked = likesService.isAlreadyLiked(new Member(),drawing.getDrawingId());
+                    return new DrawingWithBookmarksDto(drawing, memberLiked);})
                 .collect(Collectors.toList());
     }
 

@@ -1,26 +1,21 @@
 package com.backend.api.drawing.dto;
 
+import com.backend.domain.drawing.dto.DrawingResponseDto;
 import com.backend.domain.drawing.entity.Drawing;
 import lombok.Getter;
 
 @Getter
-public class DrawingWithBookmarksDto {
-    private Long drawingId;
-    private String title;
-    private String artist;
-    private String imageUrl;
-    private int viewCount;
-    private int likesCount;
+public class DrawingWithBookmarksDto extends DrawingResponseDto {
+    private final int viewCount;
+    private final int likesCount;
+    private final boolean memberLiked;
 
-    public DrawingWithBookmarksDto() {
-    }
 
-    public DrawingWithBookmarksDto(Drawing drawing) {
-        this.drawingId = drawing.getDrawingId();
-        this.title = drawing.getTitle();
-        this.artist = drawing.getArtist();
-        this.imageUrl = drawing.getImageUrl();
+    public DrawingWithBookmarksDto(Drawing drawing, boolean memberLiked) {
+        super(drawing);
         this.viewCount = drawing.getViewCount();
         this.likesCount = drawing.getLikesCount();
+        this.memberLiked = memberLiked;
+
     }
 }
