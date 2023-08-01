@@ -43,6 +43,11 @@ class MainActivityViewModel @Inject constructor() : ViewModel() {
     val uploadingPhotoUrl : LiveData<String>
     get()  = _uploadingPhotoUrl
 
+
+    private val _uploadingPhotoId = MutableLiveData<Int>()
+    val uploadingPhotoId : LiveData<Int>
+        get()  = _uploadingPhotoId
+
     fun setProfileImage(color: Int, face: Int) {
         _profileColor.value = color
         _profileFace.value = face
@@ -50,6 +55,10 @@ class MainActivityViewModel @Inject constructor() : ViewModel() {
 
     fun setUploadingPhotoUrl(url : String){
         _uploadingPhotoUrl.value = url
+    }
+
+    fun setUploadingPhotoId(id : Int){
+        _uploadingPhotoId.value = id
     }
 
 }

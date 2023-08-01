@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,35 +7,27 @@
     android:background="@color/main_sky_blue"
     tools:context=".ui.aftercloudvalid.AfterCloudValidFragment">
 
-    <LinearLayout
-        android:id="@+id/layout_cardview"
-        android:layout_width="match_parent"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/layout_chosen_photo"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        app:cardCornerRadius="@dimen/_20sdp"
+        android:translationZ="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/layout_chosen_photo"
+        <ImageView
+            android:id="@+id/image_chosen_photo"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginVertical="@dimen/_10sdp"
-            android:layout_marginStart="@dimen/_10sdp"
-            app:cardCornerRadius="@dimen/_20sdp"
-            android:translationZ="0dp"
-            >
+            app:layout_constraintWidth_max="@dimen/_100sdp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter" />
 
-            <ImageView
-                android:id="@+id/image_chosen_photo"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter" />
-
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
-
-
+    </androidx.cardview.widget.CardView>
 
     <com.ssafy.likloud.util.CustomButton
         android:id="@+id/button_upload_only"
@@ -47,7 +39,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-
     <com.ssafy.likloud.util.CustomButton
         android:id="@+id/button_draw_instantly"
         android:layout_width="wrap_content"
@@ -58,30 +49,5 @@
         android:elevation="1dp"
         app:layout_constraintBottom_toTopOf="@id/button_upload_only"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-    <!--        android:id="@+id/button_choose_this"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        android:layout_marginEnd="@dimen/_10sdp"-->
-    <!--        android:layout_marginBottom="@dimen/_10sdp"-->
-    <!--        app:layout_constraintBottom_toTopOf="@id/button_just_upload">-->
-    <!--        <include layout="@layout/button_component"/>-->
-
-    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-    <!--        android:id="@+id/button_just_upload"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        android:layout_marginEnd="@dimen/_10sdp"-->
-    <!--        android:layout_marginBottom="@dimen/_10sdp"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent">-->
-    <!--        <include layout="@layout/button_component"/>-->
-
-    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

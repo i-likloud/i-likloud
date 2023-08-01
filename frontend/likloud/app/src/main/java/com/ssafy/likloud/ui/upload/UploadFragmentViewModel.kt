@@ -49,6 +49,10 @@ class UploadFragmentViewModel @Inject constructor(
     private val _uploadPhotoUrl = MutableLiveData<String>()
     val uploadPhotoUrl: LiveData<String> get() = _uploadPhotoUrl
 
+
+    private val _uploadPhotoId = MutableLiveData<Int>()
+    val uploadPhotoId: LiveData<Int> get() = _uploadPhotoId
+
     // 요청하고자 하는 권한들
     val permissionList = arrayOf(
         Manifest.permission.CAMERA,
@@ -80,6 +84,7 @@ class UploadFragmentViewModel @Inject constructor(
                     if (responseBody != null) {
                         _uploadPhotoUrl.value = responseBody[0].photoUrl
                         Log.d(TAG, "sendMultipart is cloud: ${responseBody[0].photoUrl} ")
+                        Log.d(TAG, "sendMultipart is cloud : ${responseBody[0].photoId}")
                         _isPhotoMultipartValidated.emit(true)
                     } else {
                         Log.e(TAG, "sendMultipart: Response body is null.")
