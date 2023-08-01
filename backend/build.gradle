@@ -19,6 +19,8 @@ configurations {
 
 repositories {
 	mavenCentral()
+	// 클레이튼 api
+	maven { url 'https://jitpack.io' }
 }
 
 ext {
@@ -55,6 +57,8 @@ dependencies {
 	implementation 'com.google.api-client:google-api-client:1.31.1'
 //	implementation 'com.google.cloud:google-cloud-storage:2.25.0'
 
+	// KAS API
+	implementation group: 'com.klaytn.caver', name: 'core', version: '1.6.2'
 
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
