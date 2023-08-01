@@ -2,18 +2,13 @@ package com.backend.api.member.service;
 
 import com.backend.api.member.dto.MemberDto;
 import com.backend.api.member.dto.MemberInfoResponseDto;
+import com.backend.api.member.dto.MemberSearchDto;
 import com.backend.domain.member.constant.Role;
 import com.backend.domain.member.entity.Member;
-import com.backend.domain.member.repository.MemberRepository;
 import com.backend.domain.member.service.MemberService;
-import com.backend.global.error.ErrorCode;
-import com.backend.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +20,11 @@ public class MemberInfoService {
     public MemberInfoResponseDto getMemberInfo(String email) {
         Member member = memberService.findMemberByEmail(email);
         return MemberInfoResponseDto.of(member);
+    }
+
+    @Transactional(readOnly = true)
+    public MemberSearchDto getMember(Member memberId) {
+        return MemberSearchDto.of(memberId);
     }
 
     // 추가정보 업데이트

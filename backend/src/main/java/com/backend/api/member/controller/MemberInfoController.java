@@ -2,6 +2,7 @@ package com.backend.api.member.controller;
 
 import com.backend.api.member.dto.MemberDto;
 import com.backend.api.member.dto.MemberInfoResponseDto;
+import com.backend.api.member.dto.MemberSearchDto;
 import com.backend.api.member.service.MemberInfoService;
 import com.backend.api.token.dto.AccessTokenResponseDto;
 import com.backend.api.token.service.TokenService;
@@ -18,6 +19,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.parser.Entity;
+import java.util.List;
 import java.util.Optional;
 
 @Tag(name = "Member", description = "회원 관련 api")
@@ -62,6 +65,15 @@ public class MemberInfoController {
         return ResponseEntity.ok()
                 .header("newToken", newToken.getAccessToken())
                 .body(newToken);
+    }
+
+    // 특정 멤버 조회
+    @Operation(summary = "특정 멤버 정보", description = "멤버ID를 통해 관련 정보를 얻는 메소드입니다.")
+    @GetMapping("/search/{memberId}")
+    public ResponseEntity<MemberSearchDto> memberSearchInfo(@PathVariable Long memberId) {
+        Member member = memberService.findMemberById(memberId);
+        MemberSearchDto memberInfo = memberInfoService.getMember(member);
+        return ResponseEntity.ok(memberInfo);
     }
 
 }
