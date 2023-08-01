@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/drawingPadFragment">
 
     <fragment
         android:id="@+id/exampleFragment"
@@ -132,7 +132,7 @@
 
     <fragment
         android:id="@+id/drawingPadFragment"
-        android:name="com.ssafy.likloud.example.DrawingPadFragment"
+        android:name="com.ssafy.likloud.ui.drawingpad.DrawingPadFragment"
         android:label="DrawingPadFragment"
         tools:layout="@layout/fragment_drawing_pad"/>
 

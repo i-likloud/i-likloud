@@ -7,28 +7,42 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.drawingpad.DrawingPadFragment">
 
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_chosen_photo"
         android:layout_width="0dp"
         app:cardElevation="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/_10sdp"
         app:cardBackgroundColor="@color/transparent"
-        android:layout_marginEnd="@dimen/_10sdp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/layout_pencils"
         app:layout_constraintTop_toTopOf="parent">
         <!-- Your CardView content... -->
 
+        <com.ssafy.likloud.ui.drawingpad.DrawingCanvas
+            android:id="@+id/canvas_drawingpad"
+            android:layout_width="0dp"
+            android:background="@drawable/app_background_3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="match_parent">
+
+        </com.ssafy.likloud.ui.drawingpad.DrawingCanvas>
+
         <ImageView
             android:id="@+id/image_chosen_photo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:background="@color/transparent"
-            android:src="@drawable/cloud1" />
-    </androidx.cardview.widget.CardView>
+            android:src="@drawable/cloud6" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/layout_pencils"
@@ -41,14 +55,16 @@
         >
 
         <ImageView
+            android:id="@+id/image_black_pencil"
             android:layout_marginTop="@dimen/_3sdp"
-            android:layout_width="@dimen/_100sdp"
+            android:layout_width="@dimen/_120sdp"
             android:layout_height="0dp"
             android:src="@drawable/pencil_black"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
             />
 
         <ImageView
+            android:id="@+id/image_white_pencil"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="0dp"
             android:src="@drawable/pencil_white"
@@ -56,6 +72,7 @@
             />
 
         <ImageView
+            android:id="@+id/image_red_pencil"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="0dp"
             android:src="@drawable/pencil_red"
@@ -63,6 +80,7 @@
             />
 
         <ImageView
+            android:id="@+id/image_orange_pencil"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="0dp"
             android:src="@drawable/pencil_orange"
@@ -70,6 +88,7 @@
             />
 
         <ImageView
+            android:id="@+id/image_yellow_pencil"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="0dp"
             android:src="@drawable/pencil_yellow"
@@ -77,6 +96,7 @@
             />
 
         <ImageView
+            android:id="@+id/image_green_pencil"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="0dp"
             android:src="@drawable/pencil_green"
@@ -84,6 +104,7 @@
             />
 
         <ImageView
+            android:id="@+id/image_blue_pencil"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="0dp"
             android:src="@drawable/pencil_blue"
@@ -91,12 +112,14 @@
             />
 
         <ImageView
+            android:id="@+id/image_navy_pencil"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="0dp"
             android:src="@drawable/pencil_navy"
             android:layout_weight="1"
             />
         <ImageView
+            android:id="@+id/image_purple_pencil"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="0dp"
             android:src="@drawable/pencil_purple"
@@ -105,6 +128,7 @@
 
 
         <ImageView
+            android:id="@+id/image_eraser"
             android:layout_width="@dimen/_60sdp"
             android:layout_height="0dp"
             android:src="@drawable/eraser"
@@ -113,6 +137,7 @@
             />
 
         <LinearLayout
+
             android:layout_width="@dimen/_90sdp"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -121,6 +146,7 @@
 
 
             <ImageView
+                android:id="@+id/button_undo"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_marginEnd="@dimen/_5sdp"
@@ -129,6 +155,7 @@
 
 
             <ImageView
+                android:id="@+id/button_redo"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_marginEnd="@dimen/_5sdp"
@@ -137,18 +164,11 @@
 
 
             <ImageView
+                android:id="@+id/button_clear"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_clear"/>
-
-
         </LinearLayout>
-
-
     </LinearLayout>
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
