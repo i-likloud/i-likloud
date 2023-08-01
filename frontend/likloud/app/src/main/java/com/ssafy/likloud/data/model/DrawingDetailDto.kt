@@ -14,6 +14,9 @@ data class DrawingDetailDto(
     @SerializedName("artist")
     val artist: String,
 
+    @SerializedName("memeberId")
+    val memberId: Int,
+
     @SerializedName("imageUrl")
     val imageUrl: String,
 
@@ -36,5 +39,5 @@ data class DrawingDetailDto(
     val commentList: MutableList<CommentDto>
 
 ){
-    constructor() : this(0,"","","",0,0,false,"","", mutableListOf())
+    constructor() : this(0,"","", 0,"",0,0,false,"","", mutableListOf())
 }

@@ -5,37 +5,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
-import com.ssafy.likloud.data.model.CommentDto
-import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.databinding.FragmentPhotoListBinding
-import com.ssafy.likloud.ui.drawinglist.CommentListAdapter
-import com.ssafy.likloud.ui.drawinglist.DrawingListAdapter
-import kotlinx.coroutines.launch
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoListBinding::bind, R.layout.fragment_photo_list) {
 
-    private val photoListFragmentViewModel : PhotoListFragmentViewModel by viewModels()
+    private val photoListFragmentViewModel: PhotoListFragmentViewModel by viewModels()
     private lateinit var mainActivity: MainActivity
 
-    private lateinit var rankifgOrderPhotoList: ArrayList<DrawingListDto>
-    private lateinit var recentOrderPhotoList: ArrayList<DrawingListDto>
-    private lateinit var photoList: ArrayList<DrawingListDto>
-
-    private lateinit var selectedPhoto: DrawingListDto
-
-    private lateinit var layoutPhotoDrawingList: ConstraintLayout
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -47,44 +33,84 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // rangkingOrderDrawingList, recentOrderDrawingList 여기서 두 개 각자 받자
-//        rankingOrderDrawingList =
-
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    override fun initListener() {
-
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initObserver()
+        init()
+        initListener()
+
         binding.apply {
 
+            //맨 처음에는 리스트 가장 첫 번째 그림
+//            selectedPhoto = photoList[0]
+//            Glide.with(binding.imageDrawingProfile)
+//                .load(selectedPhoto.imageUrl)
+//                .into(binding.imageDrawingProfile)
+//            binding.textDrawingNickname.text = selectedPhoto.artist
+        }
+    }
 
-            //랭킹순 눌렀을 때
-            buttonRankingOrder.setOnClickListener{
-                photoList = rankifgOrderPhotoList
-            }
 
+    private fun init(){
+        photoListFragmentViewModel.getRecentOrderPhotoListDtoList()
+    }
+
+    override fun initListener() {
+        binding.apply {
             //최신순 눌렀을 때
             buttonRecentOrder.setOnClickListener {
-                photoList = recentOrderPhotoList
+                photoListFragmentViewModel.getRecentOrderPhotoListDtoList()
             }
+            //랭킹순 눌렀을 때
+            buttonRankingOrder.setOnClickListener{
+                photoListFragmentViewModel.getRankingOrderPhotoListDtoList()
+            }
+            //즐겨찾기(스타)를 눌렀을 때
+            imageStar.setOnClickListener {
 
-            //그림 목록 리사이클러뷰(최초에는 인기순)
-            val photoList = initDrawingList()
-//            drawingList = rankingOrderDrawingList
+            }
+            //뒤로가기 눌렀을 때
+            buttonBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
+        }
+    }
 
-            //맨 처음에는 리스트 가장 첫 번째 그림
-            selectedPhoto = photoList[0]
-            Glide.with(binding.imageDrawingProfile)
-                .load(selectedPhoto.imageUrl)
-                .into(binding.imageDrawingProfile)
-            binding.textDrawingNickname.text = selectedPhoto.artist
+    private fun initObserver(){
 
-            val photoListAdapter = PhotoListAdapter(photoList)
+        photoListFragmentViewModel.currentPhotoListDtoList.observe(viewLifecycleOwner){
+            initRecyclerView()
+            photoListFragmentViewModel.setSelectedPhotoListDto(photoListFragmentViewModel.currentPhotoListDtoList.value!![0])
+        }
+
+        photoListFragmentViewModel.selectedPhotoListDto.observe(viewLifecycleOwner){
+            photoListFragmentViewModel.getSelectedPhotoMember(photoListFragmentViewModel.selectedPhotoListDto.value!!.memberId)
+        }
+
+        photoListFragmentViewModel.selectedPhotoMember.observe(viewLifecycleOwner){
+            binding.apply {
+                Glide.with(binding.imageDrawingProfileColor)
+                    .load(photoListFragmentViewModel.selectedPhotoMember.value!!.profileColor)
+                    .into(binding.imageDrawingProfileColor)
+                Glide.with(binding.imageDrawingProfileFace)
+                    .load(photoListFragmentViewModel.selectedPhotoMember.value!!.profileFace)
+                    .into(binding.imageDrawingProfileFace)
+                Glide.with(binding.imageDrawingProfileAccessory)
+                    .load(photoListFragmentViewModel.selectedPhotoMember.value!!.profileAccessory)
+                    .into(binding.imageDrawingProfileAccessory)
+                textDrawingNickname.text = photoListFragmentViewModel.selectedPhotoMember.value!!.nickname
+            }
+        }
+    }
+
+    private fun initRecyclerView(){
+        val photoListAdapter = PhotoListAdapter(photoListFragmentViewModel.currentPhotoListDtoList.value!!)
+        binding.apply {
             recyclerviewDrawaing.apply {
                 this.adapter = photoListAdapter
                 set3DItem(true)
@@ -93,51 +119,11 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
                 setItemSelectListener(object : CarouselLayoutManager.OnSelected {
                     //본인한테서 멈췄을 때 이벤트
                     override fun onItemSelected(position: Int) {
-
-                        selectedPhoto = photoListAdapter.list[position]
-                        //Cente item
-                        Glide.with(binding.imageDrawingProfile)
-                            .load(selectedPhoto.imageUrl)
-                            .into(binding.imageDrawingProfile)
-                        binding.textDrawingNickname.text = selectedPhoto.artist + "NICKNAME"
+                        photoListFragmentViewModel.setSelectedPhotoListDto(photoListAdapter.list[position])
                     }
                 })
             }
-
-            this@PhotoListFragment.layoutPhotoDrawingList = layoutPhotoDrawingList.apply {
-
-            }
-
-
-            buttonPaint.setOnClickListener {
-                toggleLayoutPhotoDrawingListAlpha()
-            }
-
-            //즐겨찾기(스타)를 눌렀을 때
-            imageStar.setOnClickListener {
-
-            }
-
-            buttonBack.setOnClickListener {
-                findNavController().popBackStack()
-            }
-
         }
-    }
-
-    private fun toggleLayoutPhotoDrawingListAlpha(){
-        val targetAlpha = if (layoutPhotoDrawingList.alpha == 1.0f) 0.5f else 1.0f
-        layoutPhotoDrawingList.alpha = targetAlpha
-    }
-
-    private fun initDrawingList(): ArrayList<DrawingListDto>{
-        val list = ArrayList<DrawingListDto>()
-
-        list.add(DrawingListDto())
-        list.add(DrawingListDto())
-        list.add(DrawingListDto())
-
-        return list
     }
 
 

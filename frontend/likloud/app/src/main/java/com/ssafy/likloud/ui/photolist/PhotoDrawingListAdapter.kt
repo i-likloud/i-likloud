@@ -1,4 +1,4 @@
-package com.ssafy.likloud.ui.drawinglist
+package com.ssafy.likloud.ui.photolist
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,13 +8,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ssafy.likloud.data.model.DrawingListDto
-import com.ssafy.likloud.databinding.ItemDrawingBinding
+import com.ssafy.likloud.data.model.PhotoListDto
+import com.ssafy.likloud.databinding.ItemPhotoBinding
 
-class DrawingListAdapter  (var list : MutableList<DrawingListDto>): ListAdapter<DrawingListDto, DrawingListAdapter.DrawingListHolder>(
-    DrawingListComparator
+class PhotoDrawingListAdapter (var list : MutableList<DrawingListDto>): ListAdapter<DrawingListDto, PhotoDrawingListAdapter.PhotoDrawingListHolder>(
+    PhotoDrawingListComparator
 ) {
-
-    companion object DrawingListComparator : DiffUtil.ItemCallback<DrawingListDto>() {
+    companion object PhotoDrawingListComparator : DiffUtil.ItemCallback<DrawingListDto>() {
         override fun areItemsTheSame(oldItem: DrawingListDto, newItem: DrawingListDto): Boolean {
             return oldItem == newItem
         }
@@ -23,8 +23,7 @@ class DrawingListAdapter  (var list : MutableList<DrawingListDto>): ListAdapter<
             return oldItem._id  == newItem._id
         }
     }
-
-    inner class DrawingListHolder(binding: ItemDrawingBinding) : RecyclerView.ViewHolder(binding.root){
+    inner class PhotoDrawingListHolder(binding: ItemPhotoBinding) : RecyclerView.ViewHolder(binding.root){
         val imageDrawing = binding.imageDrawing
         fun bindInfo(drawing : DrawingListDto){
             Glide.with(imageDrawing)
@@ -36,10 +35,10 @@ class DrawingListAdapter  (var list : MutableList<DrawingListDto>): ListAdapter<
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DrawingListHolder {
-        val binding = ItemDrawingBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoDrawingListHolder {
+        val binding = ItemPhotoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 //        return RecyclerView.ViewHolder(inflater)
-        return DrawingListHolder(binding)
+        return PhotoDrawingListHolder(binding)
     }
 
 
@@ -47,21 +46,10 @@ class DrawingListAdapter  (var list : MutableList<DrawingListDto>): ListAdapter<
         return list.size
     }
 
-    override fun onBindViewHolder(holder: DrawingListHolder, position: Int) {
+    override fun onBindViewHolder(holder: PhotoDrawingListHolder, position: Int) {
         holder.apply {
             bindInfo(list.get(position))
         }
-    }
-
-    fun updateData(list: ArrayList<DrawingListDto>) {
-        this.list = list
-    }
-    //Use the method for checking the itemRemoved
-    fun removeData() {
-        // remove last item for test purposes
-        val orgListSize = list.size
-        this.list = this.list.subList(0, orgListSize - 1).toList() as ArrayList<DrawingListDto>
-        notifyItemRemoved(orgListSize - 1)
     }
 
 

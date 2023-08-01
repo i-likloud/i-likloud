@@ -1,12 +1,11 @@
 package com.ssafy.likloud.data.api
 
-import androidx.lifecycle.MutableLiveData
-import com.ssafy.likloud.ApplicationClass.Companion.X_REFRESH_TOKEN
-import com.ssafy.likloud.ApplicationClass.Companion.sharedPreferences
 import com.ssafy.likloud.base.BaseResponse
 import com.ssafy.likloud.data.model.DrawingDetailDto
 import com.ssafy.likloud.data.model.DrawingListDto
+import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.data.model.MemberInfoDto
+import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
@@ -54,6 +53,9 @@ interface BaseService {
     @GET("api/drawings/")
     suspend fun getDrawingList(@Query("orderBy") orderBy: String): Response<MutableList<DrawingListDto>>
 
+    /**
+     * 그림 상세 조회 함수(인자로 DrawingListDto의 _id값 넣으면 됨)
+     */
     @GET("api/drawings/{drawingId}")
     suspend fun getDrawingDetail(@Path("drawingId") drawingId: Int): Response<DrawingDetailDto>
 
@@ -70,6 +72,19 @@ interface BaseService {
         @Part multipartFiles: MultipartBody.Part,
         @Part("memberInfoDto") memberInfoDto: MemberInfoDto
     ): Response<List<PhotoUploadResponseDto>>
+
+    /**
+     * 사진 게시물 조회
+     * parameter로 new(최신순)-기본 / pick(그린 수 순) / bookmarkdesc(즐찾순)
+     */
+    @GET("api/photo/{orderBy}")
+    suspend fun getPhotoList(@Path("orderBy") orderBy: String): Response<MutableList<PhotoListDto>>
+
+    /**
+     * 특정 멤버 프로필 조회
+     */
+    @GET("api/member/search/{memberId}")
+    suspend fun getMemberProfile(@Path("memberId") memberId: Int): Response<MemberProfileDto>
 
 }
 

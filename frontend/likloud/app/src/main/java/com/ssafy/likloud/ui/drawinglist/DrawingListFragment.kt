@@ -6,27 +6,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager
-import com.ssafy.likloud.ApplicationClass
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
-import com.ssafy.likloud.data.model.CommentDto
-import com.ssafy.likloud.data.model.DrawingDetailDto
-import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.databinding.FragmentDrawingListBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 private const val TAG = "차선호"
 @AndroidEntryPoint
@@ -52,15 +41,13 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initObserver()
         init()
         initListener()
+        initObserver()
     }
 
     private fun init(){
-        binding.apply {
-            drawingListFragmentViewModel.getRecentOrderDrawingListDtoList()
-        }
+        drawingListFragmentViewModel.getRecentOrderDrawingListDtoList()
     }
 
     override fun initListener(){
@@ -91,28 +78,6 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         }
     }
 
-    private fun initRecyclerView(){
-        val drawingListAdapter =
-                DrawingListAdapter(drawingListFragmentViewModel.currentDrawingListDtoList.value!!)
-        binding.apply {
-            Log.d(TAG, "selectedDrawing : ${drawingListFragmentViewModel.selectedDrawingDetailDto.value} ")
-            recyclerviewDrawaing.apply {
-                this.adapter = drawingListAdapter
-                set3DItem(true)
-                setAlpha(true)
-                setOrientation(RecyclerView.VERTICAL)
-                setItemSelectListener(object : CarouselLayoutManager.OnSelected {
-                    //본인한테서 멈췄을 때 이벤트
-                    override fun onItemSelected(position: Int) {
-                        //여기서 selectedDrawing을 가지고 DrawingDetailDto 받아라
-                        drawingListFragmentViewModel.getSelectedDrawingDetailDto(drawingListAdapter.list[position])
-                        Log.d(TAG, "SelectedDrawingDetail : ${drawingListFragmentViewModel.selectedDrawingDetailDto.value} ")
-                    }
-                })
-            }
-        }
-    }
-
     private fun initObserver(){
 
         drawingListFragmentViewModel.currentDrawingListDtoList.observe(viewLifecycleOwner){
@@ -123,11 +88,21 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
 
         drawingListFragmentViewModel.selectedDrawingDetailDto.observe(viewLifecycleOwner){
             Log.d(TAG, "selectedDrawing : ${drawingListFragmentViewModel.selectedDrawingDetailDto.value} ")
+            drawingListFragmentViewModel.getSelectedDrawingMember(drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.memberId)
+        }
+
+        drawingListFragmentViewModel.selectedDrawingMember.observe(viewLifecycleOwner){
             binding.apply {
-                Glide.with(binding.imageDrawingProfile)
-                    .load(drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.imageUrl)
-                    .into(binding.imageDrawingProfile)
-                textDrawingArtist.text = drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.artist
+                Glide.with(binding.imageProfileColor)
+                    .load(drawingListFragmentViewModel.selectedDrawingMember.value!!.profileColor)
+                    .into(binding.imageProfileColor)
+                Glide.with(binding.imageProfileFace)
+                    .load(drawingListFragmentViewModel.selectedDrawingMember.value!!.profileFace)
+                    .into(binding.imageProfileFace)
+                Glide.with(binding.imageProfileAccessory)
+                    .load(drawingListFragmentViewModel.selectedDrawingMember.value!!.profileAccessory)
+                    .into(binding.imageProfileAccessory)
+                textDrawingNickname.text = drawingListFragmentViewModel.selectedDrawingMember.value!!.nickname
                 textDrawingTitle.text = drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.title
                 textDrawingContent.text = drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.content
                 if (drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.memberLiked) {
@@ -139,6 +114,26 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         }
 
         drawingListFragmentViewModel.selectedDrawingCommentList.observe(viewLifecycleOwner) {
+        }
+    }
+
+
+    private fun initRecyclerView(){
+        val drawingListAdapter =
+            DrawingListAdapter(drawingListFragmentViewModel.currentDrawingListDtoList.value!!)
+        binding.recyclerviewDrawaing.apply {
+            this.adapter = drawingListAdapter
+            set3DItem(true)
+            setAlpha(true)
+            setOrientation(RecyclerView.VERTICAL)
+            setItemSelectListener(object : CarouselLayoutManager.OnSelected {
+                //본인한테서 멈췄을 때 이벤트
+                override fun onItemSelected(position: Int) {
+                    //여기서 selectedDrawing을 가지고 DrawingDetailDto 받아라
+                    drawingListFragmentViewModel.getSelectedDrawingDetailDto(drawingListAdapter.list[position])
+                    Log.d(TAG, "SelectedDrawingDetail : ${drawingListFragmentViewModel.selectedDrawingDetailDto.value} ")
+                }
+            })
         }
     }
 }

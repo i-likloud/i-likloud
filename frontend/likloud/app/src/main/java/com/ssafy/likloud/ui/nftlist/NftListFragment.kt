@@ -2,11 +2,9 @@ package com.ssafy.likloud.ui.nftlist
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,9 +12,8 @@ import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
 import com.ssafy.likloud.data.model.DrawingListDto
+import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.databinding.FragmentNftListBinding
-import com.ssafy.likloud.databinding.FragmentPhotoDrawingDetailBinding
-import com.ssafy.likloud.ui.photolist.PhotoDrawingDetailFragmentViewModel
 import kotlinx.coroutines.launch
 
 
