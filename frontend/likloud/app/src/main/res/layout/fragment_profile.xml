@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/app_background_3">
+    android:background="@drawable/app_background_3"
+    >
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/layout_appbar"
@@ -71,9 +72,10 @@
                 android:layout_weight="1">
 
                 <ImageView
-                    android:id="@+id/image_profile_now"
+                    android:id="@+id/image_color_now"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:src="@drawable/profile_water_drop_white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -124,118 +126,59 @@
             app:layout_constraintStart_toEndOf="@+id/linearLayout2"
             app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
-                android:layout_width="@dimen/_230sdp"
-                android:layout_height="0dp"
-                android:layout_weight="1">
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:orientation="vertical"-->
+<!--                android:padding="@dimen/_4sdp"-->
+<!--                android:layout_margin="@dimen/_4sdp"-->
+<!--                android:background="@drawable/frame_rounded_border_radius50">-->
 
-                <ImageView
-                    android:id="@+id/waterDropWhite"
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/profile_water_drop_white" />
+                    android:text="물방울 색을 골라주세요!"
+                    android:layout_margin="@dimen/_2sdp"
+                    style="@style/Theme.AppCompat.TextView.jua.dark.Size08"/>
 
-                <ImageView
-                    android:id="@+id/waterDropPurple"
-                    android:layout_width="0dp"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="@dimen/_4sdp"
+                    android:layout_margin="@dimen/_4sdp"
+                    android:background="@drawable/frame_rounded_border_radius50"/>
+
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:orientation="vertical"-->
+<!--                android:padding="@dimen/_4sdp"-->
+<!--                android:layout_margin="@dimen/_4sdp"-->
+<!--                android:background="@drawable/frame_rounded_border_radius50">-->
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="물방울 표정을 골라주세요!"
+                    android:layout_margin="@dimen/_2sdp"
+                    style="@style/Theme.AppCompat.TextView.jua.dark.Size08"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_face"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/profile_water_drop_purple" />
+                    android:padding="@dimen/_4sdp"
+                    android:layout_margin="@dimen/_4sdp"
+                    android:background="@drawable/frame_rounded_border_radius50"/>
 
-                <ImageView
-                    android:id="@+id/waterDropMint"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/profile_water_drop_mint" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="@dimen/_230sdp"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:id="@+id/waterDropBlue"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/profile_water_drop_blue" />
-
-                <ImageView
-                    android:id="@+id/waterDropOrange"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/profile_water_drop_orange" />
-
-                <ImageView
-                    android:id="@+id/waterDropRed"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/profile_water_drop_red" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="@dimen/_230sdp"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:id="@+id/waterDropGreen"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/profile_water_drop_green" />
-
-                <ImageView
-                    android:id="@+id/waterDropPink"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/profile_water_drop_pink" />
-
-                <ImageView
-                    android:id="@+id/waterDropLemon"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/profile_water_drop_lemon" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="@dimen/_230sdp"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:id="@+id/image_face_normal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/face_normal" />
-
-                <ImageView
-                    android:id="@+id/image_face_smile"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/face_smile" />
-
-                <ImageView
-                    android:id="@+id/image_face_qqiu"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/face_ggiu" />
-
-            </LinearLayout>
+<!--            </LinearLayout>-->
 
             <LinearLayout
                 android:id="@+id/button_choose_done"

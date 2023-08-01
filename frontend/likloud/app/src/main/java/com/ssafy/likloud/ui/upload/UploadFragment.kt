@@ -50,6 +50,7 @@ class UploadFragment :
 
     private val uploadFragmentViewModel: UploadFragmentViewModel by viewModels()
     private lateinit var mainActivity: MainActivity
+    private lateinit var aiCheckingDialog: AICheckingDialog
     lateinit var currentPhotoPath: String
     lateinit var photoUri: Uri
     lateinit var file: File
@@ -71,12 +72,19 @@ class UploadFragment :
         super.onViewCreated(view, savedInstanceState)
         initListener()
 
+        /**
+         * 구름인지 아닌지를 observe하여 구름이면 화면이동, 아니면 dialog를 띄웁니다.
+         */
         viewLifecycleOwner.lifecycleScope.launch {
-            uploadFragmentViewModel.isPhotoMultipartCreated.observe(requireActivity()) {
-                if (it == true) uploadFragmentViewModel.photoMultipartBody.value?.let { multipart ->
-                    uploadFragmentViewModel.sendMultipart(
-                        multipart
-                    )
+            uploadFragmentViewModel.isPhotoMultipartValidated.observe(requireActivity()) {
+                if (it == true) {
+                    aiCheckingDialog.dismiss()
+                    showCustomToast("축하합니다! 구름이네요! 다음 화면으로 넘어갈게요!")
+                    //navigatecontroller로 다음으로 넘어감
+                }
+                else{
+                    aiCheckingDialog.dismiss()
+                    invokeNotCloudDialog()
                 }
             }
         }
@@ -92,6 +100,15 @@ class UploadFragment :
         binding.layoutAddPhoto.setOnClickListener {
             requestMultiplePermission.launch(uploadFragmentViewModel.permissionList)
             invokeCameraDialog()
+        }
+
+        binding.buttonChoose.setOnClickListener {
+            if (uploadFragmentViewModel.photoMultipartBody.value != null) {
+                invokeAICheckingDialog()
+                uploadFragmentViewModel.sendMultipart(uploadFragmentViewModel.photoMultipartBody.value!!)
+            } else {
+                Log.d(TAG, "initListener: no multipart")
+            }
         }
     }
 
@@ -116,11 +133,18 @@ class UploadFragment :
         dialog.show(childFragmentManager, TAG)
     }
 
+    private fun invokeAICheckingDialog() {
+        aiCheckingDialog = AICheckingDialog()
+        aiCheckingDialog.show(childFragmentManager, TAG)
+
+    }
+
     /**
      * AI 인식 실패시 모달창을 띄웁니다.
      */
     private fun invokeNotCloudDialog() {
         val dialog = NotCloudDialog(
+            uploadFragmentViewModel.notCloudErrorMessage.value!!,
             clickTakePhotoAgain = {
                 invokeCameraDialog()
             }
@@ -273,7 +297,7 @@ class UploadFragment :
         }
 
         val requestFile: RequestBody = createRequestBodyFromFile(file)
-        return MultipartBody.Part.createFormData("file", file.name, requestFile)
+        return MultipartBody.Part.createFormData("multipartFiles", file.name, requestFile)
     }
 
     /**
@@ -314,7 +338,7 @@ class UploadFragment :
      * 저장된 사진 파일의 body를 가져옵니다
      */
     private fun createRequestBodyFromFile(file: File): RequestBody {
-        val MEDIA_TYPE_IMAGE = "image/*".toMediaTypeOrNull()
+        val MEDIA_TYPE_IMAGE = "multipart/form-data".toMediaTypeOrNull()
         val inputStream: InputStream = FileInputStream(file)
         val byteArray = inputStream.readBytes()
         return RequestBody.create(MEDIA_TYPE_IMAGE, byteArray)
