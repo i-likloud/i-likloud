@@ -27,7 +27,7 @@ class NftListAdapter (var context: Context, var list : ArrayList<DrawingListDto>
         }
 
         override fun areContentsTheSame(oldItem: DrawingListDto, newItem: DrawingListDto): Boolean {
-            return oldItem._id  == newItem._id
+            return oldItem.drawingId  == newItem.drawingId
         }
     }
     inner class NftHolder(binding: ItemNftBinding) : RecyclerView.ViewHolder(binding.root){

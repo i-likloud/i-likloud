@@ -6,12 +6,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager
 import com.ssafy.likloud.MainActivity
+import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
 import com.ssafy.likloud.databinding.FragmentDrawingListBinding
@@ -23,6 +25,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
 
     private val drawingListFragmentViewModel : DrawingListFragmentViewModel by viewModels()
     private lateinit var mainActivity: MainActivity
+    private val activityViewModel: MainActivityViewModel by activityViewModels()
 
 
     override fun onAttach(context: Context) {
@@ -92,16 +95,17 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         }
 
         drawingListFragmentViewModel.selectedDrawingMember.observe(viewLifecycleOwner){
+            Log.d(TAG, "selectedDrawingMember : ${drawingListFragmentViewModel.selectedDrawingMember.value}")
             binding.apply {
                 Glide.with(binding.imageProfileColor)
-                    .load(drawingListFragmentViewModel.selectedDrawingMember.value!!.profileColor)
+                    .load(activityViewModel.waterDropColorList[drawingListFragmentViewModel.selectedDrawingMember.value!!.profileColor].resourceId)
                     .into(binding.imageProfileColor)
                 Glide.with(binding.imageProfileFace)
-                    .load(drawingListFragmentViewModel.selectedDrawingMember.value!!.profileFace)
+                    .load(activityViewModel.waterDropFaceList[drawingListFragmentViewModel.selectedDrawingMember.value!!.profileFace].resourceId)
                     .into(binding.imageProfileFace)
-                Glide.with(binding.imageProfileAccessory)
-                    .load(drawingListFragmentViewModel.selectedDrawingMember.value!!.profileAccessory)
-                    .into(binding.imageProfileAccessory)
+//                Glide.with(binding.imageProfileAccessory)
+//                    .load(drawingListFragmentViewModel.selectedDrawingMember.value!!.profileAccessory)
+//                    .into(binding.imageProfileAccessory)
                 textDrawingNickname.text = drawingListFragmentViewModel.selectedDrawingMember.value!!.nickname
                 textDrawingTitle.text = drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.title
                 textDrawingContent.text = drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.content

@@ -3,10 +3,12 @@ package com.ssafy.likloud.ui.photolist
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.ssafy.likloud.R
 import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.databinding.ItemPhotoBinding
@@ -14,22 +16,32 @@ import com.ssafy.likloud.databinding.ItemPhotoBinding
 class PhotoDrawingListAdapter (var list : MutableList<DrawingListDto>): ListAdapter<DrawingListDto, PhotoDrawingListAdapter.PhotoDrawingListHolder>(
     PhotoDrawingListComparator
 ) {
+    private var pre: Int = 0
     companion object PhotoDrawingListComparator : DiffUtil.ItemCallback<DrawingListDto>() {
         override fun areItemsTheSame(oldItem: DrawingListDto, newItem: DrawingListDto): Boolean {
             return oldItem == newItem
         }
-
         override fun areContentsTheSame(oldItem: DrawingListDto, newItem: DrawingListDto): Boolean {
-            return oldItem._id  == newItem._id
+            return oldItem.drawingId  == newItem.drawingId
         }
     }
     inner class PhotoDrawingListHolder(binding: ItemPhotoBinding) : RecyclerView.ViewHolder(binding.root){
         val imageDrawing = binding.imageDrawing
+        val layoutPhotoDrawingItem = binding.layoutPhotoDrawingItem
         fun bindInfo(drawing : DrawingListDto){
             Glide.with(imageDrawing)
                 .load(drawing.imageUrl)
                 .into(imageDrawing)
+
+            if (layoutPosition >= pre) {
+                layoutPhotoDrawingItem.animation = AnimationUtils.loadAnimation(layoutPhotoDrawingItem.context, R.anim.list_item_anim_from_right)
+            } else {
+                layoutPhotoDrawingItem.animation = AnimationUtils.loadAnimation(layoutPhotoDrawingItem.context, R.anim.list_item_anim_from_left)
+            }
+            pre = layoutPosition
+
             itemView.setOnClickListener{
+                itemClickListener.onClick(it, drawing)
             }
         }
     }
@@ -50,17 +62,14 @@ class PhotoDrawingListAdapter (var list : MutableList<DrawingListDto>): ListAdap
         holder.apply {
             bindInfo(list.get(position))
         }
+
     }
 
 
     //    //클릭 인터페이스 정의 사용하는 곳에서 만들어준다.
     interface ItemClickListener {
-        fun onClick(view: View, position: Int, info:String)
+        fun onClick(view: View, drawing: DrawingListDto)
     }
     //클릭리스너 선언
-    private lateinit var itemClickListner: ItemClickListener
-    //클릭리스너 등록 매소드
-    fun setItemClickListener(itemClickListener: ItemClickListener) {
-        this.itemClickListner = itemClickListener
-    }
+    lateinit var itemClickListener: ItemClickListener
 }

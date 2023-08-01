@@ -20,7 +20,7 @@ class DrawingListAdapter  (var list : MutableList<DrawingListDto>): ListAdapter<
         }
 
         override fun areContentsTheSame(oldItem: DrawingListDto, newItem: DrawingListDto): Boolean {
-            return oldItem._id  == newItem._id
+            return oldItem.drawingId  == newItem.drawingId
         }
     }
 

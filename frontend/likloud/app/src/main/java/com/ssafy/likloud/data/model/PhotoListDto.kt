@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class PhotoListDto(
 
     @SerializedName("photoId")
-    var _id: Int,
+    var photoId: Int,
 
     @SerializedName("memberId")
     var memberId: Int,

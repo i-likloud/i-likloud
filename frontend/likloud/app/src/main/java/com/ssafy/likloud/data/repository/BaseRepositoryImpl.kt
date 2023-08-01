@@ -84,4 +84,8 @@ class BaseRepositoryImpl @Inject constructor(
     override suspend fun getMemberProfile(memberId: Int): NetworkResult<MemberProfileDto> {
         return handleApi { baseAPIService.getMemberProfile(memberId).body()!! }
     }
+
+    override suspend fun getPhotoDrawingList(photoId: Int): NetworkResult<MutableList<DrawingListDto>> {
+        return handleApi { baseAPIService.getPhotoDrawingList(photoId).body()!! }
+    }
 }

@@ -94,4 +94,11 @@ interface BaseRepository {
     suspend fun getMemberProfile(
         memberId: Int
     ): NetworkResult<MemberProfileDto>
+
+    /**
+     * 해당 사진에 대한 그림 목록 조회
+     */
+    suspend fun getPhotoDrawingList(
+        photoId: Int
+    ): NetworkResult<MutableList<DrawingListDto>>
 }

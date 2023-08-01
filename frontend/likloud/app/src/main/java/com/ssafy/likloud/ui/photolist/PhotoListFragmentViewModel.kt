@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ssafy.likloud.data.api.onSuccess
+import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.data.repository.BaseRepository
@@ -68,6 +69,18 @@ class PhotoListFragmentViewModel @Inject constructor(
         viewModelScope.launch {
             baseRepository.getMemberProfile(memberId).onSuccess {
                 _selectedPhotoMember.value = it
+            }
+        }
+    }
+
+    //////////////////////////// 선택된 photo의 DrawingListDto 목록 ///////////////////////////////
+    private var _selectedPhotoDrawingList = MutableLiveData<MutableList<DrawingListDto>>()
+    val selectedPhotoDrawingList: LiveData<MutableList<DrawingListDto>>
+        get() = _selectedPhotoDrawingList
+    fun getSelectedPhotoDrawingList(photoId: Int){
+        viewModelScope.launch {
+            baseRepository.getPhotoDrawingList(photoId).onSuccess {
+                _selectedPhotoDrawingList.value = it
             }
         }
     }

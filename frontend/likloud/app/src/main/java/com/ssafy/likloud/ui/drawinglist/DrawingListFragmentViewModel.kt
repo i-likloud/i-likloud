@@ -62,7 +62,7 @@ class DrawingListFragmentViewModel @Inject constructor(
     fun getSelectedDrawingDetailDto(dto: DrawingListDto){
         //여기서 api호출해서 받아라
         viewModelScope.launch {
-            baseRepository.getDrawingDetail(dto._id).onSuccess {
+            baseRepository.getDrawingDetail(dto.drawingId).onSuccess {
                 _selectedDrawingDetailDto.value = it
             }
         }

@@ -20,15 +20,15 @@ class PhotoListAdapter (var list : MutableList<PhotoListDto>): ListAdapter<Photo
         }
 
         override fun areContentsTheSame(oldItem: PhotoListDto, newItem: PhotoListDto): Boolean {
-            return oldItem._id  == newItem._id
+            return oldItem.photoId  == newItem.photoId
         }
     }
     inner class PhotoListHolder(binding: ItemPhotoBinding) : RecyclerView.ViewHolder(binding.root){
         val imageDrawing = binding.imageDrawing
-        fun bindInfo(drawing : PhotoListDto){
-//            Glide.with(imageDrawing)
-//                .load(drawing.imageUrl)
-//                .into(imageDrawing)
+        fun bindInfo(photo : PhotoListDto){
+            Glide.with(imageDrawing)
+                .load(photo.photoUrl)
+                .into(imageDrawing)
             itemView.setOnClickListener{
             }
         }

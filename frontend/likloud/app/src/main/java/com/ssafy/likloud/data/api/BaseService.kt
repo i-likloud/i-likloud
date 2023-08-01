@@ -86,6 +86,11 @@ interface BaseService {
     @GET("api/member/search/{memberId}")
     suspend fun getMemberProfile(@Path("memberId") memberId: Int): Response<MemberProfileDto>
 
+    /**
+     * 해당 사진에 대한 그림 목록 조회
+     */
+    @GET("api/photo/{photoId}/alldrawings")
+    suspend fun getPhotoDrawingList(@Path("photoId") photoId: Int): Response<MutableList<DrawingListDto>>
 }
 
 //api 만드는 과정
