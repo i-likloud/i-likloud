@@ -19,6 +19,7 @@ import com.ssafy.likloud.data.repository.BaseRepository
 import com.ssafy.likloud.databinding.ActivityMainBinding
 import com.ssafy.likloud.ui.login.LoginFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -33,9 +34,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        initObserver()
         initView()
         initNavController()
-
         initListener()
     }
 
@@ -58,12 +60,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
+    private fun initObserver() {
+        lifecycleScope.launch{
+            mainActivityViewModel.memberInfo.observe(this@MainActivity) {
+                changeProfileLayoutVisible()
+                changeProfileColor(it.profileColor)
+                changeProfileFace(it.profileFace)
+                changeProfileAccessory(it.profileAccessory)
+            }
+        }
+    }
+
     private fun initView() {
         binding.layoutProfile.translationX = 52f
         binding.layoutProfile.translationY = -52f
         binding.layoutProfile.visibility = View.INVISIBLE
-        binding.profileColor.animation = AnimationUtils.loadAnimation(this, R.anim.rotation)
-        binding.profileFace.animation = AnimationUtils.loadAnimation(this, R.anim.rotation)
+        binding.profileMy.animation = AnimationUtils.loadAnimation(this, R.anim.rotation)
     }
 
     private fun initNavController() {
@@ -96,9 +108,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     fun changeProfileColor(num: Int) {
         binding.profileColor.setImageResource(mainActivityViewModel.waterDropColorList[num].resourceId)
     }
-
     fun changeProfileFace(num: Int) {
         binding.profileFace.setImageResource(mainActivityViewModel.waterDropFaceList[num].resourceId)
+    }
+    fun changeProfileAccessory(num: Int) {
+        binding.profileAccessory.setImageResource(mainActivityViewModel.waterDropAccessoryList[num].resourceId)
     }
 
     fun changeProfileLayoutVisible() {

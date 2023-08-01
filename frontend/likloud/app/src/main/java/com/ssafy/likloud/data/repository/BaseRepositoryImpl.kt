@@ -48,7 +48,7 @@ class BaseRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getMemberInfo(memberInfoRequest: MemberInfoRequest): NetworkResult<MemberInfoResponse> {
-        return handleApi { baseAPIService.getUserInfo(memberInfoRequest).body()!! }
+        return handleApi { baseAPIService.getMemberInfo(memberInfoRequest).body()!! }
     }
 
     override suspend fun patchAdditionalInfo(loginAdditionalRequest: LoginAdditionalRequest): Response<ReLoginResponse> {

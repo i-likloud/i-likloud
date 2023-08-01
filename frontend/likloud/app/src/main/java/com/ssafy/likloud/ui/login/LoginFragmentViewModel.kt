@@ -51,25 +51,4 @@ class LoginFragmentViewModel @Inject constructor(
             }
         }
     }
-
-    private val _memberInfo = MutableLiveData<MemberInfoResponse>()
-    val memberInfo: LiveData<MemberInfoResponse>
-        get() = _memberInfo
-
-    /**
-     * 멤버 정보를 불러 옵니다.
-     */
-    suspend fun getUserInfo(email: String) {
-        viewModelScope.launch {
-            baseRepository.getMemberInfo(MemberInfoRequest(email)).apply {
-                onSuccess {
-                    Log.d(TAG, "getUserInfo: onSuccess ${it}")
-                    _memberInfo.postValue(it)
-                }
-                onError {
-                    Log.d(TAG, "getUserInfo: ${it.message}")
-                }
-            }
-        }
-    }
 }

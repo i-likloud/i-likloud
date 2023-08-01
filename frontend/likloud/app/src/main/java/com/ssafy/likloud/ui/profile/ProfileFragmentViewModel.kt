@@ -22,8 +22,8 @@ class ProfileFragmentViewModel @Inject constructor(
     /**
      * 회원가입 후 GUEST 단계의 사용자를 MEMBER 단계로 올리고, MEMBER용 JWT 토큰을 다시 받아옴
      */
-    fun patchAdditionalInfo(loginAdditionalRequest: LoginAdditionalRequest) {
-        viewModelScope.launch {
+    suspend fun patchAdditionalInfo(loginAdditionalRequest: LoginAdditionalRequest) {
+//        viewModelScope.launch {
             baseRepository.patchAdditionalInfo(loginAdditionalRequest).apply {
                 if (this.code() == 200) {
                     val token = this.headers().get("newtoken")
@@ -31,6 +31,6 @@ class ProfileFragmentViewModel @Inject constructor(
                     ApplicationClass.sharedPreferences.putString(ApplicationClass.X_ACCESS_TOKEN, token.toString())
                 }
             }
-        }
+//        }
     }
 }
