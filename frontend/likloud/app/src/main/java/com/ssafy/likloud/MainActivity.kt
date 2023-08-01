@@ -104,4 +104,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     fun changeProfileLayoutVisible() {
         binding.layoutProfile.visibility = View.VISIBLE
     }
+
+    fun changeProfileLayoutInvisible() {
+        binding.layoutProfile.visibility = View.INVISIBLE
+    }
 }

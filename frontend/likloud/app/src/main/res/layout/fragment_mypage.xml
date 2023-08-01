@@ -65,7 +65,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layout_selected_character"
+                android:id="@+id/layout_my_character"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1">
@@ -139,48 +139,72 @@
                     android:layout_weight="1">
 
                     <LinearLayout
-                        android:layout_width="@dimen/_50sdp"
+                        android:layout_width="@dimen/_60sdp"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/_6sdp"
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/_2sdp">
 
                         <ImageView
-                            android:layout_width="@dimen/_14sdp"
-                            android:layout_height="match_parent"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_10sdp"
                             android:src="@drawable/ic_ticket"
                             android:scaleType="centerCrop"
                             android:layout_marginRight="@dimen/_4sdp"/>
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="X"
+                            android:layout_gravity="center"
                             android:layout_marginRight="@dimen/_4sdp"
+                            style="@style/Theme.AppCompat.TextView.jua.dark.Size04"/>
+
+                        <TextView
+                            android:id="@+id/textview_ticket_cnt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="몇개"
+                            android:layout_gravity="center"
                             style="@style/Theme.AppCompat.TextView.jua.dark.Size08"/>
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="@dimen/_50sdp"
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/black"
+                        android:layout_marginVertical="@dimen/_5sdp"/>
+
+                    <LinearLayout
+                        android:layout_width="@dimen/_60sdp"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/_6sdp"
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/_2sdp">
 
                         <ImageView
-                            android:layout_width="@dimen/_9sdp"
-                            android:layout_height="match_parent"
+                            android:layout_width="@dimen/_12sdp"
+                            android:layout_height="@dimen/_14sdp"
                             android:src="@drawable/ic_stamp"
                             android:scaleType="centerCrop"
                             android:layout_marginRight="@dimen/_4sdp"/>
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
                             android:text="X"
-                            style="@style/Theme.AppCompat.TextView.jua.dark.Size08"/>
+                            android:layout_marginRight="@dimen/_4sdp"
+                            style="@style/Theme.AppCompat.TextView.jua.dark.Size04"/>
 
+                        <TextView
+                            android:id="@+id/textview_stamp_cnt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="몇개"
+                            android:layout_gravity="center"
+                            style="@style/Theme.AppCompat.TextView.jua.dark.Size08"/>
                     </LinearLayout>
                 </LinearLayout>
 
