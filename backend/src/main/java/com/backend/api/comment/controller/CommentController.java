@@ -5,7 +5,7 @@ import com.backend.api.comment.service.CommentService;
 import com.backend.domain.comment.dto.CommentDto;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.service.MemberService;
-//import com.backend.global.firebase.service.FCMService;
+import com.backend.global.firebase.service.FCMService;
 import com.backend.global.resolver.memberInfo.MemberInfo;
 import com.backend.global.resolver.memberInfo.MemberInfoDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,7 +22,7 @@ public class CommentController {
 
     private final CommentService commentService;
     private final MemberService memberService;
-//    private final FCMService fcmService;
+    private final FCMService fcmService;
 
     @PostMapping("/to/{drawingId}")
     @Operation(summary = "댓글 작성", description = "그림 게시물에 댓글을 생성합니다.")
@@ -39,7 +39,7 @@ public class CommentController {
         // 작성자에게 알림 보내기
         String title = "뭉게뭉게 도화지";
         String body = String.format("%s 님이 회원님의 그림에 댓글을 남겼습니다.",CurrentUserNickname);
-//        fcmService.sendFCMNotification(authorToken,title,body);
+        fcmService.sendFCMNotification(authorToken,title,body);
 
 
         return commentService.createComment(drawingId, content, member);
