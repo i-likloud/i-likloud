@@ -1,11 +1,18 @@
 package com.ssafy.likloud
 
+import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.activity.viewModels
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.ssafy.likloud.base.BaseActivity
 import com.ssafy.likloud.data.repository.BaseRepository
@@ -28,12 +35,35 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         super.onCreate(savedInstanceState)
         initView()
         initNavController()
+
+        initListener()
+    }
+
+    private fun initListener() {
+        binding.layoutProfile.setOnClickListener {
+            when (navController.currentDestination!!.id) {
+                R.id.homeFragment -> {
+                    navController.navigate(R.id.action_homeFragment_to_mypageFragment)
+                }
+                R.id.photoListFragment -> {
+                    navController.navigate(R.id.action_photoListFragment_to_mypageFragment)
+                }
+                R.id.drawingListFragment -> {
+                    navController.navigate(R.id.action_drawingListFragment_to_mypageFragment)
+                }
+                R.id.mypageFragment -> {
+
+                }
+            }
+        }
     }
 
     private fun initView() {
         binding.layoutProfile.translationX = 52f
         binding.layoutProfile.translationY = -52f
         binding.layoutProfile.visibility = View.INVISIBLE
+        binding.profileColor.animation = AnimationUtils.loadAnimation(this, R.anim.rotation)
+        binding.profileFace.animation = AnimationUtils.loadAnimation(this, R.anim.rotation)
     }
 
     private fun initNavController() {
