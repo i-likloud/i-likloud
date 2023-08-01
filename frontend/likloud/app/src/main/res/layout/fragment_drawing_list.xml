@@ -122,24 +122,41 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_margin="@dimen/_10sdp">
 
-            <ImageView
-                android:id="@+id/image_drawing_profile"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+            <FrameLayout
+                android:id="@+id/layout_profile"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="@dimen/_7sdp"
                 android:layout_marginTop="@dimen/_7sdp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/image_profile_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <ImageView
+                    android:id="@+id/image_profile_face"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <ImageView
+                    android:id="@+id/image_profile_accessory"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </FrameLayout>
 
             <TextView
-                android:id="@+id/text_drawing_artist"
+                android:id="@+id/text_drawing_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_4sdp"
                 style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
-                app:layout_constraintBottom_toBottomOf="@+id/image_drawing_profile"
-                app:layout_constraintStart_toEndOf="@id/image_drawing_profile"
-                app:layout_constraintTop_toTopOf="@id/image_drawing_profile" />
+                app:layout_constraintBottom_toBottomOf="@id/layout_profile"
+                app:layout_constraintStart_toEndOf="@id/layout_profile"
+                app:layout_constraintTop_toTopOf="@id/layout_profile" />
 
             <TextView
                 android:id="@+id/text_drawing_title"
@@ -147,8 +164,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_4sdp"
                 style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
-                app:layout_constraintStart_toStartOf="@id/image_drawing_profile"
-                app:layout_constraintTop_toBottomOf="@id/image_drawing_profile" />
+                app:layout_constraintStart_toStartOf="@id/layout_profile"
+                app:layout_constraintTop_toBottomOf="@id/layout_profile" />
 
             <TextView
                 android:id="@+id/text_drawing_content"

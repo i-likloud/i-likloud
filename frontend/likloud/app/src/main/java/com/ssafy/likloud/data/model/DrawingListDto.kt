@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class DrawingListDto(
 
     @SerializedName("drawingId")
-    val _id: Int,
+    val drawingId: Int,
 
     @SerializedName("title")
     val title: String,
@@ -26,5 +26,5 @@ data class DrawingListDto(
     val memberLiked: Boolean
 
     ){
-    constructor() : this(0,"","","",0,0,false)
+    constructor(): this(0,"","","",0,0,false)
 }

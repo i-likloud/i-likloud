@@ -3,25 +3,31 @@ package com.ssafy.likloud.ui.photolist
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.ssafy.likloud.R
-import com.ssafy.likloud.data.model.DrawingListDto
-import com.ssafy.likloud.databinding.ItemDrawingBinding
+import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.databinding.ItemPhotoBinding
 import com.ssafy.likloud.ui.drawinglist.DrawingListAdapter
 
-class PhotoListAdapter (var list : ArrayList<DrawingListDto>): RecyclerView.Adapter<PhotoListAdapter.PhotoHolder>() {
+class PhotoListAdapter (var list : MutableList<PhotoListDto>): ListAdapter<PhotoListDto, PhotoListAdapter.PhotoListHolder>(
+    PhotoListComparator
+) {
+    companion object PhotoListComparator : DiffUtil.ItemCallback<PhotoListDto>() {
+        override fun areItemsTheSame(oldItem: PhotoListDto, newItem: PhotoListDto): Boolean {
+            return oldItem == newItem
+        }
 
-//    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-//        val image : ImageView = itemView.findViewById(R.id.image)
-//    }
-
-    inner class PhotoHolder(binding: ItemPhotoBinding) : RecyclerView.ViewHolder(binding.root){
+        override fun areContentsTheSame(oldItem: PhotoListDto, newItem: PhotoListDto): Boolean {
+            return oldItem.photoId  == newItem.photoId
+        }
+    }
+    inner class PhotoListHolder(binding: ItemPhotoBinding) : RecyclerView.ViewHolder(binding.root){
         val imageDrawing = binding.imageDrawing
-        fun bindInfo(drawing : DrawingListDto){
+        fun bindInfo(photo : PhotoListDto){
             Glide.with(imageDrawing)
-                .load(drawing.imageUrl)
+                .load(photo.photoUrl)
                 .into(imageDrawing)
             itemView.setOnClickListener{
             }
@@ -29,10 +35,10 @@ class PhotoListAdapter (var list : ArrayList<DrawingListDto>): RecyclerView.Adap
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoListHolder {
         val binding = ItemPhotoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 //        return RecyclerView.ViewHolder(inflater)
-        return PhotoHolder(binding)
+        return PhotoListHolder(binding)
     }
 
 
@@ -40,33 +46,15 @@ class PhotoListAdapter (var list : ArrayList<DrawingListDto>): RecyclerView.Adap
         return list.size
     }
 
-    override fun onBindViewHolder(holder: PhotoHolder, position: Int) {
+    override fun onBindViewHolder(holder: PhotoListHolder, position: Int) {
         holder.apply {
             bindInfo(list.get(position))
         }
     }
 
-    fun updateData(list: ArrayList<DrawingListDto>) {
+    fun updateData(list: ArrayList<PhotoListDto>) {
         this.list = list
-        notifyDataSetChanged()
     }
-
-    //Use the method for item changed
-    fun itemChanged() {
-        // remove last item for test purposes
-        this.list[0] = (DrawingListDto())
-        notifyItemChanged(0)
-
-    }
-
-    //Use the method for checking the itemRemoved
-    fun removeData() {
-        // remove last item for test purposes
-        val orgListSize = list.size
-        this.list = this.list.subList(0, orgListSize - 1).toList() as ArrayList<DrawingListDto>
-        notifyItemRemoved(orgListSize - 1)
-    }
-
 
     //    //클릭 인터페이스 정의 사용하는 곳에서 만들어준다.
     interface ItemClickListener {

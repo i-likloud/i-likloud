@@ -66,6 +66,9 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/enter_from_left"
             app:popExitAnim="@anim/fade_out"/>
+        <action
+            android:id="@+id/action_homeFragment_to_afterCloudValidFragment"
+            app:destination="@id/afterCloudValidFragment" />
     </fragment>
 
     <fragment
@@ -78,7 +81,11 @@
         android:id="@+id/uploadFragment"
         android:name="com.ssafy.likloud.ui.upload.UploadFragment"
         android:label="fragment_upload"
-        tools:layout="@layout/fragment_upload" />
+        tools:layout="@layout/fragment_upload" >
+        <action
+            android:id="@+id/action_uploadFragment_to_afterCloudValidFragment"
+            app:destination="@id/afterCloudValidFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.ssafy.likloud.ui.profile.ProfileFragment"
@@ -107,16 +114,36 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/enter_from_left"
             app:popExitAnim="@anim/fade_out"/>
+        <action
+            android:id="@+id/action_photoListFragment_to_photoDrawingDetailFragment"
+            app:destination="@id/photoDrawingDetailFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/nftListFragment"
         android:name="com.ssafy.likloud.ui.nftlist.NftListFragment"
         android:label="fragment_nft_list"
         tools:layout="@layout/fragment_nft_list" />
+
     <fragment
         android:id="@+id/mypageFragment"
         android:name="com.ssafy.likloud.ui.mypage.MypageFragment"
         android:label="MypageFragment" />
 
+    <fragment
+        android:id="@+id/drawingPadFragment"
+        android:name="com.ssafy.likloud.example.DrawingPadFragment"
+        android:label="DrawingPadFragment"
+        tools:layout="@layout/fragment_drawing_pad"/>
+
+    <fragment
+        android:id="@+id/photoDrawingDetailFragment"
+        android:name="com.ssafy.likloud.ui.photolist.PhotoDrawingDetailFragment"
+        android:label="PhotoDrawingDetailFragment">
+        <argument
+            android:name="drawingId"
+            app:argType="integer"/>
+
+    </fragment>
 
 </navigation>

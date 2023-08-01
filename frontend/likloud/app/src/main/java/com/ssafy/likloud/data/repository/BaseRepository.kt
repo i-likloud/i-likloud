@@ -1,10 +1,11 @@
 package com.ssafy.likloud.data.repository
 
-import androidx.lifecycle.MutableLiveData
 import com.ssafy.likloud.data.api.NetworkResult
 import com.ssafy.likloud.data.model.DrawingDetailDto
 import com.ssafy.likloud.data.model.DrawingListDto
+import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.data.model.MemberInfoDto
+import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
@@ -15,7 +16,6 @@ import com.ssafy.likloud.data.model.request.LoginAdditionalRequest
 import com.ssafy.likloud.data.model.request.MemberInfoRequest
 import com.ssafy.likloud.data.model.response.MemberInfoResponse
 import retrofit2.Response
-import retrofit2.http.Path
 import okhttp3.MultipartBody
 
 interface BaseRepository {
@@ -79,4 +79,26 @@ interface BaseRepository {
         multipartBodyPart : MultipartBody.Part,
         memberInfoDto: MemberInfoDto
     ) : NetworkResult<List<PhotoUploadResponseDto>>
+
+    /**
+     * 사진 게시물 조회
+     * parameter로 new(최신순)-기본 / pick(그린 수 순) / bookmarkdesc(즐찾순)
+     */
+    suspend fun getPhotoList(
+        orderBy: String
+    ): NetworkResult<MutableList<PhotoListDto>>
+
+    /**
+     * 특정 멤버 프로필 조회
+     */
+    suspend fun getMemberProfile(
+        memberId: Int
+    ): NetworkResult<MemberProfileDto>
+
+    /**
+     * 해당 사진에 대한 그림 목록 조회
+     */
+    suspend fun getPhotoDrawingList(
+        photoId: Int
+    ): NetworkResult<MutableList<DrawingListDto>>
 }

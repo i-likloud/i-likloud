@@ -20,16 +20,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.ssafy.likloud.MainActivity
+import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
 import com.ssafy.likloud.databinding.FragmentUploadBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -49,6 +53,7 @@ class UploadFragment :
     BaseFragment<FragmentUploadBinding>(FragmentUploadBinding::bind, R.layout.fragment_upload) {
 
     private val uploadFragmentViewModel: UploadFragmentViewModel by viewModels()
+    private val mainActivityViewModel : MainActivityViewModel by activityViewModels()
     private lateinit var mainActivity: MainActivity
     private lateinit var aiCheckingDialog: AICheckingDialog
     lateinit var currentPhotoPath: String
@@ -60,35 +65,37 @@ class UploadFragment :
         mainActivity = context as MainActivity
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListener()
+        Log.d(TAG, "onViewCreated: oncreated")
 
         /**
          * 구름인지 아닌지를 observe하여 구름이면 화면이동, 아니면 dialog를 띄웁니다.
          */
         viewLifecycleOwner.lifecycleScope.launch {
-            uploadFragmentViewModel.isPhotoMultipartValidated.observe(requireActivity()) {
+            uploadFragmentViewModel.isPhotoMultipartValidated.collectLatest {
+                Log.d(TAG, "onViewCreated: observed!")
                 if (it == true) {
                     aiCheckingDialog.dismiss()
                     showCustomToast("축하합니다! 구름이네요! 다음 화면으로 넘어갈게요!")
-                    //navigatecontroller로 다음으로 넘어감
-                }
-                else{
+                    uploadFragmentViewModel.uploadPhotoUrl.value?.let { url ->
+                        mainActivityViewModel.setUploadingPhotoUrl(
+                            url
+                        )
+                    }
+                    findNavController().navigate(R.id.action_homeFragment_to_afterCloudValidFragment)
+
+                } else {
                     aiCheckingDialog.dismiss()
                     invokeNotCloudDialog()
                 }
+
             }
+            Log.d(TAG, "onViewCreated: observed!!")
         }
     }
+
 
     private val requestMultiplePermission =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { results ->
@@ -109,12 +116,8 @@ class UploadFragment :
             } else {
                 Log.d(TAG, "initListener: no multipart")
             }
+//            uploadFragmentViewModel.setValidatedTrue()
         }
-    }
-
-    override fun onDestroy() {
-        Log.d(TAG, "onDestroy: destroyed")
-        super.onDestroy()
     }
 
 
@@ -207,7 +210,7 @@ class UploadFragment :
     /**
      * 카메라에서 찍은 사진을 갤러리에 저장합니다.
      */
-    fun saveImageToGallery(context: Context, bitmap: Bitmap, displayName: String): String? {
+    private fun saveImageToGallery(context: Context, bitmap: Bitmap, displayName: String): String? {
         val contentResolver: ContentResolver = context.contentResolver
         val contentValues = ContentValues().apply {
             put(MediaStore.Images.Media.DISPLAY_NAME, displayName)
@@ -271,7 +274,6 @@ class UploadFragment :
                 )
             }
 
-
             // 선택한 이미지의 Uri를 처리하는 코드를 작성합니다.
             Glide.with(this)
                 .load(uri)
@@ -289,7 +291,7 @@ class UploadFragment :
     /**
      * uri로 multipart 객체를 만듭니다.
      */
-    fun createMultipartFromUri(context: Context, uri: Uri): MultipartBody.Part? {
+    private fun createMultipartFromUri(context: Context, uri: Uri): MultipartBody.Part? {
         val file: File? = getFileFromUri(context, uri)
         if (file == null) {
             // 파일을 가져오지 못한 경우 처리할 로직을 작성하세요.

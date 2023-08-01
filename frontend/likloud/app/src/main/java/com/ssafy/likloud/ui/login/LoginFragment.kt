@@ -240,6 +240,7 @@ class LoginFragment :
 //                Log.i(ContentValues.TAG, "카카오톡: ${token.scopes?.get(2)}")
                 sharedPreferences.putString(X_ACCESS_TOKEN, token.accessToken)
                 loginFragmentViewModel.postLogin("email", "KAKAO")
+                findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
 //                loginFragmentViewModel.getTokenValidation(token.accessToken)
             }
         }
@@ -269,6 +270,7 @@ class LoginFragment :
                     Log.i(ContentValues.TAG, "카카오톡: ${token.scopes?.get(2)}")
                     sharedPreferences.putString(X_ACCESS_TOKEN, token.accessToken)
                     loginFragmentViewModel.postLogin("email", "KAKAO")
+                    findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
                 }
             }
         }
