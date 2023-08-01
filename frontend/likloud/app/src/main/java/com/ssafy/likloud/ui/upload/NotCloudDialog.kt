@@ -9,12 +9,14 @@ import com.ssafy.likloud.databinding.ModalChooseGalleryCameraBinding
 import com.ssafy.likloud.databinding.ModalNotCloudBinding
 
 class NotCloudDialog(
+    private val errorMessage: String,
     private val clickTakePhotoAgain: () -> Unit,
 ) : BaseDialog<ModalNotCloudBinding>(ModalNotCloudBinding::bind, R.layout.modal_not_cloud) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListener()
+        binding.textAlertDescription.text = errorMessage
     }
 
     override fun initListener() {
@@ -26,5 +28,6 @@ class NotCloudDialog(
         binding.buttonDismiss.setOnClickListener {
             dismiss()
         }
+
     }
 }
