@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent="0.1"
-        android:background="@color/main_sky_blue"
+        android:background="@drawable/appbar_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -23,21 +23,26 @@
 
             <ImageView
                 android:id="@+id/button_back"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="@dimen/_23sdp"
+                android:layout_height="@dimen/_23sdp"
                 android:layout_margin="10dp"
                 android:src="@drawable/button_back_arrow" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="100dp"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:text="@string/title_mypage"
-                android:textSize="@dimen/_20sdp"
-                android:layout_marginTop="10dp"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size32"/>
+                android:layout_weight="1"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size16"/>
+
+            <ImageView
+                android:id="@+id/button_setting"
+                android:layout_width="@dimen/_23sdp"
+                android:layout_height="@dimen/_23sdp"
+                android:layout_margin="10dp"
+                android:src="@drawable/ic_setting"/>
 
         </LinearLayout>
 
@@ -86,6 +91,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:src="@drawable/face_normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/image_accessory_now"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:src="@drawable/water_drop_item_empty"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -249,6 +264,17 @@
                 android:background="@drawable/frame_rounded_border_radius50"/>
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/button_edit"
+            android:layout_width="@dimen/_21sdp"
+            android:layout_height="@dimen/_21sdp"
+            android:src="@drawable/ic_edit"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:elevation="@dimen/_18sdp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
