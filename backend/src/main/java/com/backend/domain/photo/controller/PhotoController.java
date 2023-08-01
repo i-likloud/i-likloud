@@ -69,15 +69,15 @@ public class PhotoController {
             ResponseEntity<VisionSafeResponseDto> visionSafeResponseDto = visionService.detectSafeSearch(file);
             String photoType = "cloud";
             String message = "success";
-            // 하늘, 구름이 아닌경우
-            if (!visionService.isValidPhoto(annotations)) {
-                photoType = "noCloud";
-                message = "이미지가 구름 또는 하늘 사진이 아닙니다.";
-            }
             // 유해한 사진인 경우
             if (!visionService.isSafePhoto(visionSafeResponseDto)) {
                 photoType = "danger";
                 message = "유해한 이미지입니다.";
+            }
+            // 하늘, 구름이 아닌경우
+             else if (!visionService.isValidPhoto(annotations)) {
+                photoType = "noCloud";
+                message = "이미지가 구름 또는 하늘 사진이 아닙니다.";
             }
             // 적합한 사진이 아니면 그 사진 업로드해놓고 URL 반환
             if (!photoType.equals("cloud")) {

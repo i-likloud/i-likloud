@@ -49,9 +49,11 @@ dependencies {
 	// Apache Commons IO
 	implementation 'commons-io:commons-io:2.8.0'
 	// GCP
-//	implementation 'com.google.cloud:google-cloud-vision:3.19.0'
-	implementation 'com.google.cloud:spring-cloud-gcp-starter-vision:3.6.1'
 	implementation 'com.google.cloud:spring-cloud-gcp-starter:3.6.1'
+	implementation 'com.google.cloud:spring-cloud-gcp-starter-storage:3.6.1'
+	implementation 'com.google.cloud:spring-cloud-gcp-starter-vision:3.6.1'
+//	implementation 'com.google.api-client:google-api-client:1.31.1'
+//	implementation 'com.google.cloud:google-cloud-storage:2.25.0'
 
 
 	compileOnly 'org.projectlombok:lombok'
@@ -64,7 +66,7 @@ dependencies {
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
 
 	//firebase
-	implementation 'com.google.firebase:firebase-admin:9.1.1'
+//	implementation 'com.google.firebase:firebase-admin:9.1.1'
 }
 
 tasks.named('test') {
