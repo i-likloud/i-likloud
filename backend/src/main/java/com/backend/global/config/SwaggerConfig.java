@@ -34,6 +34,13 @@ public class SwaggerConfig {
                 .build();
     }
     @Bean
+    public GroupedOpenApi StoreApi() {
+        return GroupedOpenApi.builder()
+                .group("상점")
+                .pathsToMatch("/api/store/**")
+                .build();
+    }
+    @Bean
     public GroupedOpenApi tokenApi() {
         return GroupedOpenApi.builder()
                 .group("토큰")
