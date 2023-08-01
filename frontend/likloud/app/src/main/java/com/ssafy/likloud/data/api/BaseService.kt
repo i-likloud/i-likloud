@@ -1,7 +1,11 @@
 package com.ssafy.likloud.data.api
 
 import com.ssafy.likloud.base.BaseResponse
+import com.ssafy.likloud.data.model.DrawingDetailDto
+import com.ssafy.likloud.data.model.DrawingListDto
+import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.data.model.MemberInfoDto
+import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
@@ -42,6 +46,19 @@ interface BaseService {
     @PATCH("api/member/additional")
     suspend fun patchAdditionalInfo(@Body body: LoginAdditionalRequest): Response<ReLoginResponse>
 
+    /**
+     * 그림 게시물 조회
+     * orderBy에 "?orderBy=likesCount"(좋아요 순), "?orderBy=viewCount"(조회수 순)
+     */
+    @GET("api/drawings/")
+    suspend fun getDrawingList(@Query("orderBy") orderBy: String): Response<MutableList<DrawingListDto>>
+
+    /**
+     * 그림 상세 조회 함수(인자로 DrawingListDto의 _id값 넣으면 됨)
+     */
+    @GET("api/drawings/{drawingId}")
+    suspend fun getDrawingDetail(@Path("drawingId") drawingId: Int): Response<DrawingDetailDto>
+
     @Multipart
     @POST("api/photo/upload")
     suspend fun postPhotoMultipart(
@@ -56,10 +73,28 @@ interface BaseService {
         @Part("memberInfoDto") memberInfoDto: MemberInfoDto
     ): Response<List<PhotoUploadResponseDto>>
 
+    /**
+     * 사진 게시물 조회
+     * parameter로 new(최신순)-기본 / pick(그린 수 순) / bookmarkdesc(즐찾순)
+     */
+    @GET("api/photo/{orderBy}")
+    suspend fun getPhotoList(@Path("orderBy") orderBy: String): Response<MutableList<PhotoListDto>>
+
+    /**
+     * 특정 멤버 프로필 조회
+     */
+    @GET("api/member/search/{memberId}")
+    suspend fun getMemberProfile(@Path("memberId") memberId: Int): Response<MemberProfileDto>
+
+    /**
+     * 해당 사진에 대한 그림 목록 조회
+     */
+    @GET("api/photo/{photoId}/alldrawings")
+    suspend fun getPhotoDrawingList(@Path("photoId") photoId: Int): Response<MutableList<DrawingListDto>>
 }
 
 //api 만드는 과정
-//1. api service 작성 (BaseService 참고)
+//1. api service 작성 (BaseService 참고)S
 //2. api service를 사용하는 Repository Interface 생성 (BaseRepository 참고)
 //3. repository Interface 구현체인 Impl 파일 생성 (BaseRepositoryImpl 참고)
 //4. respository module에 내가 만든 repository 등록 (RepositoryModule 참고)

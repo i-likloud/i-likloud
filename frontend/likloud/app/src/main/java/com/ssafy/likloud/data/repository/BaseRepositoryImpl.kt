@@ -5,7 +5,11 @@ import com.ssafy.likloud.ApplicationClass
 import com.ssafy.likloud.data.api.BaseService
 import com.ssafy.likloud.data.api.NetworkResult
 import com.ssafy.likloud.data.api.handleApi
+import com.ssafy.likloud.data.model.DrawingDetailDto
+import com.ssafy.likloud.data.model.DrawingListDto
+import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.data.model.MemberInfoDto
+import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
@@ -51,6 +55,14 @@ class BaseRepositoryImpl @Inject constructor(
         return baseAPIService.patchAdditionalInfo(loginAdditionalRequest)
     }
 
+    override suspend fun getDrawingList(orderBy: String): NetworkResult<MutableList<DrawingListDto>> {
+        return handleApi { baseAPIService.getDrawingList(orderBy).body()!! }
+    }
+
+    override suspend fun getDrawingDetail(drawingId: Int): NetworkResult<DrawingDetailDto> {
+        return handleApi { baseAPIService.getDrawingDetail(drawingId).body()!! }
+    }
+    
     override suspend fun postPhotoMultipart(
         multipartBodyPart: List<MultipartBody.Part>,
         memberInfoDto: MemberInfoDto
@@ -65,4 +77,15 @@ class BaseRepositoryImpl @Inject constructor(
         return handleApi { baseAPIService.postSinglePhotoMultipart(multipartBodyPart, memberInfoDto).body()!! }
     }
 
+    override suspend fun getPhotoList(orderBy: String): NetworkResult<MutableList<PhotoListDto>> {
+        return handleApi { baseAPIService.getPhotoList(orderBy).body()!! }
+    }
+
+    override suspend fun getMemberProfile(memberId: Int): NetworkResult<MemberProfileDto> {
+        return handleApi { baseAPIService.getMemberProfile(memberId).body()!! }
+    }
+
+    override suspend fun getPhotoDrawingList(photoId: Int): NetworkResult<MutableList<DrawingListDto>> {
+        return handleApi { baseAPIService.getPhotoDrawingList(photoId).body()!! }
+    }
 }

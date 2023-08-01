@@ -1,7 +1,11 @@
 package com.ssafy.likloud.data.repository
 
 import com.ssafy.likloud.data.api.NetworkResult
+import com.ssafy.likloud.data.model.DrawingDetailDto
+import com.ssafy.likloud.data.model.DrawingListDto
+import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.data.model.MemberInfoDto
+import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
@@ -11,8 +15,8 @@ import com.ssafy.likloud.data.model.UserDto
 import com.ssafy.likloud.data.model.request.LoginAdditionalRequest
 import com.ssafy.likloud.data.model.request.MemberInfoRequest
 import com.ssafy.likloud.data.model.response.MemberInfoResponse
-import okhttp3.MultipartBody
 import retrofit2.Response
+import okhttp3.MultipartBody
 
 interface BaseRepository {
 
@@ -48,7 +52,19 @@ interface BaseRepository {
      */
     suspend fun patchAdditionalInfo(
         loginAdditionalRequest: LoginAdditionalRequest
-    ): Response<ReLoginResponse>
+    ): retrofit2.Response<ReLoginResponse>
+
+    /**
+     * 그림 게시물 조회
+     * orderBy에 "?orderBy=likesCount"(좋아요 순), "?orderBy=viewCount"(조회수 순)
+     */
+    suspend fun getDrawingList(
+        orderBy: String
+    ): NetworkResult<MutableList<DrawingListDto>>
+
+    suspend fun getDrawingDetail(
+        drawingId: Int
+    ): NetworkResult<DrawingDetailDto>
 
     /**
      * 사진을 업로드 하여 구름인지 아닌지 결과값을 가져옵니다.
@@ -63,4 +79,26 @@ interface BaseRepository {
         multipartBodyPart : MultipartBody.Part,
         memberInfoDto: MemberInfoDto
     ) : NetworkResult<List<PhotoUploadResponseDto>>
+
+    /**
+     * 사진 게시물 조회
+     * parameter로 new(최신순)-기본 / pick(그린 수 순) / bookmarkdesc(즐찾순)
+     */
+    suspend fun getPhotoList(
+        orderBy: String
+    ): NetworkResult<MutableList<PhotoListDto>>
+
+    /**
+     * 특정 멤버 프로필 조회
+     */
+    suspend fun getMemberProfile(
+        memberId: Int
+    ): NetworkResult<MemberProfileDto>
+
+    /**
+     * 해당 사진에 대한 그림 목록 조회
+     */
+    suspend fun getPhotoDrawingList(
+        photoId: Int
+    ): NetworkResult<MutableList<DrawingListDto>>
 }

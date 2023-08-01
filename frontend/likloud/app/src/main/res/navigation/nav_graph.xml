@@ -92,8 +92,12 @@
     <fragment
         android:id="@+id/photoListFragment"
         android:name="com.ssafy.likloud.ui.photolist.PhotoListFragment"
-        android:label="PhotoListFragment"
-        tools:layout="@layout/fragment_photo_list"/>
+        android:label="PhotoListFragment" >
+        <action
+            android:id="@+id/action_photoListFragment_to_photoDrawingDetailFragment"
+            app:destination="@id/photoDrawingDetailFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/nftListFragment"
         android:name="com.ssafy.likloud.ui.nftlist.NftListFragment"
@@ -104,6 +108,16 @@
         android:name="com.ssafy.likloud.example.DrawingPadFragment"
         android:label="DrawingPadFragment"
         tools:layout="@layout/fragment_drawing_pad"/>
+
+    <fragment
+        android:id="@+id/photoDrawingDetailFragment"
+        android:name="com.ssafy.likloud.ui.photolist.PhotoDrawingDetailFragment"
+        android:label="PhotoDrawingDetailFragment">
+        <argument
+            android:name="drawingId"
+            app:argType="integer"/>
+
+    </fragment>
 
 
 </navigation>
