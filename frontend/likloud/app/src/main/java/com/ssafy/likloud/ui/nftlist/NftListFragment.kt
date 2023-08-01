@@ -12,7 +12,6 @@ import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
 import com.ssafy.likloud.data.model.DrawingListDto
-import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.databinding.FragmentNftListBinding
 import kotlinx.coroutines.launch
 
@@ -47,7 +46,7 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
 
         binding.apply {
             val nftList = initDrawingList()
-            val nftAdapter = NftAdapter(mainActivity, nftList)
+            val nftAdapter = NftListAdapter(mainActivity, nftList)
             recyclerviewNft.apply {
                 this.adapter = nftAdapter
                 layoutManager = GridLayoutManager(mainActivity, 3)

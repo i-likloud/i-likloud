@@ -8,21 +8,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.animation.doOnEnd
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.likloud.data.model.DrawingListDto
-import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.databinding.ItemNftBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class NftAdapter (var context: Context, var list : ArrayList<DrawingListDto>): RecyclerView.Adapter<NftAdapter.NftHolder>() {
+class NftListAdapter (var context: Context, var list : ArrayList<DrawingListDto>): ListAdapter<DrawingListDto, NftListAdapter.NftHolder>(
+    NftListComparator
+) {
+    companion object NftListComparator : DiffUtil.ItemCallback<DrawingListDto>() {
+        override fun areItemsTheSame(oldItem: DrawingListDto, newItem: DrawingListDto): Boolean {
+            return oldItem == newItem
+        }
 
-//    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-//        val image : ImageView = itemView.findViewById(R.id.image)
-//    }
-
+        override fun areContentsTheSame(oldItem: DrawingListDto, newItem: DrawingListDto): Boolean {
+            return oldItem._id  == newItem._id
+        }
+    }
     inner class NftHolder(binding: ItemNftBinding) : RecyclerView.ViewHolder(binding.root){
 
         val drawingLayout = binding.layoutDrawing
