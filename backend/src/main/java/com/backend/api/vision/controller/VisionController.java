@@ -12,7 +12,6 @@ import com.google.cloud.vision.v1.SafeSearchAnnotation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -34,8 +33,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class VisionController {
 
-    @Autowired
-    private CloudVisionTemplate cloudVisionTemplate;
+    private final CloudVisionTemplate cloudVisionTemplate;
 
     @PostMapping(value = "/checkPhoto",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

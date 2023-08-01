@@ -5,7 +5,6 @@ import com.backend.api.vision.dto.VisionSafeResponseDto;
 import com.google.cloud.spring.vision.CloudVisionTemplate;
 import com.google.cloud.vision.v1.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class VisionService {
 
-    @Autowired
-    private CloudVisionTemplate cloudVisionTemplate;
+    private final CloudVisionTemplate cloudVisionTemplate;
 
     // 사진 판별
     public List<VisionResponseDto> analyzePhoto(MultipartFile file) {
