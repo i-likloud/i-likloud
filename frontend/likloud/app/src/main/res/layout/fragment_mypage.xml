@@ -246,12 +246,54 @@
 
             </LinearLayout>
 
-            <TextView
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="물방울 색을 골라주세요!"
-                android:layout_margin="@dimen/_2sdp"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size08"/>
+                android:background="@drawable/frame_rounded_border_radius50_none_bottom"
+                android:paddingHorizontal="@dimen/_4sdp"
+                android:paddingTop="@dimen/_1sdp"
+                android:layout_gravity="left"
+                android:layout_marginLeft="@dimen/_4sdp"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip1"
+                    style="@style/MyChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:text="@string/my_drawing"
+                    app:chipStrokeWidth="2dp"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip2"
+                    style="@style/MyChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:text="@string/my_upload_picture"
+                    app:chipStrokeWidth="2dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip3"
+                    style="@style/MyChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:text="@string/my_likes"
+                    app:chipStrokeWidth="2dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip4"
+                    style="@style/MyChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:text="@string/my_bookmark"
+                    app:chipStrokeWidth="2dp" />
+
+            </com.google.android.material.chip.ChipGroup>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_color"
@@ -259,9 +301,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:padding="@dimen/_14sdp"
-                android:layout_margin="@dimen/_4sdp"
+                android:layout_marginHorizontal="@dimen/_4sdp"
+                android:layout_marginBottom="@dimen/_4sdp"
                 android:elevation="@dimen/_2sdp"
-                android:background="@drawable/frame_rounded_border_radius50"/>
+                android:background="@drawable/frame_rounded_border_radius50_none_top_left"/>
 
         </LinearLayout>
 
