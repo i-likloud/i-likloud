@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class DrawingListDto(
 
     @SerializedName("drawingId")
-    val _id: Long,
+    val _id: Int,
 
     @SerializedName("title")
     val title: String,

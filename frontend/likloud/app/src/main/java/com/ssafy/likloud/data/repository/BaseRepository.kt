@@ -1,6 +1,9 @@
 package com.ssafy.likloud.data.repository
 
+import androidx.lifecycle.MutableLiveData
 import com.ssafy.likloud.data.api.NetworkResult
+import com.ssafy.likloud.data.model.DrawingDetailDto
+import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.MemberInfoDto
 import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
 import com.ssafy.likloud.data.model.request.LoginRequest
@@ -11,6 +14,8 @@ import com.ssafy.likloud.data.model.UserDto
 import com.ssafy.likloud.data.model.request.LoginAdditionalRequest
 import com.ssafy.likloud.data.model.request.MemberInfoRequest
 import com.ssafy.likloud.data.model.response.MemberInfoResponse
+import retrofit2.Response
+import retrofit2.http.Path
 import okhttp3.MultipartBody
 import retrofit2.Response
 
@@ -48,7 +53,19 @@ interface BaseRepository {
      */
     suspend fun patchAdditionalInfo(
         loginAdditionalRequest: LoginAdditionalRequest
-    ): Response<ReLoginResponse>
+    ): retrofit2.Response<ReLoginResponse>
+
+    /**
+     * 그림 게시물 조회
+     * orderBy에 "?orderBy=likesCount"(좋아요 순), "?orderBy=viewCount"(조회수 순)
+     */
+    suspend fun getDrawingList(
+        orderBy: String
+    ): NetworkResult<MutableList<DrawingListDto>>
+
+    suspend fun getDrawingDetail(
+        drawingId: Int
+    ): NetworkResult<DrawingDetailDto>
 
     /**
      * 사진을 업로드 하여 구름인지 아닌지 결과값을 가져옵니다.
