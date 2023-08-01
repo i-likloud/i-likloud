@@ -14,7 +14,15 @@
     <fragment
         android:id="@+id/drawingListFragment"
         android:name="com.ssafy.likloud.ui.drawinglist.DrawingListFragment"
-        android:label="DrawingListFragment" />
+        android:label="DrawingListFragment" >
+        <action
+            android:id="@+id/action_drawingListFragment_to_mypageFragment"
+            app:destination="@id/mypageFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"/>
+    </fragment>
 
     <fragment
         android:id="@+id/loginFragment"
@@ -51,6 +59,13 @@
             app:exitAnim="@anim/exit_to_left"
             app:popEnterAnim="@anim/enter_from_left"
             app:popExitAnim="@anim/exit_to_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_mypageFragment"
+            app:destination="@id/mypageFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"/>
     </fragment>
 
     <fragment
@@ -84,12 +99,24 @@
     <fragment
         android:id="@+id/photoListFragment"
         android:name="com.ssafy.likloud.ui.photolist.PhotoListFragment"
-        android:label="PhotoListFragment" />
+        android:label="PhotoListFragment" >
+        <action
+            android:id="@+id/action_photoListFragment_to_mypageFragment"
+            app:destination="@id/mypageFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"/>
+    </fragment>
     <fragment
         android:id="@+id/nftListFragment"
         android:name="com.ssafy.likloud.ui.nftlist.NftListFragment"
         android:label="fragment_nft_list"
         tools:layout="@layout/fragment_nft_list" />
+    <fragment
+        android:id="@+id/mypageFragment"
+        android:name="com.ssafy.likloud.ui.mypage.MypageFragment"
+        android:label="MypageFragment" />
 
 
 </navigation>

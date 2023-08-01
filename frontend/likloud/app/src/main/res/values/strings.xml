@@ -35,4 +35,11 @@
     <string name="title_photo_list">사진 목록</string>
     <string name="text_checking_title">사진이 구름인지 확인중입니다!</string>
     <string name="text_checking_desc">잠시만 기다려 주세요!</string>
+
+    <!--mypage-->
+    <string name="title_mypage">마이페이지</string>
+    <string name="go_store">상점으로 가기</string>
+    <string name="cnt_ticket">티켓 : </string>
+    <string name="cnt_stamp">스탬프 : </string>
+
 </resources>

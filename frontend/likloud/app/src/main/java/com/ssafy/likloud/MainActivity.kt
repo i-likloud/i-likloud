@@ -12,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.ssafy.likloud.base.BaseActivity
 import com.ssafy.likloud.data.repository.BaseRepository
@@ -40,7 +41,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     private fun initListener() {
         binding.layoutProfile.setOnClickListener {
+            when (navController.currentDestination!!.id) {
+                R.id.homeFragment -> {
+                    navController.navigate(R.id.action_homeFragment_to_mypageFragment)
+                }
+                R.id.photoListFragment -> {
+                    navController.navigate(R.id.action_photoListFragment_to_mypageFragment)
+                }
+                R.id.drawingListFragment -> {
+                    navController.navigate(R.id.action_drawingListFragment_to_mypageFragment)
+                }
+                R.id.mypageFragment -> {
 
+                }
+            }
         }
     }
 
