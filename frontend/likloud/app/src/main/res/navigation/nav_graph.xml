@@ -14,7 +14,8 @@
     <fragment
         android:id="@+id/drawingListFragment"
         android:name="com.ssafy.likloud.ui.drawinglist.DrawingListFragment"
-        android:label="DrawingListFragment" />
+        android:label="DrawingListFragment"
+        tools:layout="@layout/fragment_drawing_list" />
 
     <fragment
         android:id="@+id/loginFragment"
@@ -51,6 +52,9 @@
             app:exitAnim="@anim/exit_to_left"
             app:popEnterAnim="@anim/enter_from_left"
             app:popExitAnim="@anim/exit_to_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_afterCloudValidFragment"
+            app:destination="@id/afterCloudValidFragment" />
     </fragment>
 
     <fragment
@@ -63,7 +67,11 @@
         android:id="@+id/uploadFragment"
         android:name="com.ssafy.likloud.ui.upload.UploadFragment"
         android:label="fragment_upload"
-        tools:layout="@layout/fragment_upload" />
+        tools:layout="@layout/fragment_upload" >
+        <action
+            android:id="@+id/action_uploadFragment_to_afterCloudValidFragment"
+            app:destination="@id/afterCloudValidFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.ssafy.likloud.ui.profile.ProfileFragment"
@@ -84,7 +92,8 @@
     <fragment
         android:id="@+id/photoListFragment"
         android:name="com.ssafy.likloud.ui.photolist.PhotoListFragment"
-        android:label="PhotoListFragment" />
+        android:label="PhotoListFragment"
+        tools:layout="@layout/fragment_photo_list"/>
     <fragment
         android:id="@+id/nftListFragment"
         android:name="com.ssafy.likloud.ui.nftlist.NftListFragment"

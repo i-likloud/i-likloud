@@ -14,15 +14,17 @@
         android:layout_marginVertical="@dimen/_10sdp"
         android:layout_marginStart="@dimen/_10sdp"
         app:cardCornerRadius="@dimen/_20sdp"
+        android:translationZ="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/image_chosen_photo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/cloud1" />
+            android:src="@drawable/cloud5" />
 
     </androidx.cardview.widget.CardView>
 
@@ -31,6 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/_10sdp"
+        android:elevation="2dp"
         android:layout_marginBottom="@dimen/_10sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -42,6 +45,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_10sdp"
+        android:translationZ="1dp"
+        android:elevation="1dp"
         app:layout_constraintBottom_toTopOf="@id/button_upload_only"
         app:layout_constraintEnd_toEndOf="parent" />
 
