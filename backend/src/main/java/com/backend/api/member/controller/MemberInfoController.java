@@ -54,7 +54,7 @@ public class MemberInfoController {
     }
 
     // 추가정보 업데이트 메서드
-    @Operation(summary = "추가 정보", description = "회원가입후 추가정보 관련 메서드입니다. \n\n " +"\n\n### [ 수행절차 ]\n\n"+"- login 에서 발급 받은 access-token을 자물쇠에 넣고 try it out 해주세요. (response body는 아래에 예시값의 request값만 사용해주세요.)\n\n"+ "- Response body의 accessToken 또는 Response headers의 newtoken을 복사하여 새로 자물쇠에 넣어 주세요 \n\n")
+    @Operation(summary = "추가 정보", description = "회원가입후 추가정보 관련 메서드입니다. \n\n " +"\n\n### [ 수행절차 ]\n\n"+"- login 에서 발급 받은 access-token을 자물쇠에 넣고 try it out 해주세요. (request body는 아래에 예시값의 request값만 사용해주세요.)\n\n"+ "- Response body의 accessToken 또는 Response headers의 newtoken을 복사하여 새로 자물쇠에 넣어 주세요 \n\n")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "#### 성공"),
             @ApiResponse(responseCode = "에러", description = "#### 에러 이유를 확인 하십시오",
