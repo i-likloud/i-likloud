@@ -3,6 +3,7 @@ package com.backend.api.member.dto;
 import com.backend.domain.member.constant.Role;
 import com.backend.domain.member.constant.SocialType;
 import com.backend.domain.member.entity.Member;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -16,7 +17,7 @@ public class MemberInfoResponseDto {
     private String email;
 
     private String nickname;
-
+    @Schema(example = "1")
     private int profileFace;
     private int profileColor;
     private int profileAccessory;
