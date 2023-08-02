@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ssafy.likloud.data.api.onSuccess
+import com.ssafy.likloud.data.model.QuestionDto
+import com.ssafy.likloud.data.model.response.MemberInfoResponse
 import com.ssafy.likloud.data.repository.BaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,44 +19,76 @@ class GameFragmentViewModel @Inject constructor(
 ) : ViewModel() {
 
     /////////////////// 이미지 크기 ///////////////////////
-    private var _imageWidth = MutableLiveData<Int>()
-    val imageWidth: LiveData<Int>
-        get() = _imageWidth
-    fun changeImageWidth(width: Int){
-        _imageWidth.value = width
+    private var _frameWidth = MutableLiveData<Int>()
+    val frameWidth: LiveData<Int>
+        get() = _frameWidth
+    fun setFrameWidth(width: Int){
+        _frameWidth.value = width
+    }
+    fun increaseFrameWidth(width: Int){
+        _frameWidth.value = _frameWidth.value!! + width
+    }
+    fun decreaseFrameWidth(width: Int){
+        _frameWidth.value = _frameWidth.value!! - width
     }
 
-    private var _imageHeight = MutableLiveData<Int>()
-    val imageHeight: LiveData<Int>
-        get() = _imageHeight
-    fun changeImageHeight(height: Int){
-        _imageHeight.value = height
+    private var _frameHeight = MutableLiveData<Int>()
+    val frameHeight: LiveData<Int>
+        get() = _frameHeight
+    fun setFrameHeight(height: Int){
+        _frameHeight.value = height
+    }
+    fun increaseFrameHeight(height: Int){
+        _frameHeight.value = _frameHeight.value!! + height
+    }
+    fun decreaseFrameHeight(height: Int){
+        _frameHeight.value = _frameHeight.value!! - height
     }
 
     ////////////////////////// 시간 PROGRESS BAR //////////////////////////////////
-    private var _remainTime = MutableLiveData<Int>()
+    private var _remainTime = MutableLiveData<Int>(30)
     val remainTime: LiveData<Int>
         get() = _remainTime
-    fun changeRemainTime(time: Int){
-        _remainTime.value = time
+    fun decreaseRemainTime(){
+        _remainTime.value = _remainTime.value!! - 1
     }
 
     ///////////////////////////// 문제 랜덤 리스트 /////////////////////////////////
-    private var _randomQuestionIdxList = MutableLiveData<List<Int>>()
-    val randomQuestionIdxList: LiveData<List<Int>>
-        get() = _randomQuestionIdxList
-    fun initRandomIdxList(){
-        _randomQuestionIdxList.value = List(30) { Random.nextInt(30) }
-    }
+//    var randomQuestionIdxList = List(30) { Random.nextInt(30) }
+    var randomQuestionIdxList = (0 until 30).shuffled().subList(0,30)
+//    val randomQuestionIdxList: LiveData<List<Int>>
+//        get() = _randomQuestionIdxList
 
-    private var _currentQuestionIdx = MutableLiveData<Int>()
+    private var _currentQuestionIdx = MutableLiveData<Int>(0)
     val currentQuestionIdx: LiveData<Int>
         get() = _currentQuestionIdx
-    fun changeCurrentQuestionIdx(idx: Int){
-        _currentQuestionIdx.value = idx
+    fun increaseCurrentQuestionIdx(){
+        _currentQuestionIdx.value = _currentQuestionIdx.value!! + 1
     }
 
-    ///////////////////////////// 유저 관련 ////////////////////////////////////////
 
+    //////////////////////////// 정답 체크 ///////////////////////////////////
+    fun checkAnswer(pick: String){
+        if(QuestionLIist.questionList[randomQuestionIdxList[currentQuestionIdx.value!!]].answer == pick){
+            increaseFrameWidth(20)
+            increaseFrameHeight(20)
+        }else{
+            decreaseFrameWidth(20)
+            decreaseFrameHeight(20)
+        }
+        increaseCurrentQuestionIdx()
+    }
+
+
+    ///////////////////////////// 홈으로 갈 지 다시 할 지 /////////////////////////////////////
+    private var _nextFragment = MutableLiveData<String>()
+    val nextFragment: LiveData<String>
+        get() = _nextFragment
+    fun changeNextFragment(value: String){
+        _nextFragment.value = value
+    }
+
+    var successGameDialog = SuccessGameDialog()
+    var failGameDialog = FailGameDialog()
 
 }

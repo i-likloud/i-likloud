@@ -49,5 +49,9 @@
     <!--game-->
     <string name="title_game">게임</string>
     <string name="header_quiz">Q.</string>
+    <string name="success_game">Success!</string>
+    <string name="fail_game">Fail!</string>
+    <string name="go_home">홈으로 가기</string>
+    <string name="re_game">다시 하기</string>
 
 </resources>

@@ -88,4 +88,8 @@ class BaseRepositoryImpl @Inject constructor(
     override suspend fun getPhotoDrawingList(photoId: Int): NetworkResult<MutableList<DrawingListDto>> {
         return handleApi { baseAPIService.getPhotoDrawingList(photoId).body()!! }
     }
+
+    override suspend fun plusSilver(): NetworkResult<String> {
+        return handleApi { baseAPIService.plusSliver().body()!! }
+    }
 }

@@ -101,4 +101,9 @@ interface BaseRepository {
     suspend fun getPhotoDrawingList(
         photoId: Int
     ): NetworkResult<MutableList<DrawingListDto>>
+
+    /**
+     * 개임 성공 시 은코인 상승
+     */
+    suspend fun plusSilver(): NetworkResult<String>
 }
