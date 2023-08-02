@@ -63,6 +63,9 @@
         <action
             android:id="@+id/action_homeFragment_to_afterCloudValidFragment"
             app:destination="@id/afterCloudValidFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_gameFragment"
+            app:destination="@id/gameFragment" />
     </fragment>
 
     <fragment
@@ -150,5 +153,10 @@
             app:argType="integer"/>
 
     </fragment>
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="com.ssafy.likloud.ui.game.GameFragment"
+        android:label="fragment_game"
+        tools:layout="@layout/fragment_game" />
 
 </navigation>

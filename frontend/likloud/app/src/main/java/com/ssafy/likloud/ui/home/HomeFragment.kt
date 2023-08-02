@@ -79,7 +79,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
         }
 
         binding.buttonGame.setOnClickListener {
-
+            navController.navigate(R.id.action_homeFragment_to_gameFragment)
         }
 
         binding.buttonPainting.setOnClickListener {

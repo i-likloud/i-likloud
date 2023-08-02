@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 배경 작대기(미진행 부분) -->
+    <item android:id="@android:id/background">
+        <shape android:shape="rectangle">
+            <solid android:color="#C0C0C0" /> <!-- 배경 색상을 원하는 색상으로 변경 -->
+        </shape>
+    </item>
+
+    <!-- 진행 부분의 작대기 -->
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape android:shape="rectangle">
+                <solid android:color="#FF0000" /> <!-- 진행 색상을 원하는 색상으로 변경 -->
+                <size android:height="8dp" /> <!-- 작대기(진행 부분)의 높이를 8dp로 설정 -->
+            </shape>
+        </clip>
+    </item>
+</layer-list>

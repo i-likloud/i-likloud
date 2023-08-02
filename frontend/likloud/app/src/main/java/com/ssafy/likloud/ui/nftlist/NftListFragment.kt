@@ -13,9 +13,10 @@ import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
 import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.databinding.FragmentNftListBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class NftListFragment : BaseFragment<FragmentNftListBinding>(
     FragmentNftListBinding::bind, R.layout.fragment_nft_list) {
 
