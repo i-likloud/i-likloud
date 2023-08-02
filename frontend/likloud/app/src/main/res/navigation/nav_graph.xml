@@ -167,7 +167,7 @@
         android:name="com.ssafy.likloud.ui.profileedit.ProfileEditFragment"
         android:label="ProfileEditFragment" />
 
-    <fragment>
+    <fragment
         android:id="@+id/gameFragment"
         android:name="com.ssafy.likloud.ui.game.GameFragment"
         android:label="fragment_game"
