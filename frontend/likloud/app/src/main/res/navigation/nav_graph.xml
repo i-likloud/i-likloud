@@ -136,7 +136,15 @@
     <fragment
         android:id="@+id/mypageFragment"
         android:name="com.ssafy.likloud.ui.mypage.MypageFragment"
-        android:label="MypageFragment" />
+        android:label="MypageFragment" >
+        <action
+            android:id="@+id/action_mypageFragment_to_profileEditFragment"
+            app:destination="@id/profileEditFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"/>/>
+    </fragment>
 
     <fragment
         android:id="@+id/drawingPadFragment"
@@ -153,7 +161,13 @@
             app:argType="integer"/>
 
     </fragment>
+    
     <fragment
+        android:id="@+id/profileEditFragment"
+        android:name="com.ssafy.likloud.ui.profileedit.ProfileEditFragment"
+        android:label="ProfileEditFragment" />
+
+    <fragment>
         android:id="@+id/gameFragment"
         android:name="com.ssafy.likloud.ui.game.GameFragment"
         android:label="fragment_game"

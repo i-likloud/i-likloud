@@ -14,6 +14,8 @@ import com.ssafy.likloud.data.model.SampleDto
 import com.ssafy.likloud.data.model.UserDto
 import com.ssafy.likloud.data.model.request.LoginAdditionalRequest
 import com.ssafy.likloud.data.model.request.MemberInfoRequest
+import com.ssafy.likloud.data.model.request.ProfileEditRequest
+import com.ssafy.likloud.data.model.response.AccessoryResponse
 import com.ssafy.likloud.data.model.response.MemberInfoResponse
 import retrofit2.Response
 import okhttp3.MultipartBody
@@ -101,6 +103,17 @@ interface BaseRepository {
     suspend fun getPhotoDrawingList(
         photoId: Int
     ): NetworkResult<MutableList<DrawingListDto>>
+
+    /**
+     * 내 악세서리 목록 조회
+     */
+    suspend fun getMyAccessoryList(
+        memberInfoRequest: MemberInfoRequest
+    ): NetworkResult<MutableList<AccessoryResponse>>
+
+    suspend fun editMyProfile(
+        profileEditRequest: ProfileEditRequest
+    ): NetworkResult<MemberInfoResponse>
 
     /**
      * 개임 성공 시 은코인 상승

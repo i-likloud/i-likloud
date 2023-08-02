@@ -25,7 +25,7 @@
                 android:id="@+id/button_back"
                 android:layout_width="@dimen/_23sdp"
                 android:layout_height="@dimen/_23sdp"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/_3sdp"
                 android:src="@drawable/button_back_arrow" />
 
             <TextView
@@ -41,7 +41,7 @@
                 android:id="@+id/button_setting"
                 android:layout_width="@dimen/_23sdp"
                 android:layout_height="@dimen/_23sdp"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/_3sdp"
                 android:src="@drawable/ic_setting"/>
 
         </LinearLayout>
@@ -255,7 +255,9 @@
                 android:paddingTop="@dimen/_1sdp"
                 android:layout_gravity="left"
                 android:layout_marginLeft="@dimen/_4sdp"
-                app:singleSelection="true">
+                app:singleSelection="true"
+                app:checkedChip="@+id/chip1"
+                app:selectionRequired="true">
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip1"

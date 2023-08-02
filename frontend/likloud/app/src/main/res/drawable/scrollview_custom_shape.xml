@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/drawable/custom_scrollbar_thumb.xml 파일에 아래 코드를 추가합니다. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="8dp" /> <!-- 여기서 원하는 둥글기 반지름을 지정합니다. -->
+    <size android:width="8dp" /> <!-- 여기서 원하는 스크롤 바의 너비를 지정합니다. -->
+    <solid android:color="@color/white" /> <!-- 여기서 원하는 스크롤 바의 색상을 지정합니다. -->
+</shape>

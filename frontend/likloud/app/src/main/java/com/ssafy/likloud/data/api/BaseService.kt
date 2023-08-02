@@ -14,6 +14,8 @@ import com.ssafy.likloud.data.model.SampleDto
 import com.ssafy.likloud.data.model.UserDto
 import com.ssafy.likloud.data.model.request.LoginAdditionalRequest
 import com.ssafy.likloud.data.model.request.MemberInfoRequest
+import com.ssafy.likloud.data.model.request.ProfileEditRequest
+import com.ssafy.likloud.data.model.response.AccessoryResponse
 import com.ssafy.likloud.data.model.response.MemberInfoResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -91,6 +93,12 @@ interface BaseService {
      */
     @GET("api/photo/{photoId}/alldrawings")
     suspend fun getPhotoDrawingList(@Path("photoId") photoId: Int): Response<MutableList<DrawingListDto>>
+
+    @GET("api/mypage/accessory")
+    suspend fun getMyAccessoryList(@Query("body") body: MemberInfoRequest): Response<MutableList<AccessoryResponse>>
+
+    @PUT("api/mypage/profile")
+    suspend fun editMyProfile(@Body body: ProfileEditRequest): Response<MemberInfoResponse>
 
     /**
      * 게임 성공 시 은코인 상승

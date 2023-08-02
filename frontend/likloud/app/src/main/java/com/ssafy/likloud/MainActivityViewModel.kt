@@ -11,6 +11,7 @@ import com.ssafy.likloud.data.api.onSuccess
 import com.ssafy.likloud.data.model.ImageTempDto
 import com.ssafy.likloud.data.model.UserDto
 import com.ssafy.likloud.data.model.request.MemberInfoRequest
+import com.ssafy.likloud.data.model.request.ProfileEditRequest
 import com.ssafy.likloud.data.model.response.MemberInfoResponse
 import com.ssafy.likloud.data.repository.BaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -75,6 +76,18 @@ class MainActivityViewModel @Inject constructor(
                     Log.d(TAG, "getUserInfo: ${it.message}")
                 }
             }
+        }
+    }
+
+    suspend fun editProflie(profileEditRequest: ProfileEditRequest) {
+        viewModelScope.launch {
+            baseRepository.editMyProfile(profileEditRequest)
+                .onSuccess {
+                    _memberInfo.value = it
+                }
+                .onError {
+                    Log.d(TAG, "editProflie: ${it.message}")
+                }
         }
     }
 
