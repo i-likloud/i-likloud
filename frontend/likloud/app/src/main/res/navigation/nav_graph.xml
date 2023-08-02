@@ -6,12 +6,6 @@
     app:startDestination="@id/loginFragment">
 
     <fragment
-        android:id="@+id/exampleFragment"
-        android:name="com.ssafy.likloud.example.ExampleFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_example" />
-
-    <fragment
         android:id="@+id/drawingListFragment"
         android:name="com.ssafy.likloud.ui.drawinglist.DrawingListFragment"
         android:label="DrawingListFragment" >
@@ -75,7 +69,11 @@
         android:id="@+id/onboardingFragment"
         android:name="com.ssafy.likloud.ui.onboarding.OnboardingFragment"
         android:label="OnboardingFragment"
-        tools:layout="@layout/fragment_onboarding" />
+        tools:layout="@layout/fragment_onboarding" >
+        <action
+            android:id="@+id/action_onboardingFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/uploadFragment"
@@ -102,7 +100,14 @@
         android:id="@+id/afterCloudValidFragment"
         android:name="com.ssafy.likloud.ui.aftercloudvalid.AfterCloudValidFragment"
         android:label="fragment_after_cloud_valid"
-        tools:layout="@layout/fragment_after_cloud_valid" />
+        tools:layout="@layout/fragment_after_cloud_valid" >
+        <action
+            android:id="@+id/action_afterCloudValidFragment_to_drawingPadFragment"
+            app:destination="@id/drawingPadFragment" />
+        <action
+            android:id="@+id/action_afterCloudValidFragment_to_photoListFragment"
+            app:destination="@id/photoListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/photoListFragment"
         android:name="com.ssafy.likloud.ui.photolist.PhotoListFragment"
@@ -132,7 +137,7 @@
 
     <fragment
         android:id="@+id/drawingPadFragment"
-        android:name="com.ssafy.likloud.example.DrawingPadFragment"
+        android:name="com.ssafy.likloud.ui.drawingpad.DrawingPadFragment"
         android:label="DrawingPadFragment"
         tools:layout="@layout/fragment_drawing_pad"/>
 
