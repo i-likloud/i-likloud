@@ -63,7 +63,7 @@ public class StoreService {
         }
 
         List<Accessory> myAccessories = accessoryRepository.findByMember(member);
-        boolean alreadyOwned = myAccessories.stream().anyMatch(accessory -> accessory.getAccessoryId().equals(storeId));
+        boolean alreadyOwned = myAccessories.stream().anyMatch(accessory -> accessory.getStore().getStoreId().equals(storeId));
 
         if (!alreadyOwned) {
             member.setGoldCoin(currentGoldCoin - targetCoin);
