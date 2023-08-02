@@ -31,25 +31,28 @@ class DrawingCanvas(context: Context?, attrs: AttributeSet?) : View(context, att
         bitmapCanvas = Canvas(bitmap!!)
     }
 
+
 //    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
 //        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 //
 //        // Set the measured height to the desired height.
 //        val width = measuredWidth
 //        val height = resolveSize(desiredHeight, heightMeasureSpec)
-//        setMeasuredDimension(width, height)
+//        setMeasuredDimension(100, 1000)
 //    }
 
 
-    fun setCanvasHeight(height: Int) {
-        desiredHeight = height
-        requestLayout() // Request a layout update to apply the new height.
-    }
+//    fun setCanvasHeight(height: Int) {
+//        desiredHeight = height
+//        setMeasuredDimension(measuredWidth, 1)
+//        requestLayout() // Request a layout update to apply the new height.
+//    }
 
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        initBitmap(w, h)
+        if (w > 0 && h > 0)
+            initBitmap(w, h)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -75,7 +78,6 @@ class DrawingCanvas(context: Context?, attrs: AttributeSet?) : View(context, att
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-
         drawLinesOnCanvas()
         canvas.drawBitmap(bitmap!!, 0f, 0f, null)
     }

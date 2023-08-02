@@ -292,7 +292,7 @@ class UploadFragment :
     /**
      * uri로 multipart 객체를 만듭니다.
      */
-    private fun createMultipartFromUri(context: Context, uri: Uri): MultipartBody.Part? {
+     fun createMultipartFromUri(context: Context, uri: Uri): MultipartBody.Part? {
         val file: File? = getFileFromUri(context, uri)
         if (file == null) {
             // 파일을 가져오지 못한 경우 처리할 로직을 작성하세요.
@@ -307,7 +307,7 @@ class UploadFragment :
      * uri로 사진 파일을 가져옵니다
      * createMultipartFromUri로 결과값을 반환합니다
      */
-    private fun getFileFromUri(context: Context, uri: Uri): File? {
+    fun getFileFromUri(context: Context, uri: Uri): File? {
         val filePath = uriToFilePath(context, uri)
         return if (filePath != null) File(filePath) else null
     }
@@ -316,7 +316,7 @@ class UploadFragment :
      * 만들어진 uri를 파일로 변환합니다
      */
     @SuppressLint("Range")
-    private fun uriToFilePath(context: Context, uri: Uri): String? {
+    fun uriToFilePath(context: Context, uri: Uri): String? {
         lateinit var filePath: String
         context.contentResolver.query(uri, null, null, null, null).use { cursor ->
             cursor?.let {
