@@ -35,6 +35,8 @@ public class Drawing extends BaseEntity {
     @Column(nullable = false)
     private String imageUrl;
 
+    private boolean nftYn;
+
     @Column(nullable = false, columnDefinition = "int default 0")
     private int viewCount;
 
@@ -53,7 +55,7 @@ public class Drawing extends BaseEntity {
     @JoinColumn(name = "drawingFile_id")
     private DrawingFile drawingFile;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "nft_id")
     private Nft nft;
 
@@ -65,7 +67,7 @@ public class Drawing extends BaseEntity {
 
     @Builder
     public Drawing(Long drawingId, String title, String artist, String content, String imageUrl,
-                   Member member, Photo photo, DrawingFile drawingFile, int viewCount, int likesCount) {
+                   Member member, Photo photo, DrawingFile drawingFile, int viewCount, int likesCount, boolean nftYn) {
         this.drawingId = drawingId;
         this.title = title;
         this.artist = artist;
@@ -76,6 +78,7 @@ public class Drawing extends BaseEntity {
         this.member = member;
         this.photo = photo;
         this.drawingFile = drawingFile;
+        this.nftYn = nftYn;
     }
 
 }

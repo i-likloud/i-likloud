@@ -81,6 +81,8 @@ public class StoreService {
 
 
             accessoryRepository.save(accessory);
+        } else{
+            throw new BusinessException(ErrorCode.ALREADY_PURCHASED_ITEM);
         }
 
         return ProfileDto.of(member);

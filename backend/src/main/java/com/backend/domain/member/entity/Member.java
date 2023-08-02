@@ -41,11 +41,13 @@ public class Member extends BaseEntity {
 
     private int profileAccessory;
 
-    private String wallet;
-
     private int goldCoin;
 
     private int silverCoin;
+
+    // NFT 관련
+    private String wallet;
+    private String keyId;
 
     @Enumerated(EnumType.STRING)
     private SocialType socialType;
@@ -61,7 +63,6 @@ public class Member extends BaseEntity {
     private Role role;
 
     private LocalDateTime tokenExpirationTime;
-
 
     // 그림과 OneToMany 관계
     @Builder.Default
