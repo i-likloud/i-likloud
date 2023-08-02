@@ -39,10 +39,6 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>(FragmentPro
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var mActivity: MainActivity
 
-    private var selectedWaterDropColor = 0
-    private var selectedWaterDropFace = 0
-    private var selectedWaterDropAccessory = 0
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mActivity = context as MainActivity
@@ -71,15 +67,16 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>(FragmentPro
         viewLifecycleOwner.lifecycleScope.launch {
             profileEditFragmentViewModel.getMyAccessoryList()
         }
+        // 현재 내 물방울 모습의 초기값을 불러옵니다.
+        profileEditFragmentViewModel.setWaterDropColor(mainActivityViewModel.memberInfo.value!!.profileColor)
+        profileEditFragmentViewModel.setWaterDropFace(mainActivityViewModel.memberInfo.value!!.profileFace)
+        profileEditFragmentViewModel.setWaterDropAccessory(mainActivityViewModel.memberInfo.value!!.profileAccessory)
     }
 
     private fun initView() {
         val profileColor = mainActivityViewModel.waterDropColorList[mainActivityViewModel.memberInfo.value!!.profileColor].resourceId
         val profileFace = mainActivityViewModel.waterDropFaceList[mainActivityViewModel.memberInfo.value!!.profileFace].resourceId
         val profileAccessory = mainActivityViewModel.waterDropAccessoryList[mainActivityViewModel.memberInfo.value!!.profileAccessory].resourceId
-        selectedWaterDropColor = mainActivityViewModel.memberInfo.value!!.profileColor
-        selectedWaterDropFace = mainActivityViewModel.memberInfo.value!!.profileFace
-        selectedWaterDropAccessory = mainActivityViewModel.memberInfo.value!!.profileAccessory
 
         setProfileImages(profileColor, profileFace, profileAccessory)
         binding.edittextNickname.setText(mainActivityViewModel.memberInfo.value!!.nickname)
@@ -88,6 +85,7 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>(FragmentPro
      * 옵저버를 init합니다
      */
     private fun initObserver() {
+        // 내가 가진 악세서리가 불러와지면 리사이클러 뷰로 나타냅니다.
         profileEditFragmentViewModel.myAccessoryList.observe(viewLifecycleOwner) {
             val accessoryListAdapter = AccessoryListAdapter()
             accessoryListAdapter.submitList(it)
@@ -95,8 +93,10 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>(FragmentPro
             binding.recyclerviewAccessory.adapter = accessoryListAdapter
             accessoryListAdapter.itemClickListener = object: AccessoryListAdapter.ItemClickListener {
                 override fun onClick(view: View, position: Int, data: AccessoryResponse) {
+                    // 선택된 악세서리 기록
+                    profileEditFragmentViewModel.setWaterDropAccessory(changeAccessoryNameToInt(data.accessoryName))
+                    // 뷰 리소스 갈아끼우기
                     changeWaterDropAccessory(view, mainActivityViewModel.waterDropAccessoryList[changeAccessoryNameToInt(data.accessoryName)].resourceId)
-                    selectedWaterDropAccessory = changeAccessoryNameToInt(data.accessoryName)
                 }
             }
         }
@@ -106,9 +106,12 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>(FragmentPro
         binding.buttonChooseDone.setOnClickListener {
             // 프로필 수정
             viewLifecycleOwner.lifecycleScope.launch {
-                mainActivityViewModel.editProflie(ProfileEditRequest(selectedWaterDropColor, selectedWaterDropFace, selectedWaterDropAccessory))
+                val color = profileEditFragmentViewModel.selectedColor
+                val face = profileEditFragmentViewModel.selectedFace
+                val accessory = profileEditFragmentViewModel.selectedAccessory
+                mainActivityViewModel.editProflie(ProfileEditRequest(color, face, accessory))
             }
-            mActivity.onBackPressed()
+            findNavController().popBackStack()
         }
 
         binding.buttonBack.setOnClickListener {
@@ -120,24 +123,27 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>(FragmentPro
      * 리스트 어뎁터를 init합니다.
      */
     private fun initAdapter() {
+        // 물방울 색 리사이클러 뷰 init
         val colorListAdapter = ProfileListAdapter()
         colorListAdapter.submitList(mainActivityViewModel.waterDropColorList)
         binding.recyclerviewColor.layoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerviewColor.adapter = colorListAdapter
         colorListAdapter.itemClickListener = object: ProfileListAdapter.ItemClickListener {
             override fun onClick(view: View, position: Int) {
+                profileEditFragmentViewModel.setWaterDropColor(position)
                 changeWaterDropColor(view, mainActivityViewModel.waterDropColorList[position].resourceId)
-                selectedWaterDropColor = mainActivityViewModel.waterDropColorList[position].num
             }
         }
+
+        // 물방울 얼굴 리사이클러 뷰 init
         val faceListAdapter = ProfileListAdapter()
         faceListAdapter.submitList(mainActivityViewModel.waterDropFaceList)
         binding.recyclerviewFace.layoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerviewFace.adapter = faceListAdapter
         faceListAdapter.itemClickListener = object: ProfileListAdapter.ItemClickListener {
             override fun onClick(view: View, position: Int) {
+                profileEditFragmentViewModel.setWaterDropFace(position)
                 changeWaterDropFace(view, mainActivityViewModel.waterDropFaceList[position].resourceId)
-                selectedWaterDropFace = mainActivityViewModel.waterDropFaceList[position].num
             }
         }
     }
@@ -153,14 +159,6 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>(FragmentPro
      * 클릭했을 때 애니메이션을 구성합니다.
      */
     private fun clickedAnimation(view: View) {
-        val nowProfileColor = binding.imageColorNow
-        val nowProfileFace = binding.imageFaceNow
-
-//        nowProfileImage.scaleX = 0.1f
-//        nowProfileImage.scaleY = 0.1f
-
-//        makeAnimationScale(nowProfileImage, 1f)
-//        makeAnimationSwingY(nowProfileFace, 20f)
         makeAnimationSpringY(view, -20f)
     }
 
@@ -171,21 +169,6 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>(FragmentPro
         CoroutineScope(Dispatchers.Main).launch {
             makeAnimationY(view, values)
             delay(250)
-            makeAnimationY(view, 0f)
-        }
-    }
-
-    /**
-     * 뷰에 위아래로 두번 흔드는듯한 애니메이션을 적용시킵니다.
-     */
-    private fun makeAnimationSwingY(view: View, values: Float) {
-        CoroutineScope(Dispatchers.Main).launch {
-            makeAnimationY(view, values)
-            delay(200)
-            makeAnimationY(view, 0f)
-            delay(200)
-            makeAnimationY(view, values)
-            delay(200)
             makeAnimationY(view, 0f)
         }
     }
@@ -221,15 +204,24 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>(FragmentPro
         binding.imageColorNow.setImageResource(colorDrawable)
         clickedAnimation(view)
     }
+    /**
+     * 현재 선택된 물방울 얼굴을 바꾸고, 애니메이션을 넣습니다.
+     */
     private fun changeWaterDropFace(view: View, faceDrawable: Int) {
         binding.imageFaceNow.setImageResource(faceDrawable)
         clickedAnimation(view)
     }
+    /**
+     * 현재 선택된 물방울 악세서리를 바꾸고, 애니메이션을 넣습니다.
+     */
     private fun changeWaterDropAccessory(view: View, accessoryDrawable: Int) {
         binding.imageAccessoryNow.setImageResource(accessoryDrawable)
         clickedAnimation(view)
     }
 
+    /**
+     * 프로필 이미지를 set 합니다.
+     */
     private fun setProfileImages(color: Int, face: Int, accessory: Int) {
         binding.imageColorNow.setImageResource(color)
         binding.imageFaceNow.setImageResource(face)

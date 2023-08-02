@@ -63,10 +63,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private fun initObserver() {
         lifecycleScope.launch{
             mainActivityViewModel.memberInfo.observe(this@MainActivity) {
-                changeProfileLayoutVisible()
                 changeProfileColor(it.profileColor)
                 changeProfileFace(it.profileFace)
                 changeProfileAccessory(it.profileAccessory)
+
+                // 마이페이지에서는 오른쪽 상단 프로필이 보이면 안된다.
+                when (navController.currentDestination!!.id) {
+                    R.id.mypageFragment -> {
+
+                    }
+                    else -> {
+                        changeProfileLayoutVisible()
+                    }
+                }
             }
         }
     }

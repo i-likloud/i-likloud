@@ -21,6 +21,28 @@ private const val TAG = "ProfileEditFragmentView_싸피"
 class ProfileEditFragmentViewModel @Inject constructor(
     private val baseRepository: BaseRepository
 ) : ViewModel() {
+
+    private var _selectedColor = 0
+    val selectedColor: Int
+        get() = _selectedColor
+    fun setWaterDropColor(num: Int) {
+        _selectedColor = num
+    }
+
+    private var _selectedFace = 0
+    val selectedFace: Int
+        get() = _selectedFace
+    fun setWaterDropFace(num: Int) {
+        _selectedFace = num
+    }
+
+    private var _selectedAccessory = 0
+    val selectedAccessory: Int
+        get() = _selectedAccessory
+    fun setWaterDropAccessory(num: Int) {
+        _selectedAccessory = num
+    }
+
     private val _myAccessoryList = MutableLiveData<MutableList<AccessoryResponse>>(mutableListOf())
     val myAccessoryList: LiveData<MutableList<AccessoryResponse>>
         get() = _myAccessoryList

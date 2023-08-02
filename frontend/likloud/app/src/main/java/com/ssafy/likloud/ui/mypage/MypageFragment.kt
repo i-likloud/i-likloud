@@ -1,11 +1,13 @@
 package com.ssafy.likloud.ui.mypage
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.view.animation.OvershootInterpolator
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -38,6 +40,10 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         val profileFace = mainActivityViewModel.waterDropFaceList[mainActivityViewModel.memberInfo.value!!.profileFace].resourceId
         val profileAccessory = mainActivityViewModel.waterDropAccessoryList[mainActivityViewModel.memberInfo.value!!.profileAccessory].resourceId
         setProfileImages(profileColor, profileFace, profileAccessory)
+
+        // 프래그먼트 연결성을 부드럽게 하기 위한 애니메이션
+        binding.layoutMyCharacter.translationX = -500f
+        makeButtonAnimationX(binding.layoutMyCharacter, 0f)
     }
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -87,5 +93,14 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         binding.imageColorNow.setImageResource(color)
         binding.imageFaceNow.setImageResource(face)
         binding.imageAccessoryNow.setImageResource(accessory)
+    }
+
+    private fun makeButtonAnimationX(view: View, values: Float) {
+        ObjectAnimator.ofFloat(view, "translationX", values).apply {
+//            interpolator = DecelerateInterpolator()
+            interpolator = OvershootInterpolator()
+            duration = 500
+            start()
+        }
     }
 }
