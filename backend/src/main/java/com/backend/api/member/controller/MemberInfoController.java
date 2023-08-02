@@ -14,6 +14,7 @@ import com.backend.global.error.ErrorResponse;
 import com.backend.global.error.exception.BusinessException;
 import com.backend.global.resolver.memberInfo.MemberInfo;
 import com.backend.global.resolver.memberInfo.MemberInfoDto;
+import com.backend.global.util.CustomApi;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -41,17 +42,8 @@ public class MemberInfoController {
     private final MemberService memberService;
 
     // 회원 정보 조회
-    @Operation(summary = "회원 정보", description = "회원가입후 회원 정보 조회 메서드입니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "#### 성공"),
-            @ApiResponse(responseCode = "에러", description = "#### 에러 이유를 확인 하십시오",
-                    content =@Content(schema = @Schema(implementation = ErrorResponse.class),
-                            examples = {@ExampleObject( name = "401_Auth-006", value = "Authorization Header가 없습니다."),
-                                    @ExampleObject( name = "401_Auth-005", value = "해당 토큰은 유효한 토큰이 아닙니다."),
-                                    @ExampleObject( name = "401_Auth-001", value = "토큰이 만료되었습니다."),
-                                    @ExampleObject( name = "400_User-004", value = "해당 회원은 존재하지 않습니다."),
-                                    @ExampleObject( name = "403_Auth-009", value = "회원이 아닙니다. 추가정보를 입력해 주세요."),
-                                    @ExampleObject( name = "500", value = "서버에러")}))})
+    @Operation(summary = "회원 정보", description = "회원가입후 회원 정보 조회 메서드입니다."+"\n\n### [ 참고사항 ]\n\n"+"- try it out 해주세요\n\n")
+    @CustomApi
     @GetMapping("/info")
     public ResponseEntity<MemberInfoResponseDto> getMemberInfo(@MemberInfo MemberInfoDto memberInfoDto) {
 
@@ -67,10 +59,10 @@ public class MemberInfoController {
             @ApiResponse(responseCode = "200", description = "#### 성공"),
             @ApiResponse(responseCode = "에러", description = "#### 에러 이유를 확인 하십시오",
                     content =@Content(schema = @Schema(implementation = ErrorResponse.class),
-                            examples = {@ExampleObject( name = "401_Auth-006", value = "Authorization Header가 없습니다."),
-                                    @ExampleObject( name = "401_Auth-005", value = "해당 토큰은 유효한 토큰이 아닙니다."),
-                                    @ExampleObject( name = "401_Auth-001", value = "토큰이 만료되었습니다."),
-                                    @ExampleObject(name="400_User-003", value ="이미 등록된 닉네임입니다."),
+                            examples = {@ExampleObject( name = "401_Auth-006", value = "Authorization Header가 없습니다. 자물쇠에 access token값을 넣어주세요."),
+                                    @ExampleObject( name = "401_Auth-005", value = "해당 토큰은 유효한 토큰이 아닙니다. 토큰값이 추가정보 기입에서 받은 new token 값이 맞는지 확인해주세요"),
+                                    @ExampleObject( name = "401_Auth-001", value = "토큰이 만료되었습니다. 토큰을 재발급 받아주세요"),
+                                    @ExampleObject(name="400_User-003", value ="이미 등록된 닉네임입니다. 다른 닉네임을 기입해 주세요"),
                                     @ExampleObject( name = "500", value = "서버에러")}))})
     @PatchMapping("/additional")
     public ResponseEntity<AccessTokenResponseDto> updateAdditionalInfo(@RequestBody MemberDto.UpdateRequest request, @MemberInfo MemberInfoDto memberInfoDto) {
@@ -92,17 +84,9 @@ public class MemberInfoController {
     }
 
     // 특정 멤버 조회
-    @Operation(summary = "특정 멤버 정보", description = "멤버ID를 통해 관련 정보를 얻는 메소드입니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "#### 성공"),
-            @ApiResponse(responseCode = "에러", description = "#### 에러 이유를 확인 하십시오",
-                    content =@Content(schema = @Schema(implementation = ErrorResponse.class),
-                            examples = {@ExampleObject( name = "401_Auth-006", value = "Authorization Header가 없습니다."),
-                                    @ExampleObject( name = "401_Auth-005", value = "해당 토큰은 유효한 토큰이 아닙니다."),
-                                    @ExampleObject( name = "401_Auth-001", value = "토큰이 만료되었습니다."),
-                                    @ExampleObject( name = "400_User-004", value = "해당 회원은 존재하지 않습니다."),
-                                    @ExampleObject( name = "403_Auth-009", value = "회원이 아닙니다. 추가정보를 입력해 주세요."),
-                                    @ExampleObject( name = "500", value = "서버에러")}))})
+//    @Operation(summary = "특정 멤버 정보", description = "멤버ID를 통해 관련 정보를 얻는 메소드입니다.")
+    @Operation(summary = "특정 멤버 정보", description = "회원가입후 회원 정보 조회 메서드입니다."+"\n\n### [ 수행절차 ]\n\n"+"- 조회하고자 하는 member의 id값을 넣어주세요\n\n"+"- try it out 해주세요\n\n")
+    @CustomApi
     @GetMapping("/search/{memberId}")
     public ResponseEntity<MemberSearchDto> memberSearchInfo(@PathVariable Long memberId) {
         Member member = memberService.findMemberById(memberId);

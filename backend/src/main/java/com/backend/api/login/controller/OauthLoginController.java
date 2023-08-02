@@ -32,14 +32,8 @@ public class OauthLoginController {
     private final OauthLoginService oauthLoginService;
 
     @Operation(summary = "로그인", description = "로그인 및 회원가입을 수행합니다.\n\n"+"\n\n### [ 수행절차 ]\n\n"+"- Kakao, Naver 에서 발급 받은 access-token을 자물쇠에 넣고 try it out 해주세요. (response body는 아래에 예시값이 있습니다.)\n\n"+ "- NAVER : 소셜타입은 대문자로 써서 요청해주세요  \n\n" + "- try it out 으로 발급 받은 access-token을 복사하여 memeber 회원관련 API의 추가정보로 이동합니다.\n\n")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "#### 성공"),
-            @ApiResponse(responseCode = "에러", description = "#### 에러 이유를 확인 하십시오",
-                    content =@Content(schema = @Schema(implementation = ErrorResponse.class),
-                            examples = {@ExampleObject( name = "401_Auth-006", value = "Authorization Header가 없습니다."),
-                                    @ExampleObject( name = "500", value = "서버에러"),
-                                    @ExampleObject(name="400_User-002", value ="이미 등록된 회원입니다."),
-                                    @ExampleObject(name="400_User-001", value ="잘못된 로그인 타입 입니다. KAKAO 또는 NAVER로 작성해주세요.")}))})
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "#### 성공"), @ApiResponse(responseCode = "에러", description = "#### 에러 이유를 확인 하십시오",
+                content =@Content(schema = @Schema(implementation = ErrorResponse.class), examples = {@ExampleObject( name = "401_Auth-006", value = "Authorization Header가 없습니다. 자물쇠에 access token값을 넣어주세요."), @ExampleObject( name = "500", value = "서버에러"), @ExampleObject(name="400_User-002", value ="이미 등록된 회원입니다."), @ExampleObject(name="400_User-001", value ="잘못된 로그인 타입 입니다. KAKAO 또는 NAVER로 작성해주세요.")}))})
     @PostMapping("/login")
     public ResponseEntity<OauthLoginDto.Response> oauthLogin(@RequestBody OauthLoginDto.Request oauthLoginRequestDto,
                                                              HttpServletRequest httpServletRequest) {
