@@ -72,6 +72,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     R.id.mypageFragment -> {
 
                     }
+                    R.id.storeFragment -> {
+
+                    }
                     else -> {
                         changeProfileLayoutVisible()
                     }

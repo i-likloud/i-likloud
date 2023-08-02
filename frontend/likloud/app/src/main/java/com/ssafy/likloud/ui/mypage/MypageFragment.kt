@@ -83,6 +83,9 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         binding.buttonEdit.setOnClickListener {
             findNavController().navigate(R.id.action_mypageFragment_to_profileEditFragment)
         }
+        binding.buttonGoStore.setOnClickListener {
+            findNavController().navigate(R.id.action_mypageFragment_to_storeFragment)
+        }
     }
 
     private fun initAnimation() {
