@@ -109,7 +109,7 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
         }
     }
 
-    fun init(){
+    private fun init(){
 
         view?.post{
             // Get the initial width and height of the image_member view
