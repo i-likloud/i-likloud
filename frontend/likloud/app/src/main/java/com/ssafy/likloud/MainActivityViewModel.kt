@@ -1,5 +1,6 @@
 package com.ssafy.likloud
 
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -98,6 +99,15 @@ class MainActivityViewModel @Inject constructor(
 
     fun setUploadingPhotoId(id : Int){
         _uploadingPhotoId.value = id
+    }
+
+
+    ////////////////////////// 게임 성공 api 호출 ///////////////////////
+    fun plusSilver(){
+        viewModelScope.launch {
+            baseRepository.plusSilver()
+            getMemberInfo(ApplicationClass.sharedPreferences.getString("user_email").toString())
+        }
     }
 
 }
