@@ -66,6 +66,10 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
             buttonRankingOrder.setOnClickListener{
                 photoListFragmentViewModel.getRankingOrderPhotoListDtoList()
             }
+            //즐찾순 눌렀을 때
+            buttonBookmarkOrder.setOnClickListener{
+                photoListFragmentViewModel.getBookmarkOrderPhotoListDtoList()
+            }
             //즐겨찾기(스타)를 눌렀을 때
             imageStar.setOnClickListener {
             }
@@ -97,9 +101,9 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
                 Glide.with(binding.imageDrawingProfileFace)
                     .load(activityViewModel.waterDropFaceList[photoListFragmentViewModel.selectedPhotoMember.value!!.profileFace].resourceId)
                     .into(binding.imageDrawingProfileFace)
-//                Glide.with(binding.imageDrawingProfileAccessory)
-//                    .load(activityViewModel.waterDropColorList[photoListFragmentViewModel.selectedPhotoMember.value!!.profileAccessory].resourceId)
-//                    .into(binding.imageDrawingProfileAccessory)
+                Glide.with(binding.imageDrawingProfileAccessory)
+                    .load(activityViewModel.waterDropAccessoryList[photoListFragmentViewModel.selectedPhotoMember.value!!.profileAccessory].resourceId)
+                    .into(binding.imageDrawingProfileAccessory)
                 textDrawingNickname.text = photoListFragmentViewModel.selectedPhotoMember.value!!.nickname
             }
         }

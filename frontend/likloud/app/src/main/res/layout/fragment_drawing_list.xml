@@ -96,6 +96,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_view_order"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                app:layout_constraintWidth_percent="0.95"
+                android:background="@drawable/button_frame_black"
+                android:text="@string/view_order"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
+                app:layout_constraintTop_toBottomOf="@id/button_ranking_order"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

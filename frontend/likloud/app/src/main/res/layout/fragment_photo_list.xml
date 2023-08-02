@@ -73,6 +73,18 @@
             app:layout_constraintWidth_percent="0.1">
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_recent_order"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:background="@drawable/button_frame_black"
+                android:text="@string/recent_order"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.95" />
+
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_ranking_order"
                 style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
                 android:layout_width="0dp"
@@ -81,16 +93,16 @@
                 android:text="@string/ranking_order"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/button_recent_order"
                 app:layout_constraintWidth_percent="0.95" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button_recent_order"
+                android:id="@+id/button_bookmark_order"
                 style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:background="@drawable/button_frame_black"
-                android:text="@string/recent_order"
+                android:text="@string/bookmark_order"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/button_ranking_order"

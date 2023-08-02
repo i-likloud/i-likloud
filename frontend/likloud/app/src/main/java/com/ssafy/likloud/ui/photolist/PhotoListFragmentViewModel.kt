@@ -39,6 +39,9 @@ class PhotoListFragmentViewModel @Inject constructor(
      */
     fun getRankingOrderPhotoListDtoList(){
         viewModelScope.launch {
+            baseRepository.getPhotoList("pick").onSuccess {
+                _currentPhotoListDtoList.value = it
+            }
         }
     }
 
@@ -47,7 +50,9 @@ class PhotoListFragmentViewModel @Inject constructor(
      */
     fun getBookmarkOrderPhotoListDtoList(){
         viewModelScope.launch {
-
+            baseRepository.getPhotoList("bookmarkdesc").onSuccess {
+                _currentPhotoListDtoList.value = it
+            }
         }
     }
 

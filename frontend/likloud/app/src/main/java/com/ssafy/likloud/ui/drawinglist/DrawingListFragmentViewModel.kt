@@ -51,6 +51,17 @@ class DrawingListFragmentViewModel @Inject constructor(
         }
     }
 
+    /**
+     * 조회순 조회
+     */
+    fun getViewOrderDrawingListDtoLit(){
+        viewModelScope.launch {
+            // api 호출해서 _rankingOrderDrawingDtoList에 넣어줘라
+            baseRepository.getDrawingList("viewCount").onSuccess {
+                _currentDrawingListDtoList.value = it
+            }
+        }
+    }
 
 
 
