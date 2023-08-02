@@ -81,6 +81,14 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
                 Log.d(TAG, "progress : ${progressbarTime.progress} ")
             }
         }
+
+        gameFragmentViewModel.randomQuestionIdxList.observe(viewLifecycleOwner){
+            gameFragmentViewModel.changeCurrentQuestionIdx(gameFragmentViewModel.randomQuestionIdxList.value!![0])
+        }
+
+        gameFragmentViewModel.currentQuestionIdx.observe(viewLifecycleOwner){
+            
+        }
     }
 
     private fun init(){
@@ -108,6 +116,11 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
                     gameFragmentViewModel.changeRemainTime(gameFragmentViewModel.remainTime.value!!-1)
                 }
             }
+
+            //문제 순서 랜덤으로 결정
+            gameFragmentViewModel.initRandomIdxList()
+            Log.d(TAG, "init randomIdx List : ${gameFragmentViewModel.randomQuestionIdxList.value}")
+
         }
 
     }
