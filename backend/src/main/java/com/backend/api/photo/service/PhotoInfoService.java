@@ -1,7 +1,6 @@
 package com.backend.api.photo.service;
 
 import com.backend.api.drawing.dto.DrawingWithBookmarksDto;
-import com.backend.api.drawing.dto.DrawingWithLikesDto;
 import com.backend.api.likes.service.LikesService;
 import com.backend.api.photo.dto.PhotoInfoResponseDto;
 import com.backend.domain.bookmark.entity.Bookmarks;
@@ -12,13 +11,13 @@ import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.repository.MemberRepository;
 import com.backend.domain.photo.entity.Photo;
 import com.backend.domain.photo.repository.PhotoRepository;
-import com.backend.global.resolver.memberInfo.MemberInfo;
+import com.backend.global.error.ErrorCode;
+import com.backend.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -87,7 +86,11 @@ public class PhotoInfoService {
     // 삭제
     public void delete(Long id) {
         Photo photo = photoRepository.findById(id)
-                .orElseThrow(()-> new IllegalArgumentException("해당 게시물이 존재하지 않습니다."));
+                .orElseThrow(()-> new BusinessException(ErrorCode.NOT_FOUND_PHOTO));
+
+        if(!photo.getMember().getMemberId().equals(id)){
+            throw new BusinessException(ErrorCode.UNAUTHORIZED_DELETION);
+        }
 
         // Photo와 연관된 Drawing들의 photo 필드를 null로 설정하여 연관 관계 해제
         List<Drawing> drawings = photo.getDrawings();
