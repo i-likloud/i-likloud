@@ -4,6 +4,7 @@ import com.backend.api.drawing.dto.DrawingListDto;
 import com.backend.api.mypage.dto.MypageInfoDto;
 import com.backend.api.mypage.dto.ProfileDto;
 import com.backend.api.mypage.service.MypageService;
+import com.backend.api.nft.dto.NftListResponseDto;
 import com.backend.api.photo.dto.PhotoWithBookmarkDto;
 import com.backend.domain.accessory.dto.AccessoryDto;
 import com.backend.domain.member.entity.Member;
@@ -156,6 +157,18 @@ public class MypageController {
         try{
             Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
             List<AccessoryDto> result = mypageService.getMyAccessory(member.getMemberId());
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @Operation(summary = "내가 만든 NFT 조회", description = "본인이 발급한 NFT를 조회합니다.")
+    @GetMapping("/nft")
+    public ResponseEntity<List<NftListResponseDto>> getMyNft (@MemberInfo MemberInfoDto memberInfoDto){
+        try{
+            Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
+            List<NftListResponseDto> result = mypageService.getMyNft(member.getMemberId());
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

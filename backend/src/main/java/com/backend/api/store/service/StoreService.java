@@ -6,6 +6,7 @@ import com.backend.domain.accessory.entity.Accessory;
 import com.backend.domain.accessory.repository.AccessoryRepository;
 import com.backend.domain.accessory.service.AccessoryService;
 import com.backend.domain.member.entity.Member;
+import com.backend.domain.member.repository.MemberRepository;
 import com.backend.domain.member.service.MemberService;
 import com.backend.domain.store.dto.StoreWithAccessoryDto;
 import com.backend.domain.store.entity.Store;
@@ -27,7 +28,7 @@ public class StoreService {
     private final AccessoryRepository accessoryRepository;
     private final AccessoryService accessoryService;
     private final MemberService memberService;
-
+    private final MemberRepository memberRepository;
 
 
     // 상점 아이템 조회(보유 여부 추가)
@@ -62,10 +63,11 @@ public class StoreService {
         }
 
         List<Accessory> myAccessories = accessoryRepository.findByMember(member);
-        boolean alreadyOwned = myAccessories.stream().anyMatch(accessory -> accessory.getAccessoryId().equals(storeId));
+        boolean alreadyOwned = myAccessories.stream().anyMatch(accessory -> accessory.getStore().getStoreId().equals(storeId));
 
         if (!alreadyOwned) {
             member.setGoldCoin(currentGoldCoin - targetCoin);
+            memberRepository.save(member);
 
 //            // storeRepository를 사용하여 악세사리의 store 정보를 가져옴
 //            Store store = storeRepository.findById(buyAccessory.getStoreId())
@@ -79,6 +81,8 @@ public class StoreService {
 
 
             accessoryRepository.save(accessory);
+        } else{
+            throw new BusinessException(ErrorCode.ALREADY_PURCHASED_ITEM);
         }
 
         return ProfileDto.of(member);

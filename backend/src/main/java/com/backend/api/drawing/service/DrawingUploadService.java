@@ -50,6 +50,7 @@ public class DrawingUploadService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
+    final String DRAWING_FOLD_NAME = "drawing/";
 
     // 파일 업로드 후 그림 게시물 생성
     @Transactional
@@ -81,9 +82,8 @@ public class DrawingUploadService {
     // 그림파일 저장
     @Transactional
     public DrawingFile uploadDrawingFile(MultipartFile file, String title) throws IOException {
-        String folderName = "drawing/";
         String originalFileName = file.getOriginalFilename();
-        String filename = folderName + UUID.randomUUID() + originalFileName;
+        String filename = DRAWING_FOLD_NAME + UUID.randomUUID() + originalFileName;
 
         // S3에 파일을 저장
         ObjectMetadata objMeta = new ObjectMetadata();
@@ -143,6 +143,7 @@ public class DrawingUploadService {
                 .imageUrl(drawingFile.getFilePath())
                 .viewCount(0)
                 .likesCount(0)
+                .nftYn(false)
                 .drawingFile(drawingFile)
                 .member(member)
                 .photo(findPhoto)

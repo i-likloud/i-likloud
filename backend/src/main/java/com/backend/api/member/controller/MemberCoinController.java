@@ -1,7 +1,6 @@
 package com.backend.api.member.controller;
 
 import com.backend.api.member.service.MemberCoinService;
-import com.backend.api.member.service.MemberInfoService;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.service.MemberService;
 import com.backend.global.error.ErrorResponse;
@@ -48,13 +47,12 @@ public class MemberCoinController {
     @PostMapping("/minusSilver")
     public ResponseEntity<String> minusSilverCoin(@MemberInfo MemberInfoDto memberInfoDto) {
         Member findMember = memberService.findMemberByEmail(memberInfoDto.getEmail());
-        Long memberId = findMember.getMemberId();
 
-        int currentSilverCoin = memberCoinService.getSilverCoin(memberId);
+        int currentSilverCoin = findMember.getSilverCoin();
         int coinsToDeduct = 5;
 
         if (currentSilverCoin >= coinsToDeduct) {
-            memberCoinService.minusSilverCoin(memberId, coinsToDeduct);
+            memberCoinService.minusSilverCoin(findMember, coinsToDeduct);
             return ResponseEntity.ok(String.format("은코인이 %d개 감소하였습니다.", coinsToDeduct));
         }
         else{
@@ -68,10 +66,9 @@ public class MemberCoinController {
     @PostMapping("/plusGold")
     public ResponseEntity<String> plusGoldCoin(@MemberInfo MemberInfoDto memberInfoDto){
         Member findMember = memberService.findMemberByEmail(memberInfoDto.getEmail());
-        Long memberId = findMember.getMemberId();
 
         int coins = 1;
-        memberCoinService.plusGoldCoin(memberId, coins);
+        memberCoinService.plusGoldCoin(findMember, coins);
         return ResponseEntity.ok(String.format("금코인이 %d개 증가하였습니다.", coins));
 
     }

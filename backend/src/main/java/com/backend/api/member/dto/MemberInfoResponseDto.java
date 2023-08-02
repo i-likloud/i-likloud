@@ -37,6 +37,8 @@ public class MemberInfoResponseDto {
                 .profileFace(member.getProfileFace())
                 .profileColor(member.getProfileColor())
                 .profileAccessory(member.getProfileAccessory())
+                .silverCoin(member.getSilverCoin())
+                .goldCoin(member.getGoldCoin())
                 .role(member.getRole())
                 .socialType(member.getSocialType())
                 .build();

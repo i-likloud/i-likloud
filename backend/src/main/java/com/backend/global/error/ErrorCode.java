@@ -26,6 +26,7 @@ public enum ErrorCode {
     MEMBER_NOT_EXISTS(HttpStatus.BAD_REQUEST, "User-004", "해당 회원은 존재하지 않습니다."),
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "User-005", "인증에 실패하였습니다."),
     ROLE_NOT_EXISTS(HttpStatus.FORBIDDEN, "User-006", "해당 권한이 없습니다."),
+    NOT_ENOUGH_COIN(HttpStatus.BAD_REQUEST, "User-007", "보유 코인이 부족합니다."),
 
     // 그림
     NOT_FOUND_DRAWING(HttpStatus.NOT_FOUND, "Drawing-001", "그림을 찾을 수 없습니다."),
@@ -34,8 +35,14 @@ public enum ErrorCode {
     NOT_FOUND_PHOTO(HttpStatus.NOT_FOUND, "Photo-001", "사진을 찾을 수 없습니다."),
     INVALID_PHOTO(HttpStatus.BAD_REQUEST, "Photo-002", "적합하지 않은 사진입니다."),
 
+    // NFT
+    NOT_FOUND_WALLET(HttpStatus.NOT_FOUND, "NFT-001", "지갑을 찾을 수 없습니다."),
+    ALREADY_PUBLISHED_TOKEN(HttpStatus.BAD_REQUEST, "NFT-002", "이미 발행된 토큰입니다."),
+    UNAUTHORIZED_NFT(HttpStatus.UNAUTHORIZED, "NFT-003", "본인이 그린 그림만 NFT 발행할 수 있습니다."),
+
     // 아이템
-    NOT_FOUND_ACCESSORY(HttpStatus.NOT_FOUND, "Acce-001", "아이템을 찾을 수 없습니다."),
+    NOT_FOUND_ACCESSORY(HttpStatus.NOT_FOUND, "Item-001", "아이템을 찾을 수 없습니다."),
+    ALREADY_PURCHASED_ITEM(HttpStatus.BAD_REQUEST, "Item-002", "이미 구매한 아이템입니다."),
 
     // 댓글
     NOT_FOUND_COMMENT(HttpStatus.NOT_FOUND, "Comment-001", "댓글을 찾을 수 없습니다."),

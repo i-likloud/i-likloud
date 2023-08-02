@@ -13,6 +13,7 @@ public class CommentDto {
     private final String content;
     private final String commentMember;
     private final Long drawingId;
+    private final Long memberId;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private final LocalDateTime createdAt;
@@ -22,6 +23,7 @@ public class CommentDto {
         this.content = comment.getContent();
         this.commentMember = comment.getCommentMember();
         this.createdAt = comment.getCreatedAt();
+        this.memberId = comment.getMember().getMemberId();
         this.drawingId = comment.getDrawing().getDrawingId();
     }
 }

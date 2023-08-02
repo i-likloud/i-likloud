@@ -35,10 +35,10 @@ public class MemberCoinService {
 
     // 은코인 감소
     @Transactional
-    public void minusSilverCoin(Long memberId, int coins){
-        Member member = entityManager.find(Member.class, memberId);
-        if (member == null) {
-            throw new BusinessException(ErrorCode.MEMBER_NOT_EXISTS);
+    public void minusSilverCoin(Member member, int coins){
+
+        if (member.getSilverCoin() < coins) {
+            throw new BusinessException(ErrorCode.NOT_ENOUGH_COIN);
         }
 
         member.minusSilverCoin(coins);
@@ -55,11 +55,8 @@ public class MemberCoinService {
 
     // 금코인 증가
     @Transactional
-    public void plusGoldCoin(Long memberId, int coins) {
-        Member member = entityManager.find(Member.class, memberId);
-        if (member == null) {
-            throw new BusinessException(ErrorCode.MEMBER_NOT_EXISTS);
-        }
+    public void plusGoldCoin(Member member, int coins) {
+
         member.incrementGoldCoin(coins);
         // EntityManager를 사용하는 경우 변경을 감지하기 때문에 save를 명시적으로 호출할 필요 없음
 
