@@ -298,7 +298,7 @@
             </com.google.android.material.chip.ChipGroup>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview_color"
+                android:id="@+id/recyclerview_drawing_photo_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

@@ -105,6 +105,11 @@ interface BaseService {
      */
     @POST("api/member/plusSilver")
     suspend fun plusSliver(): Response<String>
+    /**
+     * 내가 그린 그림 조회(마이페이지)
+     */
+    @GET("api/mypage/drawings")
+    suspend fun getMyDrawingListDtoList(): Response<MutableList<DrawingListDto>>
 }
 
 //api 만드는 과정

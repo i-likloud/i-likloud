@@ -119,4 +119,8 @@ interface BaseRepository {
      * 개임 성공 시 은코인 상승
      */
     suspend fun plusSilver(): NetworkResult<String>
+    /**
+     * 내가 그린 그림 조회(마이페이지)
+     */
+    suspend fun getMyDrawingListDtoList(): NetworkResult<MutableList<DrawingListDto>>
 }
