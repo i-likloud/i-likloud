@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent="0.1"
-        android:background="@color/main_sky_blue"
+        android:background="@color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -23,21 +23,26 @@
 
             <ImageView
                 android:id="@+id/button_back"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="@dimen/_23sdp"
+                android:layout_height="@dimen/_23sdp"
                 android:layout_margin="10dp"
                 android:src="@drawable/button_back_arrow" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="100dp"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:text="@string/title_mypage"
-                android:textSize="@dimen/_20sdp"
-                android:layout_marginTop="10dp"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size32"/>
+                android:layout_weight="1"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size16"/>
+
+            <ImageView
+                android:id="@+id/button_setting"
+                android:layout_width="@dimen/_23sdp"
+                android:layout_height="@dimen/_23sdp"
+                android:layout_margin="10dp"
+                android:src="@drawable/ic_setting"/>
 
         </LinearLayout>
 
@@ -65,7 +70,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layout_selected_character"
+                android:id="@+id/layout_my_character"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1">
@@ -86,6 +91,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:src="@drawable/face_normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/image_accessory_now"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:src="@drawable/water_drop_item_empty"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -139,48 +154,72 @@
                     android:layout_weight="1">
 
                     <LinearLayout
-                        android:layout_width="@dimen/_50sdp"
+                        android:layout_width="@dimen/_60sdp"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/_6sdp"
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/_2sdp">
 
                         <ImageView
-                            android:layout_width="@dimen/_14sdp"
-                            android:layout_height="match_parent"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_10sdp"
                             android:src="@drawable/ic_ticket"
                             android:scaleType="centerCrop"
                             android:layout_marginRight="@dimen/_4sdp"/>
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="X"
+                            android:layout_gravity="center"
                             android:layout_marginRight="@dimen/_4sdp"
+                            style="@style/Theme.AppCompat.TextView.jua.dark.Size04"/>
+
+                        <TextView
+                            android:id="@+id/textview_ticket_cnt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="몇개"
+                            android:layout_gravity="center"
                             style="@style/Theme.AppCompat.TextView.jua.dark.Size08"/>
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="@dimen/_50sdp"
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/black"
+                        android:layout_marginVertical="@dimen/_5sdp"/>
+
+                    <LinearLayout
+                        android:layout_width="@dimen/_60sdp"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/_6sdp"
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/_2sdp">
 
                         <ImageView
-                            android:layout_width="@dimen/_9sdp"
-                            android:layout_height="match_parent"
+                            android:layout_width="@dimen/_12sdp"
+                            android:layout_height="@dimen/_14sdp"
                             android:src="@drawable/ic_stamp"
                             android:scaleType="centerCrop"
                             android:layout_marginRight="@dimen/_4sdp"/>
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
                             android:text="X"
-                            style="@style/Theme.AppCompat.TextView.jua.dark.Size08"/>
+                            android:layout_marginRight="@dimen/_4sdp"
+                            style="@style/Theme.AppCompat.TextView.jua.dark.Size04"/>
 
+                        <TextView
+                            android:id="@+id/textview_stamp_cnt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="몇개"
+                            android:layout_gravity="center"
+                            style="@style/Theme.AppCompat.TextView.jua.dark.Size08"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -207,12 +246,54 @@
 
             </LinearLayout>
 
-            <TextView
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="물방울 색을 골라주세요!"
-                android:layout_margin="@dimen/_2sdp"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size08"/>
+                android:background="@drawable/frame_rounded_border_radius50_none_bottom"
+                android:paddingHorizontal="@dimen/_4sdp"
+                android:paddingTop="@dimen/_1sdp"
+                android:layout_gravity="left"
+                android:layout_marginLeft="@dimen/_4sdp"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip1"
+                    style="@style/MyChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:text="@string/my_drawing"
+                    app:chipStrokeWidth="2dp"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip2"
+                    style="@style/MyChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:text="@string/my_upload_picture"
+                    app:chipStrokeWidth="2dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip3"
+                    style="@style/MyChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:text="@string/my_likes"
+                    app:chipStrokeWidth="2dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip4"
+                    style="@style/MyChipStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:text="@string/my_bookmark"
+                    app:chipStrokeWidth="2dp" />
+
+            </com.google.android.material.chip.ChipGroup>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_color"
@@ -220,11 +301,23 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:padding="@dimen/_14sdp"
-                android:layout_margin="@dimen/_4sdp"
+                android:layout_marginHorizontal="@dimen/_4sdp"
+                android:layout_marginBottom="@dimen/_4sdp"
                 android:elevation="@dimen/_2sdp"
-                android:background="@drawable/frame_rounded_border_radius50"/>
+                android:background="@drawable/frame_rounded_border_radius50_none_top_left"/>
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/button_edit"
+            android:layout_width="@dimen/_21sdp"
+            android:layout_height="@dimen/_21sdp"
+            android:src="@drawable/ic_edit"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:elevation="@dimen/_18sdp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,8 +12,10 @@ import android.view.animation.AnimationUtils
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.ssafy.likloud.ApplicationClass.Companion.sharedPreferences
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ssafy.likloud.ApplicationClass.Companion.USER_EMAIL
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
@@ -81,10 +83,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             if (nickname.isEmpty()) {
                 showCustomToast("닉네임을 입력해주세요!")
             } else {
-                mActivity.changeProfileLayoutVisible()
-                mainActivityViewModel.setProfileImage(selectedWaterDropColor, selectedWaterDropFace)
                 // 추가 정보 선택 완료시 진짜 키 받아오는 로직
-                profileFragmentViewModel.patchAdditionalInfo(LoginAdditionalRequest(nickname, selectedWaterDropColor, selectedWaterDropFace, 0))
+                viewLifecycleOwner.lifecycleScope.launch {
+                    //중단 함수로 만들었음. patch 메소드가 통신이 끝나야 다음 메소드 실행
+                    profileFragmentViewModel.patchAdditionalInfo(LoginAdditionalRequest(nickname, selectedWaterDropColor, selectedWaterDropFace, 0))
+                    //비동기로 메인액티비티에 멤버정보 불러온다.
+                    mainActivityViewModel.getMemberInfo(sharedPreferences.getString(USER_EMAIL).toString())
+                }
                 findNavController().navigate(R.id.action_profileFragment_to_homeFragment)
             }
         }

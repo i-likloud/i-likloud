@@ -13,6 +13,7 @@ import com.ssafy.likloud.ApplicationClass.Companion.X_ACCESS_TOKEN
 import com.ssafy.likloud.ApplicationClass.Companion.sharedPreferences
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -28,6 +29,7 @@ import com.ssafy.likloud.ApplicationClass
 import com.ssafy.likloud.ApplicationClass.Companion.USER_EMAIL
 import com.ssafy.likloud.ApplicationClass.Companion.X_REFRESH_TOKEN
 import com.ssafy.likloud.MainActivity
+import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
 import com.ssafy.likloud.data.repository.BaseRepository
@@ -47,6 +49,7 @@ class LoginFragment :
     BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::bind, R.layout.fragment_login) {
 
     private val loginFragmentViewModel: LoginFragmentViewModel by viewModels()
+    private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var mActivity: MainActivity
 
     private lateinit var OAUTH_CLIENT_ID: String
@@ -103,7 +106,7 @@ class LoginFragment :
 
             viewLifecycleOwner.lifecycleScope.launch {
                 withContext(Dispatchers.Main) {
-                    loginFragmentViewModel.getUserInfo(sharedPreferences.getString(USER_EMAIL).toString())
+                    mainActivityViewModel.getMemberInfo(sharedPreferences.getString(USER_EMAIL).toString())
                 }
             }
 
@@ -124,19 +127,6 @@ class LoginFragment :
         loginFragmentViewModel.loginResponse.observe(viewLifecycleOwner) {
             sharedPreferences.putString(X_ACCESS_TOKEN, it.accessToken)
             sharedPreferences.putString(X_REFRESH_TOKEN, it.refreshToken)
-        }
-        // 자동 로그인 시 멤버 정보 받아오고나서 로직
-//        loginFragmentViewModel.memberInfo.observe(viewLifecycleOwner) {
-//            mActivity.changeProfileLayoutVisible()
-//            mActivity.changeProfileColor(it.profileColor)
-//            mActivity.changeProfileFace(it.profileFace)
-//        }
-        viewLifecycleOwner.lifecycleScope.launch{
-            loginFragmentViewModel.memberInfo.observe(mActivity) {
-                mActivity.changeProfileLayoutVisible()
-                mActivity.changeProfileColor(it.profileColor)
-                mActivity.changeProfileFace(it.profileFace)
-            }
         }
     }
 

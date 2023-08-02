@@ -41,5 +41,9 @@
     <string name="go_store">상점으로 가기</string>
     <string name="cnt_ticket">티켓 : </string>
     <string name="cnt_stamp">스탬프 : </string>
+    <string name="my_drawing">그린 그림</string>
+    <string name="my_upload_picture">올린 사진</string>
+    <string name="my_likes">좋아요 그림</string>
+    <string name="my_bookmark">북마크 사진</string>
 
 </resources>

@@ -1,12 +1,9 @@
 package com.ssafy.likloud.data.model.response
 
-import android.provider.ContactsContract.CommonDataKinds.Nickname
+
 import com.google.gson.annotations.SerializedName
 
 data class MemberInfoResponse(
-    @SerializedName("email")
-    val email: String,
-
     @SerializedName("goldCoin")
     val goldCoin: Int,
 
@@ -16,15 +13,15 @@ data class MemberInfoResponse(
     @SerializedName("nickname")
     val nickname: String,
 
+    @SerializedName("profileAccessory")
+    val profileAccessory: Int,
+
     @SerializedName("profileColor")
     val profileColor: Int,
 
     @SerializedName("profileFace")
     val profileFace: Int,
 
-    @SerializedName("role")
-    val role: String,
-
-    @SerializedName("socialType")
-    val socialType: String
+    @SerializedName("silverCoin")
+    val silverCoin: Int
 )

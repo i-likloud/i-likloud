@@ -39,8 +39,8 @@ interface BaseService {
     suspend fun postLogin(@Body body: LoginRequest): Response<LoginResponse>
 
     // 유저 정보를 받아온다.
-    @GET("api/member/info")
-    suspend fun getUserInfo(@Query("body") body: MemberInfoRequest): Response<MemberInfoResponse>
+    @GET("api/mypage/home")
+    suspend fun getMemberInfo(@Query("body") body: MemberInfoRequest): Response<MemberInfoResponse>
 
     // MEMBER로 올리고, newToken을 헤더에 담아 받아온다.
     @PATCH("api/member/additional")
