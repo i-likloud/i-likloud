@@ -1,6 +1,6 @@
-package com.backend.oauth2.kakao.client;
+package com.backend.external.oauth2.kakao.client;
 
-import com.backend.oauth2.kakao.dto.KakaoTokenDto;
+import com.backend.external.oauth2.kakao.dto.KakaoTokenDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.PostMapping;

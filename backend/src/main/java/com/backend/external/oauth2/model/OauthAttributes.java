@@ -1,4 +1,4 @@
-package com.backend.oauth2.model;
+package com.backend.external.oauth2.model;
 
 import com.backend.domain.member.constant.Role;
 import com.backend.domain.member.constant.SocialType;

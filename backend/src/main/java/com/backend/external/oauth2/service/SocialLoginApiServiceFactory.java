@@ -1,4 +1,4 @@
-package com.backend.oauth2.service;
+package com.backend.external.oauth2.service;
 
 import com.backend.domain.member.constant.SocialType;
 import org.springframework.stereotype.Service;

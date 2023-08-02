@@ -1,11 +1,11 @@
-package com.backend.oauth2.kakao.service;
+package com.backend.external.oauth2.kakao.service;
 
 import com.backend.domain.member.constant.SocialType;
+import com.backend.external.oauth2.kakao.client.KakaoUserInfoClient;
+import com.backend.external.oauth2.kakao.dto.KakaoUserInfoResponseDto;
+import com.backend.external.oauth2.model.OauthAttributes;
+import com.backend.external.oauth2.service.SocialLoginApiService;
 import com.backend.global.jwt.constant.GrantType;
-import com.backend.oauth2.kakao.client.KakaoUserInfoClient;
-import com.backend.oauth2.kakao.dto.KakaoUserInfoResponseDto;
-import com.backend.oauth2.model.OauthAttributes;
-import com.backend.oauth2.service.SocialLoginApiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

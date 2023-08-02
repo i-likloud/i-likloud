@@ -1,11 +1,11 @@
-package com.backend.oauth2.naver.service;
+package com.backend.external.oauth2.naver.service;
 
 import com.backend.domain.member.constant.SocialType;
+import com.backend.external.oauth2.naver.client.NaverUserInfoClient;
+import com.backend.external.oauth2.service.SocialLoginApiService;
 import com.backend.global.jwt.constant.GrantType;
-import com.backend.oauth2.model.OauthAttributes;
-import com.backend.oauth2.naver.client.NaverUserInfoClient;
-import com.backend.oauth2.naver.dto.NaverUserInfoResponseDto;
-import com.backend.oauth2.service.SocialLoginApiService;
+import com.backend.external.oauth2.model.OauthAttributes;
+import com.backend.external.oauth2.naver.dto.NaverUserInfoResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

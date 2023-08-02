@@ -1,4 +1,4 @@
-package com.backend.oauth2.kakao.dto;
+package com.backend.external.oauth2.kakao.dto;
 
 import lombok.Builder;
 import lombok.Getter;

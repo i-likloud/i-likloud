@@ -1,6 +1,6 @@
-package com.backend.oauth2.naver.client;
+package com.backend.external.oauth2.naver.client;
 
-import com.backend.oauth2.naver.dto.NaverUserInfoResponseDto;
+import com.backend.external.oauth2.naver.dto.NaverUserInfoResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;

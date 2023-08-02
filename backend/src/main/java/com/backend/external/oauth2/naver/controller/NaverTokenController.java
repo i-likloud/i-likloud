@@ -1,7 +1,7 @@
-package com.backend.oauth2.naver.controller;
+package com.backend.external.oauth2.naver.controller;
 
-import com.backend.oauth2.naver.client.NaverTokenClient;
-import com.backend.oauth2.naver.dto.NaverTokenDto;
+import com.backend.external.oauth2.naver.client.NaverTokenClient;
+import com.backend.external.oauth2.naver.dto.NaverTokenDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

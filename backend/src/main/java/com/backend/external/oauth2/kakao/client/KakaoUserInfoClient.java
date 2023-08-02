@@ -1,6 +1,6 @@
-package com.backend.oauth2.kakao.client;
+package com.backend.external.oauth2.kakao.client;
 
-import com.backend.oauth2.kakao.dto.KakaoUserInfoResponseDto;
+import com.backend.external.oauth2.kakao.dto.KakaoUserInfoResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;

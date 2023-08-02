@@ -1,4 +1,4 @@
-package com.backend.oauth2.naver.dto;
+package com.backend.external.oauth2.naver.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

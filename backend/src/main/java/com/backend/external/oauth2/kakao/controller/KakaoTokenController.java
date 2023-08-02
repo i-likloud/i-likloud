@@ -1,7 +1,7 @@
-package com.backend.oauth2.kakao.controller;
+package com.backend.external.oauth2.kakao.controller;
 
-import com.backend.oauth2.kakao.client.KakaoTokenClient;
-import com.backend.oauth2.kakao.dto.KakaoTokenDto;
+import com.backend.external.oauth2.kakao.client.KakaoTokenClient;
+import com.backend.external.oauth2.kakao.dto.KakaoTokenDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
