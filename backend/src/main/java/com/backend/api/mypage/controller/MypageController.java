@@ -36,7 +36,7 @@ public class MypageController {
     private final MemberService memberService;
 
 
-    @Operation(summary = "마이페이지 홈 조회", description = "마이페이지 홈의 조회 메서드입니다.")
+    @Operation(summary = "마이페이지 홈", description = "마이페이지 홈의 조회 메서드입니다.")
     @GetMapping("/home")
     public ResponseEntity<MypageInfoDto> getMyInfo(@MemberInfo MemberInfoDto memberInfoDto) {
         try {
@@ -122,7 +122,7 @@ public class MypageController {
         }
     }
 
-    @Operation(summary = "내가 가진 아이템 조회", description = "본인이 가진 아이템 목록을 출력하는 메서드입니다.")
+    @Operation(summary = "내가 가진 악세사리 조회", description = "본인이 가진 악세사리 목록을 출력하는 메서드입니다.")
     @GetMapping("/accessory")
     public ResponseEntity<List<AccessoryDto>> getMyAccessorys (@MemberInfo MemberInfoDto memberInfoDto){
         try{

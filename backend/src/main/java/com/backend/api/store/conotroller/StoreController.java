@@ -29,7 +29,7 @@ public class StoreController {
     private final MypageService mypageService;
     private final StoreService storeService;
 
-    @Operation(summary = "상점", description = "상점 조회 메서드입니다.")
+    @Operation(summary = "상점 홈", description = "상점 조회 메서드입니다.")
     @GetMapping("/home")
     public ResponseEntity<StoreResponseDto> getStore (@MemberInfo MemberInfoDto memberInfoDto){
         String email = memberInfoDto.getEmail();

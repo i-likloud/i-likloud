@@ -3,16 +3,20 @@ package com.backend.api.login.controller;
 import com.backend.api.login.dto.OauthLoginDto;
 import com.backend.api.login.service.OauthLoginService;
 import com.backend.api.login.validator.OauthValidator;
-import com.backend.api.member.service.MemberInfoService;
 import com.backend.domain.member.constant.SocialType;
-import com.backend.domain.member.entity.Member;
-import com.backend.domain.member.service.MemberService;
-import com.backend.global.resolver.memberInfo.MemberInfo;
-import com.backend.global.resolver.memberInfo.MemberInfoDto;
+import com.backend.global.error.ErrorCode;
+import com.backend.global.error.ErrorResponse;
 import com.backend.global.util.AuthorizationHeaderUtils;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,8 +31,14 @@ public class OauthLoginController {
     private final OauthValidator oauthValidator;
     private final OauthLoginService oauthLoginService;
 
-    @Operation(summary = "로그인", description = "로그인 및 회원가입 메서드입니다.\n\n" +
-            "소셜타입 대문자로 써서 요청해주세요")
+    @Operation(summary = "로그인", description = "로그인 및 회원가입을 수행합니다.\n\n"+"\n\n### [ 수행절차 ]\n\n"+"- Kakao, Naver 에서 발급 받은 access-token을 자물쇠에 넣고 try it out 해주세요. (response body는 아래에 예시값이 있습니다.)\n\n"+
+            "- NAVER : 소셜타입은 대문자로 써서 요청해주세요  \n\n" + "- try it out 으로 발급 받은 access-token을 복사하여 memeber 회원관련 API의 추가정보로 이동합니다.\n\n")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "#### 성공"),
+//            @ApiResponse(responseCode = "401", description = "#### Token 값 없음", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "에러", description = "#### 에러 이유를 확인 하십시오", content =@Content(schema = @Schema(implementation = ErrorResponse.class),
+                    examples = {@ExampleObject( name = "401", value = "Token 값 없음"), @ExampleObject( name = "500", value = "소셜에서 받은 Token값이 아님 ")}))
+    })
     @PostMapping("/login")
     public ResponseEntity<OauthLoginDto.Response> oauthLogin(@RequestBody OauthLoginDto.Request oauthLoginRequestDto,
                                                              HttpServletRequest httpServletRequest) {
@@ -43,4 +53,5 @@ public class OauthLoginController {
 
         return ResponseEntity.ok(jwtResponseDto);
     }
+
 }
