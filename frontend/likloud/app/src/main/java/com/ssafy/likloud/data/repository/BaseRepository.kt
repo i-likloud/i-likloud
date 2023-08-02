@@ -114,4 +114,9 @@ interface BaseRepository {
     suspend fun editMyProfile(
         profileEditRequest: ProfileEditRequest
     ): NetworkResult<MemberInfoResponse>
+
+    /**
+     * 개임 성공 시 은코인 상승
+     */
+    suspend fun plusSilver(): NetworkResult<String>
 }

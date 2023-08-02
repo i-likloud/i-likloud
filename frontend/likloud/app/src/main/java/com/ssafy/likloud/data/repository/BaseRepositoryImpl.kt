@@ -97,5 +97,8 @@ class BaseRepositoryImpl @Inject constructor(
 
     override suspend fun editMyProfile(profileEditRequest: ProfileEditRequest): NetworkResult<MemberInfoResponse> {
         return handleApi { baseAPIService.editMyProfile(profileEditRequest).body()!! }
+
+    override suspend fun plusSilver(): NetworkResult<String> {
+        return handleApi { baseAPIService.plusSliver().body()!! }
     }
 }

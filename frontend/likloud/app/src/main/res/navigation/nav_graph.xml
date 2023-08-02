@@ -63,6 +63,9 @@
         <action
             android:id="@+id/action_homeFragment_to_afterCloudValidFragment"
             app:destination="@id/afterCloudValidFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_gameFragment"
+            app:destination="@id/gameFragment" />
     </fragment>
 
     <fragment
@@ -158,9 +161,23 @@
             app:argType="integer"/>
 
     </fragment>
+    
     <fragment
         android:id="@+id/profileEditFragment"
         android:name="com.ssafy.likloud.ui.profileedit.ProfileEditFragment"
         android:label="ProfileEditFragment" />
+
+    <fragment>
+        android:id="@+id/gameFragment"
+        android:name="com.ssafy.likloud.ui.game.GameFragment"
+        android:label="fragment_game"
+        tools:layout="@layout/fragment_game" >
+        <action
+            android:id="@+id/action_gameFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_gameFragment_self"
+            app:destination="@id/gameFragment" />
+    </fragment>
 
 </navigation>

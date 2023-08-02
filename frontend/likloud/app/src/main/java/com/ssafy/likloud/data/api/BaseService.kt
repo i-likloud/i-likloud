@@ -99,6 +99,12 @@ interface BaseService {
 
     @PUT("api/mypage/profile")
     suspend fun editMyProfile(@Body body: ProfileEditRequest): Response<MemberInfoResponse>
+
+    /**
+     * 게임 성공 시 은코인 상승
+     */
+    @POST("api/member/plusSilver")
+    suspend fun plusSliver(): Response<String>
 }
 
 //api 만드는 과정
