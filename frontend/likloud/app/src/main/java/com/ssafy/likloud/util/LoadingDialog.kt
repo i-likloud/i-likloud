@@ -1,4 +1,4 @@
-package com.ssafy.likloud
+package com.ssafy.likloud.util
 
 import android.app.Dialog
 import android.content.Context

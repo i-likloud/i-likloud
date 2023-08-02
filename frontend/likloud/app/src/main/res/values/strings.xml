@@ -45,5 +45,6 @@
     <string name="my_upload_picture">올린 사진</string>
     <string name="my_likes">좋아요 그림</string>
     <string name="my_bookmark">북마크 사진</string>
+    <string name="save_drawing">저장하기</string>
 
 </resources>
