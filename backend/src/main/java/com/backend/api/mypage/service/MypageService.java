@@ -3,6 +3,7 @@ package com.backend.api.mypage.service;
 import com.backend.api.drawing.dto.DrawingListDto;
 import com.backend.api.mypage.dto.MypageInfoDto;
 import com.backend.api.mypage.dto.ProfileDto;
+import com.backend.api.nft.dto.NftListResponseDto;
 import com.backend.api.photo.dto.PhotoWithBookmarkDto;
 import com.backend.domain.accessory.dto.AccessoryDto;
 import com.backend.domain.accessory.entity.Accessory;
@@ -15,6 +16,8 @@ import com.backend.domain.likes.entity.Likes;
 import com.backend.domain.likes.repository.LikesRepository;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.service.MemberService;
+import com.backend.domain.nft.entity.Nft;
+import com.backend.domain.nft.repository.NftRepository;
 import com.backend.domain.photo.entity.Photo;
 import com.backend.domain.photo.repository.PhotoRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +37,7 @@ public class MypageService {
     private final BookmarkRepository bookmarkRepository;
     private final PhotoRepository photoRepository;
     private final AccessoryRepository accessoryRepository;
+    private final NftRepository nftRepository;
 
     @Transactional(readOnly = true)
     public MypageInfoDto getMyInfo(String email) {
@@ -108,6 +112,16 @@ public class MypageService {
                 .map(AccessoryDto::new)
                 .collect(Collectors.toList());
 
+    }
+
+    // 보유 NFT 조회
+    public List<NftListResponseDto> getMyNft(Long memberId){
+        Member member = memberService.findMemberById(memberId);
+        List<Nft> nftList = nftRepository.findByMember(member);
+
+        return nftList.stream()
+                .map(NftListResponseDto::new)
+                .collect(Collectors.toList());
     }
 
 }

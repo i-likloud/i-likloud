@@ -4,7 +4,6 @@ import com.backend.domain.common.BaseEntity;
 import com.backend.domain.drawing.entity.Drawing;
 import com.backend.domain.member.entity.Member;
 import lombok.*;
-import org.checkerframework.checker.units.qual.C;
 
 import javax.persistence.*;
 
@@ -20,24 +19,27 @@ public class Nft extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long nftId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
-
-    @OneToOne(mappedBy = "nft")
-    private Drawing drawing;
-
     @Column(nullable = false)
     private String nftImageUrl;
 
     @Column(nullable = false)
     private String contract;
 
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String nftMetadata;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @OneToOne
+    @JoinColumn(name = "drawing_id")
+    private Drawing drawing;
+
     @Builder
     public Nft(String nftImageUrl, String contract) {
         this.nftImageUrl = nftImageUrl;
         this.contract = contract;
     }
-
 
 }

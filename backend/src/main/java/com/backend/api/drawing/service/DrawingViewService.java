@@ -65,4 +65,10 @@ public class DrawingViewService {
         }
         drawingRepository.delete(drawing);
     }
+
+    public Drawing findDrawingById(Long drawingId){
+
+        return drawingRepository.findById(drawingId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_DRAWING));
+    }
 }
