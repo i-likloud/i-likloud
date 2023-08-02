@@ -56,15 +56,21 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
     override fun initListener(){
 
         binding.apply {
-            //랭킹순 눌렀을 때
-            buttonRankingOrder.setOnClickListener{
-                drawingListFragmentViewModel.getRankingOrderDrawingListDtoList()
-            }
 
             //최신순 눌렀을 때
             buttonRecentOrder.setOnClickListener {
                 drawingListFragmentViewModel.getRecentOrderDrawingListDtoList()
             }
+            //랭킹순 눌렀을 때
+            buttonRankingOrder.setOnClickListener{
+                drawingListFragmentViewModel.getRankingOrderDrawingListDtoList()
+            }
+
+            //조회순 눌렀을 때
+            buttonViewOrder.setOnClickListener {
+                drawingListFragmentViewModel.getViewOrderDrawingListDtoLit()
+            }
+
 
             imageHeart.setOnClickListener {
                 drawingListFragmentViewModel.changeSelectedDrawingDetailDtoMemberLiked()
@@ -103,9 +109,9 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
                 Glide.with(binding.imageProfileFace)
                     .load(activityViewModel.waterDropFaceList[drawingListFragmentViewModel.selectedDrawingMember.value!!.profileFace].resourceId)
                     .into(binding.imageProfileFace)
-//                Glide.with(binding.imageProfileAccessory)
-//                    .load(drawingListFragmentViewModel.selectedDrawingMember.value!!.profileAccessory)
-//                    .into(binding.imageProfileAccessory)
+                Glide.with(binding.imageProfileAccessory)
+                    .load(activityViewModel.waterDropAccessoryList[drawingListFragmentViewModel.selectedDrawingMember.value!!.profileAccessory].resourceId)
+                    .into(binding.imageProfileAccessory)
                 textDrawingNickname.text = drawingListFragmentViewModel.selectedDrawingMember.value!!.nickname
                 textDrawingTitle.text = drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.title
                 textDrawingContent.text = drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.content

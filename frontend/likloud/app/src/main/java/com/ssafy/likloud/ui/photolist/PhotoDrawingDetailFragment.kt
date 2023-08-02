@@ -6,9 +6,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.ssafy.likloud.MainActivity
+import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
 import com.ssafy.likloud.databinding.FragmentPhotoDrawingDetailBinding
@@ -22,6 +25,7 @@ class PhotoDrawingDetailFragment : BaseFragment<FragmentPhotoDrawingDetailBindin
 
     private val photoDrawingDetailFragmentViewModel : PhotoDrawingDetailFragmentViewModel by viewModels()
     private lateinit var mainActivity: MainActivity
+    private val activityViewModel: MainActivityViewModel by activityViewModels()
     val args: PhotoDrawingDetailFragmentArgs by navArgs()
 
 
@@ -50,8 +54,33 @@ class PhotoDrawingDetailFragment : BaseFragment<FragmentPhotoDrawingDetailBindin
 
     private fun initObserver(){
         photoDrawingDetailFragmentViewModel.currentPhotoDrawingDetail.observe(viewLifecycleOwner){
-            //여기서부터 뷰에 다 붙이면 됨
-            Log.d(TAG, "currentPhotoDrawingDetail -> ${photoDrawingDetailFragmentViewModel.currentPhotoDrawingDetail.value}")
+            //member 정보 조회
+            photoDrawingDetailFragmentViewModel.getCurrentDrawingMember(photoDrawingDetailFragmentViewModel.currentPhotoDrawingDetail.value!!.memberId)
+        }
+
+        photoDrawingDetailFragmentViewModel.currentDrawingMember.observe(viewLifecycleOwner){
+            binding.apply {
+                Glide.with(binding.imageCurrentDrawing)
+                    .load(photoDrawingDetailFragmentViewModel.currentPhotoDrawingDetail.value!!.imageUrl)
+                    .into(binding.imageCurrentDrawing)
+                Glide.with(binding.imageProfileColor)
+                    .load(activityViewModel.waterDropColorList[photoDrawingDetailFragmentViewModel.currentDrawingMember.value!!.profileColor].resourceId)
+                    .into(binding.imageProfileColor)
+                Glide.with(binding.imageProfileFace)
+                    .load(activityViewModel.waterDropFaceList[photoDrawingDetailFragmentViewModel.currentDrawingMember.value!!.profileFace].resourceId)
+                    .into(binding.imageProfileFace)
+                Glide.with(binding.imageProfileAccessory)
+                    .load(activityViewModel.waterDropAccessoryList[photoDrawingDetailFragmentViewModel.currentDrawingMember.value!!.profileAccessory].resourceId)
+                    .into(binding.imageProfileAccessory)
+                textDrawingNickname.text = photoDrawingDetailFragmentViewModel.currentDrawingMember.value!!.nickname
+                textDrawingTitle.text = photoDrawingDetailFragmentViewModel.currentPhotoDrawingDetail.value!!.title
+                textDrawingContent.text = photoDrawingDetailFragmentViewModel.currentPhotoDrawingDetail.value!!.content
+                if (photoDrawingDetailFragmentViewModel.currentPhotoDrawingDetail.value!!.memberLiked) {
+                    imageHeart.setImageResource(R.drawable.icon_selected_heart)
+                } else {
+                    imageHeart.setImageResource(R.drawable.icon_unselected_heart)
+                }
+            }
         }
     }
 

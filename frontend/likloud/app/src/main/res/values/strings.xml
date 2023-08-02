@@ -19,6 +19,8 @@
     <string name="title_drawingList">그림목록</string>
     <string name="ranking_order">인기순</string>
     <string name="recent_order">최신순</string>
+    <string name="view_order">조회순</string>
+    <string name="bookmark_order">즐찾순</string>
 
     <!--home-->
     <string name="home">HOME</string>
