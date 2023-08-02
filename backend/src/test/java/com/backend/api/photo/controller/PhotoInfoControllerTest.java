@@ -1,5 +1,6 @@
 package com.backend.api.photo.controller;
 
+import com.backend.api.common.AccessToken;
 import com.backend.api.common.BaseIntegrationTest;
 
 import com.backend.api.photo.service.PhotoInfoService;
@@ -31,19 +32,24 @@ class PhotoInfoControllerTest extends BaseIntegrationTest {
     @Mock
     private PhotoInfoService photoInfoService;
     
-    String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBQ0NFU1MiLCJpYXQiOjE2OTA5NjQwNzMsImV4cCI6MTY5MDk2NTg3MywiZW1haWwiOiJob2lsZGF5NTMwM0BuYXZlci5jb20iLCJyb2xlIjoiTUVNQkVSIn0.nUJzDqFL0lMlEd7p82ZYUAOOLi1iK0QhmsBmG9N5FjNdi_1VWDPzK30mwsXWs_5_Y1Sx1quz_NZgajLd2GMDPg";
+    private AccessToken accessToken;
 
+//    String token = accessToken.token;
+    private String token = AccessToken.getToken();
+//    String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBQ0NFU1MiLCJpYXQiOjE2OTA5NjYyNDksImV4cCI6MTY5MDk2ODA0OSwiZW1haWwiOiJob2lsZGF5NTMwM0BuYXZlci5jb20iLCJyb2xlIjoiTUVNQkVSIn0.-Bz9EN1uubisajaCATX7ds7gR5_h5a5ht5ljVMk2QLkrOV_P4fmuFSLBU6bxVEofG7VxRSGgltxdXi7Fy2SNuQ";
 
     @Test
     @Rollback
     void searchAllDesc() throws Exception {
         //given
+//        System.out.println("테스트 " + tokens);
         //when
         try {
             ResultActions resultActions = mvc.perform(get("/api/photo/new")
                             .accept(MediaType.APPLICATION_JSON)
                             .header("Authorization", "Bearer " + token)) // "Authorization" 헤더에 토큰 추가
                     .andDo(MockMvcResultHandlers.print());
+
 
             //then
             resultActions
@@ -123,7 +129,6 @@ class PhotoInfoControllerTest extends BaseIntegrationTest {
         //given
         Long photoId = 1L;
 //        System.out.println("createPhotoAndGetId " + photoId);
-
         //when
         try{
         ResultActions resultActions = mvc.perform(delete("/api/photo/delete/{photoId}", photoId)
