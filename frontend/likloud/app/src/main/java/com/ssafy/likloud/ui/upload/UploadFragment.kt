@@ -53,7 +53,7 @@ class UploadFragment :
     BaseFragment<FragmentUploadBinding>(FragmentUploadBinding::bind, R.layout.fragment_upload) {
 
     private val uploadFragmentViewModel: UploadFragmentViewModel by viewModels()
-    private val mainActivityViewModel : MainActivityViewModel by activityViewModels()
+    private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var mainActivity: MainActivity
     private lateinit var aiCheckingDialog: AICheckingDialog
     lateinit var currentPhotoPath: String
@@ -78,11 +78,12 @@ class UploadFragment :
                 Log.d(TAG, "onViewCreated: observed!")
                 if (it == true) {
                     aiCheckingDialog.dismiss()
-                    showCustomToast("축하합니다! 구름이네요! 다음 화면으로 넘어갈게요!")
+                    showCustomToast("축하합니다! 구름이네요!")
                     uploadFragmentViewModel.uploadPhotoUrl.value?.let { url ->
-                        mainActivityViewModel.setUploadingPhotoUrl(
-                            url
-                        )
+                        mainActivityViewModel.setUploadingPhotoUrl(url)
+                    }
+                    uploadFragmentViewModel.uploadPhotoId.value?.let { id ->
+                        mainActivityViewModel.setUploadingPhotoId(id)
                     }
                     findNavController().navigate(R.id.action_homeFragment_to_afterCloudValidFragment)
 

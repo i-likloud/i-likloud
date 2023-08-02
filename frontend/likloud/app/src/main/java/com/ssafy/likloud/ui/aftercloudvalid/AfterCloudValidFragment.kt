@@ -5,10 +5,12 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.view.doOnLayout
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.ssafy.likloud.MainActivity
@@ -20,10 +22,14 @@ import com.ssafy.likloud.ui.home.HomeFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "AfterCloudValidFragment_싸피"
-@AndroidEntryPoint
-class AfterCloudValidFragment : BaseFragment<FragmentAfterCloudValidBinding>(FragmentAfterCloudValidBinding ::bind, R.layout.fragment_after_cloud_valid ) {
 
-    private val mainActivityViewModel : MainActivityViewModel by activityViewModels()
+@AndroidEntryPoint
+class AfterCloudValidFragment : BaseFragment<FragmentAfterCloudValidBinding>(
+    FragmentAfterCloudValidBinding::bind,
+    R.layout.fragment_after_cloud_valid
+) {
+
+    private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var navController: NavController
     private lateinit var mActivity: MainActivity
 
@@ -43,12 +49,23 @@ class AfterCloudValidFragment : BaseFragment<FragmentAfterCloudValidBinding>(Fra
      * 클릭 리스너를 init합니다.
      */
     override fun initListener() {
+        binding.buttonUploadOnly.clicked {
+            Log.d(TAG, "initListener: buttononly")
+            navController.navigate(R.id.action_afterCloudValidFragment_to_photoListFragment)
+        }
+
+        binding.buttonDrawInstantly.clicked {
+            // 그림판으로 이동
+            Log.d(TAG, "initView: draw")
+            navController.navigate(R.id.action_afterCloudValidFragment_to_drawingPadFragment)
+        }
+
     }
 
-    fun initView(){
+    fun initView() {
         binding.buttonUploadOnly.setText(getString(R.string.upload_only))
         binding.buttonDrawInstantly.setText(getString(R.string.draw_instantly))
-        initImageMaxWidth()
+
 
         Log.d(TAG, "initView: ${mainActivityViewModel.uploadingPhotoUrl.value}")
 
@@ -59,17 +76,22 @@ class AfterCloudValidFragment : BaseFragment<FragmentAfterCloudValidBinding>(Fra
         }
     }
 
+    /**
+     * maxWidth 설정 함수... 잘안됨
+     */
     private fun initImageMaxWidth() {
         val screenWidth = Resources.getSystem().displayMetrics.widthPixels
-        val maxWidth = (screenWidth * 0.3).toInt()
+        val maxWidth = 1
 
-       binding.layoutCardview.apply {
-           val layoutParams = this.layoutParams
-           if(layoutParams.width>maxWidth){
-               layoutParams.width = maxWidth
-           }
-           this.layoutParams = layoutParams
-       }
+        binding.imageChosenPhoto.apply {
+            this.doOnLayout {
+                val layoutParams = this.layoutParams
+                if (layoutParams.width > maxWidth) {
+                    layoutParams.width = maxWidth
+                }
+                this.layoutParams = layoutParams
+            }
+
+        }
     }
-
 }
