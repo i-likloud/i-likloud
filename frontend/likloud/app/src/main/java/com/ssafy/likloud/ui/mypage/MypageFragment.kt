@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -63,6 +64,13 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
             mActivity.changeProfileLayoutVisible()
             findNavController().popBackStack()
         }
+        // 안드로이드 뒤로가기 버튼 눌렀을 때
+        mActivity.onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                mActivity.changeProfileLayoutVisible()
+                findNavController().popBackStack()
+            }
+        })
     }
 
     private fun initAnimation() {
