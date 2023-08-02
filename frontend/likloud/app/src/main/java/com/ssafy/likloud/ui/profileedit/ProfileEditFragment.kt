@@ -1,4 +1,4 @@
-package com.ssafy.likloud.ui.profile
+package com.ssafy.likloud.ui.profileedit
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
@@ -21,7 +21,11 @@ import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
 import com.ssafy.likloud.data.model.request.LoginAdditionalRequest
+import com.ssafy.likloud.data.model.request.ProfileEditRequest
+import com.ssafy.likloud.data.model.response.AccessoryResponse
 import com.ssafy.likloud.databinding.FragmentProfileBinding
+import com.ssafy.likloud.databinding.FragmentProfileEditBinding
+import com.ssafy.likloud.ui.profile.ProfileListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,14 +33,15 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::bind, R.layout.fragment_profile) {
+class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>(FragmentProfileEditBinding::bind, R.layout.fragment_profile_edit) {
 
-    private val profileFragmentViewModel : ProfileFragmentViewModel by viewModels()
+    private val profileEditFragmentViewModel : ProfileEditFragmentViewModel by viewModels()
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var mActivity: MainActivity
 
     private var selectedWaterDropColor = 0
     private var selectedWaterDropFace = 0
+    private var selectedWaterDropAccessory = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -54,35 +59,60 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initObserver()
+        init()
+        initView()
         initAnimation()
         initListener()
-        initObserver()
         initAdapter()
     }
 
+    private fun init() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            profileEditFragmentViewModel.getMyAccessoryList()
+        }
+    }
+
+    private fun initView() {
+        val profileColor = mainActivityViewModel.waterDropColorList[mainActivityViewModel.memberInfo.value!!.profileColor].resourceId
+        val profileFace = mainActivityViewModel.waterDropFaceList[mainActivityViewModel.memberInfo.value!!.profileFace].resourceId
+        val profileAccessory = mainActivityViewModel.waterDropAccessoryList[mainActivityViewModel.memberInfo.value!!.profileAccessory].resourceId
+        selectedWaterDropColor = mainActivityViewModel.memberInfo.value!!.profileColor
+        selectedWaterDropFace = mainActivityViewModel.memberInfo.value!!.profileFace
+        selectedWaterDropAccessory = mainActivityViewModel.memberInfo.value!!.profileAccessory
+
+        setProfileImages(profileColor, profileFace, profileAccessory)
+        binding.edittextNickname.setText(mainActivityViewModel.memberInfo.value!!.nickname)
+    }
     /**
      * 옵저버를 init합니다
      */
     private fun initObserver() {
-
+        profileEditFragmentViewModel.myAccessoryList.observe(viewLifecycleOwner) {
+            val accessoryListAdapter = AccessoryListAdapter()
+            accessoryListAdapter.submitList(it)
+            binding.recyclerviewAccessory.layoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false)
+            binding.recyclerviewAccessory.adapter = accessoryListAdapter
+            accessoryListAdapter.itemClickListener = object: AccessoryListAdapter.ItemClickListener {
+                override fun onClick(view: View, position: Int, data: AccessoryResponse) {
+                    changeWaterDropAccessory(view, mainActivityViewModel.waterDropAccessoryList[changeAccessoryNameToInt(data.accessoryName)].resourceId)
+                    selectedWaterDropAccessory = changeAccessoryNameToInt(data.accessoryName)
+                }
+            }
+        }
     }
 
     override fun initListener() {
         binding.buttonChooseDone.setOnClickListener {
-            val nickname = binding.edittextNickname.text.toString()
-
-            if (nickname.isEmpty()) {
-                showCustomToast("닉네임을 입력해주세요!")
-            } else {
-                // 추가 정보 선택 완료시 진짜 키 받아오는 로직
-                viewLifecycleOwner.lifecycleScope.launch {
-                    //중단 함수로 만들었음. patch 메소드가 통신이 끝나야 다음 메소드 실행
-                    profileFragmentViewModel.patchAdditionalInfo(LoginAdditionalRequest(nickname, selectedWaterDropColor, selectedWaterDropFace, 0))
-                    //비동기로 메인액티비티에 멤버정보 불러온다.
-                    mainActivityViewModel.getMemberInfo(sharedPreferences.getString(USER_EMAIL).toString())
-                }
-                findNavController().navigate(R.id.action_profileFragment_to_homeFragment)
+            // 프로필 수정
+            viewLifecycleOwner.lifecycleScope.launch {
+                mainActivityViewModel.editProflie(ProfileEditRequest(selectedWaterDropColor, selectedWaterDropFace, selectedWaterDropAccessory))
             }
+            mActivity.onBackPressed()
+        }
+
+        binding.buttonBack.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 
@@ -116,7 +146,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
      * 애니메이션을 init합니다.
      */
     private fun initAnimation() {
-        binding.layoutSelectedCharacter.animation = AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down)
+        binding.layoutMyCharacter.animation = AnimationUtils.loadAnimation(mActivity, R.anim.rotation)
     }
 
     /**
@@ -130,7 +160,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
 //        nowProfileImage.scaleY = 0.1f
 
 //        makeAnimationScale(nowProfileImage, 1f)
-        makeAnimationSwingY(nowProfileFace, 20f)
+//        makeAnimationSwingY(nowProfileFace, 20f)
         makeAnimationSpringY(view, -20f)
     }
 
@@ -191,9 +221,40 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         binding.imageColorNow.setImageResource(colorDrawable)
         clickedAnimation(view)
     }
-    private fun changeWaterDropFace(view: View, colorDrawable: Int) {
-        binding.imageFaceNow.setImageResource(colorDrawable)
+    private fun changeWaterDropFace(view: View, faceDrawable: Int) {
+        binding.imageFaceNow.setImageResource(faceDrawable)
         clickedAnimation(view)
+    }
+    private fun changeWaterDropAccessory(view: View, accessoryDrawable: Int) {
+        binding.imageAccessoryNow.setImageResource(accessoryDrawable)
+        clickedAnimation(view)
+    }
+
+    private fun setProfileImages(color: Int, face: Int, accessory: Int) {
+        binding.imageColorNow.setImageResource(color)
+        binding.imageFaceNow.setImageResource(face)
+        binding.imageAccessoryNow.setImageResource(accessory)
+    }
+
+    private fun changeAccessoryNameToInt(name: String): Int {
+        when(name) {
+            "duck_mouse" -> {
+                return 1
+            }
+            "shine" -> {
+                return 2
+            }
+            "mustache" -> {
+                return 3
+            }
+            "sunglass" -> {
+                return 4
+            }
+            "umbrella" -> {
+                return 5
+            }
+        }
+        return 0
     }
 
     override fun onPause() {

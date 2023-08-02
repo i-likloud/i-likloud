@@ -15,7 +15,5 @@ import javax.inject.Inject
 class MypageFragmentViewModel @Inject constructor(
     private val baseRepository: BaseRepository
 ) : ViewModel() {
-    private val _profileFace = MutableLiveData<Int>()
-    val profileFace: LiveData<Int>
-        get() = _profileFace
+
 }

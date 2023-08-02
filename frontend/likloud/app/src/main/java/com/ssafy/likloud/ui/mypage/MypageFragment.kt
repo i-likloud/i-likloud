@@ -32,6 +32,13 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         mActivity = context as MainActivity
     }
 
+    override fun onResume() {
+        super.onResume()
+        val profileColor = mainActivityViewModel.waterDropColorList[mainActivityViewModel.memberInfo.value!!.profileColor].resourceId
+        val profileFace = mainActivityViewModel.waterDropFaceList[mainActivityViewModel.memberInfo.value!!.profileFace].resourceId
+        val profileAccessory = mainActivityViewModel.waterDropAccessoryList[mainActivityViewModel.memberInfo.value!!.profileAccessory].resourceId
+        setProfileImages(profileColor, profileFace, profileAccessory)
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -50,10 +57,6 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
 
     private fun initView() {
         mActivity.changeProfileLayoutInvisible()
-        val profileColor = mainActivityViewModel.waterDropColorList[mainActivityViewModel.memberInfo.value!!.profileColor].resourceId
-        val profileFace = mainActivityViewModel.waterDropFaceList[mainActivityViewModel.memberInfo.value!!.profileFace].resourceId
-        val profileAccessory = mainActivityViewModel.waterDropAccessoryList[mainActivityViewModel.memberInfo.value!!.profileAccessory].resourceId
-        setProfileImages(profileColor, profileFace, profileAccessory)
         binding.textviewNickname.text = mainActivityViewModel.memberInfo.value!!.nickname
         binding.textviewTicketCnt.text = mainActivityViewModel.memberInfo.value!!.goldCoin.toString()
         binding.textviewStampCnt.text = mainActivityViewModel.memberInfo.value!!.silverCoin.toString()
@@ -71,6 +74,9 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
                 findNavController().popBackStack()
             }
         })
+        binding.buttonEdit.setOnClickListener {
+            findNavController().navigate(R.id.action_mypageFragment_to_profileEditFragment)
+        }
     }
 
     private fun initAnimation() {

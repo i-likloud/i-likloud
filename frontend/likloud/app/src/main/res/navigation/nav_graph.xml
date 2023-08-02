@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/drawingPadFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/drawingListFragment"
@@ -133,7 +133,15 @@
     <fragment
         android:id="@+id/mypageFragment"
         android:name="com.ssafy.likloud.ui.mypage.MypageFragment"
-        android:label="MypageFragment" />
+        android:label="MypageFragment" >
+        <action
+            android:id="@+id/action_mypageFragment_to_profileEditFragment"
+            app:destination="@id/profileEditFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"/>/>
+    </fragment>
 
     <fragment
         android:id="@+id/drawingPadFragment"
@@ -150,5 +158,9 @@
             app:argType="integer"/>
 
     </fragment>
+    <fragment
+        android:id="@+id/profileEditFragment"
+        android:name="com.ssafy.likloud.ui.profileedit.ProfileEditFragment"
+        android:label="ProfileEditFragment" />
 
 </navigation>

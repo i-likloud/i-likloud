@@ -18,6 +18,8 @@ import com.ssafy.likloud.data.model.SampleDto
 import com.ssafy.likloud.data.model.UserDto
 import com.ssafy.likloud.data.model.request.LoginAdditionalRequest
 import com.ssafy.likloud.data.model.request.MemberInfoRequest
+import com.ssafy.likloud.data.model.request.ProfileEditRequest
+import com.ssafy.likloud.data.model.response.AccessoryResponse
 import com.ssafy.likloud.data.model.response.MemberInfoResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -87,5 +89,13 @@ class BaseRepositoryImpl @Inject constructor(
 
     override suspend fun getPhotoDrawingList(photoId: Int): NetworkResult<MutableList<DrawingListDto>> {
         return handleApi { baseAPIService.getPhotoDrawingList(photoId).body()!! }
+    }
+
+    override suspend fun getMyAccessoryList(memberInfoRequest: MemberInfoRequest): NetworkResult<MutableList<AccessoryResponse>> {
+        return handleApi { baseAPIService.getMyAccessoryList(memberInfoRequest).body()!! }
+    }
+
+    override suspend fun editMyProfile(profileEditRequest: ProfileEditRequest): NetworkResult<MemberInfoResponse> {
+        return handleApi { baseAPIService.editMyProfile(profileEditRequest).body()!! }
     }
 }
