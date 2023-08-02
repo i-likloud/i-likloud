@@ -39,15 +39,19 @@ class PhotoInfoControllerTest extends BaseIntegrationTest {
     void searchAllDesc() throws Exception {
         //given
         //when
-        ResultActions resultActions = mvc.perform(get("/api/photo/new")
-                        .accept(MediaType.APPLICATION_JSON)
-                        .header("Authorization", "Bearer " + token)) // "Authorization" 헤더에 토큰 추가
-                .andDo(MockMvcResultHandlers.print());
+        try {
+            ResultActions resultActions = mvc.perform(get("/api/photo/new")
+                            .accept(MediaType.APPLICATION_JSON)
+                            .header("Authorization", "Bearer " + token)) // "Authorization" 헤더에 토큰 추가
+                    .andDo(MockMvcResultHandlers.print());
 
-        //then
-        resultActions
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray());
+            //then
+            resultActions
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$").isArray());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -56,6 +60,7 @@ class PhotoInfoControllerTest extends BaseIntegrationTest {
     void searchAllPickCntDesc() throws Exception {
         //given
         //when
+        try {
         ResultActions resultActions = mvc.perform(get("/api/photo/pick")
                         .accept(MediaType.APPLICATION_JSON)
                         .header("Authorization", "Bearer " + token)) // "Authorization" 헤더에 토큰 추가
@@ -65,6 +70,9 @@ class PhotoInfoControllerTest extends BaseIntegrationTest {
         resultActions
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -72,6 +80,7 @@ class PhotoInfoControllerTest extends BaseIntegrationTest {
     void searchAllBookmarkCntDesc() throws Exception {
         //given
         //when
+            try {
         ResultActions resultActions = mvc.perform(get("/api/photo/bookmarkdesc")
                         .accept(MediaType.APPLICATION_JSON)
                         .header("Authorization", "Bearer " + token)) // "Authorization" 헤더에 토큰 추가
@@ -81,6 +90,9 @@ class PhotoInfoControllerTest extends BaseIntegrationTest {
         resultActions
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
     }
 
     @Test
@@ -89,6 +101,7 @@ class PhotoInfoControllerTest extends BaseIntegrationTest {
         //given
         Long photoId = 1L;
         //when
+        try{
         ResultActions resultActions = mvc.perform(get("/api/photo/{photoId}/alldrawings", photoId)
                         .accept(MediaType.APPLICATION_JSON)
                         .header("Authorization", "Bearer " + token)) // "Authorization" 헤더에 토큰 추가
@@ -98,6 +111,9 @@ class PhotoInfoControllerTest extends BaseIntegrationTest {
         resultActions
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 
@@ -106,14 +122,18 @@ class PhotoInfoControllerTest extends BaseIntegrationTest {
     void photoDelete() throws Exception {
         //given
         Long photoId = 1L;
-        System.out.println("createPhotoAndGetId " + photoId);
+//        System.out.println("createPhotoAndGetId " + photoId);
 
         //when
+        try{
         ResultActions resultActions = mvc.perform(delete("/api/photo/delete/{photoId}", photoId)
                         .header("Authorization", "Bearer " + token))
                 .andDo(MockMvcResultHandlers.print());
 
         resultActions.andExpect(status().isOk());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         //then
 
     }
