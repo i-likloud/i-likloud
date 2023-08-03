@@ -59,5 +59,8 @@
     <string name="fail_game">Fail!</string>
     <string name="go_home">홈으로 가기</string>
     <string name="re_game">다시 하기</string>
+    <string name="drawing_title">그림에 제목을 지어주세요!</string>
+    <string name="drawing_description">그림에 대해 설명해주세요!</string>
+    <string name="title_save_drawing">그림 저장하기</string>
 
 </resources>

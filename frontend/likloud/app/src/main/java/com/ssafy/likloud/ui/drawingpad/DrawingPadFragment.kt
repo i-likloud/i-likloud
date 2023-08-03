@@ -156,7 +156,8 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
 
         binding.buttonSaveDrawing.clicked {
             bmp = viewToBitmap(binding.canvasDrawingpad)
-            drawingPadFragmentViewModel.setDrawingMultipart(
+            mainActivityViewModel.setDrawingBitmap(bmp!!)
+            mainActivityViewModel.setDrawingMultipart(
                 createMultipartFromUri(
                     requireContext(),
                     Uri.parse(
@@ -168,7 +169,6 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
                     )
                 )!!
             )
-            Log.d(TAG, "initListener: ${drawingPadFragmentViewModel.drawingMultipartBody}")
         }
 
         binding.seekbarPen.apply {

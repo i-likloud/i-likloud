@@ -1,6 +1,7 @@
 package com.ssafy.likloud
 
 import android.content.SharedPreferences
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,6 +17,7 @@ import com.ssafy.likloud.data.model.response.MemberInfoResponse
 import com.ssafy.likloud.data.repository.BaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 private const val TAG = "MainActivityViewModel_싸피"
@@ -62,6 +64,24 @@ class MainActivityViewModel @Inject constructor(
     private val _memberInfo = MutableLiveData<MemberInfoResponse>()
     val memberInfo: LiveData<MemberInfoResponse>
         get() = _memberInfo
+
+    private val _drawingBitmap = MutableLiveData<Bitmap>()
+    val drawingBitmap : LiveData<Bitmap> get() = _drawingBitmap
+
+    private val _drawingMultipartBody = MutableLiveData<MultipartBody.Part>()
+    val drawingMultipartBody: LiveData<MultipartBody.Part> get() = _drawingMultipartBody
+
+    // 최종적으로 업로드 결정된 사진url
+    private val _uploadingPhotoUrl = MutableLiveData<String>()
+    val uploadingPhotoUrl : LiveData<String>
+        get()  = _uploadingPhotoUrl
+
+
+    private val _uploadingPhotoId = MutableLiveData<Int>()
+    val uploadingPhotoId : LiveData<Int>
+        get()  = _uploadingPhotoId
+
+
     /**
      * 멤버 정보를 가져옵니다.
      */
@@ -91,16 +111,6 @@ class MainActivityViewModel @Inject constructor(
         }
     }
 
-    // 최종적으로 업로드 결정된 사진url
-    private val _uploadingPhotoUrl = MutableLiveData<String>()
-    val uploadingPhotoUrl : LiveData<String>
-    get()  = _uploadingPhotoUrl
-
-
-    private val _uploadingPhotoId = MutableLiveData<Int>()
-    val uploadingPhotoId : LiveData<Int>
-        get()  = _uploadingPhotoId
-
     fun setProfileImage(color: Int, face: Int) {
         _profileColor.value = color
         _profileFace.value = face
@@ -112,6 +122,14 @@ class MainActivityViewModel @Inject constructor(
 
     fun setUploadingPhotoId(id : Int){
         _uploadingPhotoId.value = id
+    }
+
+    fun setDrawingMultipart(multipartBody: MultipartBody.Part) {
+        _drawingMultipartBody.value = multipartBody
+    }
+
+    fun setDrawingBitmap(bitmap : Bitmap){
+        _drawingBitmap.value = bitmap
     }
 
 

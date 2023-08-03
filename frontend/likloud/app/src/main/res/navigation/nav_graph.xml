@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/drawingFormFragment">
 
     <fragment
         android:id="@+id/drawingListFragment"
@@ -179,5 +179,10 @@
             android:id="@+id/action_gameFragment_self"
             app:destination="@id/gameFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/drawingFormFragment"
+        android:name="com.ssafy.likloud.ui.drawingform.DrawingFormFragment"
+        android:label="fragment_drawing_form"
+        tools:layout="@layout/fragment_drawing_form" />
 
 </navigation>
