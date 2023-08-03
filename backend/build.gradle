@@ -27,6 +27,11 @@ ext {
 	set('springCloudVersion', "2021.0.7")
 }
 
+test {
+	useJUnitPlatform()
+}
+
+
 dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
@@ -71,6 +76,8 @@ dependencies {
 
 	//firebase
 	implementation 'com.google.firebase:firebase-admin:9.1.1'
+
+
 }
 
 tasks.named('test') {
