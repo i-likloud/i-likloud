@@ -1,4 +1,4 @@
-package com.ssafy.likloud.ui.photolist
+package com.ssafy.likloud.ui.photo
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
