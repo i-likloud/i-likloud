@@ -28,6 +28,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Singleton
 
 private const val TAG = "차선호"
 @AndroidEntryPoint
@@ -108,6 +109,7 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
             }
         }
     }
+
 
     private fun init(){
 

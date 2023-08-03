@@ -102,4 +102,32 @@ class BaseRepositoryImpl @Inject constructor(
     override suspend fun plusSilver(): NetworkResult<String> {
         return handleApi { baseAPIService.plusSliver().body()!! }
     }
+
+    override suspend fun getMyDrawingListDtoList(): NetworkResult<MutableList<DrawingListDto>> {
+        return handleApi { baseAPIService.getMyDrawingListDtoList().body()!! }
+    }
+
+    override suspend fun getLikeDrawingListDtoList(): NetworkResult<MutableList<DrawingListDto>> {
+        return handleApi { baseAPIService.getLikeDrawingListDtoList().body()!! }
+    }
+
+    override suspend fun getMyPhotoListDtoList(): NetworkResult<MutableList<PhotoListDto>> {
+        return handleApi { baseAPIService.getMyPhotoListDtoList().body()!! }
+    }
+
+    override suspend fun getBookmarkPhotoListDtoList(): NetworkResult<MutableList<PhotoListDto>> {
+        return handleApi { baseAPIService.getBookmarkPhotoListDtoList().body()!! }
+    }
+
+    override suspend fun getPhotoDetail(photoId: Int): NetworkResult<PhotoListDto> {
+        return handleApi { baseAPIService.getPhotoDetail(photoId).body()!! }
+    }
+
+    override suspend fun changeDrawingLike(drawingId: Int): NetworkResult<String> {
+        return handleApi { baseAPIService.changeDrawingLike(drawingId).body()!! }
+    }
+
+    override suspend fun changePhotoBookmark(photoId: Int): NetworkResult<String> {
+        return handleApi { baseAPIService.changePhotoBookmark(photoId).body()!! }
+    }
 }

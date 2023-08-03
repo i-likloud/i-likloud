@@ -1,4 +1,4 @@
-package com.ssafy.likloud.ui.drawinglist
+package com.ssafy.likloud.ui.drawing
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -51,38 +51,79 @@ class DrawingListFragmentViewModel @Inject constructor(
         }
     }
 
+    /**
+     * 조회순 조회
+     */
+    fun getViewOrderDrawingListDtoLit(){
+        viewModelScope.launch {
+            // api 호출해서 _rankingOrderDrawingDtoList에 넣어줘라
+            baseRepository.getDrawingList("viewCount").onSuccess {
+                _currentDrawingListDtoList.value = it
+            }
+        }
+    }
 
 
 
     /////////////////////////////////////////////////////////   선택된 drawing  ////////////////////////////////////////////////////////////////////////
 
-    private var _selectedDrawingDetailDto = MutableLiveData<DrawingDetailDto>()
-    val selectedDrawingDetailDto: LiveData<DrawingDetailDto>
-        get() = _selectedDrawingDetailDto
+    private var _currentDrawingDetailDto = MutableLiveData<DrawingDetailDto>()
+    val currentDrawingDetailDto: LiveData<DrawingDetailDto>
+        get() = _currentDrawingDetailDto
     fun getSelectedDrawingDetailDto(dto: DrawingListDto){
         //여기서 api호출해서 받아라
         viewModelScope.launch {
             baseRepository.getDrawingDetail(dto.drawingId).onSuccess {
-                _selectedDrawingDetailDto.value = it
+                _currentDrawingDetailDto.value = it
             }
         }
-    }
-    fun changeSelectedDrawingDetailDtoMemberLiked(){
-        _selectedDrawingDetailDto.value!!.memberLiked = !_selectedDrawingDetailDto.value!!.memberLiked
-        // api 호출
     }
 
     ///////////////////////////////////////////////////////// 선택된 그림의 member ////////////////////////////////////////////////////////////
 
-    private var _selectedDrawingMember = MutableLiveData<MemberProfileDto>()
-    val selectedDrawingMember: LiveData<MemberProfileDto>
-        get() = _selectedDrawingMember
-    fun getSelectedDrawingMember(memberId: Int){
+    private var _currentDrawingMember = MutableLiveData<MemberProfileDto>()
+    val currentDrawingMember: LiveData<MemberProfileDto>
+        get() = _currentDrawingMember
+    fun getCurrentDrawingMember(memberId: Int){
         //여기서 api호출해서 받아라
         viewModelScope.launch {
             baseRepository.getMemberProfile(memberId).onSuccess {
-                _selectedDrawingMember.value = it
+                _currentDrawingMember.value = it
             }
+        }
+    }
+
+    ///////////////////////////////////////////////////// 좋아요 //////////////////////////////////
+    private val _isLiked = MutableLiveData<Boolean>()
+    val isLiked: LiveData<Boolean>
+        get() = _isLiked
+    fun setIsLiked(){
+        _isLiked.value = _currentDrawingDetailDto.value!!.memberLiked
+    }
+    fun changeIsLiked(){
+        // api 호출
+        viewModelScope.launch {
+            baseRepository.changeDrawingLike(_currentDrawingDetailDto.value!!.drawingId)
+            _isLiked.value = !_isLiked.value!!
+        }
+    }
+
+    private val _likeCount = MutableLiveData<Int>()
+    val likeCount: LiveData<Int>
+        get() = _likeCount
+    fun setLikeCount(){
+//        _likeCount.value = _currentDrawingDetailDto.value!!.likesCount
+        if(_isLiked.value!!){
+            _likeCount.value = _currentDrawingDetailDto.value!!.likesCount + 1
+        }else{
+            _likeCount.value = _currentDrawingDetailDto.value!!.likesCount
+        }
+    }
+    fun changeLikeCount(){
+        if(_isLiked.value!!){
+            _likeCount.value = _currentDrawingDetailDto.value!!.likesCount + 1
+        }else{
+            _likeCount.value = _currentDrawingDetailDto.value!!.likesCount
         }
     }
 

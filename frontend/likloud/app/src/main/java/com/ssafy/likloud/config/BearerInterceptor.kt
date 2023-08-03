@@ -34,10 +34,10 @@ class BearerInterceptor: Interceptor {
 
 
         if(response.code == 401) {
-            Log.d(TAG, "intercept code: ${response.code}")
-            Log.d(TAG, "intercept: 토큰이 만료되어서 다시 보내용")
+                Log.d(TAG, "intercept code: ${response.code}")
+                Log.d(TAG, "intercept: 토큰이 만료되어서 다시 보내용")
 
-            runBlocking {
+                runBlocking {
                 //토큰 갱신 api 호출
 
                 Log.d(TAG, "intercept: ${sharedPreferences.getString(X_REFRESH_TOKEN)}")

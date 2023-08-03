@@ -1,4 +1,4 @@
-package com.ssafy.likloud.ui.drawinglist
+package com.ssafy.likloud.ui.drawing
 
 import android.content.Context
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -56,29 +57,39 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
     override fun initListener(){
 
         binding.apply {
-            //랭킹순 눌렀을 때
-            buttonRankingOrder.setOnClickListener{
-                drawingListFragmentViewModel.getRankingOrderDrawingListDtoList()
-            }
 
             //최신순 눌렀을 때
             buttonRecentOrder.setOnClickListener {
                 drawingListFragmentViewModel.getRecentOrderDrawingListDtoList()
             }
+            //랭킹순 눌렀을 때
+            buttonRankingOrder.setOnClickListener{
+                drawingListFragmentViewModel.getRankingOrderDrawingListDtoList()
+            }
+
+            //조회순 눌렀을 때
+            buttonViewOrder.setOnClickListener {
+                drawingListFragmentViewModel.getViewOrderDrawingListDtoLit()
+            }
+
 
             imageHeart.setOnClickListener {
-                drawingListFragmentViewModel.changeSelectedDrawingDetailDtoMemberLiked()
-                if(drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.memberLiked){
-                    binding.imageHeart.setImageResource(R.drawable.icon_selected_heart)
-                }else{
-                    binding.imageHeart.setImageResource(R.drawable.icon_unselected_heart)
-                }
+                drawingListFragmentViewModel.changeIsLiked()
             }
 
             buttonBack.setOnClickListener {
                 findNavController().popBackStack()
             }
         }
+        // 안드로이드 뒤로가기 버튼 눌렀을 때
+        mainActivity.onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().popBackStack()
+                }
+            }
+        )
     }
 
     private fun initObserver(){
@@ -89,32 +100,47 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
             drawingListFragmentViewModel.getSelectedDrawingDetailDto(drawingListFragmentViewModel.currentDrawingListDtoList.value!![0])
         }
 
-        drawingListFragmentViewModel.selectedDrawingDetailDto.observe(viewLifecycleOwner){
-            Log.d(TAG, "selectedDrawing : ${drawingListFragmentViewModel.selectedDrawingDetailDto.value} ")
-            drawingListFragmentViewModel.getSelectedDrawingMember(drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.memberId)
+        drawingListFragmentViewModel.currentDrawingDetailDto.observe(viewLifecycleOwner){
+            Log.d(TAG, "selectedDrawing : ${drawingListFragmentViewModel.currentDrawingDetailDto.value} ")
+            drawingListFragmentViewModel.getCurrentDrawingMember(it.memberId)
+            drawingListFragmentViewModel.setIsLiked()
+            drawingListFragmentViewModel.setLikeCount()
+//            drawingListFragmentViewModel.changeLikeCount()
         }
 
-        drawingListFragmentViewModel.selectedDrawingMember.observe(viewLifecycleOwner){
-            Log.d(TAG, "selectedDrawingMember : ${drawingListFragmentViewModel.selectedDrawingMember.value}")
+        drawingListFragmentViewModel.currentDrawingMember.observe(viewLifecycleOwner){
             binding.apply {
                 Glide.with(binding.imageProfileColor)
-                    .load(activityViewModel.waterDropColorList[drawingListFragmentViewModel.selectedDrawingMember.value!!.profileColor].resourceId)
+                    .load(activityViewModel.waterDropColorList[it.profileColor].resourceId)
                     .into(binding.imageProfileColor)
                 Glide.with(binding.imageProfileFace)
-                    .load(activityViewModel.waterDropFaceList[drawingListFragmentViewModel.selectedDrawingMember.value!!.profileFace].resourceId)
+                    .load(activityViewModel.waterDropFaceList[it.profileFace].resourceId)
                     .into(binding.imageProfileFace)
-//                Glide.with(binding.imageProfileAccessory)
-//                    .load(drawingListFragmentViewModel.selectedDrawingMember.value!!.profileAccessory)
-//                    .into(binding.imageProfileAccessory)
-                textDrawingNickname.text = drawingListFragmentViewModel.selectedDrawingMember.value!!.nickname
-                textDrawingTitle.text = drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.title
-                textDrawingContent.text = drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.content
-                if (drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.memberLiked) {
-                    imageHeart.setImageResource(R.drawable.icon_selected_heart)
-                } else {
-                    imageHeart.setImageResource(R.drawable.icon_unselected_heart)
-                }
+                Glide.with(binding.imageProfileAccessory)
+                    .load(activityViewModel.waterDropAccessoryList[it.profileAccessory].resourceId)
+                    .into(binding.imageProfileAccessory)
+                textDrawingNickname.text = it.nickname
+                textDrawingTitle.text = drawingListFragmentViewModel.currentDrawingDetailDto.value!!.title
+                textDrawingContent.text = drawingListFragmentViewModel.currentDrawingDetailDto.value!!.content
+                textLikeCount.text = drawingListFragmentViewModel.currentDrawingDetailDto.value!!.likesCount.toString()
+                textViewCount.text = drawingListFragmentViewModel.currentDrawingDetailDto.value!!.viewCount.toString()
             }
+        }
+
+        drawingListFragmentViewModel.isLiked.observe(viewLifecycleOwner){
+            Log.d(TAG, "current isLiked: $it")
+            if(it){
+                binding.imageHeart.setImageResource(R.drawable.icon_selected_heart)
+            }else{
+                binding.imageHeart.setImageResource(R.drawable.icon_unselected_heart)
+            }
+//            drawingListFragmentViewModel.setLikeCount()
+//            drawingListFragmentViewModel.changeLikeCount()
+        }
+
+        drawingListFragmentViewModel.likeCount.observe(viewLifecycleOwner){
+            Log.d(TAG, "current like : ${drawingListFragmentViewModel.likeCount.value} / ${drawingListFragmentViewModel.currentDrawingDetailDto.value!!.likesCount}")
+            binding.textLikeCount.text = drawingListFragmentViewModel.likeCount.value.toString()
         }
 
         drawingListFragmentViewModel.selectedDrawingCommentList.observe(viewLifecycleOwner) {
@@ -135,7 +161,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
                 override fun onItemSelected(position: Int) {
                     //여기서 selectedDrawing을 가지고 DrawingDetailDto 받아라
                     drawingListFragmentViewModel.getSelectedDrawingDetailDto(drawingListAdapter.list[position])
-                    Log.d(TAG, "SelectedDrawingDetail : ${drawingListFragmentViewModel.selectedDrawingDetailDto.value} ")
+                    Log.d(TAG, "SelectedDrawingDetail : ${drawingListFragmentViewModel.currentDrawingDetailDto.value} ")
                 }
             })
         }

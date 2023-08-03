@@ -1,5 +1,6 @@
 package com.ssafy.likloud.data.api
 
+import android.provider.ContactsContract.Contacts.Photo
 import com.ssafy.likloud.base.BaseResponse
 import com.ssafy.likloud.data.model.DrawingDetailDto
 import com.ssafy.likloud.data.model.DrawingListDto
@@ -105,6 +106,41 @@ interface BaseService {
      */
     @POST("api/member/plusSilver")
     suspend fun plusSliver(): Response<String>
+    /**
+     * 내가 그린 그림 조회(마이페이지)
+     */
+    @GET("api/mypage/drawings")
+    suspend fun getMyDrawingListDtoList(): Response<MutableList<DrawingListDto>>
+    /**
+     * 내가 좋아요 한 그림 조회(마이페이지)
+     */
+    @GET("api/mypage/likes")
+    suspend fun getLikeDrawingListDtoList(): Response<MutableList<DrawingListDto>>
+    /**
+     * 내가 올린 사진 조회(마이페이지)
+     */
+    @GET("api/mypage/photos")
+    suspend fun getMyPhotoListDtoList(): Response<MutableList<PhotoListDto>>
+    /**
+     * 내가 즐찾한 사진 조회(마이페이지)
+     */
+    @GET("api/mypage/bookmarks")
+    suspend fun getBookmarkPhotoListDtoList(): Response<MutableList<PhotoListDto>>
+    /**
+     * 사진 상세 조회
+     */
+    @GET("api/photo/{photoId}")
+    suspend fun getPhotoDetail(@Path("photoId") photoId: Int): Response<PhotoListDto>
+    /**
+     * 그림 좋아요
+     */
+    @POST("api/drawings/{drawingId}/likes")
+    suspend fun changeDrawingLike(@Path("drawingId") drawingId: Int): Response<String>
+    /**
+     * 사진 즐찾
+     */
+    @POST("api/photo/{photoId}/bookmark")
+    suspend fun changePhotoBookmark(@Path("photoId") photoId: Int): Response<String>
 }
 
 //api 만드는 과정

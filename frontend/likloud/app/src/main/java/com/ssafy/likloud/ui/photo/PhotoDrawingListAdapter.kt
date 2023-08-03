@@ -1,4 +1,4 @@
-package com.ssafy.likloud.ui.photolist
+package com.ssafy.likloud.ui.photo
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ssafy.likloud.R
 import com.ssafy.likloud.data.model.DrawingListDto
-import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.databinding.ItemPhotoBinding
 
 class PhotoDrawingListAdapter (var list : MutableList<DrawingListDto>): ListAdapter<DrawingListDto, PhotoDrawingListAdapter.PhotoDrawingListHolder>(

@@ -1,4 +1,4 @@
-package com.ssafy.likloud.ui.photolist
+package com.ssafy.likloud.ui.photo
 
 import android.content.Context
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -66,45 +67,76 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
             buttonRankingOrder.setOnClickListener{
                 photoListFragmentViewModel.getRankingOrderPhotoListDtoList()
             }
+            //즐찾순 눌렀을 때
+            buttonBookmarkOrder.setOnClickListener{
+                photoListFragmentViewModel.getBookmarkOrderPhotoListDtoList()
+            }
             //즐겨찾기(스타)를 눌렀을 때
             imageStar.setOnClickListener {
+                photoListFragmentViewModel.changeIsBookmarked()
             }
             //뒤로가기 눌렀을 때
             buttonBack.setOnClickListener {
                 findNavController().popBackStack()
             }
         }
+        // 안드로이드 뒤로가기 버튼 눌렀을 때
+        mainActivity.onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().popBackStack()
+                }
+            }
+        )
     }
 
     private fun initObserver(){
 
         photoListFragmentViewModel.currentPhotoListDtoList.observe(viewLifecycleOwner){
             initRecyclerView()
-            photoListFragmentViewModel.setSelectedPhotoListDto(photoListFragmentViewModel.currentPhotoListDtoList.value!![0])
+            photoListFragmentViewModel.setCurrentPhotoListDto(photoListFragmentViewModel.currentPhotoListDtoList.value!![0])
         }
 
-        photoListFragmentViewModel.selectedPhotoListDto.observe(viewLifecycleOwner){
-            photoListFragmentViewModel.getSelectedPhotoMember(photoListFragmentViewModel.selectedPhotoListDto.value!!.memberId)
+        photoListFragmentViewModel.currentPhotoListDto.observe(viewLifecycleOwner){
+            photoListFragmentViewModel.getCurrentPhotoMember(photoListFragmentViewModel.currentPhotoListDto.value!!.memberId)
             //여기서 해당 photoListDto의 drawingList를 받아온다. 이후 밑에서 observe 관찰하다가 recyclerView에 적재
-            photoListFragmentViewModel.getSelectedPhotoDrawingList(photoListFragmentViewModel.selectedPhotoListDto.value!!.photoId)
+            photoListFragmentViewModel.getSelectedPhotoDrawingList(photoListFragmentViewModel.currentPhotoListDto.value!!.photoId)
+            photoListFragmentViewModel.setIsBookmarked()
+            photoListFragmentViewModel.setBookmarkCount()
         }
 
-        photoListFragmentViewModel.selectedPhotoMember.observe(viewLifecycleOwner){
+        photoListFragmentViewModel.currentPhotoMember.observe(viewLifecycleOwner){
             binding.apply {
                 Glide.with(binding.imageDrawingProfileColor)
-                    .load(activityViewModel.waterDropColorList[photoListFragmentViewModel.selectedPhotoMember.value!!.profileColor].resourceId)
+                    .load(activityViewModel.waterDropColorList[it.profileColor].resourceId)
                     .into(binding.imageDrawingProfileColor)
                 Glide.with(binding.imageDrawingProfileFace)
-                    .load(activityViewModel.waterDropFaceList[photoListFragmentViewModel.selectedPhotoMember.value!!.profileFace].resourceId)
+                    .load(activityViewModel.waterDropFaceList[it.profileFace].resourceId)
                     .into(binding.imageDrawingProfileFace)
-//                Glide.with(binding.imageDrawingProfileAccessory)
-//                    .load(activityViewModel.waterDropColorList[photoListFragmentViewModel.selectedPhotoMember.value!!.profileAccessory].resourceId)
-//                    .into(binding.imageDrawingProfileAccessory)
-                textDrawingNickname.text = photoListFragmentViewModel.selectedPhotoMember.value!!.nickname
+                Glide.with(binding.imageDrawingProfileAccessory)
+                    .load(activityViewModel.waterDropAccessoryList[it.profileAccessory].resourceId)
+                    .into(binding.imageDrawingProfileAccessory)
+                textDrawingNickname.text = it.nickname
+                textBookmarkCount.text = photoListFragmentViewModel.currentPhotoListDto.value!!.bookmarkCount.toString()
+                textDrawCount.text = photoListFragmentViewModel.currentPhotoListDto.value!!.pickCount.toString()
             }
         }
 
-        photoListFragmentViewModel.selectedPhotoDrawingList.observe(viewLifecycleOwner){
+        photoListFragmentViewModel.isBookmarked.observe(viewLifecycleOwner){
+            if (it) {
+                binding.imageStar.setImageResource(R.drawable.icon_selected_star)
+            } else {
+                binding.imageStar.setImageResource(R.drawable.icon_unselected_star)
+            }
+            photoListFragmentViewModel.changeBookmarkCount()
+        }
+
+        photoListFragmentViewModel.bookmarkCount.observe(viewLifecycleOwner){
+            binding.textBookmarkCount.text = photoListFragmentViewModel.bookmarkCount.value.toString()
+        }
+
+        photoListFragmentViewModel.currentPhotoDrawingList.observe(viewLifecycleOwner){
             //여기서 이제 recyclerview_photo_drawing_list 세팅해야 함!
             initPhotoDrawingListRecyclerView()
         }
@@ -122,7 +154,7 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
                 setItemSelectListener(object : CarouselLayoutManager.OnSelected {
                     //본인한테서 멈췄을 때 이벤트
                     override fun onItemSelected(position: Int) {
-                        photoListFragmentViewModel.setSelectedPhotoListDto(photoListAdapter.list[position])
+                        photoListFragmentViewModel.setCurrentPhotoListDto(photoListAdapter.list[position])
                     }
                 })
             }
@@ -130,7 +162,7 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
     }
 
     private fun initPhotoDrawingListRecyclerView(){
-        val photoDrawingListAdapter = PhotoDrawingListAdapter(photoListFragmentViewModel.selectedPhotoDrawingList.value!!)
+        val photoDrawingListAdapter = PhotoDrawingListAdapter(photoListFragmentViewModel.   currentPhotoDrawingList.value!!)
         binding.apply {
             recyclerviewPhotoDrawingList.apply {
                 layoutManager = LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false)
