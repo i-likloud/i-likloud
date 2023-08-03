@@ -47,10 +47,12 @@ class DrawingDetailFragmentViewModel@Inject constructor(
 
     ///////////////////////////////////////////////////// 좋아요 //////////////////////////////////
     private val _isLiked = MutableLiveData<Boolean>()
+    var initialIsLiked: Boolean = false
     val isLiked: LiveData<Boolean>
         get() = _isLiked
     fun setIsLiked(){
         _isLiked.value = _currentDrawingDetail.value!!.memberLiked
+        initialIsLiked = _currentDrawingDetail.value!!.memberLiked
     }
     fun changeIsLiked(){
         // api 호출
@@ -67,10 +69,18 @@ class DrawingDetailFragmentViewModel@Inject constructor(
         _likeCount.value = _currentDrawingDetail.value!!.likesCount
     }
     fun changeLikeCount(){
-        if(_isLiked.value!!){
-            _likeCount.value = _currentDrawingDetail.value!!.likesCount
+        if(initialIsLiked){
+            if(_isLiked.value!!){
+                _likeCount.value = _currentDrawingDetail.value!!.likesCount - 1
+            }else{
+                _likeCount.value = _currentDrawingDetail.value!!.likesCount
+            }
         }else{
-            _likeCount.value = _currentDrawingDetail.value!!.likesCount - 1
+            if(_isLiked.value!!){
+                _likeCount.value = _currentDrawingDetail.value!!.likesCount
+            }else{
+                _likeCount.value = _currentDrawingDetail.value!!.likesCount + 1
+            }
         }
     }
 }

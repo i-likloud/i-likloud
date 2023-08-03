@@ -94,10 +94,12 @@ class PhotoListFragmentViewModel @Inject constructor(
 
     ///////////////////////////////////////////////////// 북마크 //////////////////////////////////
     private val _isBookmarked = MutableLiveData<Boolean>()
+    var initialIsBookmarked: Boolean = false
     val isBookmarked: LiveData<Boolean>
         get() = _isBookmarked
     fun setIsBookmarked(){
         _isBookmarked.value = _currentPhotoListDto.value!!.memberBookmarked
+        initialIsBookmarked = _currentPhotoListDto.value!!.memberBookmarked
     }
     fun changeIsBookmarked(){
         // api 호출
@@ -111,14 +113,22 @@ class PhotoListFragmentViewModel @Inject constructor(
     val bookmarkCount: LiveData<Int>
         get() = _bookmarkCount
     fun setBookmarkCount(){
-        Log.d(TAG, "setBookmarkCount: ${_currentPhotoListDto.value!!.bookmarkCount}")
         _bookmarkCount.value = _currentPhotoListDto.value!!.bookmarkCount
     }
     fun changeBookmarkCount(){
-        if(_isBookmarked.value!!){
-            _bookmarkCount.value = _currentPhotoListDto.value!!.bookmarkCount
-        }else{
-            _bookmarkCount.value = _currentPhotoListDto.value!!.bookmarkCount - 1
+        if(initialIsBookmarked){
+            if (_isBookmarked.value!!) {
+                _bookmarkCount.value = _currentPhotoListDto.value!!.bookmarkCount - 1
+            } else {
+                _bookmarkCount.value = _currentPhotoListDto.value!!.bookmarkCount
+            }
+
+        }else {
+            if (_isBookmarked.value!!) {
+                _bookmarkCount.value = _currentPhotoListDto.value!!.bookmarkCount
+            } else {
+                _bookmarkCount.value = _currentPhotoListDto.value!!.bookmarkCount + 1
+            }
         }
     }
 

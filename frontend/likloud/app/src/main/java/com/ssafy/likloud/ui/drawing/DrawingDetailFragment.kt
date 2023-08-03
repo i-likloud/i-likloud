@@ -90,7 +90,6 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             } else {
                 binding.imageHeart.setImageResource(R.drawable.icon_unselected_heart)
             }
-            drawingDetailFragmentViewModel.changeLikeCount()
         }
 
         drawingDetailFragmentViewModel.likeCount.observe(viewLifecycleOwner){
@@ -109,6 +108,7 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
                 findNavController().popBackStack()
             }
             imageHeart.setOnClickListener {
+                drawingDetailFragmentViewModel.changeLikeCount()
                 drawingDetailFragmentViewModel.changeIsLiked()
             }
         }

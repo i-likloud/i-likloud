@@ -74,6 +74,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
 
 
             imageHeart.setOnClickListener {
+                drawingListFragmentViewModel.changeLikeCount()
                 drawingListFragmentViewModel.changeIsLiked()
             }
 
@@ -105,7 +106,6 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
             drawingListFragmentViewModel.getCurrentDrawingMember(it.memberId)
             drawingListFragmentViewModel.setIsLiked()
             drawingListFragmentViewModel.setLikeCount()
-//            drawingListFragmentViewModel.changeLikeCount()
         }
 
         drawingListFragmentViewModel.currentDrawingMember.observe(viewLifecycleOwner){
@@ -134,8 +134,6 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
             }else{
                 binding.imageHeart.setImageResource(R.drawable.icon_unselected_heart)
             }
-//            drawingListFragmentViewModel.setLikeCount()
-//            drawingListFragmentViewModel.changeLikeCount()
         }
 
         drawingListFragmentViewModel.likeCount.observe(viewLifecycleOwner){

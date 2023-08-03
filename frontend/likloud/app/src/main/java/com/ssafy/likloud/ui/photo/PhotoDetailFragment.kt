@@ -59,12 +59,24 @@ class PhotoDetailFragment : BaseFragment<FragmentPhotoDetailBinding>(FragmentPho
             //여기서 멤버 조회 후 뷰 세팅
             photoDetailFragmentViewModel.getCurrentPhotoDrawingList(photoDetailFragmentViewModel.currentPhotoDetail.value!!.photoId)
             photoDetailFragmentViewModel.getCurrentPhotoMember(photoDetailFragmentViewModel.currentPhotoDetail.value!!.memberId)
+            photoDetailFragmentViewModel.setIsBookmarked()
+            photoDetailFragmentViewModel.setBookmarkCount()
         }
         photoDetailFragmentViewModel.currentPhotoMember.observe(viewLifecycleOwner){
             initInfoView()
         }
         photoDetailFragmentViewModel.currentPhotoDrawingList.observe(viewLifecycleOwner){
             initPhotoDrawingListRecyclerView()
+        }
+        photoDetailFragmentViewModel.isBookmarked.observe(viewLifecycleOwner){
+            if(it){
+                binding.imageStar.setImageResource(R.drawable.icon_selected_star)
+            }else{
+                binding.imageStar.setImageResource(R.drawable.icon_unselected_star)
+            }
+        }
+        photoDetailFragmentViewModel.bookmarkCount.observe(viewLifecycleOwner){
+            binding.textBookmarkCount.text = it.toString()
         }
     }
 
@@ -73,9 +85,16 @@ class PhotoDetailFragment : BaseFragment<FragmentPhotoDetailBinding>(FragmentPho
     }
 
     override fun initListener() {
-        binding.buttonBack.setOnClickListener {
-            findNavController().popBackStack()
-        }// 안드로이드 뒤로가기 버튼 눌렀을 때
+        binding.apply {
+            buttonBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
+            imageStar.setOnClickListener {
+                photoDetailFragmentViewModel.changeBookmarkCount()
+                photoDetailFragmentViewModel.changeIsBookmarked()
+            }
+        }
+        // 안드로이드 뒤로가기 버튼 눌렀을 때
         mainActivity.onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
@@ -101,6 +120,8 @@ class PhotoDetailFragment : BaseFragment<FragmentPhotoDetailBinding>(FragmentPho
                 .load(activityViewModel.waterDropAccessoryList[photoDetailFragmentViewModel.currentPhotoMember.value!!.profileAccessory].resourceId)
                 .into(imagePhotoProfileAccessory)
             textPhotoNickname.text = photoDetailFragmentViewModel.currentPhotoMember.value!!.nickname
+            textBookmarkCount.text = photoDetailFragmentViewModel.currentPhotoDetail.value!!.bookmarkCount.toString()
+            textDrawCount.text = photoDetailFragmentViewModel.currentPhotoDetail.value!!.pickCount.toString()
         }
     }
     private fun initPhotoDrawingListRecyclerView(){

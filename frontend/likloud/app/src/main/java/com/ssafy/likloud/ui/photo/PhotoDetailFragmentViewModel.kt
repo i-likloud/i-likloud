@@ -57,4 +57,45 @@ class PhotoDetailFragmentViewModel  @Inject constructor(
             }
         }
     }
+
+    ///////////////////////////////////////////////////// 북마크 //////////////////////////////////
+    private val _isBookmarked = MutableLiveData<Boolean>()
+    var initialIsBookmarked: Boolean = false
+    val isBookmarked: LiveData<Boolean>
+        get() = _isBookmarked
+    fun setIsBookmarked(){
+        _isBookmarked.value = _currentPhotoDetail.value!!.memberBookmarked
+        initialIsBookmarked = _currentPhotoDetail.value!!.memberBookmarked
+    }
+    fun changeIsBookmarked(){
+        // api 호출
+        viewModelScope.launch {
+            baseRepository.changePhotoBookmark(_currentPhotoDetail.value!!.photoId)
+            _isBookmarked.value = !_isBookmarked.value!!
+        }
+    }
+
+    private val _bookmarkCount = MutableLiveData<Int>()
+    val bookmarkCount: LiveData<Int>
+        get() = _bookmarkCount
+    fun setBookmarkCount(){
+        _bookmarkCount.value = _currentPhotoDetail.value!!.bookmarkCount
+    }
+    fun changeBookmarkCount(){
+        if(initialIsBookmarked){
+            if (_isBookmarked.value!!) {
+                _bookmarkCount.value = _currentPhotoDetail.value!!.bookmarkCount - 1
+            } else {
+                _bookmarkCount.value = _currentPhotoDetail.value!!.bookmarkCount
+            }
+
+        }else {
+            if (_isBookmarked.value!!) {
+                _bookmarkCount.value = _currentPhotoDetail.value!!.bookmarkCount
+            } else {
+                _bookmarkCount.value = _currentPhotoDetail.value!!.bookmarkCount + 1
+            }
+        }
+    }
+
 }

@@ -73,6 +73,7 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
             }
             //즐겨찾기(스타)를 눌렀을 때
             imageStar.setOnClickListener {
+                photoListFragmentViewModel.changeBookmarkCount()
                 photoListFragmentViewModel.changeIsBookmarked()
             }
             //뒤로가기 눌렀을 때
@@ -129,7 +130,6 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
             } else {
                 binding.imageStar.setImageResource(R.drawable.icon_unselected_star)
             }
-            photoListFragmentViewModel.changeBookmarkCount()
         }
 
         photoListFragmentViewModel.bookmarkCount.observe(viewLifecycleOwner){
