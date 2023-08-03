@@ -12,8 +12,13 @@ import java.util.stream.Collectors;
 @Getter
 public class DrawingDetailDto extends DrawingListDto {
 
+    private final String title;
     private final String content;
-    private final Long memberId;
+    private final String artist;
+    private final boolean nftYn;
+    private final boolean memberLiked;
+    private final int likesCount;
+    private final int viewCount;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private final LocalDateTime createdAt;
@@ -21,9 +26,14 @@ public class DrawingDetailDto extends DrawingListDto {
     private final List<CommentDto> comments;
 
     public DrawingDetailDto(Drawing drawing, boolean memberLiked) {
-        super(drawing, memberLiked);
-        this.memberId = drawing.getMember().getMemberId();
+        super(drawing);
+        this.title = drawing.getTitle();
+        this.artist = drawing.getArtist();
         this.content = drawing.getContent();
+        this.nftYn = drawing.isNftYn();
+        this.memberLiked = memberLiked;
+        this.likesCount = drawing.getLikesCount();
+        this.viewCount = drawing.getViewCount();
         this.createdAt = drawing.getCreatedAt();
         this.comments = drawing.getComments().stream().map(CommentDto::new).collect(Collectors.toList());
 
