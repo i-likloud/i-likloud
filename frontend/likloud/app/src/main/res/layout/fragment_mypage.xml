@@ -63,7 +63,6 @@
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.8"
             app:layout_constraintWidth_percent="0.45"
-
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -80,7 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:src="@drawable/profile_water_drop_white"
+                    android:src="@drawable/water_drop_item_empty"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -90,7 +89,7 @@
                     android:id="@+id/image_face_now"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:src="@drawable/face_normal"
+                    android:src="@drawable/water_drop_item_empty"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -224,6 +223,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/button_go_store"
                     android:layout_width="@dimen/_80sdp"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/_6sdp"
