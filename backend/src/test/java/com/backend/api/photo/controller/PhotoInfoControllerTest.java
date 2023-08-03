@@ -22,7 +22,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @SpringBootTest
-
 class PhotoInfoControllerTest extends BaseIntegrationTest {
 
 
@@ -37,6 +36,8 @@ class PhotoInfoControllerTest extends BaseIntegrationTest {
 //    String token = accessToken.token;
     private String token = AccessToken.getToken();
 //    String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBQ0NFU1MiLCJpYXQiOjE2OTA5NjYyNDksImV4cCI6MTY5MDk2ODA0OSwiZW1haWwiOiJob2lsZGF5NTMwM0BuYXZlci5jb20iLCJyb2xlIjoiTUVNQkVSIn0.-Bz9EN1uubisajaCATX7ds7gR5_h5a5ht5ljVMk2QLkrOV_P4fmuFSLBU6bxVEofG7VxRSGgltxdXi7Fy2SNuQ";
+
+    private String userEmail = AccessToken.getTestEmail();
 
     @Test
     @Rollback
@@ -148,7 +149,7 @@ class PhotoInfoControllerTest extends BaseIntegrationTest {
     void pickPhoto() throws Exception {
         //given
         Long photoId = 1L;
-        String userEmail = "hoilday5303@naver.com";
+//        String userEmail = "hoilday5303@naver.com";
         Member member = memberService.findMemberByEmail(userEmail);
         boolean isAlreadyBookmarked = photoInfoService.isAlreadyBookmarked(member, photoId);
 
