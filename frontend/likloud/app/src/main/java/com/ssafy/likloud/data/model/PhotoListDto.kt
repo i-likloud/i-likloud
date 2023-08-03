@@ -11,6 +11,15 @@ data class PhotoListDto(
     var memberId: Int,
 
     @SerializedName("photoUrl")
-    var photoUrl: String
+    var photoUrl: String,
+
+    @SerializedName("memberBookmarked")
+    var memberBookmarked: Boolean,
+
+    @SerializedName("pickCount")
+    var pickCount: Int,
+
+    @SerializedName("bookmarkCount")
+    var bookmarkCount: Int
 
     )

@@ -2,6 +2,7 @@ package com.ssafy.likloud.ui.drawing
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,13 +19,13 @@ import com.ssafy.likloud.base.BaseFragment
 import com.ssafy.likloud.databinding.FragmentDrawingDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 
-//PhotoListFragment에서 해당 그림 선택하면 그 그림 객체 얻어와야함!!!!
+private const val TAG = "차선호"
 @AndroidEntryPoint
 class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
     FragmentDrawingDetailBinding::bind, R.layout.fragment_drawing_detail
 ) {
 
-    private val photoDrawingDetailFragmentViewModel : DrawingDetailFragmentViewModel by viewModels()
+    private val drawingDetailFragmentViewModel : DrawingDetailFragmentViewModel by viewModels()
     private lateinit var mainActivity: MainActivity
     private val activityViewModel: MainActivityViewModel by activityViewModels()
     val args: DrawingDetailFragmentArgs by navArgs()
@@ -54,46 +55,64 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
     }
 
     private fun initObserver(){
-        photoDrawingDetailFragmentViewModel.currentDrawingDetail.observe(viewLifecycleOwner){
+        drawingDetailFragmentViewModel.currentDrawingDetail.observe(viewLifecycleOwner){
             //member 정보 조회
-            photoDrawingDetailFragmentViewModel.getCurrentDrawingMember(photoDrawingDetailFragmentViewModel.currentDrawingDetail.value!!.memberId)
+            drawingDetailFragmentViewModel.getCurrentDrawingMember(drawingDetailFragmentViewModel.currentDrawingDetail.value!!.memberId)
+            drawingDetailFragmentViewModel.setIsLiked()
+            drawingDetailFragmentViewModel.setLikeCount()
         }
 
-        photoDrawingDetailFragmentViewModel.currentDrawingMember.observe(viewLifecycleOwner){
+        drawingDetailFragmentViewModel.currentDrawingMember.observe(viewLifecycleOwner){
             binding.apply {
                 Glide.with(binding.imageCurrentDrawing)
-                    .load(photoDrawingDetailFragmentViewModel.currentDrawingDetail.value!!.imageUrl)
+                    .load(drawingDetailFragmentViewModel.currentDrawingDetail.value!!.imageUrl)
                     .into(binding.imageCurrentDrawing)
                 Glide.with(binding.imageProfileColor)
-                    .load(activityViewModel.waterDropColorList[photoDrawingDetailFragmentViewModel.currentDrawingMember.value!!.profileColor].resourceId)
+                    .load(activityViewModel.waterDropColorList[drawingDetailFragmentViewModel.currentDrawingMember.value!!.profileColor].resourceId)
                     .into(binding.imageProfileColor)
                 Glide.with(binding.imageProfileFace)
-                    .load(activityViewModel.waterDropFaceList[photoDrawingDetailFragmentViewModel.currentDrawingMember.value!!.profileFace].resourceId)
+                    .load(activityViewModel.waterDropFaceList[drawingDetailFragmentViewModel.currentDrawingMember.value!!.profileFace].resourceId)
                     .into(binding.imageProfileFace)
                 Glide.with(binding.imageProfileAccessory)
-                    .load(activityViewModel.waterDropAccessoryList[photoDrawingDetailFragmentViewModel.currentDrawingMember.value!!.profileAccessory].resourceId)
+                    .load(activityViewModel.waterDropAccessoryList[drawingDetailFragmentViewModel.currentDrawingMember.value!!.profileAccessory].resourceId)
                     .into(binding.imageProfileAccessory)
-                textDrawingNickname.text = photoDrawingDetailFragmentViewModel.currentDrawingMember.value!!.nickname
-                textDrawingTitle.text = photoDrawingDetailFragmentViewModel.currentDrawingDetail.value!!.title
-                textDrawingContent.text = photoDrawingDetailFragmentViewModel.currentDrawingDetail.value!!.content
-                if (photoDrawingDetailFragmentViewModel.currentDrawingDetail.value!!.memberLiked) {
-                    imageHeart.setImageResource(R.drawable.icon_selected_heart)
-                } else {
-                    imageHeart.setImageResource(R.drawable.icon_unselected_heart)
-                }
+                textDrawingNickname.text = drawingDetailFragmentViewModel.currentDrawingMember.value!!.nickname
+                textDrawingTitle.text = drawingDetailFragmentViewModel.currentDrawingDetail.value!!.title
+                textDrawingContent.text = drawingDetailFragmentViewModel.currentDrawingDetail.value!!.content
+                textLikeCount.text = drawingDetailFragmentViewModel.currentDrawingDetail.value!!.likesCount.toString()
+                textViewCount.text = drawingDetailFragmentViewModel.currentDrawingDetail.value!!.viewCount.toString()
             }
+        }
+        drawingDetailFragmentViewModel.isLiked.observe(viewLifecycleOwner){
+            Log.d(TAG, "isLiked 변경.......... $it")
+            if (it) {
+                binding.imageHeart.setImageResource(R.drawable.icon_selected_heart)
+            } else {
+                binding.imageHeart.setImageResource(R.drawable.icon_unselected_heart)
+            }
+            drawingDetailFragmentViewModel.changeLikeCount()
+        }
+
+        drawingDetailFragmentViewModel.likeCount.observe(viewLifecycleOwner){
+            binding.textLikeCount.text = drawingDetailFragmentViewModel.likeCount.value.toString()
         }
     }
 
     private fun init(){
         //여기서 args.drawingId로 DrawingDetailDto 불러와야 함
-        photoDrawingDetailFragmentViewModel.getCurrentPhotoDrawingDetail(args.drawingId)
+        drawingDetailFragmentViewModel.getCurrentPhotoDrawingDetail(args.drawingId)
     }
 
     override fun initListener() {
-        binding.buttonBack.setOnClickListener {
-            findNavController().popBackStack()
-        }// 안드로이드 뒤로가기 버튼 눌렀을 때
+        binding.apply {
+            buttonBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
+            imageHeart.setOnClickListener {
+                drawingDetailFragmentViewModel.changeIsLiked()
+            }
+        }
+        // 안드로이드 뒤로가기 버튼 눌렀을 때
         mainActivity.onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {

@@ -139,4 +139,12 @@ interface BaseRepository {
      * 사진 상세 조회
      */
     suspend fun getPhotoDetail(photoId: Int): NetworkResult<PhotoListDto>
+    /**
+     * 좋아요 조회
+     */
+    suspend fun changeDrawingLike(drawingId: Int): NetworkResult<String>
+    /**
+     * 사진 즐찾
+     */
+    suspend fun changePhotoBookmark(photoId: Int): NetworkResult<String>
 }

@@ -122,4 +122,12 @@ class BaseRepositoryImpl @Inject constructor(
     override suspend fun getPhotoDetail(photoId: Int): NetworkResult<PhotoListDto> {
         return handleApi { baseAPIService.getPhotoDetail(photoId).body()!! }
     }
+
+    override suspend fun changeDrawingLike(drawingId: Int): NetworkResult<String> {
+        return handleApi { baseAPIService.changeDrawingLike(drawingId).body()!! }
+    }
+
+    override suspend fun changePhotoBookmark(photoId: Int): NetworkResult<String> {
+        return handleApi { baseAPIService.changePhotoBookmark(photoId).body()!! }
+    }
 }

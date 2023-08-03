@@ -44,4 +44,33 @@ class DrawingDetailFragmentViewModel@Inject constructor(
         }
     }
 
+
+    ///////////////////////////////////////////////////// 좋아요 //////////////////////////////////
+    private val _isLiked = MutableLiveData<Boolean>()
+    val isLiked: LiveData<Boolean>
+        get() = _isLiked
+    fun setIsLiked(){
+        _isLiked.value = _currentDrawingDetail.value!!.memberLiked
+    }
+    fun changeIsLiked(){
+        // api 호출
+        viewModelScope.launch {
+            baseRepository.changeDrawingLike(_currentDrawingDetail.value!!.drawingId)
+            _isLiked.value = !_isLiked.value!!
+        }
+    }
+
+    private val _likeCount = MutableLiveData<Int>()
+    val likeCount: LiveData<Int>
+        get() = _likeCount
+    fun setLikeCount(){
+        _likeCount.value = _currentDrawingDetail.value!!.likesCount
+    }
+    fun changeLikeCount(){
+        if(_isLiked.value!!){
+            _likeCount.value = _currentDrawingDetail.value!!.likesCount
+        }else{
+            _likeCount.value = _currentDrawingDetail.value!!.likesCount - 1
+        }
+    }
 }

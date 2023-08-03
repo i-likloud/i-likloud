@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class DrawingDetailDto(
 
     @SerializedName("drawingId")
-    val _id: Long,
+    val drawingId: Int,
 
     @SerializedName("memberId")
     val memberId: Int,

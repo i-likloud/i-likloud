@@ -88,7 +88,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintWidth_percent="0.35"
-            app:layout_constraintHeight_percent="0.15"
+            app:layout_constraintHeight_percent="0.2"
             android:layout_margin="@dimen/_10sdp"
             android:background="@drawable/frame_rounded_border_radius50"
             android:elevation="@dimen/_20sdp"
@@ -131,14 +131,47 @@
                 app:layout_constraintStart_toEndOf="@id/layout_photo_profile"
                 app:layout_constraintTop_toTopOf="@id/layout_photo_profile" />
 
+            <TextView
+                android:id="@+id/text_bookmark_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
+                app:layout_constraintTop_toTopOf="@id/image_star"
+                app:layout_constraintBottom_toBottomOf="@id/image_star"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="@dimen/_20sdp"/>
+
             <ImageView
                 android:id="@+id/image_star"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_margin="@dimen/_10sdp"
                 android:src="@drawable/icon_unselected_star"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toStartOf="@id/text_bookmark_count"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"/>
+
+            <TextView
+                android:id="@+id/text_draw_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
+                app:layout_constraintTop_toTopOf="@id/image_star"
+                app:layout_constraintBottom_toBottomOf="@id/image_star"
+                app:layout_constraintEnd_toStartOf="@id/image_star"
+                android:layout_marginEnd="@dimen/_5sdp"/>
+
+            <ImageView
+                android:id="@+id/image_view"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/icon_draw"
+                app:layout_constraintTop_toTopOf="@id/image_star"
+                app:layout_constraintBottom_toBottomOf="@id/image_star"
+                app:layout_constraintEnd_toStartOf="@id/text_draw_count"
+                android:layout_marginEnd="@dimen/_5sdp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -147,7 +180,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintWidth_percent="0.35"
-            app:layout_constraintHeight_percent="0.6"
+            app:layout_constraintHeight_percent="0.55"
             android:layout_marginHorizontal="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@drawable/frame_rounded_border_radius50"
