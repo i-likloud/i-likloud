@@ -15,7 +15,9 @@ import com.backend.domain.photo.repository.PhotoRepository;
 import com.backend.global.error.ErrorCode;
 import com.backend.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,39 +36,34 @@ public class PhotoInfoService {
 
     // 최신순 전체 조회
     @Transactional(readOnly = true)
-    public ResponseEntity<List<PhotoInfoResponseDto>> searchAllDesc(Member member) {
+    @Cacheable(value = "allPhotos", key = "'searchAllDesc'")
+    public List<PhotoInfoResponseDto> searchAllDesc(Member member) {
         List<Photo> photos = photoRepository.findAllByOrderByCreatedAtDesc();
 
-        List<PhotoInfoResponseDto> photoInfoResponseDtos = photos.stream()
+        return photos.stream()
                 .map(PhotoInfoResponseDto::new)
                 .collect(Collectors.toList());
-
-        return ResponseEntity.ok(photoInfoResponseDtos);
     }
 
     // 인기순 전체 조회
     @Transactional(readOnly = true)
-    public ResponseEntity<List<PhotoInfoResponseDto>> searchAllPickCntDesc(Member member){
+    public List<PhotoInfoResponseDto> searchAllPickCntDesc(Member member){
         List<Photo> photos = photoRepository.findAllByOrderByPickCntDesc();
 
-        List<PhotoInfoResponseDto> photoInfoResponseDtos = photos.stream()
+        return photos.stream()
                 .map(PhotoInfoResponseDto::new)
                 .collect(Collectors.toList());
-
-        return ResponseEntity.ok(photoInfoResponseDtos);
 
     }
 
     // 북마크 전체 조회
     @Transactional(readOnly = true)
-    public ResponseEntity<List<PhotoInfoResponseDto>> searchAllBookmarkCntDesc(Member member){
+    public List<PhotoInfoResponseDto> searchAllBookmarkCntDesc(Member member){
         List<Photo> photos = photoRepository.findAllByOrderByBookmarkCntDesc();
 
-        List<PhotoInfoResponseDto> photoInfoResponseDtos = photos.stream()
+        return photos.stream()
                 .map(PhotoInfoResponseDto::new)
                 .collect(Collectors.toList());
-
-        return ResponseEntity.ok(photoInfoResponseDtos);
     }
 
     // 상세 사진 조회
@@ -97,11 +94,15 @@ public class PhotoInfoService {
 
     // 삭제
     @Transactional
-    public void delete(Long id) {
-        Photo photo = photoRepository.findById(id)
+    @Caching(evict = {
+            @CacheEvict(value = "allPhotos", allEntries = true),
+            @CacheEvict(value = "photos", key = "#member.memberId")
+    })
+    public void delete(Long photoId, Member member) {
+        Photo photo = photoRepository.findById(photoId)
                 .orElseThrow(()-> new BusinessException(ErrorCode.NOT_FOUND_PHOTO));
 
-        if(!photo.getMember().getMemberId().equals(id)){
+        if(!photo.getMember().getMemberId().equals(member.getMemberId())){
             throw new BusinessException(ErrorCode.UNAUTHORIZED_DELETION);
         }
 
@@ -116,6 +117,7 @@ public class PhotoInfoService {
 
     // 사진 즐겨찾기
     @Transactional
+    @CacheEvict(value = "bookMarks", key = "#memberId")
     public void pickPhoto(Long photoId, Long memberId) {
         Photo photo = photoRepository.findById(photoId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 photo가 존재하지 않습니다."));
@@ -138,6 +140,7 @@ public class PhotoInfoService {
 
     // 사진 즐겨찾기 취소
     @Transactional
+    @CacheEvict(value = "bookMarks", key = "#memberId")
     public void unpickPhoto(Long photoId, Long memberId) {
         Bookmarks bookmark = bookmarkRepository.findByMemberMemberIdAndPhotoPhotoId(memberId, photoId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 즐겨찾기가 존재하지 않습니다."));

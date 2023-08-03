@@ -29,7 +29,7 @@ public class PhotoInfoController {
     //전체 조회(최신순)
     @Operation(summary = "전체 조회(최신순)", description = "최신순으로 정렬된 전체 조회 메소드입니다.")
     @GetMapping("/new")
-    public ResponseEntity<List<PhotoInfoResponseDto>> searchAllDesc(@MemberInfo MemberInfoDto memberInfoDto) {
+    public List<PhotoInfoResponseDto> searchAllDesc(@MemberInfo MemberInfoDto memberInfoDto) {
         Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
         return photoInfoService.searchAllDesc(member);
     }
@@ -37,7 +37,7 @@ public class PhotoInfoController {
     //전체 조회(그림그린순)
     @Operation(summary = "전체 조회(그림 많이 그린 순)", description = "그림 많이 그린 순으로 정렬된 전체 조회 메소드입니다.")
     @GetMapping("/pick")
-    public ResponseEntity<List<PhotoInfoResponseDto>> searchAllPickCntDesc(@MemberInfo MemberInfoDto memberInfoDto) {
+    public List<PhotoInfoResponseDto> searchAllPickCntDesc(@MemberInfo MemberInfoDto memberInfoDto) {
         Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
         return photoInfoService.searchAllPickCntDesc(member);
     }
@@ -45,7 +45,7 @@ public class PhotoInfoController {
     //전체 조회(북마크 순)
     @Operation(summary = "전체 조회(즐겨찾기순)", description = "즐겨찾기순으로 정렬된 전체 조회 메소드입니다.")
     @GetMapping("/bookmarkdesc")
-    public ResponseEntity<List<PhotoInfoResponseDto>> searchAllBookmarkCntDesc(@MemberInfo MemberInfoDto memberInfoDto) {
+    public List<PhotoInfoResponseDto> searchAllBookmarkCntDesc(@MemberInfo MemberInfoDto memberInfoDto) {
         Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
         return photoInfoService.searchAllBookmarkCntDesc(member);
     }
@@ -68,12 +68,15 @@ public class PhotoInfoController {
 
     // 삭제
     @Operation(summary = "사진 삭제", description = "사진을 삭제하는 메소드입니다.")
-    @DeleteMapping("/delete/{id}")
-    public void photoDelete(@PathVariable Long id){
-        photoInfoService.delete(id);
+    @DeleteMapping("/delete/{photoId}")
+    public ResponseEntity<String> photoDelete(@PathVariable Long photoId, @MemberInfo MemberInfoDto memberInfoDto){
+        Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
+        photoInfoService.delete(photoId, member);
+
+        return ResponseEntity.ok(String.format("%d번 사진 삭제ㅠㅠ", photoId));
     }
 
-    // 사진 즐겨찾기 퇴글
+    // 사진 즐겨찾기 토글
     @Operation(summary = "즐겨찾기 추가", description = "사진을 즐겨찾기 토글을 할 수 있는 메소드입니다.")
     @PostMapping("/{photoId}/bookmark")
     public ResponseEntity<String> pickPhoto(@PathVariable Long photoId, @MemberInfo MemberInfoDto memberInfoDto) {
