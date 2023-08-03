@@ -83,6 +83,7 @@ class UploadFragmentViewModel @Inject constructor(
                     val responseBody = response.body()
                     if (responseBody != null) {
                         _uploadPhotoUrl.value = responseBody[0].photoUrl
+                        _uploadPhotoId.value = responseBody[0].photoId
                         Log.d(TAG, "sendMultipart is cloud: ${responseBody[0].photoUrl} ")
                         Log.d(TAG, "sendMultipart is cloud : ${responseBody[0].photoId}")
                         _isPhotoMultipartValidated.emit(true)

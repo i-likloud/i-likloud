@@ -140,7 +140,6 @@ class UploadFragment :
     private fun invokeAICheckingDialog() {
         aiCheckingDialog = AICheckingDialog()
         aiCheckingDialog.show(childFragmentManager, TAG)
-
     }
 
     /**

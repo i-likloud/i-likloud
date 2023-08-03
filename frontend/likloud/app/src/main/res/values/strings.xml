@@ -67,5 +67,7 @@
 
     <!--store-->
     <string name="title_store">상점</string>
-    
+    <string name="drawing_title_max">/50</string>
+    <string name="drawing_desc_max">/300</string>
+
 </resources>

@@ -129,6 +129,14 @@
         <item name="fontFamily">@font/jua</item>
     </style>
 
+
+    <!--Jua12gray07-->
+    <style name="Theme.AppCompat.TextView.jua.gray07.Size12" parent="@style/Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/gray07</item>
+        <item name="android:textSize">@dimen/_12sdp</item>
+        <item name="fontFamily">@font/jua</item>
+    </style>
+
     <!--pretendard20gray10-->
     <style name="Theme.AppCompat.TextView.pretendard.Size20" parent="@style/Widget.AppCompat.TextView">
         <item name="android:textColor">@color/gray10</item>

@@ -28,6 +28,18 @@ fun createMultipartFromUri(context: Context, uri: Uri): MultipartBody.Part? {
     return MultipartBody.Part.createFormData("multipartFiles", file.name, requestFile)
 }
 
+
+fun createMultipartFromUriNameFile(context: Context, uri: Uri): MultipartBody.Part? {
+    val file: File? = getFileFromUri(context, uri)
+    if (file == null) {
+        // 파일을 가져오지 못한 경우 처리할 로직을 작성하세요.
+        return null
+    }
+
+    val requestFile: RequestBody = createRequestBodyFromFile(file)
+    return MultipartBody.Part.createFormData("file", file.name, requestFile)
+}
+
 fun getFileFromUri(context: Context, uri: Uri): File? {
     val filePath = uriToFilePath(context, uri)
     return if (filePath != null) File(filePath) else null

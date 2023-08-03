@@ -13,6 +13,7 @@ import com.ssafy.likloud.data.model.response.LoginResponse
 import com.ssafy.likloud.data.model.response.ReLoginResponse
 import com.ssafy.likloud.data.model.SampleDto
 import com.ssafy.likloud.data.model.UserDto
+import com.ssafy.likloud.data.model.drawing.DrawingUploadResponse
 import com.ssafy.likloud.data.model.request.LoginAdditionalRequest
 import com.ssafy.likloud.data.model.request.MemberInfoRequest
 import com.ssafy.likloud.data.model.request.ProfileEditRequest
@@ -62,6 +63,10 @@ interface BaseService {
     @GET("api/drawings/{drawingId}")
     suspend fun getDrawingDetail(@Path("drawingId") drawingId: Int): Response<DrawingDetailDto>
 
+
+    /**
+     * 사진을 업로드 합니다.
+      */
     @Multipart
     @POST("api/photo/upload")
     suspend fun postPhotoMultipart(
@@ -69,12 +74,25 @@ interface BaseService {
         @Part ("memberInfoDto") memberInfoDto: MemberInfoDto
     ): Response<List<PhotoUploadResponseDto>>
 
+    /**
+     * 단일 사진을 업로드 합니다.
+     */
     @Multipart
     @POST("api/photo/upload")
     suspend fun postSinglePhotoMultipart(
         @Part multipartFiles: MultipartBody.Part,
         @Part("memberInfoDto") memberInfoDto: MemberInfoDto
     ): Response<List<PhotoUploadResponseDto>>
+
+    @Multipart
+    @POST("/api/drawings/upload/from/{photoId}")
+    suspend fun postDrawingMultipart(
+        @Path("photoId") photoId: Int,
+        @Part file : MultipartBody.Part,
+        @Part("title") title : String,
+        @Part("content") content : String,
+        @Part("memberInfoDto") memberInfoDto: MemberInfoDto
+    ): Response<DrawingUploadResponse>
 
     /**
      * 사진 게시물 조회
