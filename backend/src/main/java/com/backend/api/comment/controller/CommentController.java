@@ -44,7 +44,7 @@ public class CommentController {
                                     @ExampleObject( name = "404_Comment-001", value = "댓글을 찾을 수 없습니다. 댓글 id값을 확인해주세요."),
                                     @ExampleObject( name = "404_Drawing-001", value = "그림을 찾을 수 없습니다. 그림 id값을 확인해주세요."),
                                     @ExampleObject( name = "500", value = "서버에러")}))})
-    @Operation(summary = "댓글 작성", description = "그림 게시물에 댓글을 생성합니다."+"\n\n### [ 수행절차 ]\n\n"+"- 댓글을 달고 싶은 그림(drawing)의 id값을 drawingId에, 댓글내용을 content에 넣어주세요\n\n"+"- 요구하는 모든 값을 넣어줘야 합니다.\n\n"+"- try it out 해주세요\n\n")
+    @Operation(summary = "댓글 작성", description = "그림 게시물에 댓글을 생성합니다."+"\n\n### [ 수행절차 ]\n\n"+"- 댓글을 달고 싶은 그림(drawing)의 id값을 drawingId에, 댓글내용을 content에 넣어주세요\n\n"+"- 요구하는 모든 값을 넣어줘야 합니다.\n\n"+"- Execute 해주세요\n\n")
     public CommentDto createComment(@PathVariable Long drawingId,
                                                  @RequestParam String content,
                                                  @MemberInfo MemberInfoDto memberInfoDto) {
@@ -77,9 +77,9 @@ public class CommentController {
                                     @ExampleObject( name = "400_User-004", value = "해당 회원은 존재하지 않습니다."),
                                     @ExampleObject( name = "403_Auth-009", value = "회원이 아닙니다. 추가정보로 이동하여 추가정보를 입력해 주세요."),
                                     @ExampleObject( name = "404_Comment-001", value = "댓글을 찾을 수 없습니다. 댓글 id값을 확인해주세요."),
-                                    @ExampleObject( name = "401_Auth-010", value = "본인이 작성한 게시물만 삭제할 수 있습니다. 기입하신 댓글id에 해당하는 댓글이 본인이 쓴것인지 확인해주세요."),
+                                    @ExampleObject( name = "401_Auth-010", value = "본인이 작성한 댓글만 삭제할 수 있습니다. 기입하신 댓글id에 해당하는 댓글이 본인이 쓴것인지 확인해주세요."),
                                     @ExampleObject( name = "500", value = "서버에러")}))})
-    @Operation(summary = "댓글 삭제", description = "댓글을 삭제합니다."+"\n\n### [ 수행절차 ]\n\n"+"- 댓글을 삭제 하고 싶은 댓글(comment)의 id값을 commentId에 넣어주세요\n\n"+"- 본인이 작성한 댓글만 삭제할 수 있습니다.\n\n"+"- try it out 해주세요\n\n")
+    @Operation(summary = "댓글 삭제", description = "댓글을 삭제합니다."+"\n\n### [ 수행절차 ]\n\n"+"- 댓글을 삭제 하고 싶은 댓글(comment)의 id값을 commentId에 넣어주세요\n\n"+"- 본인이 작성한 댓글만 삭제할 수 있습니다.\n\n"+"- Execute 해주세요\n\n")
 
     public ResponseEntity<String> deleteComment(@PathVariable Long commentId, @MemberInfo MemberInfoDto memberInfoDto) {
         Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
