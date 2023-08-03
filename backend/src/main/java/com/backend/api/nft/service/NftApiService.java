@@ -35,7 +35,7 @@ import java.util.UUID;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class NftService {
+public class NftApiService {
 
     private final WalletClient walletClient;
     private final NftTokenClient nftTokenClient;

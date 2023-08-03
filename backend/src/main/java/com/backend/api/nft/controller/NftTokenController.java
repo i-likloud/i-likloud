@@ -2,7 +2,7 @@ package com.backend.api.nft.controller;
 
 import com.backend.api.member.service.MemberCoinService;
 import com.backend.api.nft.dto.NftResponseDto;
-import com.backend.api.nft.service.NftService;
+import com.backend.api.nft.service.NftApiService;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.service.MemberService;
 import com.backend.domain.nft.entity.Nft;
@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/nft")
 public class NftTokenController {
 
-    private final NftService nftService;
+    private final NftApiService nftApiService;
     private final MemberService memberService;
     private final MemberCoinService memberCoinService;
 
@@ -42,7 +42,7 @@ public class NftTokenController {
     public WalletDto.Response createWallet(@MemberInfo MemberInfoDto memberInfoDto) {
         Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
         // 지갑생성하고 멤버필드 업데이트
-        return nftService.createWallet(member);
+        return nftApiService.createWallet(member);
     }
 
     // 토큰 발행
@@ -56,7 +56,7 @@ public class NftTokenController {
             throw new BusinessException(ErrorCode.NOT_ENOUGH_COIN);
         }
 
-        Nft nft = nftService.uploadNftAndCreateToken(drawingId, member);
+        Nft nft = nftApiService.uploadNftAndCreateToken(drawingId, member);
         NftResponseDto nftResponseDto = new NftResponseDto(nft);
         // 은코인 감소, 금코인 증가
         memberCoinService.minusSilverCoin(member, 1);
@@ -71,7 +71,7 @@ public class NftTokenController {
     public TokenListDto.Response getTokenList(@PathVariable Long memberId, @MemberInfo MemberInfoDto memberInfoDto) {
         Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
 
-        return nftService.getTokenList(member);
+        return nftApiService.getTokenList(member);
     }
 
     // 모든 토큰 조회
@@ -79,7 +79,7 @@ public class NftTokenController {
     @CustomApi
     @Operation(summary = "발행된 모든 토큰 조회", description = "모든 NFT 토큰들을 조회합니다."+"\n\n### [ 수행절차 ]\n\n"+"- try it out 해주세요\n\n")
     public TokenListDto.Response getAllTokenList(){
-        return nftService.getAllTokenList();
+        return nftApiService.getAllTokenList();
     }
 
 }

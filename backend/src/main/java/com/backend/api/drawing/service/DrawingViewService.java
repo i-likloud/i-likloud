@@ -8,6 +8,8 @@ import com.backend.domain.drawing.entity.Drawing;
 import com.backend.domain.drawing.repository.DrawingRepository;
 import com.backend.domain.likes.repository.LikesRepository;
 import com.backend.domain.member.entity.Member;
+import com.backend.domain.nft.entity.Nft;
+import com.backend.domain.nft.service.NftService;
 import com.backend.global.error.ErrorCode;
 import com.backend.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,7 @@ public class DrawingViewService {
 
     private final DrawingRepository drawingRepository;
     private final LikesRepository likesRepository;
+    private final NftService nftService;
 
 
     // 전체 게시물 조회
@@ -67,6 +70,9 @@ public class DrawingViewService {
             throw new BusinessException(ErrorCode.UNAUTHORIZED_DELETION);
         }
         drawingRepository.delete(drawing);
+        
+        Nft nft = nftService.findNftByDrawingId(drawingId);
+        nft.setDrawing(null);
     }
 
     public Drawing findDrawingById(Long drawingId){
