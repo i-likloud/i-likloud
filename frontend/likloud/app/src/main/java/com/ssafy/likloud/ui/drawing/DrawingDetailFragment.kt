@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.MainActivityViewModel
@@ -64,6 +65,7 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
 
         drawingDetailFragmentViewModel.currentDrawingMember.observe(viewLifecycleOwner) {
             initInfoView()
+            initCommentRecyclerView()
         }
 
         drawingDetailFragmentViewModel.isLiked.observe(viewLifecycleOwner){
@@ -125,6 +127,17 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             textDrawingContent.text = drawingDetailFragmentViewModel.currentDrawingDetail.value!!.content
             textLikeCount.text = drawingDetailFragmentViewModel.currentDrawingDetail.value!!.likesCount.toString()
             textViewCount.text = drawingDetailFragmentViewModel.currentDrawingDetail.value!!.viewCount.toString()
+        }
+    }
+
+    private fun initCommentRecyclerView(){
+        Log.d(TAG, "commentList : ${drawingDetailFragmentViewModel.currentDrawingCommentList.value} ")
+        val commentListAdapter = CommentListAdapter(drawingDetailFragmentViewModel.currentDrawingCommentList.value!!,
+            drawingDetailFragmentViewModel.currentDrawingMember.value!!,
+            activityViewModel)
+        binding.recyclerviewDrawingComment.apply {
+            this.adapter = commentListAdapter
+            layoutManager = LinearLayoutManager(mainActivity, LinearLayoutManager.VERTICAL, false)
         }
     }
 

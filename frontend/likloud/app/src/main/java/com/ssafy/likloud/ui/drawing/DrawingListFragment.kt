@@ -10,13 +10,16 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.bumptech.glide.Glide
 import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
+import com.ssafy.likloud.data.model.CommentDto
 import com.ssafy.likloud.databinding.FragmentDrawingListBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -108,10 +111,10 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         drawingListFragmentViewModel.currentDrawingMember.observe(viewLifecycleOwner){
             //현재 그림에 대한 정보, 그림 그린 멤버 정보 뷰 세팅
             initInfoView()
+            initCommentRecyclerView()
         }
 
         drawingListFragmentViewModel.isLiked.observe(viewLifecycleOwner){
-            Log.d(TAG, "current isLiked: $it")
             if(it){
                 binding.imageHeart.setImageResource(R.drawable.icon_selected_heart)
             }else{
@@ -121,9 +124,6 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
 
         drawingListFragmentViewModel.likeCount.observe(viewLifecycleOwner){
             binding.textLikeCount.text = it.toString()
-        }
-
-        drawingListFragmentViewModel.selectedDrawingCommentList.observe(viewLifecycleOwner) {
         }
     }
 
@@ -147,8 +147,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
     }
 
     private fun initRecyclerView(){
-        val drawingListAdapter =
-            DrawingListAdapter(drawingListFragmentViewModel.currentDrawingListDtoList.value!!)
+        val drawingListAdapter = DrawingListAdapter(drawingListFragmentViewModel.currentDrawingListDtoList.value!!)
         binding.recyclerviewDrawaing.apply {
             this.adapter = drawingListAdapter
             set3DItem(true)
@@ -162,6 +161,17 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
                     Log.d(TAG, "SelectedDrawingDetail : ${drawingListFragmentViewModel.currentDrawingDetailDto.value} ")
                 }
             })
+        }
+    }
+
+    private fun initCommentRecyclerView(){
+        Log.d(TAG, "commentList : ${drawingListFragmentViewModel.currentDrawingCommentList.value} ")
+        val commentListAdapter = CommentListAdapter(drawingListFragmentViewModel.currentDrawingCommentList.value!!,
+            drawingListFragmentViewModel.currentDrawingMember.value!!,
+            activityViewModel)
+        binding.recyclerviewDrawingComment.apply {
+            this.adapter = commentListAdapter
+            layoutManager = LinearLayoutManager(mainActivity, LinearLayoutManager.VERTICAL, false)
         }
     }
 }

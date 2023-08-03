@@ -75,9 +75,25 @@ class DrawingListFragmentViewModel @Inject constructor(
         viewModelScope.launch {
             baseRepository.getDrawingDetail(dto.drawingId).onSuccess {
                 _currentDrawingDetailDto.value = it
+                _currentDrawingCommentList.value = it.commentList
             }
         }
     }
+    //현재 그림에 대한 댓글 리스트
+    private val _currentDrawingCommentList = MutableLiveData<MutableList<CommentDto>>()
+    val currentDrawingCommentList: LiveData<MutableList<CommentDto>>
+        get() = _currentDrawingCommentList
+//    fun addToCommentList(comment: CommentDto) {
+//        viewModelScope.launch {
+//            selectedDrawingCommentList.value?.add(comment)
+//        }
+//    }
+//
+//    fun removeComment(posi:Int){
+//        viewModelScope.launch {
+//            selectedDrawingCommentList.value!!.removeAt(posi)
+//        }
+//    }
 
     ///////////////////////////////////////////////////////// 선택된 그림의 member ////////////////////////////////////////////////////////////
 
@@ -131,26 +147,4 @@ class DrawingListFragmentViewModel @Inject constructor(
             }
         }
     }
-
-
-
-    /////////////////////////////////////////////////////////   댓글  ////////////////////////////////////////////////////////////////////////
-
-    private val _selectedDrawingCommentList = MutableLiveData<MutableList<CommentDto>>()
-    val selectedDrawingCommentList: LiveData<MutableList<CommentDto>>
-        get() = _selectedDrawingCommentList
-    fun changeSelectedDrawingCommentList(list: MutableList<CommentDto>){
-        _selectedDrawingCommentList.value = list
-    }
-//    fun addToCommentList(comment: CommentDto) {
-//        viewModelScope.launch {
-//            selectedDrawingCommentList.value?.add(comment)
-//        }
-//    }
-//
-//    fun removeComment(posi:Int){
-//        viewModelScope.launch {
-//            selectedDrawingCommentList.value!!.removeAt(posi)
-//        }
-//    }
 }
