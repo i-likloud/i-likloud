@@ -54,7 +54,7 @@ public class StoreController {
         return ResponseEntity.ok(responseDto);
     }
 
-    @Operation(summary = "악세사리 구매", description = "악세사리를 구매하는 메서드입니다."+"\n\n### [ 수행절차 ]\n\n"+"- 구매할 아이템의 store id 값을 넣어주세요\n\n"+"- try it out 해주세요\n\n")
+    @Operation(summary = "악세사리 구매", description = "악세사리를 구매하는 메서드입니다."+"\n\n### [ 수행절차 ]\n\n"+"- 구매할 아이템의 store id 값을 넣어주세요\n\n"+"- Execute 해주세요\n\n")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "#### 성공"),
             @ApiResponse(responseCode = "에러", description = "#### 에러 이유를 확인 하십시오",
@@ -84,7 +84,7 @@ public class StoreController {
         return ResponseEntity.ok(responseDto);
     }
 
-    @Operation(summary = "악세사리 등록", description = "악세사리를 등록합니다."+"\n\n### [ 수행절차 ]\n\n"+"- accessoryName, accessoryPrice 넣고 try it out 해주세요. (아래 예시값 그대로 try it out 해도 괜찮습니다.)\n\n"+"- try it out 해주세요\n\n")
+    @Operation(summary = "악세사리 등록", description = "악세사리를 등록합니다."+"\n\n### [ 수행절차 ]\n\n"+"- accessoryName, accessoryPrice 넣어주세요. (아래 예시값 그대로 Execute 해도 괜찮습니다.)\n\n"+"- Execute 해주세요\n\n")
     @CustomApi
     @PostMapping("/accessoryUpload")
     public ResponseEntity<Store> uploadAccessory(@RequestBody AccessoryUploadRequestDto requestDto) {

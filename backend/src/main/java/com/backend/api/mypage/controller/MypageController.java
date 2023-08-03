@@ -60,7 +60,7 @@ public class MypageController {
         }
     }
 
-    @Operation(summary = "닉네임 수정", description = "프로필의 닉네임을 수정합니다."+"\n\n### [ 수행절차 ]\n\n"+"- 바꿀 닉네임 값을 넣어주세요\n\n"+"- try it out 해주세요\n\n")
+    @Operation(summary = "닉네임 수정", description = "프로필의 닉네임을 수정합니다."+"\n\n### [ 수행절차 ]\n\n"+"- 바꿀 닉네임 값을 넣어주세요\n\n"+"- Execute 해주세요\n\n")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "#### 성공"),
             @ApiResponse(responseCode = "에러", description = "#### 에러 이유를 확인 하십시오",
@@ -86,7 +86,7 @@ public class MypageController {
     }
 
     @Operation(summary = "프로필 캐릭터 수정", description = "프로필 얼굴, 색깔, 아이템 수정 메서드입니다."+"\n\n### [ 수행절차 ]\n\n"+"- 바꾸고 싶은 profile 정보를 넣어 주세요 (response body는 아래에 예시값의 request값만 사용해주세요.)\n\n"+
-            "- try it out 해주세요. \n\n"+"- 값을 모두 채워주세요\n\n"+"- 0 또는 \"\" 값으로 넣으면 아무것도 선택이 안된 경우입니다.")
+            "- Execute 해주세요. \n\n"+"- 값을 모두 채워주세요\n\n"+"- 0 또는 \"\" 값으로 넣으면 아무것도 선택이 안된 경우입니다.")
     @CustomApi
     @PutMapping("/profile")
     public ResponseEntity<ProfileDto> editProfile(@RequestBody ProfileDto.editRequest request, @MemberInfo MemberInfoDto memberInfoDto) {

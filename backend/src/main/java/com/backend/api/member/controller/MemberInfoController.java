@@ -54,7 +54,7 @@ public class MemberInfoController {
     }
 
     // 추가정보 업데이트 메서드
-    @Operation(summary = "추가 정보", description = "회원가입후 추가정보 관련 메서드입니다. \n\n " +"\n\n### [ 수행절차 ]\n\n"+"- login 에서 발급 받은 access-token을 자물쇠에 넣고 try it out 해주세요. (request body는 아래에 예시값의 request값만 사용해주세요.)\n\n"+ "- Response body의 accessToken 또는 Response headers의 newtoken을 복사하여 새로 자물쇠에 넣어 주세요 \n\n")
+    @Operation(summary = "추가 정보", description = "회원가입후 추가정보 관련 메서드입니다. \n\n " +"\n\n### [ 수행절차 ]\n\n"+"- login 에서 발급 받은 access-token을 자물쇠에 넣고 Execute 해주세요. (request body는 아래에 예시값의 request값만 사용해주세요.)\n\n"+ "- Response body의 accessToken 또는 Response headers의 newtoken을 복사하여 새로 자물쇠에 넣어 주세요 \n\n")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "#### 성공"),
             @ApiResponse(responseCode = "에러", description = "#### 에러 이유를 확인 하십시오",
@@ -85,7 +85,7 @@ public class MemberInfoController {
 
     // 특정 멤버 조회
 //    @Operation(summary = "특정 멤버 정보", description = "멤버ID를 통해 관련 정보를 얻는 메소드입니다.")
-    @Operation(summary = "특정 멤버 정보", description = "회원가입후 회원 정보 조회 메서드입니다."+"\n\n### [ 수행절차 ]\n\n"+"- 조회하고자 하는 member의 id값을 넣어주세요\n\n"+"- try it out 해주세요\n\n")
+    @Operation(summary = "특정 멤버 정보", description = "회원가입후 회원 정보 조회 메서드입니다."+"\n\n### [ 수행절차 ]\n\n"+"- 조회하고자 하는 member의 id값을 넣어주세요\n\n"+"- Execute 해주세요\n\n")
     @CustomApi
     @GetMapping("/search/{memberId}")
     public ResponseEntity<MemberSearchDto> memberSearchInfo(@PathVariable Long memberId) {

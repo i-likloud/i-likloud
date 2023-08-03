@@ -31,7 +31,7 @@ public class ReportController {
     private final MemberService memberService;
 
     // 신고 생성
-    @Operation(summary = "신고하기", description = "특정 게시글을 신고할 수 있는 메소드입니다."+"\n\n### [ 수행절차 ]\n\n"+"- 적합하지 않아 신고하려는 그림의 id값을 drawingId에 넣어주세요\n\n"+"- 사유(신고내용)을 content에 넣어주세요\n\n"+"- 요구하는 모든 값을 넣어줘야 합니다.\n\n"+"- try it out 해주세요\n\n")
+    @Operation(summary = "신고하기", description = "특정 게시글을 신고할 수 있는 메소드입니다."+"\n\n### [ 수행절차 ]\n\n"+"- 적합하지 않아 신고하려는 그림의 id값을 drawingId에 넣어주세요\n\n"+"- 사유(신고내용)을 content에 넣어주세요\n\n"+"- 요구하는 모든 값을 넣어줘야 합니다.\n\n"+"- Execute 해주세요\n\n")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "#### 성공"),
             @ApiResponse(responseCode = "에러", description = "#### 에러 이유를 확인 하십시오",
