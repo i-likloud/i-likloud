@@ -18,6 +18,8 @@ import com.ssafy.likloud.data.model.request.MemberInfoRequest
 import com.ssafy.likloud.data.model.request.ProfileEditRequest
 import com.ssafy.likloud.data.model.response.AccessoryResponse
 import com.ssafy.likloud.data.model.response.MemberInfoResponse
+import com.ssafy.likloud.data.model.response.StoreItemBuyResponse
+import com.ssafy.likloud.data.model.response.StoreResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -95,9 +97,15 @@ interface BaseService {
     @GET("api/photo/{photoId}/alldrawings")
     suspend fun getPhotoDrawingList(@Path("photoId") photoId: Int): Response<MutableList<DrawingListDto>>
 
+    /**
+     * 내가 보유하고 있는 악세서리 목록 조회
+     */
     @GET("api/mypage/accessory")
     suspend fun getMyAccessoryList(@Query("body") body: MemberInfoRequest): Response<MutableList<AccessoryResponse>>
 
+    /**
+     * 프로필 수정
+     */
     @PUT("api/mypage/profile")
     suspend fun editMyProfile(@Body body: ProfileEditRequest): Response<MemberInfoResponse>
 
@@ -121,6 +129,19 @@ interface BaseService {
      */
     @GET("api/mypage/photos")
     suspend fun getMyPhotoListDtoList(): Response<MutableList<PhotoListDto>>
+
+    /**
+     * 상점 페이지 들어갈 때 조회
+     */
+    @GET("api/store/home")
+    suspend fun getStoreInfo(@Query("memberInfo") memberInfo: MemberInfoRequest): Response<StoreResponse>
+
+    /**
+     * 악세서리 구매
+     */
+    @POST("api/store/buy/{storeId}")
+    suspend fun postBuyAccessory(@Query("storeId") storeId: Int, @Body body: MemberInfoRequest): Response<StoreItemBuyResponse>
+
     /**
      * 내가 즐찾한 사진 조회(마이페이지)
      */

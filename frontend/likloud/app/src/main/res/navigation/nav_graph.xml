@@ -207,11 +207,21 @@
         android:name="com.ssafy.likloud.ui.drawingform.DrawingFormFragment"
         android:label="fragment_drawing_form"
         tools:layout="@layout/fragment_drawing_form" />
+        
     <fragment
         android:id="@+id/storeFragment"
         tools:layout="@layout/fragment_store"
         android:name="com.ssafy.likloud.ui.store.StoreFragment"
-        android:label="StoreFragment" />
+        android:label="StoreFragment" >
+        <action
+            android:id="@+id/action_storeFragment_to_profileEditFragment"
+            app:destination="@id/profileEditFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"/>
+    </fragment>
+
     <fragment
         android:id="@+id/photoDetailFragment"
         tools:layout="@layout/fragment_photo_detail"

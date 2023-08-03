@@ -17,6 +17,8 @@ import com.ssafy.likloud.data.model.request.MemberInfoRequest
 import com.ssafy.likloud.data.model.request.ProfileEditRequest
 import com.ssafy.likloud.data.model.response.AccessoryResponse
 import com.ssafy.likloud.data.model.response.MemberInfoResponse
+import com.ssafy.likloud.data.model.response.StoreItemBuyResponse
+import com.ssafy.likloud.data.model.response.StoreResponse
 import retrofit2.Response
 import okhttp3.MultipartBody
 
@@ -111,6 +113,9 @@ interface BaseRepository {
         memberInfoRequest: MemberInfoRequest
     ): NetworkResult<MutableList<AccessoryResponse>>
 
+    /**
+     * 프로필 수정
+     */
     suspend fun editMyProfile(
         profileEditRequest: ProfileEditRequest
     ): NetworkResult<MemberInfoResponse>
@@ -131,6 +136,22 @@ interface BaseRepository {
      * 내가 올린 사진 조회(마이페이지)
      */
     suspend fun getMyPhotoListDtoList(): NetworkResult<MutableList<PhotoListDto>>
+
+    /**
+     * 상점 페이지 들어갈 때 조회
+     */
+    suspend fun getStoreInfo(
+        memberInfoRequest: MemberInfoRequest
+    ): NetworkResult<StoreResponse>
+
+    /**
+     * 악세서리 구매
+     */
+    suspend fun postBuyAccessory(
+        storeId: Int,
+        memberInfoRequest: MemberInfoRequest
+    ): NetworkResult<StoreItemBuyResponse>
+
     /**
      * 내가 즐찾한 사진 조회(마이페이지)
      */

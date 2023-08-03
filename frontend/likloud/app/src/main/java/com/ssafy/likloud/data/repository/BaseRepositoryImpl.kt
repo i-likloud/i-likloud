@@ -21,6 +21,8 @@ import com.ssafy.likloud.data.model.request.MemberInfoRequest
 import com.ssafy.likloud.data.model.request.ProfileEditRequest
 import com.ssafy.likloud.data.model.response.AccessoryResponse
 import com.ssafy.likloud.data.model.response.MemberInfoResponse
+import com.ssafy.likloud.data.model.response.StoreItemBuyResponse
+import com.ssafy.likloud.data.model.response.StoreResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 import javax.inject.Inject
@@ -113,6 +115,17 @@ class BaseRepositoryImpl @Inject constructor(
 
     override suspend fun getMyPhotoListDtoList(): NetworkResult<MutableList<PhotoListDto>> {
         return handleApi { baseAPIService.getMyPhotoListDtoList().body()!! }
+    }
+
+    override suspend fun getStoreInfo(memberInfoRequest: MemberInfoRequest): NetworkResult<StoreResponse> {
+        return handleApi { baseAPIService.getStoreInfo(memberInfoRequest).body()!! }
+    }
+
+    override suspend fun postBuyAccessory(
+        storeId: Int,
+        memberInfoRequest: MemberInfoRequest
+    ): NetworkResult<StoreItemBuyResponse> {
+        return handleApi { baseAPIService.postBuyAccessory(storeId, memberInfoRequest).body()!! }
     }
 
     override suspend fun getBookmarkPhotoListDtoList(): NetworkResult<MutableList<PhotoListDto>> {
