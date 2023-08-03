@@ -1,5 +1,6 @@
 package com.ssafy.likloud.ui.photo
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -58,35 +59,66 @@ class PhotoListFragmentViewModel @Inject constructor(
 
 
     /////////////////////////////// 현재 선택된 photo ///////////////////////////
-    private var _selectedPhotoListDto = MutableLiveData<PhotoListDto>()
-    val selectedPhotoListDto: LiveData<PhotoListDto>
-        get() = _selectedPhotoListDto
-    fun setSelectedPhotoListDto(dto: PhotoListDto){
-        _selectedPhotoListDto.value = dto
+    private var _currentPhotoListDto = MutableLiveData<PhotoListDto>()
+    val currentPhotoListDto: LiveData<PhotoListDto>
+        get() = _currentPhotoListDto
+    fun setCurrentPhotoListDto(dto: PhotoListDto){
+        Log.d(TAG, "getSelectedPhotoDrawing: $dto")
+        _currentPhotoListDto.value = dto
     }
 
 
     ////////////////////////////// 선택된 photo의 member //////////////////////////////
-    private var _selectedPhotoMember = MutableLiveData<MemberProfileDto>()
-    val selectedPhotoMember: LiveData<MemberProfileDto>
-        get() = _selectedPhotoMember
-    fun getSelectedPhotoMember(memberId: Int){
+    private var _currentPhotoMember = MutableLiveData<MemberProfileDto>()
+    val currentPhotoMember: LiveData<MemberProfileDto>
+        get() = _currentPhotoMember
+    fun getCurrentPhotoMember(memberId: Int){
         viewModelScope.launch {
             baseRepository.getMemberProfile(memberId).onSuccess {
-                _selectedPhotoMember.value = it
+                _currentPhotoMember.value = it
             }
         }
     }
 
     //////////////////////////// 선택된 photo의 DrawingListDto 목록 ///////////////////////////////
-    private var _selectedPhotoDrawingList = MutableLiveData<MutableList<DrawingListDto>>()
-    val selectedPhotoDrawingList: LiveData<MutableList<DrawingListDto>>
-        get() = _selectedPhotoDrawingList
+    private var _currentPhotoDrawingList = MutableLiveData<MutableList<DrawingListDto>>()
+    val currentPhotoDrawingList: LiveData<MutableList<DrawingListDto>>
+        get() = _currentPhotoDrawingList
     fun getSelectedPhotoDrawingList(photoId: Int){
         viewModelScope.launch {
             baseRepository.getPhotoDrawingList(photoId).onSuccess {
-                _selectedPhotoDrawingList.value = it
+                _currentPhotoDrawingList.value = it
             }
+        }
+    }
+
+    ///////////////////////////////////////////////////// 북마크 //////////////////////////////////
+    private val _isBookmarked = MutableLiveData<Boolean>()
+    val isBookmarked: LiveData<Boolean>
+        get() = _isBookmarked
+    fun setIsBookmarked(){
+        _isBookmarked.value = _currentPhotoListDto.value!!.memberBookmarked
+    }
+    fun changeIsBookmarked(){
+        // api 호출
+        viewModelScope.launch {
+            baseRepository.changePhotoBookmark(_currentPhotoListDto.value!!.photoId)
+            _isBookmarked.value = !_isBookmarked.value!!
+        }
+    }
+
+    private val _bookmarkCount = MutableLiveData<Int>()
+    val bookmarkCount: LiveData<Int>
+        get() = _bookmarkCount
+    fun setBookmarkCount(){
+        Log.d(TAG, "setBookmarkCount: ${_currentPhotoListDto.value!!.bookmarkCount}")
+        _bookmarkCount.value = _currentPhotoListDto.value!!.bookmarkCount
+    }
+    fun changeBookmarkCount(){
+        if(_isBookmarked.value!!){
+            _bookmarkCount.value = _currentPhotoListDto.value!!.bookmarkCount
+        }else{
+            _bookmarkCount.value = _currentPhotoListDto.value!!.bookmarkCount - 1
         }
     }
 

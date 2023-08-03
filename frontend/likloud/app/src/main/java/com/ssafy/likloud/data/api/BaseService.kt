@@ -131,6 +131,16 @@ interface BaseService {
      */
     @GET("api/photo/{photoId}")
     suspend fun getPhotoDetail(@Path("photoId") photoId: Int): Response<PhotoListDto>
+    /**
+     * 그림 좋아요
+     */
+    @POST("api/drawings/{drawingId}/likes")
+    suspend fun changeDrawingLike(@Path("drawingId") drawingId: Int): Response<String>
+    /**
+     * 사진 즐찾
+     */
+    @POST("api/photo/{photoId}/bookmark")
+    suspend fun changePhotoBookmark(@Path("photoId") photoId: Int): Response<String>
 }
 
 //api 만드는 과정
