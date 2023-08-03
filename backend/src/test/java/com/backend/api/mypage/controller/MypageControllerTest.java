@@ -29,8 +29,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -67,16 +66,61 @@ class MypageControllerTest extends BaseIntegrationTest {
         }
     }
 
-//    @Test
-//    @Rollback
-//    void editNickname(@MemberInfo MemberInfoDto memberInfoDto) throws Exception {
-//
-//    }
-//
-//    @Test
-//    void editProfile() {
-//    }
-//
+    @Test
+    @Rollback
+    void editNickname() throws Exception {
+
+        // given
+        String nickname = "새로운닉네임";
+
+        try {
+            //when
+            ResultActions resultActions = mvc.perform(put("/api/mypage/nickname" )
+                            .accept(MediaType.APPLICATION_JSON)
+                            .header("Authorization", "Bearer " + token)
+                            .content("{\"email\": \"" + userEmail + "\"}")
+                            .param("nickname", nickname)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andDo(MockMvcResultHandlers.print());
+
+            //then
+            resultActions.andExpect(status().isOk());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Test
+    @Rollback
+    void editProfile() {
+        // given
+        int profileFace = 9;
+        int profileColor = 9;
+        int profileAccessory = 9;
+
+        String requestBody = "{"
+                + "\"profileColor\": " + profileColor + ","
+                + "\"profileFace\": " + profileFace + ","
+                + "\"profileAccessory\": " + profileAccessory
+                + "}";
+
+        try {
+            //when
+            ResultActions resultActions = mvc.perform(put("/api/mypage/profile" )
+                            .accept(MediaType.APPLICATION_JSON)
+                            .header("Authorization", "Bearer " + token)
+                            .content(requestBody)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andDo(MockMvcResultHandlers.print());
+
+            //then
+            resultActions.andExpect(status().isOk());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Test
     @Rollback
     void getMyLikes() {
