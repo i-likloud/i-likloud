@@ -33,11 +33,14 @@ public class PhotoInfoService {
 
     // 최신순 전체 조회
     @Transactional(readOnly = true)
-    public ResponseEntity<List<PhotoInfoResponseDto>> searchAllDesc() {
+    public ResponseEntity<List<PhotoInfoResponseDto>> searchAllDesc(Member member) {
         List<Photo> photos = photoRepository.findAllByOrderByCreatedAtDesc();
 
         List<PhotoInfoResponseDto> photoInfoResponseDtos = photos.stream()
-                .map(PhotoInfoResponseDto::new)
+                .map(photo -> {
+                    boolean memberBookmarked = this.isAlreadyBookmarked(member, photo.getPhotoId());
+                    return new PhotoInfoResponseDto(photo, memberBookmarked);
+                })
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(photoInfoResponseDtos);
@@ -45,11 +48,14 @@ public class PhotoInfoService {
 
     // 인기순 전체 조회
     @Transactional(readOnly = true)
-    public ResponseEntity<List<PhotoInfoResponseDto>> searchAllPickCntDesc(){
+    public ResponseEntity<List<PhotoInfoResponseDto>> searchAllPickCntDesc(Member member){
         List<Photo> photos = photoRepository.findAllByOrderByPickCntDesc();
 
         List<PhotoInfoResponseDto> photoInfoResponseDtos = photos.stream()
-                .map(PhotoInfoResponseDto::new)
+                .map(photo -> {
+                    boolean memberBookmarked = this.isAlreadyBookmarked(member, photo.getPhotoId());
+                    return new PhotoInfoResponseDto(photo, memberBookmarked);
+                })
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(photoInfoResponseDtos);
@@ -58,11 +64,14 @@ public class PhotoInfoService {
 
     // 북마크 전체 조회
     @Transactional(readOnly = true)
-    public ResponseEntity<List<PhotoInfoResponseDto>> searchAllBookmarkCntDesc(){
+    public ResponseEntity<List<PhotoInfoResponseDto>> searchAllBookmarkCntDesc(Member member){
         List<Photo> photos = photoRepository.findAllByOrderByBookmarkCntDesc();
 
         List<PhotoInfoResponseDto> photoInfoResponseDtos = photos.stream()
-                .map(PhotoInfoResponseDto::new)
+                .map(photo -> {
+                    boolean memberBookmarked = this.isAlreadyBookmarked(member, photo.getPhotoId());
+                    return new PhotoInfoResponseDto(photo, memberBookmarked);
+                })
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(photoInfoResponseDtos);
@@ -70,11 +79,13 @@ public class PhotoInfoService {
 
     // 상세 사진 조회
     @Transactional
-    public PhotoInfoResponseDto getPhotoDetail(Long photoId){
+    public PhotoInfoResponseDto getPhotoDetail(Long photoId, Member member){
         Photo photo = photoRepository.findById(photoId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_PHOTO));
 
-        return new PhotoInfoResponseDto(photo);
+        boolean memberBookmarked = this.isAlreadyBookmarked(member, photo.getPhotoId());
+
+        return new PhotoInfoResponseDto(photo, memberBookmarked);
     }
 
     // 특정 사진과 관련된 모든 그림

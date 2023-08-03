@@ -28,29 +28,33 @@ public class PhotoInfoController {
     //전체 조회(최신순)
     @Operation(summary = "전체 조회(최신순)", description = "최신순으로 정렬된 전체 조회 메소드입니다.")
     @GetMapping("/new")
-    public ResponseEntity<List<PhotoInfoResponseDto>> searchAllDesc() {
-        return photoInfoService.searchAllDesc();
+    public ResponseEntity<List<PhotoInfoResponseDto>> searchAllDesc(@MemberInfo MemberInfoDto memberInfoDto) {
+        Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
+        return photoInfoService.searchAllDesc(member);
     }
 
     //전체 조회(그림그린순)
     @Operation(summary = "전체 조회(그림 많이 그린 순)", description = "그림 많이 그린 순으로 정렬된 전체 조회 메소드입니다.")
     @GetMapping("/pick")
-    public ResponseEntity<List<PhotoInfoResponseDto>> searchAllPickCntDesc() {
-        return photoInfoService.searchAllPickCntDesc();
+    public ResponseEntity<List<PhotoInfoResponseDto>> searchAllPickCntDesc(@MemberInfo MemberInfoDto memberInfoDto) {
+        Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
+        return photoInfoService.searchAllPickCntDesc(member);
     }
 
     //전체 조회(북마크 순)
     @Operation(summary = "전체 조회(즐겨찾기순)", description = "즐겨찾기순으로 정렬된 전체 조회 메소드입니다.")
     @GetMapping("/bookmarkdesc")
-    public ResponseEntity<List<PhotoInfoResponseDto>> searchAllBookmarkCntDesc() {
-        return photoInfoService.searchAllBookmarkCntDesc();
+    public ResponseEntity<List<PhotoInfoResponseDto>> searchAllBookmarkCntDesc(@MemberInfo MemberInfoDto memberInfoDto) {
+        Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
+        return photoInfoService.searchAllBookmarkCntDesc(member);
     }
 
     //사진 상세 조회
     @Operation(summary = "사진 상세 조회", description = "사진 상세조회(url, 사진id, 멤버id).")
     @GetMapping("/{photoId}")
-    public PhotoInfoResponseDto photoDetail(@PathVariable Long photoId) {
-        return photoInfoService.getPhotoDetail(photoId);
+    public PhotoInfoResponseDto photoDetail(@PathVariable Long photoId, @MemberInfo MemberInfoDto memberInfoDto) {
+        Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
+        return photoInfoService.getPhotoDetail(photoId, member);
     }
 
     // 클릭한 photoId와 관련된 모든 drawings 조회
