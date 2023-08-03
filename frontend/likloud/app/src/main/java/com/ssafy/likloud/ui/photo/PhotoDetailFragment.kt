@@ -56,16 +56,18 @@ class PhotoDetailFragment : BaseFragment<FragmentPhotoDetailBinding>(FragmentPho
 
     private fun initObserver(){
         photoDetailFragmentViewModel.currentPhotoDetail.observe(viewLifecycleOwner){
-            //여기서 멤버 조회 후 뷰 세팅
-            photoDetailFragmentViewModel.getCurrentPhotoDrawingList(photoDetailFragmentViewModel.currentPhotoDetail.value!!.photoId)
-            photoDetailFragmentViewModel.getCurrentPhotoMember(photoDetailFragmentViewModel.currentPhotoDetail.value!!.memberId)
+            //여기서 현재 그림에 대한 사진 리스트, 사진 올린 멤버 조회 & 초기 bookmark 정보 세팅
+            photoDetailFragmentViewModel.getCurrentPhotoDrawingList(it.photoId)
+            photoDetailFragmentViewModel.getCurrentPhotoMember(it.memberId)
             photoDetailFragmentViewModel.setIsBookmarked()
             photoDetailFragmentViewModel.setBookmarkCount()
         }
         photoDetailFragmentViewModel.currentPhotoMember.observe(viewLifecycleOwner){
+            //사진 정보, 유저 정보 뷰 세팅
             initInfoView()
         }
         photoDetailFragmentViewModel.currentPhotoDrawingList.observe(viewLifecycleOwner){
+            //현재 사진에 대한 그림들 리사이클러뷰 세팅
             initPhotoDrawingListRecyclerView()
         }
         photoDetailFragmentViewModel.isBookmarked.observe(viewLifecycleOwner){
@@ -86,9 +88,11 @@ class PhotoDetailFragment : BaseFragment<FragmentPhotoDetailBinding>(FragmentPho
 
     override fun initListener() {
         binding.apply {
+            //뒤로가기 눌렀을 때
             buttonBack.setOnClickListener {
                 findNavController().popBackStack()
             }
+            //즐겨찾기 눌렀을 때
             imageStar.setOnClickListener {
                 photoDetailFragmentViewModel.changeBookmarkCount()
                 photoDetailFragmentViewModel.changeIsBookmarked()

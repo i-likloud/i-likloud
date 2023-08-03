@@ -63,7 +63,6 @@ class PhotoListFragmentViewModel @Inject constructor(
     val currentPhotoListDto: LiveData<PhotoListDto>
         get() = _currentPhotoListDto
     fun setCurrentPhotoListDto(dto: PhotoListDto){
-        Log.d(TAG, "getSelectedPhotoDrawing: $dto")
         _currentPhotoListDto.value = dto
     }
 
@@ -84,7 +83,7 @@ class PhotoListFragmentViewModel @Inject constructor(
     private var _currentPhotoDrawingList = MutableLiveData<MutableList<DrawingListDto>>()
     val currentPhotoDrawingList: LiveData<MutableList<DrawingListDto>>
         get() = _currentPhotoDrawingList
-    fun getSelectedPhotoDrawingList(photoId: Int){
+    fun getCurrentPhotoDrawingList(photoId: Int){
         viewModelScope.launch {
             baseRepository.getPhotoDrawingList(photoId).onSuccess {
                 _currentPhotoDrawingList.value = it

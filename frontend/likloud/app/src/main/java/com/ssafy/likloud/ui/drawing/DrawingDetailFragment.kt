@@ -56,44 +56,27 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
 
     private fun initObserver(){
         drawingDetailFragmentViewModel.currentDrawingDetail.observe(viewLifecycleOwner){
-            //member 정보 조회
-            drawingDetailFragmentViewModel.getCurrentDrawingMember(drawingDetailFragmentViewModel.currentDrawingDetail.value!!.memberId)
+            //현재 가운데 있는 그림 정보 조회 & 초기 좋아요 세팅
+            drawingDetailFragmentViewModel.getCurrentDrawingMember(it.memberId)
             drawingDetailFragmentViewModel.setIsLiked()
             drawingDetailFragmentViewModel.setLikeCount()
         }
 
-        drawingDetailFragmentViewModel.currentDrawingMember.observe(viewLifecycleOwner){
-            binding.apply {
-                Glide.with(binding.imageCurrentDrawing)
-                    .load(drawingDetailFragmentViewModel.currentDrawingDetail.value!!.imageUrl)
-                    .into(binding.imageCurrentDrawing)
-                Glide.with(binding.imageProfileColor)
-                    .load(activityViewModel.waterDropColorList[drawingDetailFragmentViewModel.currentDrawingMember.value!!.profileColor].resourceId)
-                    .into(binding.imageProfileColor)
-                Glide.with(binding.imageProfileFace)
-                    .load(activityViewModel.waterDropFaceList[drawingDetailFragmentViewModel.currentDrawingMember.value!!.profileFace].resourceId)
-                    .into(binding.imageProfileFace)
-                Glide.with(binding.imageProfileAccessory)
-                    .load(activityViewModel.waterDropAccessoryList[drawingDetailFragmentViewModel.currentDrawingMember.value!!.profileAccessory].resourceId)
-                    .into(binding.imageProfileAccessory)
-                textDrawingNickname.text = drawingDetailFragmentViewModel.currentDrawingMember.value!!.nickname
-                textDrawingTitle.text = drawingDetailFragmentViewModel.currentDrawingDetail.value!!.title
-                textDrawingContent.text = drawingDetailFragmentViewModel.currentDrawingDetail.value!!.content
-                textLikeCount.text = drawingDetailFragmentViewModel.currentDrawingDetail.value!!.likesCount.toString()
-                textViewCount.text = drawingDetailFragmentViewModel.currentDrawingDetail.value!!.viewCount.toString()
-            }
+        drawingDetailFragmentViewModel.currentDrawingMember.observe(viewLifecycleOwner) {
+            initInfoView()
         }
+
         drawingDetailFragmentViewModel.isLiked.observe(viewLifecycleOwner){
-            Log.d(TAG, "isLiked 변경.......... $it")
-            if (it) {
+            Log.d(TAG, "current isLiked: $it")
+            if(it){
                 binding.imageHeart.setImageResource(R.drawable.icon_selected_heart)
-            } else {
+            }else{
                 binding.imageHeart.setImageResource(R.drawable.icon_unselected_heart)
             }
         }
 
         drawingDetailFragmentViewModel.likeCount.observe(viewLifecycleOwner){
-            binding.textLikeCount.text = drawingDetailFragmentViewModel.likeCount.value.toString()
+            binding.textLikeCount.text = it.toString()
         }
     }
 
@@ -122,5 +105,28 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             }
         )
     }
+
+    private fun initInfoView(){
+        binding.apply {
+            Glide.with(binding.imageCurrentDrawing)
+                .load(drawingDetailFragmentViewModel.currentDrawingDetail.value!!.imageUrl)
+                .into(binding.imageCurrentDrawing)
+            Glide.with(binding.imageProfileColor)
+                .load(activityViewModel.waterDropColorList[drawingDetailFragmentViewModel.currentDrawingMember.value!!.profileColor].resourceId)
+                .into(binding.imageProfileColor)
+            Glide.with(binding.imageProfileFace)
+                .load(activityViewModel.waterDropFaceList[drawingDetailFragmentViewModel.currentDrawingMember.value!!.profileFace].resourceId)
+                .into(binding.imageProfileFace)
+            Glide.with(binding.imageProfileAccessory)
+                .load(activityViewModel.waterDropAccessoryList[drawingDetailFragmentViewModel.currentDrawingMember.value!!.profileAccessory].resourceId)
+                .into(binding.imageProfileAccessory)
+            textDrawingNickname.text = drawingDetailFragmentViewModel.currentDrawingMember.value!!.nickname
+            textDrawingTitle.text = drawingDetailFragmentViewModel.currentDrawingDetail.value!!.title
+            textDrawingContent.text = drawingDetailFragmentViewModel.currentDrawingDetail.value!!.content
+            textLikeCount.text = drawingDetailFragmentViewModel.currentDrawingDetail.value!!.likesCount.toString()
+            textViewCount.text = drawingDetailFragmentViewModel.currentDrawingDetail.value!!.viewCount.toString()
+        }
+    }
+
 
 }

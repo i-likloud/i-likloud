@@ -57,7 +57,6 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
     override fun initListener(){
 
         binding.apply {
-
             //최신순 눌렀을 때
             buttonRecentOrder.setOnClickListener {
                 drawingListFragmentViewModel.getRecentOrderDrawingListDtoList()
@@ -66,18 +65,16 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
             buttonRankingOrder.setOnClickListener{
                 drawingListFragmentViewModel.getRankingOrderDrawingListDtoList()
             }
-
             //조회순 눌렀을 때
             buttonViewOrder.setOnClickListener {
                 drawingListFragmentViewModel.getViewOrderDrawingListDtoLit()
             }
-
-
+            //좋아요 눌렀을 때
             imageHeart.setOnClickListener {
                 drawingListFragmentViewModel.changeLikeCount()
                 drawingListFragmentViewModel.changeIsLiked()
             }
-
+            //뒤로가기 눌렀을 때
             buttonBack.setOnClickListener {
                 findNavController().popBackStack()
             }
@@ -96,35 +93,21 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
     private fun initObserver(){
 
         drawingListFragmentViewModel.currentDrawingListDtoList.observe(viewLifecycleOwner){
-            Log.d(TAG, "currentDrawingListDtoList observe 발동... ")
+            //그림 목록 리사이클러뷰 세팅
             initRecyclerView()
-            drawingListFragmentViewModel.getSelectedDrawingDetailDto(drawingListFragmentViewModel.currentDrawingListDtoList.value!![0])
+            drawingListFragmentViewModel.getCurrentDrawingDetailDto(it[0])
         }
 
         drawingListFragmentViewModel.currentDrawingDetailDto.observe(viewLifecycleOwner){
-            Log.d(TAG, "selectedDrawing : ${drawingListFragmentViewModel.currentDrawingDetailDto.value} ")
+            //현재 가운데 있는 그림 정보 조회 & 초기 좋아요 세팅
             drawingListFragmentViewModel.getCurrentDrawingMember(it.memberId)
             drawingListFragmentViewModel.setIsLiked()
             drawingListFragmentViewModel.setLikeCount()
         }
 
         drawingListFragmentViewModel.currentDrawingMember.observe(viewLifecycleOwner){
-            binding.apply {
-                Glide.with(binding.imageProfileColor)
-                    .load(activityViewModel.waterDropColorList[it.profileColor].resourceId)
-                    .into(binding.imageProfileColor)
-                Glide.with(binding.imageProfileFace)
-                    .load(activityViewModel.waterDropFaceList[it.profileFace].resourceId)
-                    .into(binding.imageProfileFace)
-                Glide.with(binding.imageProfileAccessory)
-                    .load(activityViewModel.waterDropAccessoryList[it.profileAccessory].resourceId)
-                    .into(binding.imageProfileAccessory)
-                textDrawingNickname.text = it.nickname
-                textDrawingTitle.text = drawingListFragmentViewModel.currentDrawingDetailDto.value!!.title
-                textDrawingContent.text = drawingListFragmentViewModel.currentDrawingDetailDto.value!!.content
-                textLikeCount.text = drawingListFragmentViewModel.currentDrawingDetailDto.value!!.likesCount.toString()
-                textViewCount.text = drawingListFragmentViewModel.currentDrawingDetailDto.value!!.viewCount.toString()
-            }
+            //현재 그림에 대한 정보, 그림 그린 멤버 정보 뷰 세팅
+            initInfoView()
         }
 
         drawingListFragmentViewModel.isLiked.observe(viewLifecycleOwner){
@@ -137,14 +120,31 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         }
 
         drawingListFragmentViewModel.likeCount.observe(viewLifecycleOwner){
-            Log.d(TAG, "current like : ${drawingListFragmentViewModel.likeCount.value} / ${drawingListFragmentViewModel.currentDrawingDetailDto.value!!.likesCount}")
-            binding.textLikeCount.text = drawingListFragmentViewModel.likeCount.value.toString()
+            binding.textLikeCount.text = it.toString()
         }
 
         drawingListFragmentViewModel.selectedDrawingCommentList.observe(viewLifecycleOwner) {
         }
     }
 
+    private fun initInfoView(){
+        binding.apply {
+            Glide.with(binding.imageProfileColor)
+                .load(activityViewModel.waterDropColorList[drawingListFragmentViewModel.currentDrawingMember.value!!.profileColor].resourceId)
+                .into(binding.imageProfileColor)
+            Glide.with(binding.imageProfileFace)
+                .load(activityViewModel.waterDropFaceList[drawingListFragmentViewModel.currentDrawingMember.value!!.profileFace].resourceId)
+                .into(binding.imageProfileFace)
+            Glide.with(binding.imageProfileAccessory)
+                .load(activityViewModel.waterDropAccessoryList[drawingListFragmentViewModel.currentDrawingMember.value!!.profileAccessory].resourceId)
+                .into(binding.imageProfileAccessory)
+            textDrawingNickname.text = drawingListFragmentViewModel.currentDrawingMember.value!!.nickname
+            textDrawingTitle.text = drawingListFragmentViewModel.currentDrawingDetailDto.value!!.title
+            textDrawingContent.text = drawingListFragmentViewModel.currentDrawingDetailDto.value!!.content
+            textLikeCount.text = drawingListFragmentViewModel.currentDrawingDetailDto.value!!.likesCount.toString()
+            textViewCount.text = drawingListFragmentViewModel.currentDrawingDetailDto.value!!.viewCount.toString()
+        }
+    }
 
     private fun initRecyclerView(){
         val drawingListAdapter =
@@ -158,7 +158,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
                 //본인한테서 멈췄을 때 이벤트
                 override fun onItemSelected(position: Int) {
                     //여기서 selectedDrawing을 가지고 DrawingDetailDto 받아라
-                    drawingListFragmentViewModel.getSelectedDrawingDetailDto(drawingListAdapter.list[position])
+                    drawingListFragmentViewModel.getCurrentDrawingDetailDto(drawingListAdapter.list[position])
                     Log.d(TAG, "SelectedDrawingDetail : ${drawingListFragmentViewModel.currentDrawingDetailDto.value} ")
                 }
             })

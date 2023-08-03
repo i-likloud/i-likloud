@@ -70,7 +70,7 @@ class DrawingListFragmentViewModel @Inject constructor(
     private var _currentDrawingDetailDto = MutableLiveData<DrawingDetailDto>()
     val currentDrawingDetailDto: LiveData<DrawingDetailDto>
         get() = _currentDrawingDetailDto
-    fun getSelectedDrawingDetailDto(dto: DrawingListDto){
+    fun getCurrentDrawingDetailDto(dto: DrawingListDto){
         //여기서 api호출해서 받아라
         viewModelScope.launch {
             baseRepository.getDrawingDetail(dto.drawingId).onSuccess {
