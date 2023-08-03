@@ -13,6 +13,8 @@ object BitmapCanvasObject {
     var isCleared = false
     var selectedColor = Color.BLACK
     var selectedStrokeWidth = 10f
+    var selectedEraserStrokeWidth = 10f
     var bitmap: Bitmap? = null
     var bitmapCanvas: Canvas? = null
+
 }

@@ -151,4 +151,21 @@ interface BaseRepository {
         storeId: Int,
         memberInfoRequest: MemberInfoRequest
     ): NetworkResult<StoreItemBuyResponse>
+
+    /**
+     * 내가 즐찾한 사진 조회(마이페이지)
+     */
+    suspend fun getBookmarkPhotoListDtoList(): NetworkResult<MutableList<PhotoListDto>>
+    /**
+     * 사진 상세 조회
+     */
+    suspend fun getPhotoDetail(photoId: Int): NetworkResult<PhotoListDto>
+    /**
+     * 좋아요 조회
+     */
+    suspend fun changeDrawingLike(drawingId: Int): NetworkResult<String>
+    /**
+     * 사진 즐찾
+     */
+    suspend fun changePhotoBookmark(photoId: Int): NetworkResult<String>
 }

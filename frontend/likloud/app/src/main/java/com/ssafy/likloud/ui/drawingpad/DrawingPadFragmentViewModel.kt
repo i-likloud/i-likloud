@@ -17,13 +17,6 @@ import javax.inject.Inject
 class DrawingPadFragmentViewModel @Inject constructor(
     private val baseRepository: BaseRepository
 ) : ViewModel() {
-    private val _drawingMultipartBody = MutableLiveData<MultipartBody.Part>()
-    val drawingMultipartBody: LiveData<MultipartBody.Part> get() = _drawingMultipartBody
-
-
-    fun setDrawingMultipart(multipartBody: MultipartBody.Part) {
-        _drawingMultipartBody.value = multipartBody
-    }
 
 
 }

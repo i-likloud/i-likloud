@@ -127,7 +127,7 @@ interface BaseService {
     /**
      * 내가 올린 사진 조회(마이페이지)
      */
-    @GET("api/mypages/photos")
+    @GET("api/mypage/photos")
     suspend fun getMyPhotoListDtoList(): Response<MutableList<PhotoListDto>>
 
     /**
@@ -141,6 +141,27 @@ interface BaseService {
      */
     @POST("api/store/buy/{storeId}")
     suspend fun postBuyAccessory(@Query("storeId") storeId: Int, @Body body: MemberInfoRequest): Response<StoreItemBuyResponse>
+
+    /**
+     * 내가 즐찾한 사진 조회(마이페이지)
+     */
+    @GET("api/mypage/bookmarks")
+    suspend fun getBookmarkPhotoListDtoList(): Response<MutableList<PhotoListDto>>
+    /**
+     * 사진 상세 조회
+     */
+    @GET("api/photo/{photoId}")
+    suspend fun getPhotoDetail(@Path("photoId") photoId: Int): Response<PhotoListDto>
+    /**
+     * 그림 좋아요
+     */
+    @POST("api/drawings/{drawingId}/likes")
+    suspend fun changeDrawingLike(@Path("drawingId") drawingId: Int): Response<String>
+    /**
+     * 사진 즐찾
+     */
+    @POST("api/photo/{photoId}/bookmark")
+    suspend fun changePhotoBookmark(@Path("photoId") photoId: Int): Response<String>
 }
 
 //api 만드는 과정

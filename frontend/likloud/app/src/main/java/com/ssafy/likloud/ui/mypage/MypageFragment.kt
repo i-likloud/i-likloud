@@ -1,9 +1,9 @@
 package com.ssafy.likloud.ui.mypage
 
 import android.animation.ObjectAnimator
+import android.content.ClipData.Item
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,20 +12,17 @@ import android.view.animation.OvershootInterpolator
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
-import com.ssafy.likloud.databinding.FragmentExampleBinding
+import com.ssafy.likloud.data.model.DrawingListDto
+import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.databinding.FragmentMypageBinding
-import com.ssafy.likloud.ui.drawinglist.DrawingListAdapter
+import com.ssafy.likloud.ui.photo.PhotoListFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding::bind, R.layout.fragment_mypage) {
@@ -100,7 +97,7 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
             mypageFragmentViewModel.getLikeDrawingListDtoList()
         }
         binding.chipBookmarkPhoto.setOnClickListener {
-
+            mypageFragmentViewModel.getBookmarkPhotoListDtoList()
         }
         binding.buttonGoStore.setOnClickListener {
             findNavController().navigate(R.id.action_mypageFragment_to_storeFragment)
@@ -129,15 +126,35 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
 
     private fun initDrawingRecyclerView(){
         val drawingListAdapter =
-            MyPageDrawingAdapter(mypageFragmentViewModel.currentDrawingListDtoList.value!!)
+            MypageDrawingAdapter(mypageFragmentViewModel.currentDrawingListDtoList.value!!)
         binding.recyclerviewDrawingPhotoList.apply {
             layoutManager = GridLayoutManager(mActivity, 3) // 한 줄에 3개씩 보이도록 설정
-            adapter = drawingListAdapter
+            adapter = drawingListAdapter.apply {
+                this.itemClickListner = object: MypageDrawingAdapter.ItemClickListener{
+                    override fun onClick(view: View, drawing: DrawingListDto) {
+                        val action = MypageFragmentDirections.actionMypageFragmentToDrawingDetailFragment(drawing.drawingId)
+                        findNavController().navigate(action)
+                    }
+                }
+            }
         }
     }
 
     private fun initPhotoRecyclerView(){
-        
+        val photoListAdapter =
+            MypagePhotoAdapter(mypageFragmentViewModel.currentPhotoListDtoList.value!!)
+        binding.recyclerviewDrawingPhotoList.apply {
+            layoutManager = GridLayoutManager(mActivity, 3) // 한 줄에 3개씩 보이도록 설정
+            adapter = photoListAdapter.apply {
+                this.itemClickListner = object: MypagePhotoAdapter.ItemClickListener{
+                    override fun onClick(view: View, photo: PhotoListDto) {
+                        val action = MypageFragmentDirections.actionMypageFragmentToPhotoDetailFragment(photo.photoId)
+                        findNavController().navigate(action)
+                    }
+
+                }
+            }
+        }
     }
 
     private fun makeButtonAnimationX(view: View, values: Float) {

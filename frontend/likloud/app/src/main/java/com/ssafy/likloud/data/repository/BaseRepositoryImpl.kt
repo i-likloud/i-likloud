@@ -127,4 +127,20 @@ class BaseRepositoryImpl @Inject constructor(
     ): NetworkResult<StoreItemBuyResponse> {
         return handleApi { baseAPIService.postBuyAccessory(storeId, memberInfoRequest).body()!! }
     }
+
+    override suspend fun getBookmarkPhotoListDtoList(): NetworkResult<MutableList<PhotoListDto>> {
+        return handleApi { baseAPIService.getBookmarkPhotoListDtoList().body()!! }
+    }
+
+    override suspend fun getPhotoDetail(photoId: Int): NetworkResult<PhotoListDto> {
+        return handleApi { baseAPIService.getPhotoDetail(photoId).body()!! }
+    }
+
+    override suspend fun changeDrawingLike(drawingId: Int): NetworkResult<String> {
+        return handleApi { baseAPIService.changeDrawingLike(drawingId).body()!! }
+    }
+
+    override suspend fun changePhotoBookmark(photoId: Int): NetworkResult<String> {
+        return handleApi { baseAPIService.changePhotoBookmark(photoId).body()!! }
+    }
 }

@@ -7,15 +7,16 @@
 
     <fragment
         android:id="@+id/drawingListFragment"
-        android:name="com.ssafy.likloud.ui.drawinglist.DrawingListFragment"
-        android:label="DrawingListFragment" >
+        android:name="com.ssafy.likloud.ui.drawing.DrawingListFragment"
+        tools:layout="@layout/fragment_drawing_list"
+        android:label="DrawingListFragment">
         <action
             android:id="@+id/action_drawingListFragment_to_mypageFragment"
             app:destination="@id/mypageFragment"
             app:enterAnim="@anim/enter_from_right"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/enter_from_left"
-            app:popExitAnim="@anim/fade_out"/>
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
 
     <fragment
@@ -59,7 +60,7 @@
             app:enterAnim="@anim/enter_from_right"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/enter_from_left"
-            app:popExitAnim="@anim/fade_out"/>
+            app:popExitAnim="@anim/fade_out" />
         <action
             android:id="@+id/action_homeFragment_to_afterCloudValidFragment"
             app:destination="@id/afterCloudValidFragment" />
@@ -72,7 +73,7 @@
         android:id="@+id/onboardingFragment"
         android:name="com.ssafy.likloud.ui.onboarding.OnboardingFragment"
         android:label="OnboardingFragment"
-        tools:layout="@layout/fragment_onboarding" >
+        tools:layout="@layout/fragment_onboarding">
         <action
             android:id="@+id/action_onboardingFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
@@ -82,7 +83,7 @@
         android:id="@+id/uploadFragment"
         android:name="com.ssafy.likloud.ui.upload.UploadFragment"
         android:label="fragment_upload"
-        tools:layout="@layout/fragment_upload" >
+        tools:layout="@layout/fragment_upload">
         <action
             android:id="@+id/action_uploadFragment_to_afterCloudValidFragment"
             app:destination="@id/afterCloudValidFragment" />
@@ -90,6 +91,7 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.ssafy.likloud.ui.profile.ProfileFragment"
+        tools:layout="@layout/fragment_profile"
         android:label="ProfileFragment">
         <action
             android:id="@+id/action_profileFragment_to_homeFragment"
@@ -103,7 +105,7 @@
         android:id="@+id/afterCloudValidFragment"
         android:name="com.ssafy.likloud.ui.aftercloudvalid.AfterCloudValidFragment"
         android:label="fragment_after_cloud_valid"
-        tools:layout="@layout/fragment_after_cloud_valid" >
+        tools:layout="@layout/fragment_after_cloud_valid">
         <action
             android:id="@+id/action_afterCloudValidFragment_to_drawingPadFragment"
             app:destination="@id/drawingPadFragment" />
@@ -113,18 +115,19 @@
     </fragment>
     <fragment
         android:id="@+id/photoListFragment"
-        android:name="com.ssafy.likloud.ui.photolist.PhotoListFragment"
-        android:label="PhotoListFragment" >
+        tools:layout="@layout/fragment_photo_list"
+        android:name="com.ssafy.likloud.ui.photo.PhotoListFragment"
+        android:label="PhotoListFragment">
         <action
             android:id="@+id/action_photoListFragment_to_mypageFragment"
             app:destination="@id/mypageFragment"
             app:enterAnim="@anim/enter_from_right"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/enter_from_left"
-            app:popExitAnim="@anim/fade_out"/>
+            app:popExitAnim="@anim/fade_out" />
         <action
             android:id="@+id/action_photoListFragment_to_photoDrawingDetailFragment"
-            app:destination="@id/photoDrawingDetailFragment" />
+            app:destination="@id/drawingDetailFragment" />
     </fragment>
 
     <fragment
@@ -136,41 +139,54 @@
     <fragment
         android:id="@+id/mypageFragment"
         android:name="com.ssafy.likloud.ui.mypage.MypageFragment"
-        android:label="MypageFragment" >
+        tools:layout="@layout/fragment_mypage"
+        android:label="MypageFragment">
         <action
             android:id="@+id/action_mypageFragment_to_profileEditFragment"
             app:destination="@id/profileEditFragment"
             app:enterAnim="@anim/enter_from_right"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/enter_from_left"
-            app:popExitAnim="@anim/fade_out"/>
+            app:popExitAnim="@anim/fade_out" />
         <action
             android:id="@+id/action_mypageFragment_to_storeFragment"
             app:destination="@id/storeFragment"
             app:enterAnim="@anim/enter_from_right"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/enter_from_left"
-            app:popExitAnim="@anim/fade_out"/>
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_mypageFragment_to_DrawingDetailFragment"
+            app:destination="@id/drawingDetailFragment" />
+        <action
+            android:id="@+id/action_mypageFragment_to_photoDetailFragment"
+            app:destination="@id/photoDetailFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/drawingPadFragment"
         android:name="com.ssafy.likloud.ui.drawingpad.DrawingPadFragment"
         android:label="DrawingPadFragment"
-        tools:layout="@layout/fragment_drawing_pad"/>
+        tools:layout="@layout/fragment_drawing_pad" >
+        <action
+            android:id="@+id/action_drawingPadFragment_to_drawingFormFragment"
+            app:destination="@id/drawingFormFragment" />
+    </fragment>
 
     <fragment
-        android:id="@+id/photoDrawingDetailFragment"
-        android:name="com.ssafy.likloud.ui.photolist.PhotoDrawingDetailFragment"
+        android:id="@+id/drawingDetailFragment"
+        tools:layout="@layout/fragment_drawing_detail"
+        android:name="com.ssafy.likloud.ui.drawing.DrawingDetailFragment"
         android:label="PhotoDrawingDetailFragment">
         <argument
             android:name="drawingId"
-            app:argType="integer"/>
+            app:argType="integer" />
 
     </fragment>
-    
+
     <fragment
         android:id="@+id/profileEditFragment"
+        tools:layout="@layout/fragment_profile_edit"
         android:name="com.ssafy.likloud.ui.profileedit.ProfileEditFragment"
         android:label="ProfileEditFragment" />
 
@@ -178,7 +194,7 @@
         android:id="@+id/gameFragment"
         android:name="com.ssafy.likloud.ui.game.GameFragment"
         android:label="fragment_game"
-        tools:layout="@layout/fragment_game" >
+        tools:layout="@layout/fragment_game">
         <action
             android:id="@+id/action_gameFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
@@ -187,7 +203,14 @@
             app:destination="@id/gameFragment" />
     </fragment>
     <fragment
+        android:id="@+id/drawingFormFragment"
+        android:name="com.ssafy.likloud.ui.drawingform.DrawingFormFragment"
+        android:label="fragment_drawing_form"
+        tools:layout="@layout/fragment_drawing_form" />
+        
+    <fragment
         android:id="@+id/storeFragment"
+        tools:layout="@layout/fragment_store"
         android:name="com.ssafy.likloud.ui.store.StoreFragment"
         android:label="StoreFragment" >
         <action
@@ -197,6 +220,19 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/enter_from_left"
             app:popExitAnim="@anim/fade_out"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/photoDetailFragment"
+        tools:layout="@layout/fragment_photo_detail"
+        android:name="com.ssafy.likloud.ui.photo.PhotoDetailFragment"
+        android:label="PhotoDetailFragment">
+        <argument
+            android:name="photoId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_photoDetailFragment_to_drawingDetailFragment"
+            app:destination="@id/drawingDetailFragment" />
     </fragment>
 
 </navigation>

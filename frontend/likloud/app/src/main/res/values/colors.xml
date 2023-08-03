@@ -19,5 +19,7 @@
     <color name="purple_mild">#DEC0FF</color>
     <color name="green_mild">#86FF81</color>
     <color name="red_mile">#FF9292</color>
+    <color name="eraser">#FFCCB4</color>
+    <color name="eraser_reached">#EF7772</color>
 
 </resources>

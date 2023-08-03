@@ -18,6 +18,7 @@ import com.ssafy.likloud.ui.drawingpad.BitmapCanvasObject.bitmapCanvas
 import com.ssafy.likloud.ui.drawingpad.BitmapCanvasObject.paint
 import com.ssafy.likloud.ui.drawingpad.BitmapCanvasObject.points
 import com.ssafy.likloud.ui.drawingpad.BitmapCanvasObject.selectedColor
+import com.ssafy.likloud.ui.drawingpad.BitmapCanvasObject.selectedEraserStrokeWidth
 import com.ssafy.likloud.ui.drawingpad.BitmapCanvasObject.selectedStrokeWidth
 
 private const val TAG = "DrawingCanvas_싸피"
@@ -58,13 +59,18 @@ class DrawingCanvas(context: Context?, attrs: AttributeSet?) : View(context, att
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
+                if(selectedColor != Color.TRANSPARENT)
                 points.add(Point(event.x, event.y, false, selectedColor, selectedStrokeWidth))
+                else
+                    points.add(Point(event.x, event.y, false, selectedColor, selectedEraserStrokeWidth))
 
             }
 
             MotionEvent.ACTION_MOVE -> {
-                points.add(Point(event.x, event.y, true, selectedColor, selectedStrokeWidth))
-                Log.d(TAG, "onTouchEvent: $points")
+                if(selectedColor != Color.TRANSPARENT)
+                    points.add(Point(event.x, event.y, true, selectedColor, selectedStrokeWidth))
+                else
+                    points.add(Point(event.x, event.y, true, selectedColor, selectedEraserStrokeWidth))
             }
 
             MotionEvent.ACTION_UP -> {

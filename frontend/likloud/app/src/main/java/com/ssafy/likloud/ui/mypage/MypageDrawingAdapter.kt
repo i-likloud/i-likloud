@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ssafy.likloud.R
 import com.ssafy.likloud.data.model.DrawingListDto
-import com.ssafy.likloud.databinding.ItemDrawingBinding
-import com.ssafy.likloud.databinding.ItemMyDrawingBinding
+import com.ssafy.likloud.databinding.ItemMypageDrawingBinding
+import com.ssafy.likloud.databinding.ItemMypagePhotoBinding
 
-class MyPageDrawingAdapter  (var list : MutableList<DrawingListDto>): ListAdapter<DrawingListDto, MyPageDrawingAdapter.DrawingListHolder>(
+class MypageDrawingAdapter  (var list : MutableList<DrawingListDto>): ListAdapter<DrawingListDto, MypageDrawingAdapter.DrawingListHolder>(
     DrawingListComparator
 ) {
     private var pre: Int = 0
@@ -27,7 +27,7 @@ class MyPageDrawingAdapter  (var list : MutableList<DrawingListDto>): ListAdapte
         }
     }
 
-    inner class DrawingListHolder(binding: ItemMyDrawingBinding) : RecyclerView.ViewHolder(binding.root){
+    inner class DrawingListHolder(binding: ItemMypageDrawingBinding) : RecyclerView.ViewHolder(binding.root){
         val imageDrawing = binding.imageDrawing
         val layoutMypageDrawing = binding.layoutItemMypageDrawing
         fun bindInfo(drawing : DrawingListDto){
@@ -43,13 +43,14 @@ class MyPageDrawingAdapter  (var list : MutableList<DrawingListDto>): ListAdapte
             pre = layoutPosition
 
             itemView.setOnClickListener{
+                itemClickListner.onClick(it,drawing)
             }
         }
     }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DrawingListHolder {
-        val binding = ItemMyDrawingBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemMypageDrawingBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 //        return RecyclerView.ViewHolder(inflater)
         return DrawingListHolder(binding)
     }
@@ -79,12 +80,8 @@ class MyPageDrawingAdapter  (var list : MutableList<DrawingListDto>): ListAdapte
 
     //    //클릭 인터페이스 정의 사용하는 곳에서 만들어준다.
     interface ItemClickListener {
-        fun onClick(view: View, position: Int, info:String)
+        fun onClick(view: View, drawing: DrawingListDto)
     }
     //클릭리스너 선언
-    private lateinit var itemClickListner: ItemClickListener
-    //클릭리스너 등록 매소드
-    fun setItemClickListener(itemClickListener: ItemClickListener) {
-        this.itemClickListner = itemClickListener
-    }
+    lateinit var itemClickListner: ItemClickListener
 }
