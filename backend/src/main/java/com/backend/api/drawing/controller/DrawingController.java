@@ -13,6 +13,7 @@ import com.backend.global.resolver.memberInfo.MemberInfoDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,13 +34,13 @@ public class DrawingController {
     @PostMapping(value = "/upload/from/{photoId}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "그림 업로드", description = "그림 파일, 제목, 내용을 요청으로 보내서 그림을 업로드합니다.")
-
-
+    @CacheEvict(value = "allDrawings", allEntries = true)
     public ResponseEntity<?> uploadDrawing(@RequestPart(value = "file") MultipartFile file,
                                            @RequestPart(value = "title") String title,
                                            @RequestPart(value = "content") String content, @MemberInfo MemberInfoDto memberInfoDto, @PathVariable Long photoId) {
         try {
-            DrawingUploadDto uploadDrawing = drawingUploadService.uploadFileAndCreateDrawings(file, title, content, memberInfoDto, photoId);
+            Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
+            DrawingUploadDto uploadDrawing = drawingUploadService.uploadFileAndCreateDrawings(file, title, content, member, photoId);
             return ResponseEntity.ok().body(uploadDrawing);
         } catch (BusinessException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -64,6 +65,7 @@ public class DrawingController {
 
     @DeleteMapping("/delete/{drawingId}")
     @Operation(summary = "그림 게시물 삭제", description = "그림 게시물을 삭제합니다. 본인이 작성한 게시물만 삭제할 수 있습니다.")
+    @CacheEvict(value = "allDrawings", allEntries = true)
     public ResponseEntity<String> deleteDrawing(@PathVariable Long drawingId, @MemberInfo MemberInfoDto memberInfoDto) {
         Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
         drawingViewService.deleteDrawing(drawingId, member.getMemberId());

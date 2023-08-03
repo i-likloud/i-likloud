@@ -1,11 +1,10 @@
 package com.backend.api.drawing.dto;
 
-import com.backend.domain.drawing.dto.DrawingResponseDto;
 import com.backend.domain.drawing.entity.Drawing;
 import lombok.Getter;
 
 @Getter
-public class DrawingWithBookmarksDto extends DrawingResponseDto {
+public class DrawingWithBookmarksDto extends DrawingListDto {
     private final String title;
     private final String artist;
     private final int viewCount;
