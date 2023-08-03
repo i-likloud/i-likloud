@@ -1,9 +1,7 @@
 package com.backend.api.photo.controller;
 
 import com.backend.api.drawing.dto.DrawingWithBookmarksDto;
-import com.backend.api.drawing.dto.DrawingWithLikesDto;
 import com.backend.api.photo.dto.PhotoInfoResponseDto;
-import com.backend.api.photo.dto.PhotoWithDrawingsResponseDto;
 import com.backend.api.photo.service.PhotoInfoService;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.service.MemberService;
@@ -48,6 +46,12 @@ public class PhotoInfoController {
         return photoInfoService.searchAllBookmarkCntDesc();
     }
 
+    //사진 상세 조회
+    @Operation(summary = "사진 상세 조회", description = "사진 상세조회(url, 사진id, 멤버id).")
+    @GetMapping("/{photoId}")
+    public PhotoInfoResponseDto photoDetail(@PathVariable Long photoId) {
+        return photoInfoService.getPhotoDetail(photoId);
+    }
 
     // 클릭한 photoId와 관련된 모든 drawings 조회
     @Operation(summary = "사진 관련 모든 그림", description = "특정 사진과 관련된 모든 그림을 출력하는 메소드입니다.")

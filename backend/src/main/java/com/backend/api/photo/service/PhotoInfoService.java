@@ -68,6 +68,15 @@ public class PhotoInfoService {
         return ResponseEntity.ok(photoInfoResponseDtos);
     }
 
+    // 상세 사진 조회
+    @Transactional
+    public PhotoInfoResponseDto getPhotoDetail(Long photoId){
+        Photo photo = photoRepository.findById(photoId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_PHOTO));
+
+        return new PhotoInfoResponseDto(photo);
+    }
+
     // 특정 사진과 관련된 모든 그림
     @Transactional(readOnly = true)
     public List<DrawingWithBookmarksDto> getDrawingsByPhotoId(Long photoId) {
