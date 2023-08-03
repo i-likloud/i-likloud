@@ -2,6 +2,7 @@ package com.backend.api.member.dto;
 
 import com.backend.domain.member.constant.Role;
 import com.backend.domain.member.constant.SocialType;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 @Getter
@@ -10,6 +11,7 @@ import lombok.*;
 public class MemberDto {
 
     private String email;
+
     private String nickname;
     private int profileColor;
     private int profileFace;
@@ -30,9 +32,13 @@ public class MemberDto {
     }
 
     @Getter
+    @Schema(description = "예시 DTO")
     public static class UpdateRequest {
+        @Schema(example = "rich_guy")
         private String nickname;
+        @Schema(example = "1")
         private int profileColor;
+        @Schema(example = "1")
         private int profileFace;
         private int profileAccessory;
     }

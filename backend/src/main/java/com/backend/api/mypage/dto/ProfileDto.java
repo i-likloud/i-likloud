@@ -1,6 +1,7 @@
 package com.backend.api.mypage.dto;
 
 import com.backend.domain.member.entity.Member;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 @Getter
@@ -28,9 +29,13 @@ public class ProfileDto {
     }
 
     @Getter
+    @Schema(description = "예시 DTO")
     public static class editRequest{
+        @Schema(example = "2")
         private int profileColor;
+        @Schema(example = "2")
         private int profileFace;
+        @Schema(example = "")
         private int profileAccessory;
     }
 }
