@@ -167,7 +167,17 @@ public class MypageController {
     }
 
     @Operation(summary = "내가 올린 사진 조회", description = "유저가 올린 사진 리스트를 출력합니다."+"\n\n### [ 참고사항 ]\n\n"+"- try it out 해주세요\n\n")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "#### 성공"), @ApiResponse(responseCode = "에러", description = "#### 에러 이유를 확인 하십시오", content =@Content(schema = @Schema(implementation = ErrorResponse.class), examples = {@ExampleObject( name = "401_Auth-006", value = "Authorization Header가 없습니다. 자물쇠에 access token값을 넣어주세요."), @ExampleObject( name = "401_Auth-004", value = "해당 토큰은 ACCESS TOKEN이 아닙니다. 토큰값이 추가정보 기입에서 받은 new token 값이 맞는지 확인해주세요"),@ExampleObject( name = "401_Auth-005", value = "해당 토큰은 유효한 토큰이 아닙니다. 추가정보 기입에서 받은 new token 값을 넣어주세요"), @ExampleObject( name = "401_Auth-001", value = "토큰이 만료되었습니다. 토큰을 재발급 받아주세요"), @ExampleObject( name = "400_User-004", value = "해당 회원은 존재하지 않습니다. 회원가입 해주거나 멤버테이블에 있는 다른 member의 토큰 값을 넣어주세요"), @ExampleObject( name = "403_Auth-009", value = "회원이 아닙니다. 추가정보로 이동하여 추가정보를 입력해 주세요."), @ExampleObject( name = "404_Photo-001", value = "사진을 찾을 수 없습니다."), @ExampleObject( name = "500", value = "서버에러")}))})
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "#### 성공"),
+            @ApiResponse(responseCode = "에러", description = "#### 에러 이유를 확인 하십시오", 
+                    content =@Content(schema = @Schema(implementation = ErrorResponse.class), 
+                            examples = {@ExampleObject( name = "400_User-004", value = "해당 회원은 존재하지 않습니다. 회원가입 해주거나 멤버테이블에 있는 다른 member의 토큰 값을 넣어주세요"),
+                                    @ExampleObject( name = "401_Auth-001", value = "토큰이 만료되었습니다. 토큰을 재발급 받아주세요"),
+                                    @ExampleObject( name = "401_Auth-004", value = "해당 토큰은 ACCESS TOKEN이 아닙니다. 토큰값이 추가정보 기입에서 받은 new token 값이 맞는지 확인해주세요"),
+                                    @ExampleObject( name = "401_Auth-005", value = "해당 토큰은 유효한 토큰이 아닙니다. 추가정보 기입에서 받은 new token 값을 넣어주세요"),
+                                    @ExampleObject( name = "401_Auth-006", value = "Authorization Header가 없습니다. 자물쇠에 access token값을 넣어주세요."), 
+                                    @ExampleObject( name = "403_Auth-009", value = "회원이 아닙니다. 추가정보로 이동하여 추가정보를 입력해 주세요."), 
+                                    @ExampleObject( name = "404_Photo-001", value = "사진을 찾을 수 없습니다."), 
+                                    @ExampleObject( name = "500", value = "서버에러")}))})
     @GetMapping("/photos")
     public ResponseEntity<List<PhotoWithBookmarkDto>> getMyPhotos(@MemberInfo MemberInfoDto memberInfoDto){
         try {
@@ -181,7 +191,17 @@ public class MypageController {
     }
 
     @Operation(summary = "내가 가진 악세사리 조회", description = "본인이 가진 악세사리 목록을 출력합니다."+"\n\n### [ 참고사항 ]\n\n"+"- try it out 해주세요\n\n")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "#### 성공"), @ApiResponse(responseCode = "에러", description = "#### 에러 이유를 확인 하십시오", content =@Content(schema = @Schema(implementation = ErrorResponse.class), examples = {@ExampleObject( name = "401_Auth-006", value = "Authorization Header가 없습니다. 자물쇠에 access token값을 넣어주세요."),@ExampleObject( name = "401_Auth-004", value = "해당 토큰은 ACCESS TOKEN이 아닙니다. 토큰값이 추가정보 기입에서 받은 new token 값이 맞는지 확인해주세요"), @ExampleObject( name = "401_Auth-005", value = "해당 토큰은 유효한 토큰이 아닙니다. 추가정보 기입에서 받은 new token 값을 넣어주세요"), @ExampleObject( name = "401_Auth-001", value = "토큰이 만료되었습니다. 토큰을 재발급 받아주세요"), @ExampleObject( name = "400_User-004", value = "해당 회원은 존재하지 않습니다. 회원가입 해주거나 멤버테이블에 있는 다른 member의 토큰 값을 넣어주세요"), @ExampleObject( name = "403_Auth-009", value = "회원이 아닙니다. 추가정보로 이동하여 추가정보를 입력해 주세요."), @ExampleObject( name = "404_Acce-001", value = "아이템을 찾을 수 없습니다."), @ExampleObject( name = "500", value = "서버에러")}))})
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "#### 성공"), 
+            @ApiResponse(responseCode = "에러", description = "#### 에러 이유를 확인 하십시오", 
+                    content =@Content(schema = @Schema(implementation = ErrorResponse.class), 
+                            examples = {@ExampleObject( name = "400_User-004", value = "해당 회원은 존재하지 않습니다. 회원가입 해주거나 멤버테이블에 있는 다른 member의 토큰 값을 넣어주세요"),
+                                    @ExampleObject( name = "401_Auth-001", value = "토큰이 만료되었습니다. 토큰을 재발급 받아주세요"),
+                                    @ExampleObject( name = "401_Auth-004", value = "해당 토큰은 ACCESS TOKEN이 아닙니다. 토큰값이 추가정보 기입에서 받은 new token 값이 맞는지 확인해주세요"),
+                                    @ExampleObject( name = "401_Auth-005", value = "해당 토큰은 유효한 토큰이 아닙니다. 추가정보 기입에서 받은 new token 값을 넣어주세요"),
+                                    @ExampleObject( name = "401_Auth-006", value = "Authorization Header가 없습니다. 자물쇠에 access token값을 넣어주세요."),
+                                    @ExampleObject( name = "403_Auth-009", value = "회원이 아닙니다. 추가정보로 이동하여 추가정보를 입력해 주세요."), 
+                                    @ExampleObject( name = "404_Acce-001", value = "악세사리를 찾을 수 없습니다."), 
+                                    @ExampleObject( name = "500", value = "서버에러")}))})
     @GetMapping("/accessory")
     public ResponseEntity<List<AccessoryDto>> getMyAccessorys (@MemberInfo MemberInfoDto memberInfoDto){
         try{
@@ -194,6 +214,17 @@ public class MypageController {
     }
 
     @Operation(summary = "내가 만든 NFT 조회", description = "본인이 발급한 NFT를 조회합니다.")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "#### 성공"),
+            @ApiResponse(responseCode = "에러", description = "#### 에러 이유를 확인 하십시오",
+                    content =@Content(schema = @Schema(implementation = ErrorResponse.class),
+                            examples = {@ExampleObject( name = "400_User-004", value = "해당 회원은 존재하지 않습니다. 회원가입 해주거나 멤버테이블에 있는 다른 member의 토큰 값을 넣어주세요"),
+                                    @ExampleObject( name = "401_Auth-001", value = "토큰이 만료되었습니다. 토큰을 재발급 받아주세요"),
+                                    @ExampleObject( name = "401_Auth-004", value = "해당 토큰은 ACCESS TOKEN이 아닙니다. 토큰값이 추가정보 기입에서 받은 new token 값이 맞는지 확인해주세요"),
+                                    @ExampleObject( name = "401_Auth-005", value = "해당 토큰은 유효한 토큰이 아닙니다. 추가정보 기입에서 받은 new token 값을 넣어주세요"),
+                                    @ExampleObject( name = "401_Auth-006", value = "Authorization Header가 없습니다. 자물쇠에 access token값을 넣어주세요."),
+                                    @ExampleObject( name = "403_Auth-009", value = "회원이 아닙니다. 추가정보로 이동하여 추가정보를 입력해 주세요."),
+                                    @ExampleObject( name = "404_NFT-001", value = "지갑을 찾을 수 없습니다."),
+                                    @ExampleObject( name = "500", value = "서버에러")}))})
     @GetMapping("/nft")
     public ResponseEntity<List<NftListResponseDto>> getMyNft (@MemberInfo MemberInfoDto memberInfoDto){
         try{

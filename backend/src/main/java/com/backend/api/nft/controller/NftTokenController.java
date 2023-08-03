@@ -62,7 +62,7 @@ public class NftTokenController {
                                     @ExampleObject( name = "404_Drawing-001", value = "그림을 찾을 수 없습니다. 그림 id값을 확인해주세요."),
                                     @ExampleObject( name = "403_Auth-009", value = "회원이 아닙니다. 추가정보로 이동하여 추가정보를 입력해 주세요."),
                                     @ExampleObject( name = "500", value = "서버에러")}))})
-    @Operation(summary = "NFT 토큰 발행", description = "NFT 토큰을 발행합니다."+"\n\n### [ 수행절차 ]\n\n"+"nft 발급하고 싶은 그림의 id값을 drawingId에 넣어줍니다.\n\n"+"- Execute 해주세요\n\n"+"- 자기가 그린 그림만 NFT토큰 발행이 가능합니다. \n\n")
+    @Operation(summary = "NFT 토큰 발행", description = "NFT 토큰을 발행합니다."+"\n\n### [ 수행절차 ]\n\n"+"- nft 발급하고 싶은 그림의 id값을 drawingId에 넣어줍니다.\n\n"+"- Execute 해주세요\n\n"+"- 자기가 그린 그림만 NFT토큰 발행이 가능합니다. \n\n")
     public ResponseEntity<NftResponseDto> createToken(@PathVariable Long drawingId, @MemberInfo MemberInfoDto memberInfoDto){
         Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
 
@@ -81,7 +81,7 @@ public class NftTokenController {
     // 특정 사용자 지갑 조회
     @GetMapping("/wallet/{memberId}")
     @CustomApi
-    @Operation(summary = "특정 멤버 NFT 지갑 조회", description = "사용자의 NFT 발행 내역을 조회합니다."+"\n\n### [ 수행절차 ]\n\n"+"nft 조회하고 싶은 사용자의 id값을 memberId에 넣어줍니다.\n\n"+"- Execute 해주세요\n\n")
+    @Operation(summary = "특정 멤버 NFT 지갑 조회", description = "사용자의 NFT 발행 내역을 조회합니다."+"\n\n### [ 수행절차 ]\n\n"+"- nft 조회하고 싶은 사용자의 id값을 memberId에 넣어줍니다.\n\n"+"- Execute 해주세요\n\n")
     public TokenListDto.Response getTokenList(@PathVariable Long memberId, @MemberInfo MemberInfoDto memberInfoDto) {
         Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
 

@@ -93,6 +93,13 @@ public class SwaggerConfig {
                 .pathsToMatch("/api/wallet/**")
                 .build();
     }
+    @Bean
+    public GroupedOpenApi reportApi() {
+        return GroupedOpenApi.builder()
+                .group("신고")
+                .pathsToMatch("/api/report/**")
+                .build();
+    }
 
     @Bean
     public OpenAPI customOpenAPI() {
