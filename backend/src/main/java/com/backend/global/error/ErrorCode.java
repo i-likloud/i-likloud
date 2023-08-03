@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 
 
 public enum ErrorCode {
-
+    
     TEST(HttpStatus.INTERNAL_SERVER_ERROR, "001", "business exception test"),
 
     // 인증 && 인가
@@ -41,7 +41,7 @@ public enum ErrorCode {
     UNAUTHORIZED_NFT(HttpStatus.UNAUTHORIZED, "NFT-003", "본인이 그린 그림만 NFT 발행할 수 있습니다."),
 
     // 아이템
-    NOT_FOUND_ACCESSORY(HttpStatus.NOT_FOUND, "Item-001", "아이템을 찾을 수 없습니다."),
+    NOT_FOUND_ACCESSORY(HttpStatus.NOT_FOUND, "Item-001", "악세사리를 찾을 수 없습니다."),
     ALREADY_PURCHASED_ITEM(HttpStatus.BAD_REQUEST, "Item-002", "이미 구매한 아이템입니다."),
 
     // 댓글

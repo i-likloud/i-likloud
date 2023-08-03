@@ -1,8 +1,15 @@
 package com.backend.api.logout.controller;
 
 import com.backend.api.logout.service.LogoutService;
+import com.backend.global.error.ErrorResponse;
 import com.backend.global.util.AuthorizationHeaderUtils;
+import com.backend.global.util.CustomApi;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +28,8 @@ public class LogoutController {
     private final LogoutService logoutService;
 
     // 로그아웃
-    @Operation(summary = "로그아웃", description = "로그아웃 관련 메서드입니다.")
+    @Operation(summary = "로그아웃", description = "로그아웃을 수행합니다."+"\n\n### [ 수행절차 ]\n\n"+"- try it out 해주세요\n\n")
+    @CustomApi
     @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest httpServletRequest) {
         // 헤더 검증
