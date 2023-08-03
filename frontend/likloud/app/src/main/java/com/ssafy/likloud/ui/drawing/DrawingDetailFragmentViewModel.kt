@@ -1,4 +1,4 @@
-package com.ssafy.likloud.ui.photolist
+package com.ssafy.likloud.ui.drawing
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,20 +13,20 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PhotoDrawingDetailFragmentViewModel@Inject constructor(
+class DrawingDetailFragmentViewModel@Inject constructor(
     private val baseRepository: BaseRepository
 ) : ViewModel() {
 
-    private var _currentPhotoDrawingDetail = MutableLiveData<DrawingDetailDto>()
-    val currentPhotoDrawingDetail: LiveData<DrawingDetailDto>
-        get() = _currentPhotoDrawingDetail
+    private var _currentDrawingDetail = MutableLiveData<DrawingDetailDto>()
+    val currentDrawingDetail: LiveData<DrawingDetailDto>
+        get() = _currentDrawingDetail
     /**
      * 넘겨받은 drawingId로 DrawingDetailDto 조회
      */
     fun getCurrentPhotoDrawingDetail(drawingId: Int){
         viewModelScope.launch {
             baseRepository.getDrawingDetail(drawingId).onSuccess {
-                _currentPhotoDrawingDetail.value = it
+                _currentDrawingDetail.value = it
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.ssafy.likloud.ui.drawinglist
+package com.ssafy.likloud.ui.drawing
 
 import android.view.LayoutInflater
 import android.view.View

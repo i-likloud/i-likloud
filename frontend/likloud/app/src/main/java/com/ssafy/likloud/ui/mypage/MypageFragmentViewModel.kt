@@ -51,8 +51,19 @@ class MypageFragmentViewModel @Inject constructor(
      */
     fun getMyPhotoListDtoList(){
         viewModelScope.launch {
-
+            baseRepository.getMyPhotoListDtoList().onSuccess {
+                _currentPhotoListDtoList.value = it
+            }
         }
     }
-
+    /**
+     * 내가 즐찾한 사진 조회
+     */
+    fun getBookmarkPhotoListDtoList(){
+        viewModelScope.launch {
+            baseRepository.getBookmarkPhotoListDtoList().onSuccess {
+                _currentPhotoListDtoList.value = it
+            }
+        }
+    }
 }

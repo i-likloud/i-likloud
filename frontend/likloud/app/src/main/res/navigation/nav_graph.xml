@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/drawingListFragment"
-        android:name="com.ssafy.likloud.ui.drawinglist.DrawingListFragment"
+        android:name="com.ssafy.likloud.ui.drawing.DrawingListFragment"
         android:label="DrawingListFragment" >
         <action
             android:id="@+id/action_drawingListFragment_to_mypageFragment"
@@ -113,7 +113,7 @@
     </fragment>
     <fragment
         android:id="@+id/photoListFragment"
-        android:name="com.ssafy.likloud.ui.photolist.PhotoListFragment"
+        android:name="com.ssafy.likloud.ui.photo.PhotoListFragment"
         android:label="PhotoListFragment" >
         <action
             android:id="@+id/action_photoListFragment_to_mypageFragment"
@@ -124,7 +124,7 @@
             app:popExitAnim="@anim/fade_out"/>
         <action
             android:id="@+id/action_photoListFragment_to_photoDrawingDetailFragment"
-            app:destination="@id/photoDrawingDetailFragment" />
+            app:destination="@id/drawingDetailFragment" />
     </fragment>
 
     <fragment
@@ -151,6 +151,12 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/enter_from_left"
             app:popExitAnim="@anim/fade_out"/>
+        <action
+            android:id="@+id/action_mypageFragment_to_DrawingDetailFragment"
+            app:destination="@id/drawingDetailFragment" />
+        <action
+            android:id="@+id/action_mypageFragment_to_photoDetailFragment"
+            app:destination="@id/photoDetailFragment" />
     </fragment>
 
     <fragment
@@ -160,8 +166,8 @@
         tools:layout="@layout/fragment_drawing_pad"/>
 
     <fragment
-        android:id="@+id/photoDrawingDetailFragment"
-        android:name="com.ssafy.likloud.ui.photolist.PhotoDrawingDetailFragment"
+        android:id="@+id/drawingDetailFragment"
+        android:name="com.ssafy.likloud.ui.drawing.DrawingDetailFragment"
         android:label="PhotoDrawingDetailFragment">
         <argument
             android:name="drawingId"
@@ -190,5 +196,16 @@
         android:id="@+id/storeFragment"
         android:name="com.ssafy.likloud.ui.store.StoreFragment"
         android:label="StoreFragment" />
+    <fragment
+        android:id="@+id/photoDetailFragment"
+        android:name="com.ssafy.likloud.ui.photo.PhotoDetailFragment"
+        android:label="PhotoDetailFragment" >
+        <argument
+            android:name="photoId"
+            app:argType="integer"/>
+        <action
+            android:id="@+id/action_photoDetailFragment_to_drawingDetailFragment"
+            app:destination="@id/drawingDetailFragment" />
+    </fragment>
 
 </navigation>

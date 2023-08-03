@@ -1,32 +1,33 @@
-package com.ssafy.likloud.ui.photolist
+package com.ssafy.likloud.ui.drawing
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
-import com.ssafy.likloud.databinding.FragmentPhotoDrawingDetailBinding
+import com.ssafy.likloud.databinding.FragmentDrawingDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 
-private const val TAG = "차선호"
 //PhotoListFragment에서 해당 그림 선택하면 그 그림 객체 얻어와야함!!!!
 @AndroidEntryPoint
-class PhotoDrawingDetailFragment : BaseFragment<FragmentPhotoDrawingDetailBinding>(
-    FragmentPhotoDrawingDetailBinding::bind, R.layout.fragment_photo_drawing_detail) {
+class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
+    FragmentDrawingDetailBinding::bind, R.layout.fragment_drawing_detail
+) {
 
-    private val photoDrawingDetailFragmentViewModel : PhotoDrawingDetailFragmentViewModel by viewModels()
+    private val photoDrawingDetailFragmentViewModel : DrawingDetailFragmentViewModel by viewModels()
     private lateinit var mainActivity: MainActivity
     private val activityViewModel: MainActivityViewModel by activityViewModels()
-    val args: PhotoDrawingDetailFragmentArgs by navArgs()
+    val args: DrawingDetailFragmentArgs by navArgs()
 
 
     override fun onAttach(context: Context) {
@@ -53,15 +54,15 @@ class PhotoDrawingDetailFragment : BaseFragment<FragmentPhotoDrawingDetailBindin
     }
 
     private fun initObserver(){
-        photoDrawingDetailFragmentViewModel.currentPhotoDrawingDetail.observe(viewLifecycleOwner){
+        photoDrawingDetailFragmentViewModel.currentDrawingDetail.observe(viewLifecycleOwner){
             //member 정보 조회
-            photoDrawingDetailFragmentViewModel.getCurrentDrawingMember(photoDrawingDetailFragmentViewModel.currentPhotoDrawingDetail.value!!.memberId)
+            photoDrawingDetailFragmentViewModel.getCurrentDrawingMember(photoDrawingDetailFragmentViewModel.currentDrawingDetail.value!!.memberId)
         }
 
         photoDrawingDetailFragmentViewModel.currentDrawingMember.observe(viewLifecycleOwner){
             binding.apply {
                 Glide.with(binding.imageCurrentDrawing)
-                    .load(photoDrawingDetailFragmentViewModel.currentPhotoDrawingDetail.value!!.imageUrl)
+                    .load(photoDrawingDetailFragmentViewModel.currentDrawingDetail.value!!.imageUrl)
                     .into(binding.imageCurrentDrawing)
                 Glide.with(binding.imageProfileColor)
                     .load(activityViewModel.waterDropColorList[photoDrawingDetailFragmentViewModel.currentDrawingMember.value!!.profileColor].resourceId)
@@ -73,9 +74,9 @@ class PhotoDrawingDetailFragment : BaseFragment<FragmentPhotoDrawingDetailBindin
                     .load(activityViewModel.waterDropAccessoryList[photoDrawingDetailFragmentViewModel.currentDrawingMember.value!!.profileAccessory].resourceId)
                     .into(binding.imageProfileAccessory)
                 textDrawingNickname.text = photoDrawingDetailFragmentViewModel.currentDrawingMember.value!!.nickname
-                textDrawingTitle.text = photoDrawingDetailFragmentViewModel.currentPhotoDrawingDetail.value!!.title
-                textDrawingContent.text = photoDrawingDetailFragmentViewModel.currentPhotoDrawingDetail.value!!.content
-                if (photoDrawingDetailFragmentViewModel.currentPhotoDrawingDetail.value!!.memberLiked) {
+                textDrawingTitle.text = photoDrawingDetailFragmentViewModel.currentDrawingDetail.value!!.title
+                textDrawingContent.text = photoDrawingDetailFragmentViewModel.currentDrawingDetail.value!!.content
+                if (photoDrawingDetailFragmentViewModel.currentDrawingDetail.value!!.memberLiked) {
                     imageHeart.setImageResource(R.drawable.icon_selected_heart)
                 } else {
                     imageHeart.setImageResource(R.drawable.icon_unselected_heart)
@@ -90,7 +91,17 @@ class PhotoDrawingDetailFragment : BaseFragment<FragmentPhotoDrawingDetailBindin
     }
 
     override fun initListener() {
-
+        binding.buttonBack.setOnClickListener {
+            findNavController().popBackStack()
+        }// 안드로이드 뒤로가기 버튼 눌렀을 때
+        mainActivity.onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().popBackStack()
+                }
+            }
+        )
     }
 
 }

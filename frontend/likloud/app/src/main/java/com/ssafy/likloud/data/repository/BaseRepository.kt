@@ -131,4 +131,12 @@ interface BaseRepository {
      * 내가 올린 사진 조회(마이페이지)
      */
     suspend fun getMyPhotoListDtoList(): NetworkResult<MutableList<PhotoListDto>>
+    /**
+     * 내가 즐찾한 사진 조회(마이페이지)
+     */
+    suspend fun getBookmarkPhotoListDtoList(): NetworkResult<MutableList<PhotoListDto>>
+    /**
+     * 사진 상세 조회
+     */
+    suspend fun getPhotoDetail(photoId: Int): NetworkResult<PhotoListDto>
 }
