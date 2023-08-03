@@ -1,5 +1,6 @@
 package com.ssafy.likloud.data.api
 
+import android.provider.ContactsContract.Contacts.Photo
 import com.ssafy.likloud.base.BaseResponse
 import com.ssafy.likloud.data.model.DrawingDetailDto
 import com.ssafy.likloud.data.model.DrawingListDto
@@ -105,6 +106,21 @@ interface BaseService {
      */
     @POST("api/member/plusSilver")
     suspend fun plusSliver(): Response<String>
+    /**
+     * 내가 그린 그림 조회(마이페이지)
+     */
+    @GET("api/mypage/drawings")
+    suspend fun getMyDrawingListDtoList(): Response<MutableList<DrawingListDto>>
+    /**
+     * 내가 좋아요 한 그림 조회(마이페이지)
+     */
+    @GET("api/mypage/likes")
+    suspend fun getLikeDrawingListDtoList(): Response<MutableList<DrawingListDto>>
+    /**
+     * 내가 올린 사진 조회(마이페이지)
+     */
+    @GET("api/mypages/photos")
+    suspend fun getMyPhotoListDtoList(): Response<MutableList<PhotoListDto>>
 }
 
 //api 만드는 과정

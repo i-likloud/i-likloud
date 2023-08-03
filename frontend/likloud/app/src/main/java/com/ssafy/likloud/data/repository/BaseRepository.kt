@@ -119,4 +119,16 @@ interface BaseRepository {
      * 개임 성공 시 은코인 상승
      */
     suspend fun plusSilver(): NetworkResult<String>
+    /**
+     * 내가 그린 그림 조회(마이페이지)
+     */
+    suspend fun getMyDrawingListDtoList(): NetworkResult<MutableList<DrawingListDto>>
+    /**
+     * 내가 좋아요 한 그림 조회(마이페이지)
+     */
+    suspend fun getLikeDrawingListDtoList(): NetworkResult<MutableList<DrawingListDto>>
+    /**
+     * 내가 올린 사진 조회(마이페이지)
+     */
+    suspend fun getMyPhotoListDtoList(): NetworkResult<MutableList<PhotoListDto>>
 }
