@@ -64,9 +64,5 @@
 
     <!--store-->
     <string name="title_store">상점</string>
-
-    <!--상세 정보-->
-    <string name="title_drawing_detail">그림 상세 정보</string>
-    <string name="title_photo_detail">사진 상세 정보</string>
-
+    
 </resources>
