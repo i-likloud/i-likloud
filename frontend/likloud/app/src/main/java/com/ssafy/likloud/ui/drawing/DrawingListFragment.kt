@@ -74,12 +74,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
 
 
             imageHeart.setOnClickListener {
-                drawingListFragmentViewModel.changeSelectedDrawingDetailDtoMemberLiked()
-                if(drawingListFragmentViewModel.selectedDrawingDetailDto.value!!.memberLiked){
-                    binding.imageHeart.setImageResource(R.drawable.icon_selected_heart)
-                }else{
-                    binding.imageHeart.setImageResource(R.drawable.icon_unselected_heart)
-                }
+                drawingListFragmentViewModel.changeIsLiked()
             }
 
             buttonBack.setOnClickListener {
@@ -131,6 +126,10 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
                     imageHeart.setImageResource(R.drawable.icon_unselected_heart)
                 }
             }
+        }
+
+        drawingListFragmentViewModel.isLiked.observe(viewLifecycleOwner){
+
         }
 
         drawingListFragmentViewModel.selectedDrawingCommentList.observe(viewLifecycleOwner) {

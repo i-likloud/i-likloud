@@ -78,10 +78,6 @@ class DrawingListFragmentViewModel @Inject constructor(
             }
         }
     }
-    fun changeSelectedDrawingDetailDtoMemberLiked(){
-        _selectedDrawingDetailDto.value!!.memberLiked = !_selectedDrawingDetailDto.value!!.memberLiked
-        // api 호출
-    }
 
     ///////////////////////////////////////////////////////// 선택된 그림의 member ////////////////////////////////////////////////////////////
 
@@ -95,6 +91,14 @@ class DrawingListFragmentViewModel @Inject constructor(
                 _selectedDrawingMember.value = it
             }
         }
+    }
+
+    ///////////////////////////////////////////////////// 좋아요 //////////////////////////////////
+    private val _isLiked = MutableLiveData<Boolean>()
+    val isLiked: LiveData<Boolean>
+        get() = _isLiked
+    fun changeIsLiked(){
+        // api 호출
     }
 
 
