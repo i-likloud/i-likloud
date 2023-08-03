@@ -106,4 +106,12 @@ class BaseRepositoryImpl @Inject constructor(
     override suspend fun getMyDrawingListDtoList(): NetworkResult<MutableList<DrawingListDto>> {
         return handleApi { baseAPIService.getMyDrawingListDtoList().body()!! }
     }
+
+    override suspend fun getLikeDrawingListDtoList(): NetworkResult<MutableList<DrawingListDto>> {
+        return handleApi { baseAPIService.getLikeDrawingListDtoList().body()!! }
+    }
+
+    override suspend fun getMyPhotoListDtoList(): NetworkResult<MutableList<PhotoListDto>> {
+        return handleApi { baseAPIService.getMyPhotoListDtoList().body()!! }
+    }
 }

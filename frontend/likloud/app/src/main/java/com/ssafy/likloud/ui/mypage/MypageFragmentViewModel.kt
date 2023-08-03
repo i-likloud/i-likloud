@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ssafy.likloud.data.api.onSuccess
 import com.ssafy.likloud.data.model.DrawingListDto
+import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.data.model.UserDto
 import com.ssafy.likloud.data.repository.BaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,6 +29,29 @@ class MypageFragmentViewModel @Inject constructor(
             baseRepository.getMyDrawingListDtoList().onSuccess {
                 _currentDrawingListDtoList.value = it
             }
+        }
+    }
+    /**
+     * 내가 좋아요 한 그림 조회
+     */
+    fun getLikeDrawingListDtoList(){
+        viewModelScope.launch {
+            baseRepository.getLikeDrawingListDtoList().onSuccess {
+                _currentDrawingListDtoList.value = it
+            }
+        }
+    }
+
+    ///////////////////////// 사진 관련 /////////////////////////////////////
+    private var _currentPhotoListDtoList = MutableLiveData<MutableList<PhotoListDto>>()
+    val currentPhotoListDtoList: LiveData<MutableList<PhotoListDto>>
+        get() = _currentPhotoListDtoList
+    /**
+     * 내가 찍은 사진 조회
+     */
+    fun getMyPhotoListDtoList(){
+        viewModelScope.launch {
+
         }
     }
 

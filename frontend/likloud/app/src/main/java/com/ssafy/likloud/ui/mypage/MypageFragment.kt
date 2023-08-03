@@ -66,6 +66,7 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         binding.textviewNickname.text = mainActivityViewModel.memberInfo.value!!.nickname
         binding.textviewTicketCnt.text = mainActivityViewModel.memberInfo.value!!.goldCoin.toString()
         binding.textviewStampCnt.text = mainActivityViewModel.memberInfo.value!!.silverCoin.toString()
+        mypageFragmentViewModel.getMyDrawingListDtoList()
     }
 
     override fun initListener() {
@@ -82,6 +83,18 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         })
         binding.buttonEdit.setOnClickListener {
             findNavController().navigate(R.id.action_mypageFragment_to_profileEditFragment)
+        }
+        binding.chipMyDrawing.setOnClickListener {
+            mypageFragmentViewModel.getMyDrawingListDtoList()
+        }
+        binding.chipMyPhoto.setOnClickListener {
+            mypageFragmentViewModel.getMyPhotoListDtoList()
+        }
+        binding.chipLikeDrawing.setOnClickListener {
+            mypageFragmentViewModel.getLikeDrawingListDtoList()
+        }
+        binding.chipBookmarkPhoto.setOnClickListener {
+
         }
     }
 
@@ -100,6 +113,9 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
             //그림에 대해서 recyclerview 변경
             initDrawingRecyclerView()
         }
+        mypageFragmentViewModel.currentPhotoListDtoList.observe(viewLifecycleOwner){
+            initPhotoRecyclerView()
+        }
     }
 
     private fun initDrawingRecyclerView(){
@@ -109,5 +125,9 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
             layoutManager = GridLayoutManager(mActivity, 3) // 한 줄에 3개씩 보이도록 설정
             adapter = drawingListAdapter
         }
+    }
+
+    private fun initPhotoRecyclerView(){
+        
     }
 }

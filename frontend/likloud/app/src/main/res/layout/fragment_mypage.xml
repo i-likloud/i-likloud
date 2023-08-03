@@ -260,7 +260,7 @@
                 app:selectionRequired="true">
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip1"
+                    android:id="@+id/chip_my_drawing"
                     style="@style/MyChipStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -269,7 +269,7 @@
                     app:chipStrokeWidth="2dp"/>
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip2"
+                    android:id="@+id/chip_my_photo"
                     style="@style/MyChipStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -278,7 +278,7 @@
                     app:chipStrokeWidth="2dp" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip3"
+                    android:id="@+id/chip_like_drawing"
                     style="@style/MyChipStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -287,7 +287,7 @@
                     app:chipStrokeWidth="2dp" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip4"
+                    android:id="@+id/chip_bookmark_photo"
                     style="@style/MyChipStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
