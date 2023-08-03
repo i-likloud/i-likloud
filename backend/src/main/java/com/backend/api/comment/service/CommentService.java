@@ -1,10 +1,8 @@
 package com.backend.api.comment.service;
 
-import com.backend.api.drawing.dto.DrawingListDto;
 import com.backend.domain.comment.dto.CommentDto;
 import com.backend.domain.comment.entity.Comment;
 import com.backend.domain.comment.repository.CommentRepository;
-import com.backend.domain.drawing.dto.DrawingResponseDto;
 import com.backend.domain.drawing.entity.Drawing;
 import com.backend.domain.drawing.repository.DrawingRepository;
 import com.backend.domain.member.entity.Member;

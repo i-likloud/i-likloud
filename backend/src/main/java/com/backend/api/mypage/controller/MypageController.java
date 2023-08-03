@@ -5,7 +5,7 @@ import com.backend.api.mypage.dto.MypageInfoDto;
 import com.backend.api.mypage.dto.ProfileDto;
 import com.backend.api.mypage.service.MypageService;
 import com.backend.api.nft.dto.NftListResponseDto;
-import com.backend.api.photo.dto.PhotoWithBookmarkDto;
+import com.backend.api.photo.dto.PhotoInfoResponseDto;
 import com.backend.domain.accessory.dto.AccessoryDto;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.repository.MemberRepository;
@@ -100,10 +100,10 @@ public class MypageController {
     }
     @Operation(summary = "나의 북마크 사진 조회", description = "유저가 북마크한 사진 리스트를 출력하는 메서드입니다.")
     @GetMapping("/bookmarks")
-    public ResponseEntity<List<PhotoWithBookmarkDto>> getMyBookmarks(@MemberInfo MemberInfoDto memberInfoDto){
+    public ResponseEntity<List<PhotoInfoResponseDto>> getMyBookmarks(@MemberInfo MemberInfoDto memberInfoDto){
         try {
             Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
-            List<PhotoWithBookmarkDto> result = mypageService.bookmarkPhoto(member.getMemberId());
+            List<PhotoInfoResponseDto> result = mypageService.bookmarkPhoto(member.getMemberId());
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -112,11 +112,10 @@ public class MypageController {
 
     @Operation(summary = "내가 올린 사진 조회", description = "유저가 올린 사진 리스트를 출력하는 메서드입니다.")
     @GetMapping("/photos")
-    public ResponseEntity<List<PhotoWithBookmarkDto>> getMyPhotos(@MemberInfo MemberInfoDto memberInfoDto){
+    public ResponseEntity<List<PhotoInfoResponseDto>> getMyPhotos(@MemberInfo MemberInfoDto memberInfoDto){
         try {
             Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
-            List<PhotoWithBookmarkDto> result = mypageService.getMyPhoto(member.getMemberId());
-//            List<Photo> result = photoRepository.findAllByMemberMemberId(member.getMemberId());
+            List<PhotoInfoResponseDto> result = mypageService.getMyPhoto(member.getMemberId());
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -147,12 +146,4 @@ public class MypageController {
         }
     }
 
-
-//    @Operation(summary = "내가 즐겨찾기한 사진 조회", description = "즐겨찾기한 모든 사진을 보여주는 메소드입니다.")
-//    @GetMapping("/bookmarks")
-//    public ResponseEntity<List<PhotoWithBookmarkDto>> getBookmarkedPhotosForCurrentUser(@MemberInfo MemberInfoDto memberInfoDto) {
-//        Member findMember = memberService.findMemberByEmail(memberInfoDto.getEmail());
-//        List<PhotoWithBookmarkDto> bookmarkedPhotos = bookmarkService.getBookmarkedPhotosForUser(findMember);
-//        return ResponseEntity.ok(bookmarkedPhotos);
-//    }
 }

@@ -2,6 +2,7 @@ package com.backend.api.photo.service;
 
 import com.backend.api.drawing.dto.DrawingWithBookmarksDto;
 import com.backend.api.likes.service.LikesService;
+import com.backend.api.photo.dto.PhotoDetailDto;
 import com.backend.api.photo.dto.PhotoInfoResponseDto;
 import com.backend.domain.bookmark.entity.Bookmarks;
 import com.backend.domain.bookmark.repository.BookmarkRepository;
@@ -37,10 +38,7 @@ public class PhotoInfoService {
         List<Photo> photos = photoRepository.findAllByOrderByCreatedAtDesc();
 
         List<PhotoInfoResponseDto> photoInfoResponseDtos = photos.stream()
-                .map(photo -> {
-                    boolean memberBookmarked = this.isAlreadyBookmarked(member, photo.getPhotoId());
-                    return new PhotoInfoResponseDto(photo, memberBookmarked);
-                })
+                .map(PhotoInfoResponseDto::new)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(photoInfoResponseDtos);
@@ -52,10 +50,7 @@ public class PhotoInfoService {
         List<Photo> photos = photoRepository.findAllByOrderByPickCntDesc();
 
         List<PhotoInfoResponseDto> photoInfoResponseDtos = photos.stream()
-                .map(photo -> {
-                    boolean memberBookmarked = this.isAlreadyBookmarked(member, photo.getPhotoId());
-                    return new PhotoInfoResponseDto(photo, memberBookmarked);
-                })
+                .map(PhotoInfoResponseDto::new)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(photoInfoResponseDtos);
@@ -68,10 +63,7 @@ public class PhotoInfoService {
         List<Photo> photos = photoRepository.findAllByOrderByBookmarkCntDesc();
 
         List<PhotoInfoResponseDto> photoInfoResponseDtos = photos.stream()
-                .map(photo -> {
-                    boolean memberBookmarked = this.isAlreadyBookmarked(member, photo.getPhotoId());
-                    return new PhotoInfoResponseDto(photo, memberBookmarked);
-                })
+                .map(PhotoInfoResponseDto::new)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(photoInfoResponseDtos);
@@ -79,13 +71,13 @@ public class PhotoInfoService {
 
     // 상세 사진 조회
     @Transactional
-    public PhotoInfoResponseDto getPhotoDetail(Long photoId, Member member){
+    public PhotoDetailDto getPhotoDetail(Long photoId, Member member){
         Photo photo = photoRepository.findById(photoId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_PHOTO));
 
         boolean memberBookmarked = this.isAlreadyBookmarked(member, photo.getPhotoId());
 
-        return new PhotoInfoResponseDto(photo, memberBookmarked);
+        return new PhotoDetailDto(photo, memberBookmarked);
     }
 
     // 특정 사진과 관련된 모든 그림
@@ -104,6 +96,7 @@ public class PhotoInfoService {
     }
 
     // 삭제
+    @Transactional
     public void delete(Long id) {
         Photo photo = photoRepository.findById(id)
                 .orElseThrow(()-> new BusinessException(ErrorCode.NOT_FOUND_PHOTO));
@@ -118,11 +111,12 @@ public class PhotoInfoService {
             drawing.setPhoto(null);
         }
 
-            photoRepository.delete(photo);
+        photoRepository.delete(photo);
     }
 
     // 사진 즐겨찾기
-    public ResponseEntity<String> pickPhoto(Long photoId, Long memberId) {
+    @Transactional
+    public void pickPhoto(Long photoId, Long memberId) {
         Photo photo = photoRepository.findById(photoId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 photo가 존재하지 않습니다."));
 
@@ -138,13 +132,13 @@ public class PhotoInfoService {
 
         // 즐겨찾기 수 증가
         photo.setBookmarkCnt(photo.getBookmarkCnt() +1);
-        photoRepository.save(photo);
+//        photoRepository.save(photo);
 
-        return ResponseEntity.ok("사진을 즐겨찾기했습니다.");
     }
 
     // 사진 즐겨찾기 취소
-    public ResponseEntity<String> unpickPhoto(Long photoId, Long memberId) {
+    @Transactional
+    public void unpickPhoto(Long photoId, Long memberId) {
         Bookmarks bookmark = bookmarkRepository.findByMemberMemberIdAndPhotoPhotoId(memberId, photoId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 즐겨찾기가 존재하지 않습니다."));
 
@@ -153,9 +147,8 @@ public class PhotoInfoService {
         // 즐겨찾기 수 감소
         Photo photo = bookmark.getPhoto();
         photo.setBookmarkCnt(photo.getBookmarkCnt() - 1);
-        photoRepository.save(photo);
+//        photoRepository.save(photo);
 
-        return ResponseEntity.ok("사진 즐겨찾기를 취소했습니다.");
     }
 
     // 북마크확인

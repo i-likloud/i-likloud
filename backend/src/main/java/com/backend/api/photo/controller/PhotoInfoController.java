@@ -1,6 +1,7 @@
 package com.backend.api.photo.controller;
 
 import com.backend.api.drawing.dto.DrawingWithBookmarksDto;
+import com.backend.api.photo.dto.PhotoDetailDto;
 import com.backend.api.photo.dto.PhotoInfoResponseDto;
 import com.backend.api.photo.service.PhotoInfoService;
 import com.backend.domain.member.entity.Member;
@@ -52,7 +53,7 @@ public class PhotoInfoController {
     //사진 상세 조회
     @Operation(summary = "사진 상세 조회", description = "사진 상세조회(url, 사진id, 멤버id).")
     @GetMapping("/{photoId}")
-    public PhotoInfoResponseDto photoDetail(@PathVariable Long photoId, @MemberInfo MemberInfoDto memberInfoDto) {
+    public PhotoDetailDto photoDetail(@PathVariable Long photoId, @MemberInfo MemberInfoDto memberInfoDto) {
         Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
         return photoInfoService.getPhotoDetail(photoId, member);
     }

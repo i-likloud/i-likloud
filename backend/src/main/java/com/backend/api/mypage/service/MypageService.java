@@ -4,7 +4,7 @@ import com.backend.api.drawing.dto.DrawingListDto;
 import com.backend.api.mypage.dto.MypageInfoDto;
 import com.backend.api.mypage.dto.ProfileDto;
 import com.backend.api.nft.dto.NftListResponseDto;
-import com.backend.api.photo.dto.PhotoWithBookmarkDto;
+import com.backend.api.photo.dto.PhotoInfoResponseDto;
 import com.backend.domain.accessory.dto.AccessoryDto;
 import com.backend.domain.accessory.entity.Accessory;
 import com.backend.domain.accessory.repository.AccessoryRepository;
@@ -68,9 +68,7 @@ public class MypageService {
     public List<DrawingListDto> likeDrawing(Long memberId){
         List<Likes> list = likesRepository.findAllByMemberMemberId(memberId);
         return list.stream()
-                    .map(like -> {
-                        boolean memberLiked = likesRepository.existsByMemberMemberIdAndDrawingDrawingId(memberId, like.getDrawing().getDrawingId());
-                        return new DrawingListDto(like.getDrawing(), memberLiked);
+                    .map(like -> {return new DrawingListDto(like.getDrawing());
                     })
                     .collect(Collectors.toList());
     }
@@ -79,27 +77,24 @@ public class MypageService {
         List<Drawing> list = drawingRepository.findDrawingByMember_MemberId(memberId);
 
         return list.stream()
-                .map(drawing -> {
-                    boolean memberLiked = likesRepository.existsByMemberMemberIdAndDrawingDrawingId(memberId, drawing.getDrawingId());
-                    return new DrawingListDto(drawing, memberLiked);
-                })
+                .map(DrawingListDto::new)
                 .collect(Collectors.toList());
     }
 
-    public List<PhotoWithBookmarkDto> bookmarkPhoto(Long memberId) {
+    public List<PhotoInfoResponseDto> bookmarkPhoto(Long memberId) {
         Member member = memberService.findMemberById(memberId);
         List<Bookmarks> bookmarks = bookmarkRepository.findByMember(member);
 
         return bookmarks.stream()
-                .map(bookmark -> new PhotoWithBookmarkDto(bookmark.getPhoto()))
+                .map(bookmark -> new PhotoInfoResponseDto(bookmark.getPhoto()))
                 .collect(Collectors.toList());
     }
 
-    public List<PhotoWithBookmarkDto> getMyPhoto(Long memberId) {
+    public List<PhotoInfoResponseDto> getMyPhoto(Long memberId) {
         List<Photo> list = photoRepository.findAllByMemberMemberId(memberId);
 
         return list.stream()
-                .map(photo -> new PhotoWithBookmarkDto(photo))
+                .map(PhotoInfoResponseDto::new)
                 .collect(Collectors.toList());
     }
 
