@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.data.model.CommentDto
+import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.databinding.ItemCommentBinding
 
@@ -69,7 +70,7 @@ class CommentListAdapter  (var list : MutableList<CommentDto>, var member: Membe
         }
     }
 
-    fun updateData(list: ArrayList<CommentDto>) {
+    fun updateData(list: MutableList<CommentDto>) {
         this.list = list
     }
     //Use the method for checking the itemRemoved

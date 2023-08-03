@@ -2,6 +2,7 @@ package com.ssafy.likloud.data.api
 
 import android.provider.ContactsContract.Contacts.Photo
 import com.ssafy.likloud.base.BaseResponse
+import com.ssafy.likloud.data.model.CommentDto
 import com.ssafy.likloud.data.model.DrawingDetailDto
 import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.PhotoListDto
@@ -141,6 +142,11 @@ interface BaseService {
      */
     @POST("api/photo/{photoId}/bookmark")
     suspend fun changePhotoBookmark(@Path("photoId") photoId: Int): Response<String>
+    /**
+     * 댓글 등록
+     */
+    @POST("api/comment/to/{drawingId}")
+    suspend fun registDrawingComment(@Path("drawingId") drawingId: Int, @Query("content") content: String): Response<CommentDto>
 }
 
 //api 만드는 과정

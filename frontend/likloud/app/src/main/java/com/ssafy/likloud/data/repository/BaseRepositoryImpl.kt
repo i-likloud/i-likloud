@@ -5,6 +5,7 @@ import com.ssafy.likloud.ApplicationClass
 import com.ssafy.likloud.data.api.BaseService
 import com.ssafy.likloud.data.api.NetworkResult
 import com.ssafy.likloud.data.api.handleApi
+import com.ssafy.likloud.data.model.CommentDto
 import com.ssafy.likloud.data.model.DrawingDetailDto
 import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.PhotoListDto
@@ -129,5 +130,9 @@ class BaseRepositoryImpl @Inject constructor(
 
     override suspend fun changePhotoBookmark(photoId: Int): NetworkResult<String> {
         return handleApi { baseAPIService.changePhotoBookmark(photoId).body()!! }
+    }
+
+    override suspend fun registDrawingComment(drawingId: Int, content: String): NetworkResult<CommentDto> {
+        return handleApi { baseAPIService.registDrawingComment(drawingId, content).body()!! }
     }
 }

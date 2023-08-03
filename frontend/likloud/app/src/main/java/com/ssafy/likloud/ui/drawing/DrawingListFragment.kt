@@ -6,15 +6,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.bumptech.glide.Glide
 import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager
+import com.ssafy.likloud.ApplicationClass
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
@@ -32,6 +35,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
     private val drawingListFragmentViewModel : DrawingListFragmentViewModel by viewModels()
     private lateinit var mainActivity: MainActivity
     private val activityViewModel: MainActivityViewModel by activityViewModels()
+    private lateinit var commentListAdapter: CommentListAdapter
 
 
     override fun onAttach(context: Context) {
@@ -49,7 +53,9 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        commentListAdapter = CommentListAdapter(
+            mutableListOf(), MemberProfileDto("dd",0,0,0),
+            activityViewModel)
         init()
         initListener()
         initObserver()
@@ -82,6 +88,17 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
             //뒤로가기 눌렀을 때
             buttonBack.setOnClickListener {
                 findNavController().popBackStack()
+            }
+            //댓글 입력 눌렀을 때
+            buttonDrawingComment.setOnClickListener {
+                val content = edittextDrawingComment.text.toString()
+                if(content == ""){
+                    Toast.makeText(mainActivity,"댓글을 입력하세요",Toast.LENGTH_SHORT).show()
+                }else{
+                    //댓글 입력 함수
+                    drawingListFragmentViewModel.registDrawingComment(drawingListFragmentViewModel.currentDrawingDetailDto.value!!.drawingId, content)
+                    edittextDrawingComment.setText("")
+                }
             }
         }
         // 안드로이드 뒤로가기 버튼 눌렀을 때
@@ -129,6 +146,10 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         drawingListFragmentViewModel.likeCount.observe(viewLifecycleOwner){
             binding.textLikeCount.text = it.toString()
         }
+
+        drawingListFragmentViewModel.currentDrawingCommentList.observe(viewLifecycleOwner){
+            commentListAdapter.updateData(it)
+        }
     }
 
     private fun initInfoView(drawingDetail: DrawingDetailDto, member: MemberProfileDto){
@@ -170,7 +191,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
 
     private fun initCommentRecyclerView(){
         Log.d(TAG, "commentList : ${drawingListFragmentViewModel.currentDrawingCommentList.value} ")
-        val commentListAdapter = CommentListAdapter(drawingListFragmentViewModel.currentDrawingCommentList.value!!,
+        commentListAdapter = CommentListAdapter(drawingListFragmentViewModel.currentDrawingCommentList.value!!,
             drawingListFragmentViewModel.currentDrawingMember.value!!,
             activityViewModel)
         binding.recyclerviewDrawingComment.apply {

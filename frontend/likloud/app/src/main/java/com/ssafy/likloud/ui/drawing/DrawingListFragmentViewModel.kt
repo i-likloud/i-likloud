@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ssafy.likloud.data.api.onError
 import com.ssafy.likloud.data.api.onSuccess
 import com.ssafy.likloud.data.model.CommentDto
 import com.ssafy.likloud.data.model.DrawingDetailDto
@@ -83,17 +84,14 @@ class DrawingListFragmentViewModel @Inject constructor(
     private val _currentDrawingCommentList = MutableLiveData<MutableList<CommentDto>>()
     val currentDrawingCommentList: LiveData<MutableList<CommentDto>>
         get() = _currentDrawingCommentList
-//    fun addToCommentList(comment: CommentDto) {
-//        viewModelScope.launch {
-//            selectedDrawingCommentList.value?.add(comment)
-//        }
-//    }
-//
-//    fun removeComment(posi:Int){
-//        viewModelScope.launch {
-//            selectedDrawingCommentList.value!!.removeAt(posi)
-//        }
-//    }
+    fun registDrawingComment(drawingId: Int,content: String){
+        viewModelScope.launch {
+            baseRepository.registDrawingComment(drawingId, content).onSuccess {
+                _currentDrawingCommentList.value!!.add(it)
+                Log.d(TAG, "registDrawingComment: $it")
+            }
+        }
+    }
 
     ///////////////////////////////////////////////////////// 선택된 그림의 member ////////////////////////////////////////////////////////////
 
