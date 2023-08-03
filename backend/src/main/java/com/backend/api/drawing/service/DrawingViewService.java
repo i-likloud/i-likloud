@@ -69,10 +69,12 @@ public class DrawingViewService {
         if(!drawing.getMember().getMemberId().equals(memberId)){
             throw new BusinessException(ErrorCode.UNAUTHORIZED_DELETION);
         }
-        drawingRepository.delete(drawing);
-        
+        // NFT의 그림 null 처리
         Nft nft = nftService.findNftByDrawingId(drawingId);
         nft.setDrawing(null);
+
+        drawingRepository.delete(drawing);
+
     }
 
     public Drawing findDrawingById(Long drawingId){

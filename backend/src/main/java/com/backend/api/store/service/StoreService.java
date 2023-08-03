@@ -49,19 +49,21 @@ public class StoreService {
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_ACCESSORY));
     }
 
+    // 악세사리 구매
     @Transactional
     public ProfileDto buyAccessory(String email, Long storeId) {
         Member member = memberService.findMemberByEmail(email);
         Store buyStore = findStoreByStoreId(storeId);
-//
-//        if (AllAccessoriesWithOwnership)
+
         int targetCoin = buyStore.getAccessoryPrice();
         int currentGoldCoin = member.getGoldCoin();
 
+        // 코인 부족
         if (currentGoldCoin < targetCoin) {
             throw new RuntimeException("gold-coin이 부족합니다.");
         }
 
+        // 보유여부 확인
         List<Accessory> myAccessories = accessoryRepository.findByMember(member);
         boolean alreadyOwned = myAccessories.stream().anyMatch(accessory -> accessory.getStore().getStoreId().equals(storeId));
 
@@ -69,16 +71,11 @@ public class StoreService {
             member.setGoldCoin(currentGoldCoin - targetCoin);
             memberRepository.save(member);
 
-//            // storeRepository를 사용하여 악세사리의 store 정보를 가져옴
-//            Store store = storeRepository.findById(buyAccessory.getStoreId())
-//                    .orElseThrow(() -> new RuntimeException("악세사리의 store 정보를 찾을 수 없습니다."));
-
-            // member가 sotr_id번의 buyAccessory를 샀다.
+            // member가 sotr_id번의 Accessory를 샀다.
             Accessory accessory = Accessory.builder()
                     .store(buyStore)
                     .member(member)
                     .build();
-
 
             accessoryRepository.save(accessory);
         } else{
@@ -88,6 +85,7 @@ public class StoreService {
         return ProfileDto.of(member);
     }
 
+    // 상품 등록
     @Transactional
     public Store uploadAccessory(AccessoryUploadRequestDto requestDto) {
         Store store = Store.builder()

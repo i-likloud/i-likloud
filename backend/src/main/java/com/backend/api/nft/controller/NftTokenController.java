@@ -58,6 +58,7 @@ public class NftTokenController {
 
         Nft nft = nftApiService.uploadNftAndCreateToken(drawingId, member);
         NftResponseDto nftResponseDto = new NftResponseDto(nft);
+
         // 은코인 감소, 금코인 증가
         memberCoinService.minusSilverCoin(member, 1);
         memberCoinService.plusGoldCoin(member, 1);

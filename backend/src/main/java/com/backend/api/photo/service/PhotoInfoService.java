@@ -134,7 +134,6 @@ public class PhotoInfoService {
 
         // 즐겨찾기 수 증가
         photo.setBookmarkCnt(photo.getBookmarkCnt() +1);
-//        photoRepository.save(photo);
 
     }
 
@@ -150,7 +149,6 @@ public class PhotoInfoService {
         // 즐겨찾기 수 감소
         Photo photo = bookmark.getPhoto();
         photo.setBookmarkCnt(photo.getBookmarkCnt() - 1);
-//        photoRepository.save(photo);
 
     }
 

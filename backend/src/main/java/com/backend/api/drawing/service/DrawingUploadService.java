@@ -8,7 +8,6 @@ import com.backend.domain.drawing.entity.DrawingFile;
 import com.backend.domain.drawing.repository.DrawingFileRepository;
 import com.backend.domain.drawing.repository.DrawingRepository;
 import com.backend.domain.member.entity.Member;
-import com.backend.domain.member.service.MemberService;
 import com.backend.domain.photo.entity.Photo;
 import com.backend.domain.photo.repository.PhotoRepository;
 import com.backend.domain.photo.service.PhotoService;
@@ -43,8 +42,6 @@ public class DrawingUploadService {
     private final PhotoService photoService;
 
     private final PhotoRepository photoRepository;
-
-    private final MemberService memberService;
 
     private final AmazonS3Client amazonS3Client;
 

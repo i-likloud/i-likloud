@@ -11,7 +11,6 @@ import lombok.*;
 public class MemberDto {
 
     private String email;
-
     private String nickname;
     private int profileColor;
     private int profileFace;
@@ -42,7 +41,6 @@ public class MemberDto {
         private int profileFace;
         private int profileAccessory;
     }
-
 
     @Getter
     @Builder
