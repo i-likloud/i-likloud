@@ -77,23 +77,6 @@ class StoreFragment : BaseFragment<FragmentStoreBinding>(FragmentStoreBinding::b
                 }
             }
         )
-
-        binding.accessoryDuckmouse.setOnClickListener {
-            changeWaterDropAccessory(it, mainActivityViewModel.waterDropAccessoryList[1].resourceId)
-        }
-        binding.accessoryShine.setOnClickListener {
-            changeWaterDropAccessory(it, mainActivityViewModel.waterDropAccessoryList[2].resourceId)
-        }
-        binding.accessoryMustache.setOnClickListener {
-            changeWaterDropAccessory(it, mainActivityViewModel.waterDropAccessoryList[3].resourceId)
-        }
-        binding.accessorySunglass.setOnClickListener {
-            changeWaterDropAccessory(it, mainActivityViewModel.waterDropAccessoryList[4].resourceId)
-        }
-        binding.accessoryUmbrella.setOnClickListener {
-            changeWaterDropAccessory(it, mainActivityViewModel.waterDropAccessoryList[5].resourceId)
-        }
-
     }
 
     private fun initAnimation() {
@@ -116,21 +99,21 @@ class StoreFragment : BaseFragment<FragmentStoreBinding>(FragmentStoreBinding::b
      */
     private fun clickedAnimation(view: View) {
         when (view.id) {
-            R.id.accessory_duckmouse -> {
-                makeAnimationSwingY(binding.imageFaceNow, 20f)
-                makeAnimationSwingY(binding.imageAccessoryNow, 20f)
-            }
-            R.id.accessory_mustache -> {
-                makeAnimationSwingY(binding.imageFaceNow, 20f)
-                makeAnimationSwingY(binding.imageAccessoryNow, 20f)
-            }
-            R.id.accessory_sunglass -> {
-                makeAnimationSwingY(binding.imageFaceNow, 20f)
-                makeAnimationSwingY(binding.imageAccessoryNow, 20f)
-            }
-            else -> {
-                makeAnimationSwingY(binding.imageFaceNow, 20f)
-            }
+//            R.id.accessory_duckmouse -> {
+//                makeAnimationSwingY(binding.imageFaceNow, 20f)
+//                makeAnimationSwingY(binding.imageAccessoryNow, 20f)
+//            }
+//            R.id.accessory_mustache -> {
+//                makeAnimationSwingY(binding.imageFaceNow, 20f)
+//                makeAnimationSwingY(binding.imageAccessoryNow, 20f)
+//            }
+//            R.id.accessory_sunglass -> {
+//                makeAnimationSwingY(binding.imageFaceNow, 20f)
+//                makeAnimationSwingY(binding.imageAccessoryNow, 20f)
+//            }
+//            else -> {
+//                makeAnimationSwingY(binding.imageFaceNow, 20f)
+//            }
         }
     }
 
