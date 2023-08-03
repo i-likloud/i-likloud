@@ -21,6 +21,7 @@ import com.backend.domain.nft.repository.NftRepository;
 import com.backend.domain.photo.entity.Photo;
 import com.backend.domain.photo.repository.PhotoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,6 +66,7 @@ public class MypageService {
 
     }
 
+    @Cacheable(value = "likes", key = "#memberId") // 좋아요 그림 캐시 적용
     public List<DrawingListDto> likeDrawing(Long memberId){
         List<Likes> list = likesRepository.findAllByMemberMemberId(memberId);
         return list.stream()
@@ -73,6 +75,7 @@ public class MypageService {
                     .collect(Collectors.toList());
     }
 
+    @Cacheable(value = "drawings", key = "#memberId") // 내 그림 캐시 적용
     public List<DrawingListDto> getMyDrawing(Long memberId) {
         List<Drawing> list = drawingRepository.findDrawingByMember_MemberId(memberId);
 
@@ -81,6 +84,7 @@ public class MypageService {
                 .collect(Collectors.toList());
     }
 
+    @Cacheable(value = "bookMarks", key = "#memberId") // 북마크 사진 캐시 적용
     public List<PhotoInfoResponseDto> bookmarkPhoto(Long memberId) {
         Member member = memberService.findMemberById(memberId);
         List<Bookmarks> bookmarks = bookmarkRepository.findByMember(member);
@@ -90,6 +94,7 @@ public class MypageService {
                 .collect(Collectors.toList());
     }
 
+    @Cacheable(value = "photos", key = "#memberId") // 내 사진 캐시 적용
     public List<PhotoInfoResponseDto> getMyPhoto(Long memberId) {
         List<Photo> list = photoRepository.findAllByMemberMemberId(memberId);
 
@@ -110,6 +115,7 @@ public class MypageService {
     }
 
     // 보유 NFT 조회
+    @Cacheable(value = "nft", key = "#memberId") // 내 NFT 캐시 적용
     public List<NftListResponseDto> getMyNft(Long memberId){
         Member member = memberService.findMemberById(memberId);
         List<Nft> nftList = nftRepository.findByMember(member);

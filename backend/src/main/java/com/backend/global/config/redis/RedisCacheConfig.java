@@ -23,8 +23,19 @@ public class RedisCacheConfig {
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())) // Value Serializer 변경
-                .entryTtl(Duration.ofMinutes(3L)); // 캐시 수명 30분
+                .entryTtl(Duration.ofMinutes(15L)); // 캐시 수명 15분
 
         return RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(cf).cacheDefaults(redisCacheConfiguration).build();
     }
+//    @SuppressWarnings("deprecation")
+//    @Bean
+//    public CacheManager cacheManager() {
+//        RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(redisConfig.redisConnectionFactory());
+//        RedisCacheConfiguration configuration = RedisCacheConfiguration.defaultCacheConfig()
+//                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())) // Value Serializer 변경
+//                .prefixKeysWith("Test:") // Key Prefix로 "Test:"를 앞에 붙여 저장
+//                .entryTtl(Duration.ofMinutes(30)); // 캐시 수명 30분
+//        builder.cacheDefaults(configuration);
+//        return builder.build();
+//    }
 }
