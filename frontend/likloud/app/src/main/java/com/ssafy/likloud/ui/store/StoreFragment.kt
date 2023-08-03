@@ -9,12 +9,16 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.view.animation.OvershootInterpolator
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.airbnb.lottie.LottieAnimationView
+import com.google.android.material.snackbar.Snackbar
+import com.ssafy.likloud.ApplicationClass
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
@@ -31,6 +35,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class StoreFragment : BaseFragment<FragmentStoreBinding>(FragmentStoreBinding::bind, R.layout.fragment_store) {
@@ -86,6 +91,10 @@ class StoreFragment : BaseFragment<FragmentStoreBinding>(FragmentStoreBinding::b
                 }
             }
         )
+
+        binding.buttonChooseDone.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun initAnimation() {
@@ -115,13 +124,15 @@ class StoreFragment : BaseFragment<FragmentStoreBinding>(FragmentStoreBinding::b
                     }
                 }
                 itemBuyClickLitener = object: StoreAccessoryListAdapter.ItemBuyClickLitener {
-                    override fun onClick(data: StoreItemResponse) {
+                    override fun onClick(data: StoreItemResponse, lottieView: LottieAnimationView) {
                         if (storeFragmentViewModel.memberInfo.value!!.goldCoin >= data.accessoryPrice) {
                             storeFragmentViewModel.postBuyAccessory(data.storeId)
-                            showCustomToast("${data.accessoryName} 구매 완료!")
+                            lottieView.visibility = View.VISIBLE
+                            lottieView.playAnimation()
+                            showSnackbar("success", "구매 완료!")
                         }
                         else {
-                            showCustomToast("티켓이 ${data.accessoryPrice - storeFragmentViewModel.memberInfo.value!!.goldCoin} 만큼 부족해요.")
+                            showSnackbar("fail", "티켓이 ${data.accessoryPrice - storeFragmentViewModel.memberInfo.value!!.goldCoin} 만큼 부족해요.")
                         }
                     }
                 }
@@ -216,5 +227,23 @@ class StoreFragment : BaseFragment<FragmentStoreBinding>(FragmentStoreBinding::b
             }
         }
         return 0
+    }
+
+    private fun showSnackbar(type: String, message: String) {
+        val snackbar = Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
+        snackbar.setTextColor(ContextCompat.getColor(mActivity, R.color.black))
+        when (type) {
+            "success" -> {
+                snackbar.setBackgroundTint(ContextCompat.getColor(mActivity, R.color.green_mild))
+                snackbar.setActionTextColor(ContextCompat.getColor(mActivity, R.color.sky_blue_deep))
+                snackbar.setAction("확인하러 가기 ->") {
+                    findNavController().navigate(R.id.action_storeFragment_to_profileEditFragment)
+                }
+            }
+            "fail" -> {
+                snackbar.setBackgroundTint(ContextCompat.getColor(mActivity, R.color.red_mile))
+            }
+        }
+        snackbar.show()
     }
 }

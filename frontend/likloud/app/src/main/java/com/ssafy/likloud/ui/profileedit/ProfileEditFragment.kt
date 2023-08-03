@@ -117,6 +117,11 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>(FragmentPro
         binding.buttonBack.setOnClickListener {
             findNavController().popBackStack()
         }
+
+        binding.buttonTakeOff.setOnClickListener {
+            profileEditFragmentViewModel.setWaterDropAccessory(changeAccessoryNameToInt("empty"))
+            changeWaterDropAccessory(binding.imageAccessoryNow, R.drawable.water_drop_item_empty)
+        }
     }
 
     /**

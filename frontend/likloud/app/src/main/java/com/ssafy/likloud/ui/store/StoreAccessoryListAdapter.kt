@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -82,12 +83,12 @@ class StoreAccessoryListAdapter() :
 
         return StoreAccessoryViewHolder(binding).apply {
             binding.image.setOnClickListener {
-                binding.lottieBuyAnimationOnStoreitem.playAnimation()
                 itemClickListener.onClick(it, layoutPosition, getItem(layoutPosition))
             }
             binding.buttonBuy.setOnClickListener {
-                binding.lottieBuyAnimationOnStoreitem.playAnimation()
-                itemBuyClickLitener.onClick(getItem(layoutPosition))
+//                binding.lottieBuyAnimationOnStoreitem.visibility = View.VISIBLE
+//                binding.lottieBuyAnimationOnStoreitem.playAnimation()
+                itemBuyClickLitener.onClick(getItem(layoutPosition), binding.lottieBuyAnimationOnStoreitem)
             }
         }
     }
@@ -97,6 +98,20 @@ class StoreAccessoryListAdapter() :
         holder.bindInfo(getItem(position))
 
         holder.binding.itemStore.animation = AnimationUtils.loadAnimation(holder.binding.itemStore.context, R.anim.list_item_anim_fade_in)
+        holder.binding.lottieBuyAnimationOnStoreitem.addAnimatorListener(object: Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator) {
+            }
+
+            override fun onAnimationEnd(animation: Animator) {
+                holder.binding.lottieBuyAnimationOnStoreitem.visibility = View.INVISIBLE
+            }
+
+            override fun onAnimationCancel(animation: Animator) {
+            }
+
+            override fun onAnimationRepeat(animation: Animator) {
+            }
+        })
     }
 
     lateinit var itemClickListener: ItemClickListener
@@ -106,6 +121,6 @@ class StoreAccessoryListAdapter() :
 
     lateinit var itemBuyClickLitener: ItemBuyClickLitener
     interface ItemBuyClickLitener {
-        fun onClick(data: StoreItemResponse)
+        fun onClick(data: StoreItemResponse, lottieView: LottieAnimationView)
     }
 }

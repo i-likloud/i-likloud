@@ -53,6 +53,7 @@
     <!--profile eidt-->
     <string name="title_profile_edit">내 물방울을 바꾸기</string>
     <string name="done">완료</string>
+    <string name="take_off">해제</string>
 
     <!--game-->
     <string name="title_game">게임</string>

@@ -79,6 +79,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:lottie_fileName="lottie_animation_buy_item_on_storeitem2.json" />
+        app:lottie_fileName="lottie_animation_buy_item_on_storeitem.json" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
