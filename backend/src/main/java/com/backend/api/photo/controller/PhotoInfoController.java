@@ -1,6 +1,7 @@
 package com.backend.api.photo.controller;
 
 import com.backend.api.drawing.dto.DrawingWithBookmarksDto;
+import com.backend.api.photo.dto.PhotoDetailDto;
 import com.backend.api.photo.dto.PhotoInfoResponseDto;
 import com.backend.api.photo.service.PhotoInfoService;
 import com.backend.domain.member.entity.Member;
@@ -64,7 +65,7 @@ public class PhotoInfoController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "#### 성공"), @ApiResponse(responseCode = "에러", description = "#### 에러 이유를 확인 하십시오", content =@Content(schema = @Schema(implementation = ErrorResponse.class), examples = {@ExampleObject( name = "400_User-004", value = "해당 회원은 존재하지 않습니다."), @ExampleObject( name = "401_Auth-001", value = "토큰이 만료되었습니다. 토큰을 재발급 받아주세요"), @ExampleObject( name = "401_Auth-004", value = "해당 토큰은 ACCESS TOKEN이 아닙니다. 토큰값이 추가정보 기입에서 받은 new token 값이 맞는지 확인해주세요"), @ExampleObject( name = "401_Auth-005", value = "해당 토큰은 유효한 토큰이 아닙니다. 추가정보 기입에서 받은 new token 값을 넣어주세요"), @ExampleObject( name = "401_Auth-006", value = "Authorization Header가 없습니다. 자물쇠에 access token값을 넣어주세요."), @ExampleObject( name = "403_Auth-009", value = "회원이 아닙니다. 추가정보로 이동하여 추가정보를 입력해 주세요."), @ExampleObject( name = "404_Photo-001", value = "사진을 찾을 수 없습니다. 사진 id값을 확인해주세요."), @ExampleObject( name = "500", value = "서버에러")}))})
 
     @GetMapping("/{photoId}")
-    public PhotoInfoResponseDto photoDetail(@PathVariable Long photoId, @MemberInfo MemberInfoDto memberInfoDto) {
+    public PhotoDetailDto photoDetail(@PathVariable Long photoId, @MemberInfo MemberInfoDto memberInfoDto) {
         Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
         return photoInfoService.getPhotoDetail(photoId, member);
     }

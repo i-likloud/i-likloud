@@ -32,10 +32,7 @@ public class DrawingViewService {
     public List<DrawingListDto> getAllDrawings(Member member, String orderBy){
         List<Drawing> drawings = drawingRepository.findAll(Sort.by(Sort.Direction.DESC, orderBy));
         return drawings.stream()
-                .map(drawing -> {
-                    boolean memberLiked = likesService.isAlreadyLiked(member, drawing.getDrawingId());
-                    return new DrawingListDto(drawing, memberLiked);
-                })
+                .map(DrawingListDto::new)
                 .collect(Collectors.toList());
     }
 

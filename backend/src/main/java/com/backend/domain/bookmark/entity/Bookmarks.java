@@ -1,6 +1,6 @@
 package com.backend.domain.bookmark.entity;
 
-import com.backend.domain.drawing.entity.Drawing;
+import com.backend.domain.common.BaseEntity;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.photo.entity.Photo;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Bookmarks {
+public class Bookmarks extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -5,7 +5,11 @@ server:
 
 spring:
   profiles:
-    active: db,jwt,oauth, kas
+    active: db,jwt,oauth,kas
+  redis:
+#    host: localhost
+    host: i9d101.p.ssafy.io
+    port: 6379
 
 
 #  cloud:
