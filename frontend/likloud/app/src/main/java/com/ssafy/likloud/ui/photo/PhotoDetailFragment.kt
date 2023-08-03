@@ -21,6 +21,8 @@ import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
 import com.ssafy.likloud.data.model.DrawingListDto
+import com.ssafy.likloud.data.model.MemberProfileDto
+import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.databinding.FragmentPhotoDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -64,7 +66,7 @@ class PhotoDetailFragment : BaseFragment<FragmentPhotoDetailBinding>(FragmentPho
         }
         photoDetailFragmentViewModel.currentPhotoMember.observe(viewLifecycleOwner){
             //사진 정보, 유저 정보 뷰 세팅
-            initInfoView()
+            initInfoView(photoDetailFragmentViewModel.currentPhotoDetail.value!!, it)
         }
         photoDetailFragmentViewModel.currentPhotoDrawingList.observe(viewLifecycleOwner){
             //현재 사진에 대한 그림들 리사이클러뷰 세팅
@@ -109,23 +111,23 @@ class PhotoDetailFragment : BaseFragment<FragmentPhotoDetailBinding>(FragmentPho
         )
     }
 
-    private fun initInfoView(){
+    private fun initInfoView(photoDetail: PhotoListDto, member: MemberProfileDto){
         binding.apply {
             Glide.with(imageCurrentPhoto)
-                .load(photoDetailFragmentViewModel.currentPhotoDetail.value!!.photoUrl)
+                .load(photoDetail.photoUrl)
                 .into(imageCurrentPhoto)
             Glide.with(imagePhotoProfileColor)
-                .load(activityViewModel.waterDropColorList[photoDetailFragmentViewModel.currentPhotoMember.value!!.profileColor].resourceId)
+                .load(activityViewModel.waterDropColorList[member.profileColor].resourceId)
                 .into(imagePhotoProfileColor)
             Glide.with(imagePhotoProfileFace)
-                .load(activityViewModel.waterDropFaceList[photoDetailFragmentViewModel.currentPhotoMember.value!!.profileFace].resourceId)
+                .load(activityViewModel.waterDropFaceList[member.profileFace].resourceId)
                 .into(imagePhotoProfileFace)
             Glide.with(imagePhotoProfileAccessory)
-                .load(activityViewModel.waterDropAccessoryList[photoDetailFragmentViewModel.currentPhotoMember.value!!.profileAccessory].resourceId)
+                .load(activityViewModel.waterDropAccessoryList[member.profileAccessory].resourceId)
                 .into(imagePhotoProfileAccessory)
-            textPhotoNickname.text = photoDetailFragmentViewModel.currentPhotoMember.value!!.nickname
-            textBookmarkCount.text = photoDetailFragmentViewModel.currentPhotoDetail.value!!.bookmarkCount.toString()
-            textDrawCount.text = photoDetailFragmentViewModel.currentPhotoDetail.value!!.pickCount.toString()
+            textPhotoNickname.text = member.nickname
+            textBookmarkCount.text = photoDetail.bookmarkCount.toString()
+            textDrawCount.text = photoDetail.pickCount.toString()
         }
     }
     private fun initPhotoDrawingListRecyclerView(){

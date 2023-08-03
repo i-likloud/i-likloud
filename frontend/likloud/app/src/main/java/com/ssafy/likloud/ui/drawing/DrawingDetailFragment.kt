@@ -17,6 +17,8 @@ import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
+import com.ssafy.likloud.data.model.DrawingDetailDto
+import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.databinding.FragmentDrawingDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -64,7 +66,9 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
         }
 
         drawingDetailFragmentViewModel.currentDrawingMember.observe(viewLifecycleOwner) {
-            initInfoView()
+            initInfoView(drawingDetailFragmentViewModel.currentDrawingDetail.value!!, it)
+            //이거 member가 아니라 currentDrawingDetail 정해졌을 때로 옮기고
+            // commentDto에 member의 nickname, profile 정보 넣어달라고 하거나 commentAdapter 내에서 api 호출해야 함,,,
             initCommentRecyclerView()
         }
 
@@ -108,25 +112,25 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
         )
     }
 
-    private fun initInfoView(){
+    private fun initInfoView(drawingDetail: DrawingDetailDto,member: MemberProfileDto){
         binding.apply {
             Glide.with(binding.imageCurrentDrawing)
-                .load(drawingDetailFragmentViewModel.currentDrawingDetail.value!!.imageUrl)
+                .load(drawingDetail.imageUrl)
                 .into(binding.imageCurrentDrawing)
             Glide.with(binding.imageProfileColor)
-                .load(activityViewModel.waterDropColorList[drawingDetailFragmentViewModel.currentDrawingMember.value!!.profileColor].resourceId)
+                .load(activityViewModel.waterDropColorList[member.profileColor].resourceId)
                 .into(binding.imageProfileColor)
             Glide.with(binding.imageProfileFace)
-                .load(activityViewModel.waterDropFaceList[drawingDetailFragmentViewModel.currentDrawingMember.value!!.profileFace].resourceId)
+                .load(activityViewModel.waterDropFaceList[member.profileFace].resourceId)
                 .into(binding.imageProfileFace)
             Glide.with(binding.imageProfileAccessory)
-                .load(activityViewModel.waterDropAccessoryList[drawingDetailFragmentViewModel.currentDrawingMember.value!!.profileAccessory].resourceId)
+                .load(activityViewModel.waterDropAccessoryList[member.profileAccessory].resourceId)
                 .into(binding.imageProfileAccessory)
-            textDrawingNickname.text = drawingDetailFragmentViewModel.currentDrawingMember.value!!.nickname
-            textDrawingTitle.text = drawingDetailFragmentViewModel.currentDrawingDetail.value!!.title
-            textDrawingContent.text = drawingDetailFragmentViewModel.currentDrawingDetail.value!!.content
-            textLikeCount.text = drawingDetailFragmentViewModel.currentDrawingDetail.value!!.likesCount.toString()
-            textViewCount.text = drawingDetailFragmentViewModel.currentDrawingDetail.value!!.viewCount.toString()
+            textDrawingNickname.text = member.nickname
+            textDrawingTitle.text = drawingDetail.title
+            textDrawingContent.text = drawingDetail.content
+            textLikeCount.text = drawingDetail.likesCount.toString()
+            textViewCount.text = drawingDetail.viewCount.toString()
         }
     }
 
