@@ -14,11 +14,12 @@ import com.backend.domain.photo.repository.PhotoRepository;
 import com.backend.domain.photo.service.PhotoService;
 import com.backend.global.error.ErrorCode;
 import com.backend.global.error.exception.BusinessException;
-import com.backend.global.resolver.memberInfo.MemberInfoDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,12 +55,13 @@ public class DrawingUploadService {
 
     // 파일 업로드 후 그림 게시물 생성
     @Transactional
-    public DrawingUploadDto uploadFileAndCreateDrawings(MultipartFile file, String title, String content, MemberInfoDto memberInfoDto, Long photoId) {
+    @Caching(evict = {
+            @CacheEvict(value = "allDrawings", allEntries = true),
+            @CacheEvict(value = "drawings", key = "#member.memberId")
+    })
+    public DrawingUploadDto uploadFileAndCreateDrawings(MultipartFile file, String title, String content, Member member, Long photoId) {
 
         try {
-            // MemberInfoDto에서 멤버 정보 가져옴
-            log.info(memberInfoDto.getEmail());
-            Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
             DrawingFile drawingFile = uploadDrawingFile(file, title);
 
             Drawing drawing = createDrawing(title, content, member, drawingFile, photoId);
