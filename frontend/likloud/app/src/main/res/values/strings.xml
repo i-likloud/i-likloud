@@ -62,4 +62,7 @@
     <string name="go_home">홈으로 가기</string>
     <string name="re_game">다시 하기</string>
 
+    <!--store-->
+    <string name="title_store">상점</string>
+
 </resources>
