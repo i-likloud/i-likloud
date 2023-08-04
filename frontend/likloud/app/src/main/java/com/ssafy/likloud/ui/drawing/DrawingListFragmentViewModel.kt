@@ -14,6 +14,7 @@ import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.data.repository.BaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.util.Collections
 import javax.inject.Inject
 
 private const val TAG = "차선호"
@@ -84,15 +85,11 @@ class DrawingListFragmentViewModel @Inject constructor(
     private val _currentDrawingCommentList = MutableLiveData<MutableList<CommentDto>>()
     val currentDrawingCommentList: LiveData<MutableList<CommentDto>>
         get() = _currentDrawingCommentList
-    private lateinit var newDrawingCommentList: MutableList<CommentDto>
     fun registDrawingComment(drawingId: Int,content: String){
         viewModelScope.launch {
             baseRepository.registDrawingComment(drawingId, content).onSuccess {
                 _currentDrawingCommentList.value!!.add(it)
-                val newDrawingCommentList: MutableList<CommentDto> = _currentDrawingCommentList.value!!
-                _currentDrawingCommentList.value = newDrawingCommentList
-//                _currentDrawingCommentList.value = _currentDrawingCommentList.value!!
-                Log.d(TAG, "registDrawingComment: $it")
+                _currentDrawingCommentList.value = _currentDrawingCommentList.value!!
             }
         }
     }
@@ -100,8 +97,6 @@ class DrawingListFragmentViewModel @Inject constructor(
         viewModelScope.launch {
             baseRepository.deleteDrawingComment(commentId)
             _currentDrawingCommentList.value!!.removeAt(position)
-//            newDrawingCommentList = _currentDrawingCommentList.value!!
-//            _currentDrawingCommentList.value = newDrawingCommentList
             _currentDrawingCommentList.value = _currentDrawingCommentList.value!!
         }
     }
