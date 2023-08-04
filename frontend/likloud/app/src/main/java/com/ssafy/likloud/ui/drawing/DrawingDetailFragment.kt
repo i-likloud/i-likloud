@@ -17,6 +17,7 @@ import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
+import com.ssafy.likloud.data.model.CommentDto
 import com.ssafy.likloud.data.model.DrawingDetailDto
 import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.databinding.FragmentDrawingDetailBinding
@@ -136,11 +137,17 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
 
     private fun initCommentRecyclerView(){
         Log.d(TAG, "commentList : ${drawingDetailFragmentViewModel.currentDrawingCommentList.value} ")
-        val commentListAdapter = CommentListAdapter(drawingDetailFragmentViewModel.currentDrawingCommentList.value!!,
-            drawingDetailFragmentViewModel.currentDrawingMember.value!!,
-            activityViewModel)
+        val commentListAdapter = CommentListAdapter(activityViewModel)
         binding.recyclerviewDrawingComment.apply {
-            this.adapter = commentListAdapter
+            this.adapter = commentListAdapter.apply {
+                this.itemClickListner = object: CommentListAdapter.ItemClickListener{
+                    override fun onClick(view: View, comment: CommentDto, position: Int) {
+                        //여기서 comment delete
+
+                    }
+
+                }
+            }
             layoutManager = LinearLayoutManager(mainActivity, LinearLayoutManager.VERTICAL, false)
         }
     }

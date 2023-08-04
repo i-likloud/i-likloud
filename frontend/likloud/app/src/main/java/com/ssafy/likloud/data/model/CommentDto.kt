@@ -18,6 +18,18 @@ data class CommentDto(
     @SerializedName("memberId")
     val memberId: Int,
 
+    @SerializedName("nickname")
+    val nickname: String,
+
+    @SerializedName("profileFace")
+    val profileFace: Int,
+
+    @SerializedName("profileColor")
+    val profileColor: Int,
+
+    @SerializedName("profileAccessor")
+    val profileAccessory: Int,
+
     @SerializedName("createdAt")
     val createdAt: String
     )

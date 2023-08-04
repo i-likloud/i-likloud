@@ -1,6 +1,7 @@
 package com.ssafy.likloud.data.repository
 
 import com.ssafy.likloud.data.api.NetworkResult
+import com.ssafy.likloud.data.model.CommentDto
 import com.ssafy.likloud.data.model.DrawingDetailDto
 import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.PhotoListDto
@@ -168,4 +169,12 @@ interface BaseRepository {
      * 사진 즐찾
      */
     suspend fun changePhotoBookmark(photoId: Int): NetworkResult<String>
+    /**
+     * 댓글 등록
+     */
+    suspend fun registDrawingComment(drawingId: Int, content: String): NetworkResult<CommentDto>
+    /**
+     * 댓글 삭제
+     */
+    suspend fun deleteDrawingComment(commentId: Int): NetworkResult<String>
 }
