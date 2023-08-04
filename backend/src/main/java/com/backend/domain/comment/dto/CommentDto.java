@@ -14,6 +14,10 @@ public class CommentDto {
     private final String commentMember;
     private final Long drawingId;
     private final Long memberId;
+    private final String nickname;
+    private final int profileFace;
+    private final int profileColor;
+    private final int profileAccessory;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private final LocalDateTime createdAt;
@@ -24,6 +28,10 @@ public class CommentDto {
         this.commentMember = comment.getCommentMember();
         this.createdAt = comment.getCreatedAt();
         this.memberId = comment.getMember().getMemberId();
+        this.nickname = comment.getMember().getNickname();
+        this.profileFace = comment.getMember().getProfileFace();
+        this.profileColor = comment.getMember().getProfileColor();
+        this.profileAccessory = comment.getMember().getProfileAccessory();
         this.drawingId = comment.getDrawing().getDrawingId();
     }
 }

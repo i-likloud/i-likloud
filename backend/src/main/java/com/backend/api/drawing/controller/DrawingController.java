@@ -1,6 +1,7 @@
 package com.backend.api.drawing.controller;
 
 import com.backend.api.drawing.dto.DrawingDetailDto;
+import com.backend.api.drawing.dto.DrawingFromPhotoDto;
 import com.backend.api.drawing.dto.DrawingListDto;
 import com.backend.api.drawing.dto.DrawingUploadDto;
 import com.backend.api.drawing.service.DrawingUploadService;
@@ -78,5 +79,15 @@ public class DrawingController {
         Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
         drawingViewService.deleteDrawing(drawingId, member.getMemberId());
         return ResponseEntity.ok(String.format("%d번 게시물 삭제ㅠㅠ", drawingId));
+    }
+
+    @PutMapping("/{drawingId}")
+    @Operation(summary = "그림 수정", description = "그림의 제목, 내용을 수정합니다.")
+    public ResponseEntity<DrawingFromPhotoDto> editDrawing(@PathVariable Long drawingId,
+                                                           @RequestParam(value = "title") String title,
+                                                           @RequestParam(value = "content") String content, @MemberInfo MemberInfoDto memberInfoDto) {
+        Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
+        DrawingFromPhotoDto drawingFromPhotoDto = drawingViewService.editDrawing(drawingId, member, title, content);
+        return ResponseEntity.ok(drawingFromPhotoDto);
     }
 }
