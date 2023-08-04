@@ -3,34 +3,16 @@ package com.backend.api.drawing.controller;
 
 import com.backend.api.common.AccessToken;
 import com.backend.api.common.BaseIntegrationTest;
-import com.backend.api.drawing.dto.DrawingUploadDto;
-import com.backend.api.drawing.service.DrawingUploadService;
-import com.backend.api.drawing.service.DrawingViewService;
-import com.backend.domain.drawing.entity.Drawing;
-import com.backend.domain.member.constant.Role;
-import com.backend.domain.member.constant.SocialType;
-import com.backend.domain.member.entity.Member;
-import com.backend.domain.member.service.MemberService;
-import com.backend.global.resolver.memberInfo.MemberInfoDto;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.mock.web.MockPart;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static com.backend.domain.member.constant.SocialType.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -38,56 +20,38 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 class DrawingControllerTest extends BaseIntegrationTest {
 
-    @Autowired
-    private MemberService memberService;
-
-//    @Mock
-//    private DrawingViewService drawingViewService;
-//
-//    @Mock
-//    private DrawingUploadService drawingUploadService;
-
-    private AccessToken accessToken;
-
     private String token = AccessToken.getNewToken();
-    private String userEmail = AccessToken.getTestEmail();
 
-//    @Test
-//    @Rollback
-//    void uploadDrawing() throws Exception {
-//        //given
-//        Long photoId = 1L;
-//        Member member = memberService.findMemberByEmail(userEmail);
-//
-//        ClassPathResource resource = new ClassPathResource("1915_20200114094530503.jpg");
-//        MockMultipartFile file = new MockMultipartFile("file", resource.getFilename(), MediaType.IMAGE_JPEG_VALUE, resource.getInputStream());
-//
-//        System.out.println("존재: " + resource.exists());
-//
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        Map<String, Object> requestBody = new HashMap<>();
-//        requestBody.put("title", "제목");
-//        requestBody.put("content", "내용");
-//
-//
-//
-//        MockHttpServletRequestBuilder requestBuilder = multipart("/api/drawings/upload/from/{photoId}", photoId)
-//                .file(file)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(objectMapper.writeValueAsString(requestBody))
-//                .header("Authorization", "Bearer " + token);
-//
-//
-//        //when
-//
-//        ResultActions resultActions = mvc.perform(requestBuilder)
-//                .andExpect(status().isOk())
-//                .andDo(MockMvcResultHandlers.print());
-//        //then
-//
-//
-//
-//    }
+
+    @Test
+    @Rollback
+    void uploadDrawing() throws Exception {
+        //given
+        Long photoId = 1L;
+
+        ClassPathResource resource = new ClassPathResource("1915_20200114094530503.jpg");
+        MockMultipartFile file = new MockMultipartFile("file", resource.getFilename(), MediaType.IMAGE_JPEG_VALUE, resource.getInputStream());
+
+        String title = "제목";
+        String content = "내용";
+
+        MockPart titlePart = new MockPart("title", title.getBytes());
+        MockPart contentPart = new MockPart("content", content.getBytes());
+
+        MockHttpServletRequestBuilder requestBuilder = multipart("/api/drawings/upload/from/{photoId}", photoId)
+                .file(file)
+                .part(titlePart)      // title을 멀티파트로 전송
+                .part(contentPart)  // content를 멀티파트로 전송
+                .header("Authorization", "Bearer " + token);
+
+        //when
+
+        ResultActions resultActions = mvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+        //then
+
+    }
 
     @Test
     @Rollback
