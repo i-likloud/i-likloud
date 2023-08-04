@@ -19,7 +19,7 @@ public class NftService {
     }
 
     public Nft findNftById(Long nftId){
-        return nftRepository.findNftByDrawingDrawingId(nftId)
+        return nftRepository.findNftByNftNftId(nftId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_NFT));
     }
 }
