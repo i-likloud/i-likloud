@@ -46,7 +46,7 @@ public class CommentService {
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_COMMENT));
 
         if(!comment.getMember().getMemberId().equals(memberId)){
-            throw new BusinessException(ErrorCode.UNAUTHORIZED_DELETION);
+            throw new BusinessException(ErrorCode.UNAUTHORIZED_MEMBER);
         }
         commentRepository.delete(comment);
     }

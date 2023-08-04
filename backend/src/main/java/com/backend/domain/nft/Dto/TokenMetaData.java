@@ -13,11 +13,13 @@ public class TokenMetaData {
     private String content;
     private String imageUrl;
     private String creator;
+    private String email;
 
-    public TokenMetaData(String title, String content, String imageUrl, String creator) {
+    public TokenMetaData(String title, String content, String imageUrl, String creator, String email) {
         this.title = title;
         this.content = content;
         this.imageUrl = imageUrl;
         this.creator = creator;
+        this.email = email;
     }
 }

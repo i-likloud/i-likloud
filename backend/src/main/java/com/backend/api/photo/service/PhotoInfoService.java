@@ -103,7 +103,7 @@ public class PhotoInfoService {
                 .orElseThrow(()-> new BusinessException(ErrorCode.NOT_FOUND_PHOTO));
 
         if(!photo.getMember().getMemberId().equals(member.getMemberId())){
-            throw new BusinessException(ErrorCode.UNAUTHORIZED_DELETION);
+            throw new BusinessException(ErrorCode.UNAUTHORIZED_MEMBER);
         }
 
         // Photo와 연관된 Drawing들의 photo 필드를 null로 설정하여 연관 관계 해제

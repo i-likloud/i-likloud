@@ -117,7 +117,7 @@ public class NftApiService {
     // 업로드 후 엔티티 생성
     @Transactional
     public Nft uploadNFT(Drawing drawing, Member member) {
-        TokenMetaData metaData = new TokenMetaData(drawing.getTitle(), drawing.getContent(), drawing.getImageUrl(), member.getWallet());
+        TokenMetaData metaData = new TokenMetaData(drawing.getTitle(), drawing.getContent(), drawing.getImageUrl(), member.getWallet(), member.getEmail());
         // 메타데이터 JSON 변환
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonMetaData;
