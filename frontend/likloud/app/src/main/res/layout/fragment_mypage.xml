@@ -57,6 +57,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_appbar">
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_nft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NFT"
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
+            android:background="@drawable/frame_rounded_border_skyblue_radius50"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_10sdp"/>
+
+
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="0dp"

@@ -7,6 +7,7 @@ import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.data.model.MemberInfoDto
 import com.ssafy.likloud.data.model.MemberProfileDto
+import com.ssafy.likloud.data.model.NftDto
 import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
@@ -177,4 +178,8 @@ interface BaseRepository {
      * 댓글 삭제
      */
     suspend fun deleteDrawingComment(commentId: Int): NetworkResult<String>
+    /**
+     * 내 NFT 조회
+     */
+    suspend fun getMyNftList(): NetworkResult<MutableList<NftDto>>
 }

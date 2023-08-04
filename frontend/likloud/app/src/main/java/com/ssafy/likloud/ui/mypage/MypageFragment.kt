@@ -102,6 +102,9 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         binding.buttonGoStore.setOnClickListener {
             findNavController().navigate(R.id.action_mypageFragment_to_storeFragment)
         }
+        binding.buttonNft.setOnClickListener{
+            findNavController().navigate(R.id.action_mypageFragment_to_nftListFragment)
+        }
     }
 
     private fun initAnimation() {

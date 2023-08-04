@@ -1,6 +1,5 @@
 package com.ssafy.likloud.data.api
 
-import android.provider.ContactsContract.Contacts.Photo
 import com.ssafy.likloud.base.BaseResponse
 import com.ssafy.likloud.data.model.CommentDto
 import com.ssafy.likloud.data.model.DrawingDetailDto
@@ -8,6 +7,7 @@ import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.data.model.MemberInfoDto
 import com.ssafy.likloud.data.model.MemberProfileDto
+import com.ssafy.likloud.data.model.NftDto
 import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
@@ -173,6 +173,11 @@ interface BaseService {
      */
     @DELETE("api/comment/delete/{commentId}")
     suspend fun deleteDrawingComment(@Path("commentId") commentId: Int): Response<String>
+    /**
+     * 내 NFT 조회
+     */
+    @GET("api/mypage/nft")
+    suspend fun getMyNftList(): Response<MutableList<NftDto>>
 }
 
 //api 만드는 과정
