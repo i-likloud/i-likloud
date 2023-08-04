@@ -38,8 +38,6 @@ class MypageControllerTest extends BaseIntegrationTest {
     @Autowired
     private MockMvc mvc;
 
-    private AccessToken accessToken;
-
     private String token = AccessToken.getToken();
     private String userEmail = AccessToken.getTestEmail();
 
