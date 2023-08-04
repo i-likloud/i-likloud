@@ -4,14 +4,18 @@ package com.backend.api.drawing.service;
 
 import com.backend.api.drawing.dto.DrawingDetailDto;
 import com.backend.api.drawing.dto.DrawingListDto;
-import com.backend.api.likes.service.LikesService;
 import com.backend.domain.drawing.entity.Drawing;
 import com.backend.domain.drawing.repository.DrawingRepository;
 import com.backend.domain.likes.repository.LikesRepository;
 import com.backend.domain.member.entity.Member;
+import com.backend.domain.nft.entity.Nft;
+import com.backend.domain.nft.service.NftService;
 import com.backend.global.error.ErrorCode;
 import com.backend.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,18 +28,16 @@ import java.util.stream.Collectors;
 public class DrawingViewService {
 
     private final DrawingRepository drawingRepository;
-
     private final LikesRepository likesRepository;
-    private final LikesService likesService;
+    private final NftService nftService;
+
 
     // 전체 게시물 조회
+    @Cacheable(value = "allDrawings", key = "#orderBy", unless = "#orderBy != 'createdAt'")
     public List<DrawingListDto> getAllDrawings(Member member, String orderBy){
         List<Drawing> drawings = drawingRepository.findAll(Sort.by(Sort.Direction.DESC, orderBy));
         return drawings.stream()
-                .map(drawing -> {
-                    boolean memberLiked = likesService.isAlreadyLiked(member, drawing.getDrawingId());
-                    return new DrawingListDto(drawing, memberLiked);
-                })
+                .map(DrawingListDto::new)
                 .collect(Collectors.toList());
     }
 
@@ -56,6 +58,10 @@ public class DrawingViewService {
 
     // 그림 게시물 삭제
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "allDrawings", allEntries = true),
+            @CacheEvict(value = "drawings", key = "#memberId")
+    })
     public void deleteDrawing(Long drawingId, Long memberId) {
         Drawing drawing = drawingRepository.findById(drawingId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_DRAWING));
@@ -63,7 +69,12 @@ public class DrawingViewService {
         if(!drawing.getMember().getMemberId().equals(memberId)){
             throw new BusinessException(ErrorCode.UNAUTHORIZED_DELETION);
         }
+        // NFT의 그림 null 처리
+        Nft nft = nftService.findNftByDrawingId(drawingId);
+        nft.setDrawing(null);
+
         drawingRepository.delete(drawing);
+
     }
 
     public Drawing findDrawingById(Long drawingId){

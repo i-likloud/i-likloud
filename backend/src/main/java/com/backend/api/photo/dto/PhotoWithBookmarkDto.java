@@ -15,11 +15,4 @@ public class PhotoWithBookmarkDto {
         this.photoUrl = photo.getPhotoUrl();
     }
 
-    public String getPhotoUrl() {
-        return photoUrl;
-    }
-
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
-    }
 }

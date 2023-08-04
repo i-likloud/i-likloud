@@ -1,6 +1,7 @@
 package com.backend.api.likes.service;
 
 //import com.amazonaws.services.kms.model.NotFoundException;
+
 import com.backend.domain.drawing.entity.Drawing;
 import com.backend.domain.drawing.repository.DrawingRepository;
 import com.backend.domain.likes.entity.Likes;
@@ -9,6 +10,7 @@ import com.backend.domain.member.entity.Member;
 import com.backend.global.error.ErrorCode;
 import com.backend.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +27,7 @@ public class LikesService {
 
     // 좋아요
     @Transactional
+    @CacheEvict(value = "likes", key = "#member.memberId")
     public void addLike(Member member, Long drawingId) {
         Drawing drawing = drawingRepository.findById(drawingId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_FILE));
@@ -39,6 +42,7 @@ public class LikesService {
 
     // 좋아요 취소
     @Transactional
+    @CacheEvict(value = "likes", key = "#member.memberId")
     public void removeLike(Member member, Long drawingId) {
         Likes likes = likesRepository.findByMemberMemberIdAndDrawingDrawingId(member.getMemberId(), drawingId)
                 .orElseThrow(() -> new EntityNotFoundException(HttpStatus.NOT_FOUND.toString()));

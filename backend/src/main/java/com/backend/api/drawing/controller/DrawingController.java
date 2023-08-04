@@ -45,7 +45,8 @@ public class DrawingController {
                                            @RequestPart(value = "title") String title,
                                            @RequestPart(value = "content") String content, @MemberInfo MemberInfoDto memberInfoDto, @PathVariable Long photoId) {
         try {
-            DrawingUploadDto uploadDrawing = drawingUploadService.uploadFileAndCreateDrawings(file, title, content, memberInfoDto, photoId);
+            Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
+            DrawingUploadDto uploadDrawing = drawingUploadService.uploadFileAndCreateDrawings(file, title, content, member, photoId);
             return ResponseEntity.ok().body(uploadDrawing);
         } catch (BusinessException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

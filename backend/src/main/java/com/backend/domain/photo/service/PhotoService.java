@@ -15,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,6 +44,10 @@ public class PhotoService {
     private String bucket;
 
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "allPhotos", allEntries = true),
+            @CacheEvict(value = "photos", key = "#member.memberId")
+    })
     public PhotoUploadDto saveFileAndCreatePhotos(MultipartFile file, Member member) {
 
         try {

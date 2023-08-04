@@ -64,6 +64,9 @@ dependencies {
 
 	// KAS API
 	implementation group: 'com.klaytn.caver', name: 'core', version: '1.6.2'
+	// Redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
 
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'

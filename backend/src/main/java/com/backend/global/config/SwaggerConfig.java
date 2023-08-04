@@ -109,7 +109,7 @@ public class SwaggerConfig {
                 .addSecurityItem(new SecurityRequirement().addList("Bearer"))
                 .info(new Info().title("💧운이 좋아🌥")
                         .description("<뭉게뭉게 도화지> 프로젝트 API")
-                        .version("v2.7.5"));
+                        .version("v3.0.0"));
     }
 
 }

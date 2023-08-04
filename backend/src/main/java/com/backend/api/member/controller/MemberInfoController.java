@@ -26,8 +26,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.parser.Entity;
-import java.util.List;
 import java.util.Optional;
 
 @Tag(name = "Member", description = "회원 관련 api")
@@ -76,7 +74,6 @@ public class MemberInfoController {
     }
 
     // 특정 멤버 조회
-//    @Operation(summary = "특정 멤버 정보", description = "멤버ID를 통해 관련 정보를 얻는 메소드입니다.")
     @Operation(summary = "특정 멤버 정보", description = "회원가입후 회원 정보 조회 메서드입니다."+"\n\n### [ 수행절차 ]\n\n"+"- 조회하고자 하는 member의 id값을 넣어주세요\n\n"+"- Execute 해주세요\n\n")
     @CustomApi
     @GetMapping("/search/{memberId}")

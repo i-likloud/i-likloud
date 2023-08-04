@@ -1,22 +1,34 @@
 package com.backend.api.drawing.dto;
 
-import com.backend.domain.drawing.dto.DrawingResponseDto;
 import com.backend.domain.drawing.entity.Drawing;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 @Getter
-public class DrawingListDto extends DrawingResponseDto {
+public class DrawingListDto{
 
-    private final int viewCount;
+    private final Long drawingId;
+    private final Long memberId;
+    private final String imageUrl;
     private final int likesCount;
-    private final boolean memberLiked;
-    private final boolean nftYn;
+    private final int viewCount;
 
-    public DrawingListDto(Drawing drawing, boolean memberLiked) {
-        super(drawing);
-        this.viewCount = drawing.getViewCount();
+    public DrawingListDto(Drawing drawing) {
+        this.drawingId = drawing.getDrawingId();
+        this.memberId = drawing.getMember().getMemberId();
+        this.imageUrl = drawing.getImageUrl();
         this.likesCount = drawing.getLikesCount();
-        this.memberLiked = memberLiked;
-        this.nftYn = drawing.isNftYn();
+        this.viewCount = drawing.getViewCount();
+    }
+
+    @JsonCreator
+    public DrawingListDto(@JsonProperty("drawingId") Long drawingId, @JsonProperty("memberId") Long memberId, @JsonProperty("imageUrl") String imageUrl,
+                          @JsonProperty("likesCount") int likesCount, @JsonProperty("viewCount") int viewCount) {
+        this.drawingId = drawingId;
+        this.memberId = memberId;
+        this.imageUrl = imageUrl;
+        this.likesCount = likesCount;
+        this.viewCount = viewCount;
     }
 }
