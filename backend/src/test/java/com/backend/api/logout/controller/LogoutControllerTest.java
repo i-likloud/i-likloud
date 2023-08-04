@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class LogoutControllerTest extends BaseIntegrationTest {
 
-    private String token = AccessToken.getToken();
+    private String token = AccessToken.getNewToken();
     private String userEmail = AccessToken.getTestEmail();
 
     @Test

@@ -23,7 +23,7 @@ class StoreControllerTest extends BaseIntegrationTest {
     @Autowired
     private MockMvc mvc;
 
-    private String token = AccessToken.getToken();
+    private String token = AccessToken.getNewToken();
     private String userEmail = AccessToken.getTestEmail();
 
 

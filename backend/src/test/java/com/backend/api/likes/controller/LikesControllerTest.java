@@ -26,7 +26,7 @@ class LikesControllerTest extends BaseIntegrationTest {
     private LikesService likesService;
 
     private AccessToken accessToken;
-    private String token = AccessToken.getToken();
+    private String token = AccessToken.getNewToken();
     private String userEmail = AccessToken.getTestEmail();
 
 
