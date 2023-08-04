@@ -1,7 +1,6 @@
 package com.backend.api.mypage.service;
 
 import com.backend.api.drawing.dto.DrawingListDto;
-import com.backend.api.mypage.dto.MypageInfoDto;
 import com.backend.api.mypage.dto.ProfileDto;
 import com.backend.api.nft.dto.NftListResponseDto;
 import com.backend.api.photo.dto.PhotoInfoResponseDto;
@@ -41,9 +40,9 @@ public class MypageService {
     private final NftRepository nftRepository;
 
     @Transactional(readOnly = true)
-    public MypageInfoDto getMyInfo(String email) {
+    public ProfileDto getMyInfo(String email) {
         Member member = memberService.findMemberByEmail(email);
-        return MypageInfoDto.of(member);
+        return ProfileDto.of(member);
     }
 
     @Transactional(readOnly = true)
@@ -53,9 +52,9 @@ public class MypageService {
     }
 
     @Transactional
-    public MypageInfoDto editNickname(Member member, String nickname){
+    public ProfileDto editNickname(Member member, String nickname){
         member.editNickname(nickname);
-        return MypageInfoDto.of(member);
+        return ProfileDto.of(member);
     }
 
     @Transactional
