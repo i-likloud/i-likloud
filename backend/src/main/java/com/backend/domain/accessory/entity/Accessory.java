@@ -6,6 +6,7 @@ import com.backend.domain.store.entity.Store;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Getter
 @Entity
@@ -26,5 +27,26 @@ public class Accessory extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
+
+
+    // repository 테스트용
+    @Override
+    public String toString() {
+        return "Accessory [id=" + accessoryId + ", member=" + member + ", store=" + store + "]";
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Accessory accessory = (Accessory) o;
+        return Objects.equals(accessoryId, accessory.accessoryId) &&
+                Objects.equals(member, accessory.member) &&
+                Objects.equals(store, accessory.store);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(accessoryId, member, store);
+    }
 
 }
