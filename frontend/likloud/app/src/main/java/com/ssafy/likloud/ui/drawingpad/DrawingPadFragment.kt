@@ -109,6 +109,7 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
         layoutListener = OnGlobalLayoutListener {
             if (imageViewHeight != binding.imageChosenPhoto.height) {
                 binding.cardviewCanvas.visibility = View.VISIBLE
+                makeButtonAnimationXWithDuration(binding.cardviewCanvas, 0f , 500)
                 imageViewHeight = binding.imageChosenPhoto.height
                 Log.d(TAG, "onViewCreated: ${imageViewHeight}")
                 binding.canvasDrawingpad.layoutParams.height = imageViewHeight
@@ -297,6 +298,7 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
 
         // 펜 스타일 버튼 초기에 숨기기
         makeButtonAnimationXWithDuration(binding.layoutPenEraserWidth, -800f, 0)
+        makeButtonAnimationXWithDuration(binding.cardviewCanvas, 1000f, 0)
     }
 
     /**
