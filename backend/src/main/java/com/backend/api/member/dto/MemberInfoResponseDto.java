@@ -24,6 +24,7 @@ public class MemberInfoResponseDto {
 
     private int goldCoin;
     private int silverCoin;
+    private String wallet;
 
     private SocialType socialType;
 
@@ -40,6 +41,7 @@ public class MemberInfoResponseDto {
                 .silverCoin(member.getSilverCoin())
                 .goldCoin(member.getGoldCoin())
                 .role(member.getRole())
+                .wallet(member.getWallet())
                 .socialType(member.getSocialType())
                 .build();
     }

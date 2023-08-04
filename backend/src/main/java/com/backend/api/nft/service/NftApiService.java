@@ -52,6 +52,9 @@ public class NftApiService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
+    @Value("${KAS.client.contract}")
+    private String contract;
+
     @Transactional
     public WalletDto.Response createWallet(Member member){
         // 이미 지갑 있음
@@ -88,13 +91,13 @@ public class NftApiService {
             throw new BusinessException(ErrorCode.ALREADY_PUBLISHED_TOKEN);
         }
         log.info("토큰 발행 시작");
-        NftTokenDto.Response responseToken = this.createToken(drawing, member);
-        return this.uploadNFT(drawing, member);
+        String tokenId = this.createToken(drawing, member);
+        return this.uploadNFT(drawing, member, tokenId);
     }
 
     // 토큰 발행
     @Transactional
-    public NftTokenDto.Response createToken(Drawing drawing, Member member) {
+    public String createToken(Drawing drawing, Member member) {
         NftTokenDto.Request requestDto = NftTokenDto.Request.builder()
                         .to(member.getWallet())
                         .id("0x" + Long.toHexString(Math.abs(UUID.randomUUID().getLeastSignificantBits())))
@@ -106,7 +109,7 @@ public class NftApiService {
         NftTokenDto.Response response = nftTokenClient.createToken("1001", Authorization, "i-likloud", requestDto);
         log.info("발급됨");
 
-        return response;
+        return requestDto.getId();
     }
 
     // S3에 메타데이터 업로드
@@ -120,8 +123,8 @@ public class NftApiService {
 
     // 업로드 후 엔티티 생성
     @Transactional
-    public Nft uploadNFT(Drawing drawing, Member member) {
-        TokenMetaData metaData = new TokenMetaData(drawing.getTitle(), drawing.getContent(), drawing.getImageUrl(), member.getWallet(), member.getEmail());
+    public Nft uploadNFT(Drawing drawing, Member member, String tokenId) {
+        TokenMetaData metaData = new TokenMetaData(drawing.getTitle(), drawing.getContent(), drawing.getImageUrl(), member.getWallet(), member.getEmail(), tokenId);
         // 메타데이터 JSON 변환
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonMetaData;
@@ -131,19 +134,19 @@ public class NftApiService {
             throw new RuntimeException("Failed to convert metadata to JSON", e);
         }
         // S3에 메타데이터 업로드
-        String key = "nft-metadata/" + UUID.randomUUID().toString() + ".json";
+        String key = "nft-metadata/" + tokenId + ".json";
         uploadMetadataToS3(jsonMetaData, key);
 
         // 메타데이터 URL
         String metadataUrl = amazonS3Client.getUrl(bucket, key).toString();
 
         // NFT 엔티티 생성
-        String contract = "0x6825676316690642c9351feb9b87ea0d23b9ce03";
         Nft nft = Nft.builder()
                 .nftImageUrl(drawing.getImageUrl())
                 .nftMetadata(metadataUrl)
                 .contract(contract)
                 .member(member)
+                .tokenId(tokenId)
                 .drawing(drawing)
                 .build();
 
