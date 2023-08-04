@@ -108,6 +108,7 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
 
         layoutListener = OnGlobalLayoutListener {
             if (imageViewHeight != binding.imageChosenPhoto.height) {
+                binding.cardviewCanvas.visibility = View.VISIBLE
                 imageViewHeight = binding.imageChosenPhoto.height
                 Log.d(TAG, "onViewCreated: ${imageViewHeight}")
                 binding.canvasDrawingpad.layoutParams.height = imageViewHeight
@@ -302,7 +303,7 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
      * 선택한 색으로 펜스타일 지정 패드의 뷰를 설정합니다.
      */
     private fun setDotAndButtonView() {
-        binding.buttonSaveDrawing.setText(getString(R.string.save_drawing))
+        binding.buttonSaveDrawing.setText(getString(R.string.move_to_save))
         binding.dotPensize.setCardBackgroundColor(selectedColor)
         binding.seekbarPen.trackActiveTintList = ColorStateList.valueOf(selectedColor)
         binding.seekbarPen.thumbTintList = ColorStateList.valueOf(selectedColor)

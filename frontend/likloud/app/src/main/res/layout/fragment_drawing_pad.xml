@@ -170,12 +170,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardview_canvas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:cardCornerRadius="@dimen/_20sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:strokeColor="@color/white"
@@ -185,6 +186,7 @@
                 android:id="@+id/canvas_drawingpad"
                 android:layout_width="match_parent"
                 android:layout_height="600dp"
+                android:visibility="visible"
                 android:background="@drawable/cloud1" />
 
         </com.google.android.material.card.MaterialCardView>

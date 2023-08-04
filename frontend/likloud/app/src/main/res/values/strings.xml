@@ -74,5 +74,6 @@
     <string name="logout">로그 아웃</string>
     <string name="leave_user">탈퇴하기</string>
     <string name="settings">설정</string>
+    <string name="move_to_save">저장하러 가기</string>
 
 </resources>
