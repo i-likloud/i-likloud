@@ -1,5 +1,6 @@
 package com.ssafy.likloud.ui.drawing
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,16 +14,19 @@ import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.databinding.ItemCommentBinding
 
-class CommentListAdapter  (var list : MutableList<CommentDto>, var member: MemberProfileDto, var activityViewModel: MainActivityViewModel): ListAdapter<CommentDto, CommentListAdapter.CommentListHolder>(
+private const val TAG = "차선호"
+class CommentListAdapter  (var activityViewModel: MainActivityViewModel): ListAdapter<CommentDto, CommentListAdapter.CommentListHolder>(
     CommentListComparator
 ) {
 
     companion object CommentListComparator : DiffUtil.ItemCallback<CommentDto>() {
         override fun areItemsTheSame(oldItem: CommentDto, newItem: CommentDto): Boolean {
-            return oldItem == newItem
+            Log.d(TAG, "areItemsTheSame...")
+            return oldItem.commentId == newItem.commentId
         }
 
         override fun areContentsTheSame(oldItem: CommentDto, newItem: CommentDto): Boolean {
+            Log.d(TAG, "areContentsTheSame...")
             return oldItem.commentId  == newItem.commentId
         }
     }
@@ -34,56 +38,46 @@ class CommentListAdapter  (var list : MutableList<CommentDto>, var member: Membe
         val textNickname = binding.textNickname
         val textContent = binding.textContent
         val textTime = binding.textTime
+        val imageDeleteComment = binding.imageDeleteComment
         fun bindInfo(comment : CommentDto){
             Glide.with(imageProfileColor)
-                .load(activityViewModel.waterDropColorList[member.profileColor].resourceId)
+                .load(activityViewModel.waterDropColorList[comment.profileColor].resourceId)
                 .into(imageProfileColor)
             Glide.with(imageProfileFace)
-                .load(activityViewModel.waterDropFaceList[member.profileFace].resourceId)
+                .load(activityViewModel.waterDropFaceList[comment.profileFace].resourceId)
                 .into(imageProfileFace)
             Glide.with(imageProfileAccessory)
-                .load(activityViewModel.waterDropAccessoryList[member.profileAccessory].resourceId)
+                .load(activityViewModel.waterDropAccessoryList[comment.profileAccessory].resourceId)
                 .into(imageProfileAccessory)
-            textNickname.text = member.nickname
+            textNickname.text = comment.nickname
             textContent.text = comment.content
             textTime.text = comment.createdAt
-            itemView.setOnClickListener{
+            //여기 자기가 쓴 댓글인지 비교해서 쓰레기통 보여줘라
+
+            imageDeleteComment.setOnClickListener{
+                itemClickListner.onClick(comment, layoutPosition)
             }
         }
     }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentListHolder {
+        Log.d(TAG, "onCreateViewHolder...")
         val binding = ItemCommentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 //        return RecyclerView.ViewHolder(inflater)
         return CommentListHolder(binding)
     }
 
-
-    override fun getItemCount(): Int {
-        return list.size
-    }
-
     override fun onBindViewHolder(holder: CommentListHolder, position: Int) {
+        Log.d(TAG, "onBindViewHolder....")
         holder.apply {
-            bindInfo(list[position])
+            bindInfo(getItem(position))
         }
     }
 
-    fun updateData(list: MutableList<CommentDto>) {
-        this.list = list
-    }
-    //Use the method for checking the itemRemoved
-    fun removeData() {
-        // remove last item for test purposes
-        val orgListSize = list.size
-        this.list = this.list.subList(0, orgListSize - 1).toList() as ArrayList<CommentDto>
-    }
-
-
     //    //클릭 인터페이스 정의 사용하는 곳에서 만들어준다.
     interface ItemClickListener {
-        fun onClick(view: View, position: Int, info:String)
+        fun onClick(comment: CommentDto, position: Int)
     }
     //클릭리스너 선언
     lateinit var itemClickListner: ItemClickListener

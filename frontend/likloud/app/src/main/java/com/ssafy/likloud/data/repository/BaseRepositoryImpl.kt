@@ -135,4 +135,8 @@ class BaseRepositoryImpl @Inject constructor(
     override suspend fun registDrawingComment(drawingId: Int, content: String): NetworkResult<CommentDto> {
         return handleApi { baseAPIService.registDrawingComment(drawingId, content).body()!! }
     }
+
+    override suspend fun deleteDrawingComment(commentId: Int): NetworkResult<String> {
+        return handleApi { baseAPIService.deleteDrawingComment(commentId).body()!! }
+    }
 }

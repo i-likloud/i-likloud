@@ -66,14 +66,26 @@
 
         <TextView
             android:id="@+id/text_content"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:layout_constraintWidth_percent="0.85"
             android:text="댓글 내용이랍니다!~~~ 댓글 내용이요 댓글이 이렇게 길어졌을 때 오른쪽 안잘리게 한 번 테스트해보라고"
             style="@style/Theme.AppCompat.TextView.pretendard.Size08"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <androidx.constraintlayout.utils.widget.ImageFilterButton
+            android:id="@+id/image_delete_comment"
+            android:layout_width="@dimen/_10sdp"
+            android:layout_height="@dimen/_10sdp"
+            android:src="@drawable/icon_delete"
+            android:scaleType="fitXY"
+            app:layout_constraintWidth_percent="0.1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

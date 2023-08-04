@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
@@ -53,9 +54,6 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        commentListAdapter = CommentListAdapter(
-            mutableListOf(), MemberProfileDto("dd",0,0,0),
-            activityViewModel)
         init()
         initListener()
         initObserver()
@@ -63,6 +61,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
 
     private fun init(){
         drawingListFragmentViewModel.getRecentOrderDrawingListDtoList()
+        initCommentRecyclerView()
     }
 
     override fun initListener(){
@@ -98,6 +97,9 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
                     //댓글 입력 함수
                     drawingListFragmentViewModel.registDrawingComment(drawingListFragmentViewModel.currentDrawingDetailDto.value!!.drawingId, content)
                     edittextDrawingComment.setText("")
+                    edittextDrawingComment.clearFocus()
+                    val keyboard = mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    keyboard.hideSoftInputFromWindow(edittextDrawingComment.windowToken,0)
                 }
             }
         }
@@ -132,7 +134,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
             initInfoView(drawingListFragmentViewModel.currentDrawingDetailDto.value!!, it)
             //이거 member가 아니라 currentDrawingDetail 정해졌을 때로 옮기고
             // commentDto에 member의 nickname, profile 정보 넣어달라고 하거나 commentAdapter 내에서 api 호출해야 함,,,
-            initCommentRecyclerView()
+//            initCommentRecyclerView()
         }
 
         drawingListFragmentViewModel.isLiked.observe(viewLifecycleOwner){
@@ -148,7 +150,8 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         }
 
         drawingListFragmentViewModel.currentDrawingCommentList.observe(viewLifecycleOwner){
-            commentListAdapter.updateData(it)
+            Log.d(TAG, "submitList.... $it")
+            commentListAdapter.submitList(it)
         }
     }
 
@@ -191,11 +194,15 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
 
     private fun initCommentRecyclerView(){
         Log.d(TAG, "commentList : ${drawingListFragmentViewModel.currentDrawingCommentList.value} ")
-        commentListAdapter = CommentListAdapter(drawingListFragmentViewModel.currentDrawingCommentList.value!!,
-            drawingListFragmentViewModel.currentDrawingMember.value!!,
-            activityViewModel)
+        commentListAdapter = CommentListAdapter(activityViewModel)
         binding.recyclerviewDrawingComment.apply {
-            this.adapter = commentListAdapter
+            this.adapter = commentListAdapter.apply {
+                this.itemClickListner = object: CommentListAdapter.ItemClickListener{
+                    override fun onClick(view: View, comment: CommentDto, position: Int) {
+                        drawingListFragmentViewModel.deleteDrawingComment(comment.commentId, position)
+                    }
+                }
+            }
             layoutManager = LinearLayoutManager(mainActivity, LinearLayoutManager.VERTICAL, false)
         }
     }

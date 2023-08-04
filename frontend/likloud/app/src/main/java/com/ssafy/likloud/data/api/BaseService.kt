@@ -147,6 +147,11 @@ interface BaseService {
      */
     @POST("api/comment/to/{drawingId}")
     suspend fun registDrawingComment(@Path("drawingId") drawingId: Int, @Query("content") content: String): Response<CommentDto>
+    /**
+     * 댓글 삭제
+     */
+    @DELETE("api/comment/delete/{commentId}")
+    suspend fun deleteDrawingComment(@Path("commentId") commentId: Int): Response<String>
 }
 
 //api 만드는 과정

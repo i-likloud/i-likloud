@@ -84,12 +84,25 @@ class DrawingListFragmentViewModel @Inject constructor(
     private val _currentDrawingCommentList = MutableLiveData<MutableList<CommentDto>>()
     val currentDrawingCommentList: LiveData<MutableList<CommentDto>>
         get() = _currentDrawingCommentList
+    private lateinit var newDrawingCommentList: MutableList<CommentDto>
     fun registDrawingComment(drawingId: Int,content: String){
         viewModelScope.launch {
             baseRepository.registDrawingComment(drawingId, content).onSuccess {
                 _currentDrawingCommentList.value!!.add(it)
+                val newDrawingCommentList: MutableList<CommentDto> = _currentDrawingCommentList.value!!
+                _currentDrawingCommentList.value = newDrawingCommentList
+//                _currentDrawingCommentList.value = _currentDrawingCommentList.value!!
                 Log.d(TAG, "registDrawingComment: $it")
             }
+        }
+    }
+    fun deleteDrawingComment(commentId: Int, position: Int){
+        viewModelScope.launch {
+            baseRepository.deleteDrawingComment(commentId)
+            _currentDrawingCommentList.value!!.removeAt(position)
+//            newDrawingCommentList = _currentDrawingCommentList.value!!
+//            _currentDrawingCommentList.value = newDrawingCommentList
+            _currentDrawingCommentList.value = _currentDrawingCommentList.value!!
         }
     }
 

@@ -152,4 +152,8 @@ interface BaseRepository {
      * 댓글 등록
      */
     suspend fun registDrawingComment(drawingId: Int, content: String): NetworkResult<CommentDto>
+    /**
+     * 댓글 삭제
+     */
+    suspend fun deleteDrawingComment(commentId: Int): NetworkResult<String>
 }
