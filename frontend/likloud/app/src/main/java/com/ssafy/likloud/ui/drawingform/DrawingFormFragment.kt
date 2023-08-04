@@ -1,7 +1,6 @@
 package com.ssafy.likloud.ui.drawingform
 
 import android.annotation.SuppressLint
-import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -18,14 +17,10 @@ import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
 import com.ssafy.likloud.databinding.FragmentDrawingFormBinding
-import com.ssafy.likloud.util.createMultipartFromUri
 import com.ssafy.likloud.util.hideKeyboard
-import com.ssafy.likloud.util.saveImageToGallery
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Date
 
 @AndroidEntryPoint
 class DrawingFormFragment : BaseFragment<FragmentDrawingFormBinding>(FragmentDrawingFormBinding::bind, R.layout.fragment_drawing_form) {

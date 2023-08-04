@@ -17,6 +17,9 @@ import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.OutputStream
 
+/**
+ * uri로 multipart 객체를 만듭니다.
+ */
 fun createMultipartFromUri(context: Context, uri: Uri): MultipartBody.Part? {
     val file: File? = getFileFromUri(context, uri)
     if (file == null) {
@@ -40,12 +43,18 @@ fun createMultipartFromUriNameFile(context: Context, uri: Uri): MultipartBody.Pa
     return MultipartBody.Part.createFormData("file", file.name, requestFile)
 }
 
+/**
+ * uri로 사진 파일을 가져옵니다
+ * createMultipartFromUri로 결과값을 반환합니다
+ */
 fun getFileFromUri(context: Context, uri: Uri): File? {
     val filePath = uriToFilePath(context, uri)
     return if (filePath != null) File(filePath) else null
 }
 
-
+/**
+ * 만들어진 uri를 파일로 변환합니다
+ */
 @SuppressLint("Range")
 fun uriToFilePath(context: Context, uri: Uri): String? {
     lateinit var filePath: String
@@ -69,6 +78,9 @@ fun uriToFilePath(context: Context, uri: Uri): String? {
 }
 
 
+/**
+ * 저장된 사진 파일의 body를 가져옵니다
+ */
 private fun createRequestBodyFromFile(file: File): RequestBody {
     val MEDIA_TYPE_IMAGE = "multipart/form-data".toMediaTypeOrNull()
     val inputStream: InputStream = FileInputStream(file)
@@ -77,6 +89,9 @@ private fun createRequestBodyFromFile(file: File): RequestBody {
 }
 
 
+/**
+ * 카메라에서 찍은 사진을 갤러리에 저장합니다.
+ */
 fun saveImageToGallery(context: Context, bitmap: Bitmap, displayName: String): String? {
     val contentResolver: ContentResolver = context.contentResolver
     val contentValues = ContentValues().apply {
@@ -104,3 +119,5 @@ fun saveImageToGallery(context: Context, bitmap: Bitmap, displayName: String): S
     }
     return null
 }
+
+
