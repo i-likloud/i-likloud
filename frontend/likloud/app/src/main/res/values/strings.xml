@@ -70,6 +70,7 @@
     <string name="drawing_title_max">/50</string>
     <string name="drawing_desc_max">/300</string>
     <string name="bgm_off">BGM OFF</string>
+    <string name="bgm_on">BGM ON</string>
     <string name="logout">로그 아웃</string>
     <string name="leave_user">탈퇴하기</string>
     <string name="settings">설정</string>

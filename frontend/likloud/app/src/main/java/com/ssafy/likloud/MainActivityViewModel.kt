@@ -82,6 +82,11 @@ class MainActivityViewModel @Inject constructor(
         get()  = _uploadingPhotoId
 
 
+    private val _toggleBgmString = MutableLiveData<String>("BGM OFF")
+    val toggleBgmString : LiveData<String>
+        get()  = _toggleBgmString
+
+
     /**
      * 멤버 정보를 가져옵니다.
      */
@@ -109,6 +114,10 @@ class MainActivityViewModel @Inject constructor(
                     Log.d(TAG, "editProflie: ${it.message}")
                 }
         }
+    }
+
+    fun setToggleButtonText(text : String){
+        _toggleBgmString.value = text
     }
 
     fun setProfileImage(color: Int, face: Int) {
