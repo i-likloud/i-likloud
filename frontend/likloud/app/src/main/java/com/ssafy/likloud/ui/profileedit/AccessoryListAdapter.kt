@@ -45,19 +45,19 @@ class AccessoryListAdapter() :
         private fun imageFiltering(name: String) {
             when(name) {
                 "duck_mouse" -> {
-                    binding.image.setImageResource(R.drawable.water_drop_item_duckmouth)
+                    binding.image.setImageResource(R.drawable.water_drop_item_duckmouth_croped)
                 }
                 "shine" -> {
-                    binding.image.setImageResource(R.drawable.water_drop_item_shine)
+                    binding.image.setImageResource(R.drawable.water_drop_item_shine_croped)
                 }
                 "mustache" -> {
-                    binding.image.setImageResource(R.drawable.water_drop_item_mustache)
+                    binding.image.setImageResource(R.drawable.water_drop_item_mustache_croped)
                 }
                 "sunglass" -> {
-                    binding.image.setImageResource(R.drawable.water_drop_item_sunglass)
+                    binding.image.setImageResource(R.drawable.water_drop_item_sunglass_croped)
                 }
                 "umbrella" -> {
-                    binding.image.setImageResource(R.drawable.water_drop_item_umbrella)
+                    binding.image.setImageResource(R.drawable.water_drop_item_umbrella_croped)
                 }
             }
         }

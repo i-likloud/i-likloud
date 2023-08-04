@@ -6,16 +6,23 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
+import com.ssafy.likloud.data.model.CommentDto
+import com.ssafy.likloud.data.model.DrawingDetailDto
+import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.databinding.FragmentDrawingDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,6 +36,7 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
     private lateinit var mainActivity: MainActivity
     private val activityViewModel: MainActivityViewModel by activityViewModels()
     val args: DrawingDetailFragmentArgs by navArgs()
+    private lateinit var commentListAdapter: CommentListAdapter
 
 
     override fun onAttach(context: Context) {
@@ -63,7 +71,7 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
         }
 
         drawingDetailFragmentViewModel.currentDrawingMember.observe(viewLifecycleOwner) {
-            initInfoView()
+            initInfoView(drawingDetailFragmentViewModel.currentDrawingDetail.value!!, it)
         }
 
         drawingDetailFragmentViewModel.isLiked.observe(viewLifecycleOwner){
@@ -78,11 +86,17 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
         drawingDetailFragmentViewModel.likeCount.observe(viewLifecycleOwner){
             binding.textLikeCount.text = it.toString()
         }
+
+        drawingDetailFragmentViewModel.currentDrawingCommentList.observe(viewLifecycleOwner){
+            commentListAdapter.submitList(it.toMutableList())
+
+        }
     }
 
     private fun init(){
         //여기서 args.drawingId로 DrawingDetailDto 불러와야 함
         drawingDetailFragmentViewModel.getCurrentPhotoDrawingDetail(args.drawingId)
+        initCommentRecyclerView()
     }
 
     override fun initListener() {
@@ -93,6 +107,19 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             imageHeart.setOnClickListener {
                 drawingDetailFragmentViewModel.changeLikeCount()
                 drawingDetailFragmentViewModel.changeIsLiked()
+            }
+            buttonDrawingComment.setOnClickListener {
+                val content = edittextDrawingComment.text.toString()
+                if(content == ""){
+                    Toast.makeText(mainActivity,"댓글을 입력하세요", Toast.LENGTH_SHORT).show()
+                }else{
+                    //댓글 입력 함수
+                    drawingDetailFragmentViewModel.registDrawingComment(drawingDetailFragmentViewModel.currentDrawingDetail.value!!.drawingId, content)
+                    edittextDrawingComment.setText("")
+                    edittextDrawingComment.clearFocus()
+                    val keyboard = mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    keyboard.hideSoftInputFromWindow(edittextDrawingComment.windowToken,0)
+                }
             }
         }
         // 안드로이드 뒤로가기 버튼 눌렀을 때
@@ -106,27 +133,41 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
         )
     }
 
-    private fun initInfoView(){
+    private fun initInfoView(drawingDetail: DrawingDetailDto,member: MemberProfileDto){
         binding.apply {
             Glide.with(binding.imageCurrentDrawing)
-                .load(drawingDetailFragmentViewModel.currentDrawingDetail.value!!.imageUrl)
+                .load(drawingDetail.imageUrl)
                 .into(binding.imageCurrentDrawing)
             Glide.with(binding.imageProfileColor)
-                .load(activityViewModel.waterDropColorList[drawingDetailFragmentViewModel.currentDrawingMember.value!!.profileColor].resourceId)
+                .load(activityViewModel.waterDropColorList[member.profileColor].resourceId)
                 .into(binding.imageProfileColor)
             Glide.with(binding.imageProfileFace)
-                .load(activityViewModel.waterDropFaceList[drawingDetailFragmentViewModel.currentDrawingMember.value!!.profileFace].resourceId)
+                .load(activityViewModel.waterDropFaceList[member.profileFace].resourceId)
                 .into(binding.imageProfileFace)
             Glide.with(binding.imageProfileAccessory)
-                .load(activityViewModel.waterDropAccessoryList[drawingDetailFragmentViewModel.currentDrawingMember.value!!.profileAccessory].resourceId)
+                .load(activityViewModel.waterDropAccessoryList[member.profileAccessory].resourceId)
                 .into(binding.imageProfileAccessory)
-            textDrawingNickname.text = drawingDetailFragmentViewModel.currentDrawingMember.value!!.nickname
-            textDrawingTitle.text = drawingDetailFragmentViewModel.currentDrawingDetail.value!!.title
-            textDrawingContent.text = drawingDetailFragmentViewModel.currentDrawingDetail.value!!.content
-            textLikeCount.text = drawingDetailFragmentViewModel.currentDrawingDetail.value!!.likesCount.toString()
-            textViewCount.text = drawingDetailFragmentViewModel.currentDrawingDetail.value!!.viewCount.toString()
+            textDrawingNickname.text = member.nickname
+            textDrawingTitle.text = drawingDetail.title
+            textDrawingContent.text = drawingDetail.content
+            textLikeCount.text = drawingDetail.likesCount.toString()
+            textViewCount.text = drawingDetail.viewCount.toString()
         }
     }
 
+    private fun initCommentRecyclerView(){
+        Log.d(TAG, "commentList : ${drawingDetailFragmentViewModel.currentDrawingCommentList.value} ")
+        commentListAdapter = CommentListAdapter(activityViewModel)
+        binding.recyclerviewDrawingComment.apply {
+            this.adapter = commentListAdapter.apply {
+                this.itemClickListner = object: CommentListAdapter.ItemClickListener{
+                    override fun onClick(comment: CommentDto, position: Int) {
+                        drawingDetailFragmentViewModel.deleteDrawingComment(comment.commentId, position)
+                    }
+                }
+            }
+            layoutManager = LinearLayoutManager(mainActivity, LinearLayoutManager.VERTICAL, false)
+        }
+    }
 
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ssafy.likloud.data.api.onError
 import com.ssafy.likloud.data.api.onSuccess
 import com.ssafy.likloud.data.model.CommentDto
 import com.ssafy.likloud.data.model.DrawingDetailDto
@@ -13,6 +14,7 @@ import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.data.repository.BaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.util.Collections
 import javax.inject.Inject
 
 private const val TAG = "차선호"
@@ -75,7 +77,27 @@ class DrawingListFragmentViewModel @Inject constructor(
         viewModelScope.launch {
             baseRepository.getDrawingDetail(dto.drawingId).onSuccess {
                 _currentDrawingDetailDto.value = it
+                _currentDrawingCommentList.value = it.commentList
             }
+        }
+    }
+    //현재 그림에 대한 댓글 리스트
+    private val _currentDrawingCommentList = MutableLiveData<MutableList<CommentDto>>()
+    val currentDrawingCommentList: LiveData<MutableList<CommentDto>>
+        get() = _currentDrawingCommentList
+    fun registDrawingComment(drawingId: Int,content: String){
+        viewModelScope.launch {
+            baseRepository.registDrawingComment(drawingId, content).onSuccess {
+                _currentDrawingCommentList.value!!.add(it)
+                _currentDrawingCommentList.value = _currentDrawingCommentList.value!!
+            }
+        }
+    }
+    fun deleteDrawingComment(commentId: Int, position: Int){
+        viewModelScope.launch {
+            baseRepository.deleteDrawingComment(commentId)
+            _currentDrawingCommentList.value!!.removeAt(position)
+            _currentDrawingCommentList.value = _currentDrawingCommentList.value!!
         }
     }
 
@@ -131,26 +153,4 @@ class DrawingListFragmentViewModel @Inject constructor(
             }
         }
     }
-
-
-
-    /////////////////////////////////////////////////////////   댓글  ////////////////////////////////////////////////////////////////////////
-
-    private val _selectedDrawingCommentList = MutableLiveData<MutableList<CommentDto>>()
-    val selectedDrawingCommentList: LiveData<MutableList<CommentDto>>
-        get() = _selectedDrawingCommentList
-    fun changeSelectedDrawingCommentList(list: MutableList<CommentDto>){
-        _selectedDrawingCommentList.value = list
-    }
-//    fun addToCommentList(comment: CommentDto) {
-//        viewModelScope.launch {
-//            selectedDrawingCommentList.value?.add(comment)
-//        }
-//    }
-//
-//    fun removeComment(posi:Int){
-//        viewModelScope.launch {
-//            selectedDrawingCommentList.value!!.removeAt(posi)
-//        }
-//    }
 }

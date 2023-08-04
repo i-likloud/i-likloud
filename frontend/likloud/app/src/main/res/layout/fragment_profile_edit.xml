@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/app_background_3"
-    >
+    android:background="@drawable/app_background_3">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/layout_appbar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.1"
         android:background="@color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -30,14 +28,14 @@
                 android:src="@drawable/button_back_arrow" />
 
             <TextView
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_gravity="center"
-                android:text="@string/title_profile_edit"
-                android:layout_weight="1"
                 android:layout_marginRight="@dimen/_29sdp"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size16"/>
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/title_profile_edit" />
 
         </LinearLayout>
 
@@ -56,13 +54,13 @@
             android:id="@+id/linearLayout2"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.8"
-            app:layout_constraintWidth_percent="0.45"
-
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintHeight_percent="0.8"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.45">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_my_character"
@@ -104,19 +102,19 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
-                android:background="@drawable/frame_rounded_border_radius50"
-                android:layout_gravity="center"
                 android:layout_width="@dimen/_140sdp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/frame_rounded_border_radius50"
                 android:padding="@dimen/_4sdp">
 
                 <EditText
                     android:id="@+id/edittext_nickname"
+                    style="@style/Theme.AppCompat.TextView.pretendard.Size20"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center"
                     android:hint="이영준"
-                    style="@style/Theme.AppCompat.TextView.pretendard.Size20" />
+                    android:textAlignment="center" />
 
             </LinearLayout>
 
@@ -126,76 +124,96 @@
             android:id="@+id/linearLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintWidth_percent="0.55"
-            android:orientation="vertical"
-            android:gravity="center"
             android:layout_margin="@dimen/_6sdp"
+            android:gravity="center"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/linearLayout2"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.55">
 
             <ScrollView
+                style="@style/CustomScrollView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:scrollbars="vertical"
-                style="@style/CustomScrollView"
+                android:fadeScrollbars="false"
                 android:scrollbarAlwaysDrawVerticalTrack="true"
                 android:scrollbarSize="@dimen/_3sdp"
-                android:fadeScrollbars="false"
-                android:scrollbarStyle="outsideInset">
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="물방울 색을 골라주세요!"
-                        android:layout_margin="@dimen/_2sdp"
-                        style="@style/Theme.AppCompat.TextView.jua.dark.Size08"/>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerview_color"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_80sdp"
-                        android:padding="@dimen/_4sdp"
-                        android:layout_margin="@dimen/_4sdp"
-                        android:background="@drawable/frame_rounded_border_radius50"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="물방울 표정을 골라주세요!"
-                        android:layout_margin="@dimen/_2sdp"
-                        style="@style/Theme.AppCompat.TextView.jua.dark.Size08"/>
+                        android:gravity="center">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerview_face"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_80sdp"
-                        android:padding="@dimen/_4sdp"
-                        android:layout_margin="@dimen/_4sdp"
-                        android:background="@drawable/frame_rounded_border_radius50"/>
+                        <TextView
+                            style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_2sdp"
+                            android:textAlignment="center"
+                            android:layout_weight="@integer/material_motion_duration_long_1"
+                            android:text="물방울 악세서리를 골라주세요!" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="물방울 악세서리를 골라주세요!"
-                        android:layout_margin="@dimen/_2sdp"
-                        style="@style/Theme.AppCompat.TextView.jua.dark.Size08"/>
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/button_take_off"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_20sdp"
+                            android:background="@drawable/frame_button_rounded_border_grey_radius50"
+                            android:text="@string/take_off"
+                            android:elevation="@dimen/_4sdp"
+                            android:layout_marginRight="@dimen/_4sdp"
+                            android:textAppearance="@style/Theme.AppCompat.TextView.jua.dark.Size08"/>
+
+                    </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerview_accessory"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_80sdp"
-                        android:padding="@dimen/_4sdp"
                         android:layout_margin="@dimen/_4sdp"
-                        android:background="@drawable/frame_rounded_border_radius50"/>
+                        android:background="@drawable/frame_rounded_border_radius50"
+                        android:padding="@dimen/_4sdp" />
+
+                    <TextView
+                        style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_2sdp"
+                        android:text="물방울 색을 골라주세요!" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerview_color"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_80sdp"
+                        android:layout_margin="@dimen/_4sdp"
+                        android:background="@drawable/frame_rounded_border_radius50"
+                        android:padding="@dimen/_4sdp" />
+
+                    <TextView
+                        style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_2sdp"
+                        android:text="물방울 표정을 골라주세요!" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerview_face"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_80sdp"
+                        android:layout_margin="@dimen/_4sdp"
+                        android:background="@drawable/frame_rounded_border_radius50"
+                        android:padding="@dimen/_4sdp" />
+
 
                 </LinearLayout>
 
@@ -205,9 +223,9 @@
                 android:id="@+id/button_choose_done"
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="@dimen/_40sdp"
+                android:layout_gravity="right"
                 android:layout_marginRight="@dimen/_2sdp"
                 android:background="@drawable/button_frame_black"
-                android:layout_gravity="right"
                 android:gravity="center">
 
                 <LinearLayout
@@ -218,15 +236,15 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_marginRight="@dimen/_3sdp"
-                        android:src="@drawable/ic_check"/>
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_check" />
 
                     <TextView
+                        style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/done"
-                        style="@style/Theme.AppCompat.TextView.jua.dark.Size12"/>
+                        android:text="@string/done" />
 
                 </LinearLayout>
 

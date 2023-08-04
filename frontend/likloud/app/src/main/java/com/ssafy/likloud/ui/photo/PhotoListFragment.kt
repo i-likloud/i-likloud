@@ -19,6 +19,8 @@ import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
 import com.ssafy.likloud.data.model.DrawingListDto
+import com.ssafy.likloud.data.model.MemberProfileDto
+import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.databinding.FragmentPhotoListBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -110,7 +112,7 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
 
         photoListFragmentViewModel.currentPhotoMember.observe(viewLifecycleOwner){
             //사진 정보, 유저 정보 뷰 세팅
-            initInfoView()
+            initInfoView(photoListFragmentViewModel.currentPhotoListDto.value!!, it)
         }
 
         photoListFragmentViewModel.currentPhotoDrawingList.observe(viewLifecycleOwner){
@@ -150,20 +152,20 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
         }
     }
 
-    private fun initInfoView(){
+    private fun initInfoView(photo: PhotoListDto, member: MemberProfileDto){
         binding.apply {
             Glide.with(binding.imageDrawingProfileColor)
-                .load(activityViewModel.waterDropColorList[photoListFragmentViewModel.currentPhotoMember.value!!.profileColor].resourceId)
+                .load(activityViewModel.waterDropColorList[member.profileColor].resourceId)
                 .into(binding.imageDrawingProfileColor)
             Glide.with(binding.imageDrawingProfileFace)
-                .load(activityViewModel.waterDropFaceList[photoListFragmentViewModel.currentPhotoMember.value!!.profileFace].resourceId)
+                .load(activityViewModel.waterDropFaceList[member.profileFace].resourceId)
                 .into(binding.imageDrawingProfileFace)
             Glide.with(binding.imageDrawingProfileAccessory)
-                .load(activityViewModel.waterDropAccessoryList[photoListFragmentViewModel.currentPhotoMember.value!!.profileAccessory].resourceId)
+                .load(activityViewModel.waterDropAccessoryList[member.profileAccessory].resourceId)
                 .into(binding.imageDrawingProfileAccessory)
-            textDrawingNickname.text = photoListFragmentViewModel.currentPhotoMember.value!!.nickname
-            textBookmarkCount.text = photoListFragmentViewModel.currentPhotoListDto.value!!.bookmarkCount.toString()
-            textDrawCount.text = photoListFragmentViewModel.currentPhotoListDto.value!!.pickCount.toString()
+            textDrawingNickname.text = member.nickname
+            textBookmarkCount.text = photo.bookmarkCount.toString()
+            textDrawCount.text = photo.pickCount.toString()
         }
     }
 

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ssafy.likloud.data.api.onSuccess
+import com.ssafy.likloud.data.model.CommentDto
 import com.ssafy.likloud.data.model.DrawingDetailDto
 import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.data.repository.BaseRepository
@@ -27,9 +28,30 @@ class DrawingDetailFragmentViewModel@Inject constructor(
         viewModelScope.launch {
             baseRepository.getDrawingDetail(drawingId).onSuccess {
                 _currentDrawingDetail.value = it
+                _currentDrawingCommentList.value = it.commentList
             }
         }
     }
+    //현재 그림에 대한 댓글 리스트
+    private val _currentDrawingCommentList = MutableLiveData<MutableList<CommentDto>>()
+    val currentDrawingCommentList: LiveData<MutableList<CommentDto>>
+        get() = _currentDrawingCommentList
+    fun registDrawingComment(drawingId: Int,content: String){
+        viewModelScope.launch {
+            baseRepository.registDrawingComment(drawingId, content).onSuccess {
+                _currentDrawingCommentList.value!!.add(it)
+                _currentDrawingCommentList.value = _currentDrawingCommentList.value!!
+            }
+        }
+    }
+    fun deleteDrawingComment(commentId: Int, position: Int){
+        viewModelScope.launch {
+            baseRepository.deleteDrawingComment(commentId)
+            _currentDrawingCommentList.value!!.removeAt(position)
+            _currentDrawingCommentList.value = _currentDrawingCommentList.value!!
+        }
+    }
+
 
     /////////////////// 해당 멤버 정보 /////////////////////////////////
     private var _currentDrawingMember = MutableLiveData<MemberProfileDto>()

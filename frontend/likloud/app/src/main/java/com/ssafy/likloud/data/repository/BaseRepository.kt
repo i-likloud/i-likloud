@@ -1,6 +1,7 @@
 package com.ssafy.likloud.data.repository
 
 import com.ssafy.likloud.data.api.NetworkResult
+import com.ssafy.likloud.data.model.CommentDto
 import com.ssafy.likloud.data.model.DrawingDetailDto
 import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.PhotoListDto
@@ -18,6 +19,8 @@ import com.ssafy.likloud.data.model.request.MemberInfoRequest
 import com.ssafy.likloud.data.model.request.ProfileEditRequest
 import com.ssafy.likloud.data.model.response.AccessoryResponse
 import com.ssafy.likloud.data.model.response.MemberInfoResponse
+import com.ssafy.likloud.data.model.response.StoreItemBuyResponse
+import com.ssafy.likloud.data.model.response.StoreResponse
 import retrofit2.Response
 import okhttp3.MultipartBody
 import retrofit2.http.Part
@@ -123,6 +126,9 @@ interface BaseRepository {
         memberInfoRequest: MemberInfoRequest
     ): NetworkResult<MutableList<AccessoryResponse>>
 
+    /**
+     * 프로필 수정
+     */
     suspend fun editMyProfile(
         profileEditRequest: ProfileEditRequest
     ): NetworkResult<MemberInfoResponse>
@@ -148,6 +154,21 @@ interface BaseRepository {
     suspend fun getMyPhotoListDtoList(): NetworkResult<MutableList<PhotoListDto>>
 
     /**
+     * 상점 페이지 들어갈 때 조회
+     */
+    suspend fun getStoreInfo(
+        memberInfoRequest: MemberInfoRequest
+    ): NetworkResult<StoreResponse>
+
+    /**
+     * 악세서리 구매
+     */
+    suspend fun postBuyAccessory(
+        storeId: Int,
+        memberInfoRequest: MemberInfoRequest
+    ): NetworkResult<StoreItemBuyResponse>
+
+    /**
      * 내가 즐찾한 사진 조회(마이페이지)
      */
     suspend fun getBookmarkPhotoListDtoList(): NetworkResult<MutableList<PhotoListDto>>
@@ -166,4 +187,12 @@ interface BaseRepository {
      * 사진 즐찾
      */
     suspend fun changePhotoBookmark(photoId: Int): NetworkResult<String>
+    /**
+     * 댓글 등록
+     */
+    suspend fun registDrawingComment(drawingId: Int, content: String): NetworkResult<CommentDto>
+    /**
+     * 댓글 삭제
+     */
+    suspend fun deleteDrawingComment(commentId: Int): NetworkResult<String>
 }

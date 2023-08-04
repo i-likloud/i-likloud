@@ -5,6 +5,7 @@ import com.ssafy.likloud.ApplicationClass
 import com.ssafy.likloud.data.api.BaseService
 import com.ssafy.likloud.data.api.NetworkResult
 import com.ssafy.likloud.data.api.handleApi
+import com.ssafy.likloud.data.model.CommentDto
 import com.ssafy.likloud.data.model.DrawingDetailDto
 import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.PhotoListDto
@@ -22,6 +23,8 @@ import com.ssafy.likloud.data.model.request.MemberInfoRequest
 import com.ssafy.likloud.data.model.request.ProfileEditRequest
 import com.ssafy.likloud.data.model.response.AccessoryResponse
 import com.ssafy.likloud.data.model.response.MemberInfoResponse
+import com.ssafy.likloud.data.model.response.StoreItemBuyResponse
+import com.ssafy.likloud.data.model.response.StoreResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 import javax.inject.Inject
@@ -144,6 +147,17 @@ class BaseRepositoryImpl @Inject constructor(
         return handleApi { baseAPIService.getMyPhotoListDtoList().body()!! }
     }
 
+    override suspend fun getStoreInfo(memberInfoRequest: MemberInfoRequest): NetworkResult<StoreResponse> {
+        return handleApi { baseAPIService.getStoreInfo(memberInfoRequest).body()!! }
+    }
+
+    override suspend fun postBuyAccessory(
+        storeId: Int,
+        memberInfoRequest: MemberInfoRequest
+    ): NetworkResult<StoreItemBuyResponse> {
+        return handleApi { baseAPIService.postBuyAccessory(storeId, memberInfoRequest).body()!! }
+    }
+
     override suspend fun getBookmarkPhotoListDtoList(): NetworkResult<MutableList<PhotoListDto>> {
         return handleApi { baseAPIService.getBookmarkPhotoListDtoList().body()!! }
     }
@@ -158,5 +172,13 @@ class BaseRepositoryImpl @Inject constructor(
 
     override suspend fun changePhotoBookmark(photoId: Int): NetworkResult<String> {
         return handleApi { baseAPIService.changePhotoBookmark(photoId).body()!! }
+    }
+
+    override suspend fun registDrawingComment(drawingId: Int, content: String): NetworkResult<CommentDto> {
+        return handleApi { baseAPIService.registDrawingComment(drawingId, content).body()!! }
+    }
+
+    override suspend fun deleteDrawingComment(commentId: Int): NetworkResult<String> {
+        return handleApi { baseAPIService.deleteDrawingComment(commentId).body()!! }
     }
 }

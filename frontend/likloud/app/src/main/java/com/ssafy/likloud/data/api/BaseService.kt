@@ -2,6 +2,7 @@ package com.ssafy.likloud.data.api
 
 import android.provider.ContactsContract.Contacts.Photo
 import com.ssafy.likloud.base.BaseResponse
+import com.ssafy.likloud.data.model.CommentDto
 import com.ssafy.likloud.data.model.DrawingDetailDto
 import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.PhotoListDto
@@ -19,6 +20,8 @@ import com.ssafy.likloud.data.model.request.MemberInfoRequest
 import com.ssafy.likloud.data.model.request.ProfileEditRequest
 import com.ssafy.likloud.data.model.response.AccessoryResponse
 import com.ssafy.likloud.data.model.response.MemberInfoResponse
+import com.ssafy.likloud.data.model.response.StoreItemBuyResponse
+import com.ssafy.likloud.data.model.response.StoreResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -113,9 +116,15 @@ interface BaseService {
     @GET("api/photo/{photoId}/alldrawings")
     suspend fun getPhotoDrawingList(@Path("photoId") photoId: Int): Response<MutableList<DrawingListDto>>
 
+    /**
+     * 내가 보유하고 있는 악세서리 목록 조회
+     */
     @GET("api/mypage/accessory")
     suspend fun getMyAccessoryList(@Query("body") body: MemberInfoRequest): Response<MutableList<AccessoryResponse>>
 
+    /**
+     * 프로필 수정
+     */
     @PUT("api/mypage/profile")
     suspend fun editMyProfile(@Body body: ProfileEditRequest): Response<MemberInfoResponse>
 
@@ -139,6 +148,19 @@ interface BaseService {
      */
     @GET("api/mypage/photos")
     suspend fun getMyPhotoListDtoList(): Response<MutableList<PhotoListDto>>
+
+    /**
+     * 상점 페이지 들어갈 때 조회
+     */
+    @GET("api/store/home")
+    suspend fun getStoreInfo(@Query("memberInfo") memberInfo: MemberInfoRequest): Response<StoreResponse>
+
+    /**
+     * 악세서리 구매
+     */
+    @POST("api/store/buy/{storeId}")
+    suspend fun postBuyAccessory(@Query("storeId") storeId: Int, @Body body: MemberInfoRequest): Response<StoreItemBuyResponse>
+
     /**
      * 내가 즐찾한 사진 조회(마이페이지)
      */
@@ -159,6 +181,16 @@ interface BaseService {
      */
     @POST("api/photo/{photoId}/bookmark")
     suspend fun changePhotoBookmark(@Path("photoId") photoId: Int): Response<String>
+    /**
+     * 댓글 등록
+     */
+    @POST("api/comment/to/{drawingId}")
+    suspend fun registDrawingComment(@Path("drawingId") drawingId: Int, @Query("content") content: String): Response<CommentDto>
+    /**
+     * 댓글 삭제
+     */
+    @DELETE("api/comment/delete/{commentId}")
+    suspend fun deleteDrawingComment(@Path("commentId") commentId: Int): Response<String>
 }
 
 //api 만드는 과정
