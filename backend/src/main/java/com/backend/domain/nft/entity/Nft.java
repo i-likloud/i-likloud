@@ -22,7 +22,7 @@ public class Nft extends BaseEntity {
     @Column(nullable = false)
     private String nftImageUrl;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String tokenId;
 
     @Column(nullable = false)
