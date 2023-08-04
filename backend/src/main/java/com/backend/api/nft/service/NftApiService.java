@@ -52,7 +52,7 @@ public class NftApiService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    @Value("${KAS.client.contract}")
+    @Value("${KAS.client.contract-alias}")
     private String contract;
 
     @Transactional
@@ -163,11 +163,11 @@ public class NftApiService {
     // 특정 사용자 NFT 토큰 조회
     public TokenListDto.Response getTokenList(Member member) {
         log.info("찾기");
-        return memberNftListClient.getTokenList("1001", authorization, "i-likloud", member.getWallet());
+        return memberNftListClient.getTokenList("1001", authorization, contract, member.getWallet());
     }
 
     // 모든 토큰 조회
     public TokenListDto.Response getAllTokenList(){
-        return allTokenListClient.getAllTokenList("1001", authorization, "i-likloud");
+        return allTokenListClient.getAllTokenList("1001", authorization, contract);
     }
 }

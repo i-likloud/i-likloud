@@ -41,7 +41,7 @@ public class NftTransferApiService {
     @Value("${KAS.client.authorization}")
     private String authorization;
 
-    @Value("${KAS.client.contract}")
+    @Value("${KAS.client.contract-alias}")
     private String contract;
 
     @Value("${cloud.aws.s3.bucket}")

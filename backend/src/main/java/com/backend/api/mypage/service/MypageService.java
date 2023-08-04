@@ -30,7 +30,7 @@ public class MypageService {
     @Value("${KAS.client.authorization}")
     private String authorization;
 
-    @Value("${KAS.client.contract}")
+    @Value("${KAS.client.contract-alias}")
     private String contract;
 
     @Transactional(readOnly = true)
