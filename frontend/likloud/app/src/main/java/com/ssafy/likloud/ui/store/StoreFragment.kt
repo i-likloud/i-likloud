@@ -44,6 +44,8 @@ class StoreFragment : BaseFragment<FragmentStoreBinding>(FragmentStoreBinding::b
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var mActivity: MainActivity
 
+    private lateinit var storeAccessoryListAdapter: StoreAccessoryListAdapter
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mActivity = context as MainActivity
@@ -60,6 +62,7 @@ class StoreFragment : BaseFragment<FragmentStoreBinding>(FragmentStoreBinding::b
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initAdapter()
         initObserver()
         init()
         initView()
@@ -110,33 +113,7 @@ class StoreFragment : BaseFragment<FragmentStoreBinding>(FragmentStoreBinding::b
     private fun initObserver() {
         // 내가 가진 악세서리가 불러와지면 리사이클러 뷰로 나타냅니다.
         storeFragmentViewModel.storeAccessoryList.observe(viewLifecycleOwner) {
-            val storeAccessoryListAdapter = StoreAccessoryListAdapter()
             storeAccessoryListAdapter.submitList(it)
-            binding.recyclerviewStore.layoutManager = GridLayoutManager(mActivity, 3, LinearLayoutManager.VERTICAL, false)
-            binding.recyclerviewStore.adapter = storeAccessoryListAdapter
-            storeAccessoryListAdapter.apply {
-                itemClickListener = object: StoreAccessoryListAdapter.ItemClickListener {
-                    override fun onClick(view: View, position: Int, data: StoreItemResponse) {
-                        // 뷰 리소스 갈아끼우기
-                        changeWaterDropAccessory(view, mainActivityViewModel.waterDropAccessoryList[changeAccessoryNameToInt(data.accessoryName)].resourceId)
-                        clickedAnimation(data.accessoryName)
-                        binding.lottieChoose.playAnimation()
-                    }
-                }
-                itemBuyClickLitener = object: StoreAccessoryListAdapter.ItemBuyClickLitener {
-                    override fun onClick(data: StoreItemResponse, lottieView: LottieAnimationView) {
-                        if (storeFragmentViewModel.memberInfo.value!!.goldCoin >= data.accessoryPrice) {
-                            storeFragmentViewModel.postBuyAccessory(data.storeId)
-                            lottieView.visibility = View.VISIBLE
-                            lottieView.playAnimation()
-                            showSnackbar("success", "구매 완료!")
-                        }
-                        else {
-                            showSnackbar("fail", "티켓이 ${data.accessoryPrice - storeFragmentViewModel.memberInfo.value!!.goldCoin} 만큼 부족해요.")
-                        }
-                    }
-                }
-            }
         }
 
         // 내 정보
@@ -153,7 +130,32 @@ class StoreFragment : BaseFragment<FragmentStoreBinding>(FragmentStoreBinding::b
         }
     }
     private fun initAdapter() {
-
+        storeAccessoryListAdapter = StoreAccessoryListAdapter()
+        binding.recyclerviewStore.layoutManager = GridLayoutManager(mActivity, 3, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerviewStore.adapter = storeAccessoryListAdapter
+        storeAccessoryListAdapter.apply {
+            itemClickListener = object: StoreAccessoryListAdapter.ItemClickListener {
+                override fun onClick(view: View, position: Int, data: StoreItemResponse) {
+                    // 뷰 리소스 갈아끼우기
+                    changeWaterDropAccessory(view, mainActivityViewModel.waterDropAccessoryList[changeAccessoryNameToInt(data.accessoryName)].resourceId)
+                    clickedAnimation(data.accessoryName)
+                    binding.lottieChoose.playAnimation()
+                }
+            }
+            itemBuyClickLitener = object: StoreAccessoryListAdapter.ItemBuyClickLitener {
+                override fun onClick(data: StoreItemResponse, lottieView: LottieAnimationView) {
+                    if (storeFragmentViewModel.memberInfo.value!!.goldCoin >= data.accessoryPrice) {
+                        storeFragmentViewModel.postBuyAccessory(data.storeId)
+                        lottieView.visibility = View.VISIBLE
+                        lottieView.playAnimation()
+                        showSnackbar("success", "구매 완료!")
+                    }
+                    else {
+                        showSnackbar("fail", "티켓이 ${data.accessoryPrice - storeFragmentViewModel.memberInfo.value!!.goldCoin} 만큼 부족해요.")
+                    }
+                }
+            }
+        }
     }
 
     private fun changeWaterDropAccessory(view: View, accessoryDrawable: Int) {
