@@ -8,6 +8,7 @@ import lombok.*;
 @Setter
 @Builder
 public class ProfileDto {
+
     private long memberId;
     private String nickname;
     private int profileFace;

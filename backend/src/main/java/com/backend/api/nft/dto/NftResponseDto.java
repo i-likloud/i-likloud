@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class NftResponseDto {
+
     private Long nftId;
     private String metadata;
     private String imageUrl;

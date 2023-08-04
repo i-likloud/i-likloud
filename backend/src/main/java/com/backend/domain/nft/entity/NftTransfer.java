@@ -1,10 +1,7 @@
 package com.backend.domain.nft.entity;
 
 import com.backend.domain.common.BaseEntity;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,6 +10,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 public class NftTransfer extends BaseEntity {
 
     @Id
@@ -21,13 +19,17 @@ public class NftTransfer extends BaseEntity {
 
     private String status;
 
-    private String to;
+    private String toMember;
 
-    private String from;
+    private String fromMember;
 
     private String keyId;
 
     private String tokenId;
+
+    private String transactionHash;
+
+    private String message;
 
 
 }
