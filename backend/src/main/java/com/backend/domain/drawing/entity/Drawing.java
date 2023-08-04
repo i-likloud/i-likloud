@@ -51,11 +51,11 @@ public class Drawing extends BaseEntity {
     @JoinColumn(name = "photo_id")
     private Photo photo;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "drawingFile_id")
     private DrawingFile drawingFile;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nft_id")
     private Nft nft;
 
