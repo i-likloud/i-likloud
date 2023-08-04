@@ -7,13 +7,10 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class OauthLoginControllerTest extends BaseIntegrationTest {
-
-    private String token = "7DIHxIMcPDNhehj9CvLCUczow6po_CxZxjrwSlzUCj10EQAAAYm6lbZQ";
+class OauthLoginControllerTestEx extends BaseIntegrationTest {
 
     @Test
     @Rollback
@@ -23,7 +20,7 @@ class OauthLoginControllerTest extends BaseIntegrationTest {
             //when
             ResultActions resultActions = mvc.perform(post("/api/oauth/login")
                             .accept(MediaType.APPLICATION_JSON)
-                            .header("Authorization", "Bearer " + token)
+                            .header("Authorization", "Bearer " + "잘못된 access token 값")
                             .content("{\n" +
                                     "  \"email\": \"testemail@test.com\",\n" +
                                     "  \"socialType\": \"KAKAO\",\n" +
