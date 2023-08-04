@@ -3,6 +3,7 @@ package com.backend.api.drawing.service;
 //import com.amazonaws.services.kms.model.NotFoundException;
 
 import com.backend.api.drawing.dto.DrawingDetailDto;
+import com.backend.api.drawing.dto.DrawingFromPhotoDto;
 import com.backend.api.drawing.dto.DrawingListDto;
 import com.backend.domain.drawing.entity.Drawing;
 import com.backend.domain.drawing.repository.DrawingRepository;
@@ -67,13 +68,35 @@ public class DrawingViewService {
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_DRAWING));
 
         if(!drawing.getMember().getMemberId().equals(memberId)){
-            throw new BusinessException(ErrorCode.UNAUTHORIZED_DELETION);
+            throw new BusinessException(ErrorCode.UNAUTHORIZED_MEMBER);
         }
         // NFT의 그림 null 처리
         Nft nft = nftService.findNftByDrawingId(drawingId);
         nft.setDrawing(null);
 
         drawingRepository.delete(drawing);
+
+    }
+
+    // 그림 게시물 수정
+    @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "allDrawings", allEntries = true),
+            @CacheEvict(value = "drawings", key = "#member.memberId")
+    })
+    public DrawingFromPhotoDto editDrawing(Long drawingId, Member member, String title, String content){
+        Long memberId = member.getMemberId();
+        Drawing drawing = drawingRepository.findById(drawingId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_DRAWING));
+
+        if (!drawing.getMember().getMemberId().equals(memberId)){
+            throw new BusinessException(ErrorCode.UNAUTHORIZED_MEMBER);
+        }
+        drawing.setTitle(title);
+        drawing.setContent(content);
+
+        DrawingFromPhotoDto drawingFromPhotoDto = new DrawingFromPhotoDto(drawing);
+        return drawingFromPhotoDto;
 
     }
 
