@@ -10,12 +10,12 @@ import lombok.Setter;
 @Getter
 public class NftListResponseDto {
 
-    private String owner;
-    private Long nftId;
-    private String imageUrl;
-    private String title;
-    private String content;
-    private String tokenId;
+    private final String owner;
+    private final Long nftId;
+    private final String imageUrl;
+    private final String title;
+    private final String content;
+    private final String tokenId;
 
     public NftListResponseDto(Nft nft) {
         this.owner = nft.getMember().getNickname();

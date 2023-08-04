@@ -31,5 +31,9 @@ public class NftTransfer extends BaseEntity {
 
     private String message;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "nft_id")
+    private Nft nft;
+
 
 }

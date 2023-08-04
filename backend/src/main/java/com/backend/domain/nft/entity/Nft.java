@@ -22,7 +22,7 @@ public class Nft extends BaseEntity {
     @Column(nullable = false)
     private String nftImageUrl;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private String tokenId;
 
     @Column(nullable = false)
@@ -38,6 +38,10 @@ public class Nft extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "drawing_id")
     private Drawing drawing;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "transfer_Id")
+    private NftTransfer nftTransfer;
 
     @Builder
     public Nft(String nftImageUrl, String contract) {
