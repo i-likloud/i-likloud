@@ -4,7 +4,19 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-public class TransferDto {
+public class NftTransferDto {
+
+
+    @Getter
+    @Builder
+    @Setter
+    public static class Request {
+        private String sender;
+        private String owner;
+        private String to;
+    }
+
+
 
     @Getter
     @Setter

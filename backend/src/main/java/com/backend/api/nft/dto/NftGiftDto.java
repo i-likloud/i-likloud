@@ -14,9 +14,10 @@ public class NftGiftDto {
     private NftListResponseDto nftListResponseDto;
     private String message;
 
-    public NftGiftDto (NftTransfer nftTransfer){
+    public NftGiftDto (NftTransfer nftTransfer, MypageInfoDto mypageInfoDto, NftListResponseDto nftListResponseDto){
         this.message = nftTransfer.getMessage();
-
-
+        this.transferId = nftTransfer.getTransferId();
+        this.mypageInfoDto = mypageInfoDto;
+        this.nftListResponseDto = nftListResponseDto;
     }
 }

@@ -4,3 +4,4 @@ KAS:
     secretAccessKey: ENC(3xUpP7h5vLrqRbOAEJIQ4oVe6JVtZkGqqIS4zXYzZvV046OqboElcL8UD/ad+8GgbXFe4B5uKw4=)
     authorization: ENC(jpk+wEv+Mc2ppR/zxfr8kpupzlN7+w6myYXGWyM3EuEyc96t869y+L3ViMoEMLwc33My4rSGaqxwv3+cz7aRfiDnWrpM5H+x1JxtKdXFAKVMYQOekYhZBD4otnujm9NsKD1HK+4i/NY=)
     contract: "0x6825676316690642c9351feb9b87ea0d23b9ce03"
+    contract-alias: "i-likloud"

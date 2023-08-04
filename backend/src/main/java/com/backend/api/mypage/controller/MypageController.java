@@ -2,7 +2,9 @@ package com.backend.api.mypage.controller;
 
 import com.backend.api.drawing.dto.DrawingListDto;
 import com.backend.api.mypage.dto.ProfileDto;
+import com.backend.api.mypage.service.MyPageListService;
 import com.backend.api.mypage.service.MypageService;
+import com.backend.api.nft.dto.NftGiftDto;
 import com.backend.api.nft.dto.NftListResponseDto;
 import com.backend.api.photo.dto.PhotoInfoResponseDto;
 import com.backend.domain.accessory.dto.AccessoryDto;
@@ -41,7 +43,7 @@ public class MypageController {
     private final MypageService mypageService;
     private final MemberRepository memberRepository;
     private final MemberService memberService;
-
+    private final MyPageListService myPageListService;
 
     @Operation(summary = "마이페이지 홈", description = "마이페이지 홈에 들어가면 필요한 정보 반환을 수행합니다.\n\n"+"\n\n### [ 수행절차 ]\n\n"+"- try it out 해주세요\n\n")
     @CustomApi
@@ -88,7 +90,7 @@ public class MypageController {
     public ResponseEntity<List<DrawingListDto>> getMyLikes(@MemberInfo MemberInfoDto memberInfoDto){
         try {
             Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
-            List<DrawingListDto> result = mypageService.likeDrawing(member.getMemberId());
+            List<DrawingListDto> result = myPageListService.likeDrawing(member.getMemberId());
             return ResponseEntity.ok(result);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -103,7 +105,7 @@ public class MypageController {
     public ResponseEntity<List<DrawingListDto>> getMyDrawings(@MemberInfo MemberInfoDto memberInfoDto) {
         try {
             Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
-            List<DrawingListDto> result = mypageService.getMyDrawing(member.getMemberId());
+            List<DrawingListDto> result = myPageListService.getMyDrawing(member.getMemberId());
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -115,7 +117,7 @@ public class MypageController {
     public ResponseEntity<List<PhotoInfoResponseDto>> getMyBookmarks(@MemberInfo MemberInfoDto memberInfoDto){
         try {
             Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
-            List<PhotoInfoResponseDto> result = mypageService.bookmarkPhoto(member.getMemberId());
+            List<PhotoInfoResponseDto> result = myPageListService.bookmarkPhoto(member.getMemberId());
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -128,7 +130,7 @@ public class MypageController {
     public ResponseEntity<List<PhotoInfoResponseDto>> getMyPhotos(@MemberInfo MemberInfoDto memberInfoDto){
         try {
             Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
-            List<PhotoInfoResponseDto> result = mypageService.getMyPhoto(member.getMemberId());
+            List<PhotoInfoResponseDto> result = myPageListService.getMyPhoto(member.getMemberId());
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -141,7 +143,7 @@ public class MypageController {
     public ResponseEntity<List<AccessoryDto>> getMyAccessorys (@MemberInfo MemberInfoDto memberInfoDto){
         try{
             Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
-            List<AccessoryDto> result = mypageService.getMyAccessory(member.getMemberId());
+            List<AccessoryDto> result = myPageListService.getMyAccessory(member.getMemberId());
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -154,23 +156,44 @@ public class MypageController {
     public ResponseEntity<List<NftListResponseDto>> getMyNft (@MemberInfo MemberInfoDto memberInfoDto){
         try{
             Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
-            List<NftListResponseDto> result = mypageService.getMyNft(member.getMemberId());
+            List<NftListResponseDto> result = myPageListService.getMyNft(member.getMemberId());
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
-//    @Operation(summary = "내 선물함 조회", description = "받은 NFT선물을 조회 합니다.")
-//    @GetMapping("/gift")
-//    public ResponseEntity<List<NftGiftDto>> getMyGift (@MemberInfo MemberInfoDto memberInfoDto){
-//        try{
-//            Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
-//            List<NftGiftDto> result = mypageService.getMyNft(member.getMemberId());
-//            return ResponseEntity.ok(result);
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//        }
-//    }
+    @Operation(summary = "내 선물함 조회", description = "받은 NFT선물을 조회 합니다.")
+    @GetMapping("/gift")
+    public ResponseEntity<List<NftGiftDto>> getMyGift (@MemberInfo MemberInfoDto memberInfoDto){
+        try{
+            Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
+            List<NftGiftDto> result = myPageListService.getMyGift(member.getMemberId());
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    // 선물 수락
+    @PostMapping("/gift/{transferId}/accept/{nftId}")
+    @Operation(summary = "선물 수락", description = "선물을 수락합니다. 받은 선물을 내 NFT리스트에 추가됩니다.")
+    public NftListResponseDto acceptGift (@PathVariable Long transferId, @PathVariable Long nftId, @MemberInfo MemberInfoDto memberInfoDto) {
+        Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
+
+        return mypageService.acceptGift(transferId, nftId, member);
+    }
+
+
+    // 선물 거절(토큰 소멸)
+    @PostMapping("/gift/{transferId}/reject/{nftId}")
+    @Operation(summary = "선물 거절", description = "선물을 거절합니다. 거절한 선물은 소멸됩니다.")
+    public ResponseEntity<String> rejectGift(@PathVariable Long transferId, @PathVariable Long nftId, @MemberInfo MemberInfoDto memberInfoDto) {
+        Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
+
+        mypageService.rejectGift(transferId, nftId, member);
+
+        return ResponseEntity.ok(String.format("%d번 NFT 소멸,,,", nftId));
+    }
 
 }
