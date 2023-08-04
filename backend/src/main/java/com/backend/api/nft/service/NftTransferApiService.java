@@ -55,6 +55,10 @@ public class NftTransferApiService {
         Nft nft = nftService.findNftById(nftId);
         // 토큰 받을 멤버
         Member toMember = memberService.findMemberById(toMemberId);
+        // 지갑 없는 경우
+        if (toMember.getWallet() == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_WALLET);
+        }
         // 보내는 사람 주소
         String sender = fromMember.getWallet();
 
