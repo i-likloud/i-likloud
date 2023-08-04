@@ -3,11 +3,7 @@ package com.backend.domain.photo.entity;
 import com.backend.domain.bookmark.entity.Bookmarks;
 import com.backend.domain.common.BaseEntity;
 import com.backend.domain.drawing.entity.Drawing;
-import com.backend.domain.drawing.entity.DrawingFile;
-import com.backend.domain.likes.entity.Likes;
 import com.backend.domain.member.entity.Member;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
@@ -44,7 +40,7 @@ public class Photo extends BaseEntity {
     @OneToMany(mappedBy = "photo", cascade = CascadeType.ALL)
     private List<Bookmarks> bookmarks = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "photoFile_id")
     private PhotoFile photoFile;
 

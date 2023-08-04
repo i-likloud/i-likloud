@@ -37,6 +37,7 @@ public class DrawingViewService {
     @Cacheable(value = "allDrawings", key = "#orderBy", unless = "#orderBy != 'createdAt'")
     public List<DrawingListDto> getAllDrawings(Member member, String orderBy){
         List<Drawing> drawings = drawingRepository.findAll(Sort.by(Sort.Direction.DESC, orderBy));
+
         return drawings.stream()
                 .map(DrawingListDto::new)
                 .collect(Collectors.toList());

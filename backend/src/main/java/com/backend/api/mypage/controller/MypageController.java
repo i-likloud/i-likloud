@@ -50,9 +50,7 @@ public class MypageController {
     public ResponseEntity<MypageInfoDto> getMyInfo(@MemberInfo MemberInfoDto memberInfoDto) {
         try {
             String email = memberInfoDto.getEmail();
-            if (email == null) {
-                throw new BusinessException(ErrorCode.MEMBER_NOT_EXISTS);
-            }
+
             MypageInfoDto myPageInfoDto = mypageService.getMyInfo(email);
             return ResponseEntity.ok(myPageInfoDto);
         } catch (Exception e) {

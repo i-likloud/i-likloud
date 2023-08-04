@@ -40,6 +40,7 @@ public enum ErrorCode {
     ALREADY_PUBLISHED_TOKEN(HttpStatus.BAD_REQUEST, "NFT-002", "이미 발행된 토큰입니다."),
     UNAUTHORIZED_NFT(HttpStatus.UNAUTHORIZED, "NFT-003", "본인이 그린 그림만 NFT 발행할 수 있습니다."),
     NOT_FOUND_NFT(HttpStatus.NOT_FOUND, "NFT-004", "NFT를 찾을 수 없습니다."),
+    ALREADY_WALLET(HttpStatus.BAD_REQUEST, "NFT-005", "이미 지갑이 있습니다."),
 
     // 아이템
     NOT_FOUND_ACCESSORY(HttpStatus.NOT_FOUND, "Item-001", "악세사리를 찾을 수 없습니다."),

@@ -54,6 +54,10 @@ public class NftApiService {
 
     @Transactional
     public WalletDto.Response createWallet(Member member){
+        // 이미 지갑 있음
+        if (member.getWallet() != null) {
+            throw new BusinessException(ErrorCode.ALREADY_WALLET);
+        }
         // 지갑생성
         WalletDto.Response response =  walletClient.createWallet("1001", Authorization);
 

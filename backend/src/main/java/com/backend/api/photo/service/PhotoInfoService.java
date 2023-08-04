@@ -38,7 +38,15 @@ public class PhotoInfoService {
     @Transactional(readOnly = true)
     @Cacheable(value = "allPhotos", key = "'searchAllDesc'")
     public List<PhotoInfoResponseDto> searchAllDesc(Member member) {
+
+        long startTime = System.currentTimeMillis();
+
         List<Photo> photos = photoRepository.findAllByOrderByCreatedAtDesc();
+
+        long endTime = System.currentTimeMillis();
+        long executionTime = endTime - startTime;
+
+        System.out.println("Query Execution Time: " + executionTime + " milliseconds");
 
         return photos.stream()
                 .map(PhotoInfoResponseDto::new)
@@ -48,7 +56,15 @@ public class PhotoInfoService {
     // 인기순 전체 조회
     @Transactional(readOnly = true)
     public List<PhotoInfoResponseDto> searchAllPickCntDesc(Member member){
+
+        long startTime = System.currentTimeMillis();
+
         List<Photo> photos = photoRepository.findAllByOrderByPickCntDesc();
+
+        long endTime = System.currentTimeMillis();
+        long executionTime = endTime - startTime;
+
+        System.out.println("Query Execution Time: " + executionTime + " milliseconds");
 
         return photos.stream()
                 .map(PhotoInfoResponseDto::new)
@@ -59,7 +75,15 @@ public class PhotoInfoService {
     // 북마크 전체 조회
     @Transactional(readOnly = true)
     public List<PhotoInfoResponseDto> searchAllBookmarkCntDesc(Member member){
+
+        long startTime = System.currentTimeMillis();
+
         List<Photo> photos = photoRepository.findAllByOrderByBookmarkCntDesc();
+
+        long endTime = System.currentTimeMillis();
+        long executionTime = endTime - startTime;
+
+        System.out.println("Query Execution Time: " + executionTime + " milliseconds");
 
         return photos.stream()
                 .map(PhotoInfoResponseDto::new)
