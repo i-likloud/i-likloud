@@ -36,17 +36,21 @@ class DrawingDetailFragmentViewModel@Inject constructor(
     private val _currentDrawingCommentList = MutableLiveData<MutableList<CommentDto>>()
     val currentDrawingCommentList: LiveData<MutableList<CommentDto>>
         get() = _currentDrawingCommentList
-//    fun addToCommentList(comment: CommentDto) {
-//        viewModelScope.launch {
-//            selectedDrawingCommentList.value?.add(comment)
-//        }
-//    }
-//
-//    fun removeComment(posi:Int){
-//        viewModelScope.launch {
-//            selectedDrawingCommentList.value!!.removeAt(posi)
-//        }
-//    }
+    fun registDrawingComment(drawingId: Int,content: String){
+        viewModelScope.launch {
+            baseRepository.registDrawingComment(drawingId, content).onSuccess {
+                _currentDrawingCommentList.value!!.add(it)
+                _currentDrawingCommentList.value = _currentDrawingCommentList.value!!
+            }
+        }
+    }
+    fun deleteDrawingComment(commentId: Int, position: Int){
+        viewModelScope.launch {
+            baseRepository.deleteDrawingComment(commentId)
+            _currentDrawingCommentList.value!!.removeAt(position)
+            _currentDrawingCommentList.value = _currentDrawingCommentList.value!!
+        }
+    }
 
 
     /////////////////// 해당 멤버 정보 /////////////////////////////////

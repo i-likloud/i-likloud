@@ -132,9 +132,6 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         drawingListFragmentViewModel.currentDrawingMember.observe(viewLifecycleOwner){
             //현재 그림에 대한 정보, 그림 그린 멤버 정보 뷰 세팅
             initInfoView(drawingListFragmentViewModel.currentDrawingDetailDto.value!!, it)
-            //이거 member가 아니라 currentDrawingDetail 정해졌을 때로 옮기고
-            // commentDto에 member의 nickname, profile 정보 넣어달라고 하거나 commentAdapter 내에서 api 호출해야 함,,,
-//            initCommentRecyclerView()
         }
 
         drawingListFragmentViewModel.isLiked.observe(viewLifecycleOwner){
@@ -150,8 +147,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         }
 
         drawingListFragmentViewModel.currentDrawingCommentList.observe(viewLifecycleOwner){
-            Log.d(TAG, "submitList.... $it")
-            commentListAdapter.submitList(it)
+            commentListAdapter.submitList(it.toMutableList())
         }
     }
 
@@ -198,7 +194,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         binding.recyclerviewDrawingComment.apply {
             this.adapter = commentListAdapter.apply {
                 this.itemClickListner = object: CommentListAdapter.ItemClickListener{
-                    override fun onClick(view: View, comment: CommentDto, position: Int) {
+                    override fun onClick(comment: CommentDto, position: Int) {
                         drawingListFragmentViewModel.deleteDrawingComment(comment.commentId, position)
                     }
                 }

@@ -22,7 +22,7 @@ class CommentListAdapter  (var activityViewModel: MainActivityViewModel): ListAd
     companion object CommentListComparator : DiffUtil.ItemCallback<CommentDto>() {
         override fun areItemsTheSame(oldItem: CommentDto, newItem: CommentDto): Boolean {
             Log.d(TAG, "areItemsTheSame...")
-            return oldItem.commentId == newItem.commentId
+            return oldItem == newItem
         }
 
         override fun areContentsTheSame(oldItem: CommentDto, newItem: CommentDto): Boolean {
