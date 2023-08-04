@@ -7,7 +7,7 @@ public class AccessToken {
     private static final String token_one =
             "Br_DgZX1wBQXR1oeynNvWR1_6DinK03DQ1SRGfeqCisM1AAAAYm6jSPA";
     private static final String token =
-    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBQ0NFU1MiLCJpYXQiOjE2OTEwNTEzNDksImV4cCI6MTY5MTA1MzE0OSwiZW1haWwiOiJob2lsZGF5NTMwM0BuYXZlci5jb20iLCJyb2xlIjoiTUVNQkVSIn0.8C0hP7TGDCDmYXSB8MecWh2KMn4oOMn5kgFHeqZHPhNN3bLT94HE-dTIXqvABecspOhrNA_qnlTUA8fDNY2Qfg";
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBQ0NFU1MiLCJpYXQiOjE2OTExMzEwODEsImV4cCI6MTY5MTEzMjg4MSwiZW1haWwiOiJod2Nob2kzM0BuYXZlci5jb20iLCJyb2xlIjoiTUVNQkVSIn0.y8nckX72wxYVWqs7bSmK0XPVy-UMDnJhDQoC0o825YcIeFtmRv3wG-bwAlhmIcCX7JLkg6UDHzWBuoqFAGAX8Q";
     private static final String testEmail =
             "hoilday5303@naver.com";
     public static String getToken() {
