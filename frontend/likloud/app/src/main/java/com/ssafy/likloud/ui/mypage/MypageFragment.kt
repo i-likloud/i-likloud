@@ -21,9 +21,9 @@ import com.ssafy.likloud.base.BaseFragment
 import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.databinding.FragmentMypageBinding
-import com.ssafy.likloud.ui.photo.PhotoListFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
+private const val TAG = "MypageFragment_싸피"
 @AndroidEntryPoint
 class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding::bind, R.layout.fragment_mypage) {
 
@@ -102,6 +102,9 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         binding.buttonGoStore.setOnClickListener {
             findNavController().navigate(R.id.action_mypageFragment_to_storeFragment)
         }
+        binding.buttonSetting.setOnClickListener {
+            invokeSettingsDialog()
+        }
     }
 
     private fun initAnimation() {
@@ -155,6 +158,26 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
                 }
             }
         }
+    }
+
+    private fun invokeSettingsDialog() {
+        val dialog = SettingsDialog(
+            clickBgmToggle = { toggleMusic()},
+            logout = {logout()},
+            deleteUser = {deleteUser()},
+            bgmText = mainActivityViewModel.toggleBgmString.value!!
+        )
+        dialog.show(childFragmentManager, TAG)
+    }
+
+    private fun toggleMusic() {
+        mActivity.toggleMusic()
+    }
+
+    private fun deleteUser() {
+    }
+
+    private fun logout() {
     }
 
     private fun makeButtonAnimationX(view: View, values: Float) {

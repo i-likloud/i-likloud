@@ -32,6 +32,8 @@ import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
 import com.ssafy.likloud.databinding.FragmentUploadBinding
+import com.ssafy.likloud.util.createMultipartFromUri
+import com.ssafy.likloud.util.saveImageToGallery
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -57,7 +59,7 @@ class UploadFragment :
     private lateinit var mainActivity: MainActivity
     private lateinit var aiCheckingDialog: AICheckingDialog
     lateinit var currentPhotoPath: String
-    lateinit var photoUri: Uri
+//    lateinit var photoUri: Uri
     lateinit var file: File
 
     override fun onAttach(context: Context) {
@@ -117,7 +119,6 @@ class UploadFragment :
             } else {
                 Log.d(TAG, "initListener: no multipart")
             }
-//            uploadFragmentViewModel.setValidatedTrue()
         }
     }
 
@@ -140,7 +141,6 @@ class UploadFragment :
     private fun invokeAICheckingDialog() {
         aiCheckingDialog = AICheckingDialog()
         aiCheckingDialog.show(childFragmentManager, TAG)
-
     }
 
     /**
@@ -162,7 +162,7 @@ class UploadFragment :
     private fun openCamera() {
         file = createImageFile()
         //AndroidMenifest에 설정된 URI와 동일한 값으로 설정한다.
-        photoUri =
+        val photoUri =
             FileProvider.getUriForFile(requireContext(), "com.ssafy.likloud.fileprovider", file)
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
@@ -206,38 +206,6 @@ class UploadFragment :
                 )
             }
         }
-
-
-    /**
-     * 카메라에서 찍은 사진을 갤러리에 저장합니다.
-     */
-    private fun saveImageToGallery(context: Context, bitmap: Bitmap, displayName: String): String? {
-        val contentResolver: ContentResolver = context.contentResolver
-        val contentValues = ContentValues().apply {
-            put(MediaStore.Images.Media.DISPLAY_NAME, displayName)
-            put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-            put(MediaStore.Images.Media.WIDTH, bitmap.width)
-            put(MediaStore.Images.Media.HEIGHT, bitmap.height)
-        }
-
-        var outputStream: OutputStream? = null
-        try {
-            val collection =
-                MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
-            val imageUri = contentResolver.insert(collection, contentValues)
-            if (imageUri != null) {
-                outputStream = contentResolver.openOutputStream(imageUri)
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
-                return imageUri.toString()
-            }
-        } catch (e: Exception) {
-            // 저장 실패 시 예외 처리
-            e.printStackTrace()
-        } finally {
-            outputStream?.close()
-        }
-        return null
-    }
 
     /**
      * 카메라로 찍은 사진을 사진파일로 만듭니다.
@@ -289,61 +257,4 @@ class UploadFragment :
         galleryActivityResult.launch("image/*")
     }
 
-    /**
-     * uri로 multipart 객체를 만듭니다.
-     */
-     fun createMultipartFromUri(context: Context, uri: Uri): MultipartBody.Part? {
-        val file: File? = getFileFromUri(context, uri)
-        if (file == null) {
-            // 파일을 가져오지 못한 경우 처리할 로직을 작성하세요.
-            return null
-        }
-
-        val requestFile: RequestBody = createRequestBodyFromFile(file)
-        return MultipartBody.Part.createFormData("multipartFiles", file.name, requestFile)
-    }
-
-    /**
-     * uri로 사진 파일을 가져옵니다
-     * createMultipartFromUri로 결과값을 반환합니다
-     */
-    fun getFileFromUri(context: Context, uri: Uri): File? {
-        val filePath = uriToFilePath(context, uri)
-        return if (filePath != null) File(filePath) else null
-    }
-
-    /**
-     * 만들어진 uri를 파일로 변환합니다
-     */
-    @SuppressLint("Range")
-    fun uriToFilePath(context: Context, uri: Uri): String? {
-        lateinit var filePath: String
-        context.contentResolver.query(uri, null, null, null, null).use { cursor ->
-            cursor?.let {
-                if (it.moveToFirst()) {
-                    val displayName = it.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
-                    val file = File(context.cacheDir, displayName)
-                    try {
-                        val inputStream = context.contentResolver.openInputStream(uri)
-                        val outputStream = FileOutputStream(file)
-                        inputStream?.copyTo(outputStream)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                    filePath = file.absolutePath
-                }
-            }
-        }
-        return filePath
-    }
-
-    /**
-     * 저장된 사진 파일의 body를 가져옵니다
-     */
-    private fun createRequestBodyFromFile(file: File): RequestBody {
-        val MEDIA_TYPE_IMAGE = "multipart/form-data".toMediaTypeOrNull()
-        val inputStream: InputStream = FileInputStream(file)
-        val byteArray = inputStream.readBytes()
-        return RequestBody.create(MEDIA_TYPE_IMAGE, byteArray)
-    }
 }

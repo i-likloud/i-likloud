@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/frame_skybluelight_rounded_border_black_radius50"
+    android:paddingLeft="@dimen/_10sdp"
+    android:paddingTop="@dimen/_12sdp"
+    android:paddingRight="@dimen/_10sdp"
+    android:paddingBottom="@dimen/_10sdp">
+
+    <TextView
+        android:id="@+id/text_alert_title"
+        style="@style/Theme.AppCompat.TextView.jua.dark.Size24"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/text_alert_title"
+        tools:layout_editor_absoluteX="24dp">
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_bgm_toggle"
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
+            android:layout_width="@dimen/_180sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_frame_black"
+            android:text="@string/bgm_off" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_logout"
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
+            android:layout_width="@dimen/_180sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_frame_black"
+            android:text="@string/logout" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_delete_user"
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
+            android:layout_width="@dimen/_180sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_frame_black"
+            android:text="@string/leave_user" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,6 +17,7 @@ import com.ssafy.likloud.data.model.response.LoginResponse
 import com.ssafy.likloud.data.model.response.ReLoginResponse
 import com.ssafy.likloud.data.model.SampleDto
 import com.ssafy.likloud.data.model.UserDto
+import com.ssafy.likloud.data.model.drawing.DrawingUploadResponse
 import com.ssafy.likloud.data.model.request.LoginAdditionalRequest
 import com.ssafy.likloud.data.model.request.MemberInfoRequest
 import com.ssafy.likloud.data.model.request.ProfileEditRequest
@@ -30,7 +31,7 @@ import javax.inject.Inject
 import javax.inject.Named
 
 class BaseRepositoryImpl @Inject constructor(
-    @Named("Main")private val baseAPIService: BaseService
+    @Named("Main") private val baseAPIService: BaseService
 ) : BaseRepository {
 
     override suspend fun getComment(
@@ -45,7 +46,15 @@ class BaseRepositoryImpl @Inject constructor(
     }
 
     override suspend fun postRefreshToken(): NetworkResult<ReLoginResponse> {
-        return handleApi { baseAPIService.postRefreshToken("Bearer ${ApplicationClass.sharedPreferences.getString("refresh_token")}").body()!! }
+        return handleApi {
+            baseAPIService.postRefreshToken(
+                "Bearer ${
+                    ApplicationClass.sharedPreferences.getString(
+                        "refresh_token"
+                    )
+                }"
+            ).body()!!
+        }
     }
 
     override suspend fun postLogin(loginRequest: LoginRequest): NetworkResult<LoginResponse> {
@@ -67,7 +76,7 @@ class BaseRepositoryImpl @Inject constructor(
     override suspend fun getDrawingDetail(drawingId: Int): NetworkResult<DrawingDetailDto> {
         return handleApi { baseAPIService.getDrawingDetail(drawingId).body()!! }
     }
-    
+
     override suspend fun postPhotoMultipart(
         multipartBodyPart: List<MultipartBody.Part>,
         memberInfoDto: MemberInfoDto
@@ -79,7 +88,27 @@ class BaseRepositoryImpl @Inject constructor(
         multipartBodyPart: MultipartBody.Part,
         memberInfoDto: MemberInfoDto
     ): NetworkResult<List<PhotoUploadResponseDto>> {
-        return handleApi { baseAPIService.postSinglePhotoMultipart(multipartBodyPart, memberInfoDto).body()!! }
+        return handleApi {
+            baseAPIService.postSinglePhotoMultipart(multipartBodyPart, memberInfoDto).body()!!
+        }
+    }
+
+    override suspend fun postDrawingMultipart(
+        file: MultipartBody.Part,
+        photoId: Int,
+        title: String,
+        content: String,
+        memberInfoDto: MemberInfoDto
+    ): NetworkResult<DrawingUploadResponse> {
+        return handleApi {
+            baseAPIService.postDrawingMultipart(
+                photoId,
+                file,
+                title,
+                content,
+                memberInfoDto
+            ).body()!!
+        }
     }
 
     override suspend fun getPhotoList(orderBy: String): NetworkResult<MutableList<PhotoListDto>> {

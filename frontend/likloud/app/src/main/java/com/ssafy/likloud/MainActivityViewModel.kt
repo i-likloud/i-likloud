@@ -72,14 +72,19 @@ class MainActivityViewModel @Inject constructor(
     val drawingMultipartBody: LiveData<MultipartBody.Part> get() = _drawingMultipartBody
 
     // 최종적으로 업로드 결정된 사진url
-    private val _uploadingPhotoUrl = MutableLiveData<String>()
+    private val _uploadingPhotoUrl = MutableLiveData<String>("https://www.freeiconspng.com/uploads/metal-black-red-transparent-background-for-the-symbol-error-5.png")
     val uploadingPhotoUrl : LiveData<String>
         get()  = _uploadingPhotoUrl
 
 
-    private val _uploadingPhotoId = MutableLiveData<Int>()
+    private val _uploadingPhotoId = MutableLiveData<Int>(1)
     val uploadingPhotoId : LiveData<Int>
         get()  = _uploadingPhotoId
+
+
+    private val _toggleBgmString = MutableLiveData<String>("BGM OFF")
+    val toggleBgmString : LiveData<String>
+        get()  = _toggleBgmString
 
 
     /**
@@ -109,6 +114,10 @@ class MainActivityViewModel @Inject constructor(
                     Log.d(TAG, "editProflie: ${it.message}")
                 }
         }
+    }
+
+    fun setToggleButtonText(text : String){
+        _toggleBgmString.value = text
     }
 
     fun setProfileImage(color: Int, face: Int) {

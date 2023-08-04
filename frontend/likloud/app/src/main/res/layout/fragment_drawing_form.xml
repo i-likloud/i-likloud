@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_save_drawing"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/app_background_3"
@@ -49,28 +52,21 @@
         android:paddingVertical="@dimen/_10sdp"
         app:layout_constraintTop_toBottomOf="@id/layout_appbar">
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:cardCornerRadius="20dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintWidth_percent="0.45"
-            app:layout_constraintHeight_max="0dp"
-            app:layout_constraintVertical_bias="0.5"
-            android:layout_marginStart="@dimen/_8sdp"
-            android:layout_marginEnd="@dimen/_8sdp">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@+id/image_selected_drawing"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:scaleType="fitCenter"
             android:src="@drawable/cloud1"
-            android:scaleType="centerCrop"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.45" /> <!-- fitCenter로 수정 -->
 
-    </com.google.android.material.card.MaterialCardView>
 
-    <LinearLayout
+        <LinearLayout
             android:id="@+id/layout_title"
             android:layout_width="0dp"
             android:layout_height="@dimen/_50sdp"
@@ -91,9 +87,9 @@
                 android:layout_weight="1"
                 android:background="@color/transparent"
                 android:gravity="top"
-                android:padding="@dimen/_8sdp"
                 android:hint="@string/drawing_title"
-                android:maxLength="50" />
+                android:maxLength="50"
+                android:padding="@dimen/_8sdp" />
 
             <TextView
                 android:id="@+id/text_title_count"
@@ -102,18 +98,17 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:gravity="bottom"
-                android:text="0/50"
+                android:text="@string/drawing_title_max"
                 android:textColor="@color/gray05" />
         </LinearLayout>
 
 
-
         <LinearLayout
-            android:layout_marginTop="@dimen/_10sdp"
             android:id="@+id/layout_description"
             android:layout_width="0dp"
             android:layout_height="@dimen/_100sdp"
             android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_8sdp"
             android:background="@drawable/frame_rounded_border_radius20"
             android:orientation="horizontal"
@@ -123,16 +118,16 @@
 
             <EditText
                 android:id="@+id/edittext_description"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
+                style="@style/Theme.AppCompat.TextView.jua.gray07.Size12"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="0dp"
                 android:layout_weight="1"
                 android:background="@color/transparent"
                 android:gravity="top"
-                android:padding="@dimen/_8sdp"
                 android:hint="@string/drawing_description"
-                android:maxLength="300" />
+                android:maxLength="300"
+                android:padding="@dimen/_8sdp" />
 
             <TextView
                 android:id="@+id/text_description_count"
@@ -141,23 +136,24 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:gravity="bottom"
-                android:text="0/300"
+                android:text="@string/drawing_desc_max"
                 android:textColor="@color/gray05" />
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="0dp"
-            android:text="@string/save_drawing"
-            android:elevation="@dimen/_10sdp"
-            android:background="@drawable/frame_rounded_border_radius20green"
+            android:id="@+id/button_save_drawing"
             style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
             android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_8sdp"
+            android:background="@drawable/frame_rounded_border_radius20green"
+            android:elevation="@dimen/_10sdp"
+            android:text="@string/save_drawing"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintWidth_percent="0.45"
             app:layout_constraintTop_toBottomOf="@id/layout_description"
-            android:layout_height="@dimen/_40sdp"/>
+            app:layout_constraintWidth_percent="0.45" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
