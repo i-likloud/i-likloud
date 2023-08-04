@@ -17,14 +17,13 @@ public class NftTransfer extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long transferId;
 
-    private String status;
+    @Column(nullable = false)
+    private Long toMember;
 
-    private String toMember;
+    @Column(nullable = false)
+    private Long fromMember;
 
-    private String fromMember;
-
-    private String keyId;
-
+    @Column(nullable = false)
     private String tokenId;
 
     private String transactionHash;

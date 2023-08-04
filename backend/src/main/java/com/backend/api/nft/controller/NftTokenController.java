@@ -3,10 +3,11 @@ package com.backend.api.nft.controller;
 import com.backend.api.member.service.MemberCoinService;
 import com.backend.api.nft.dto.NftResponseDto;
 import com.backend.api.nft.service.NftApiService;
-import com.backend.api.nft.service.NftTransferService;
+import com.backend.api.nft.service.NftTransferApiService;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.service.MemberService;
 import com.backend.domain.nft.entity.Nft;
+import com.backend.domain.nft.entity.NftTransfer;
 import com.backend.external.nft.dto.TokenListDto;
 import com.backend.external.nft.dto.WalletDto;
 import com.backend.global.error.ErrorCode;
@@ -33,7 +34,7 @@ import org.springframework.web.bind.annotation.*;
 public class NftTokenController {
 
     private final NftApiService nftApiService;
-    private final NftTransferService nftTransferService;
+    private final NftTransferApiService nftTransferApiService;
     private final MemberService memberService;
     private final MemberCoinService memberCoinService;
 
@@ -88,12 +89,11 @@ public class NftTokenController {
     // NFT 토큰 전송
     @PostMapping("/token/{nftId}/to/{memberId}")
     @Operation(summary = "특정 멤버에게 토큰 전송", description = "토큰을 특정 사용자에게 전송합니다.")
-    public void transferToken(@PathVariable Long memberId, @PathVariable Long nftId,
-                              @MemberInfo MemberInfoDto memberInfoDto){
+    public NftTransfer transferToken(@PathVariable Long memberId, @PathVariable Long nftId,
+                                     @RequestParam(value = "message") String message,
+                                     @MemberInfo MemberInfoDto memberInfoDto){
         Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
-        nftTransferService.transferToken(member, nftId, memberId);
+        return nftTransferApiService.transferToken(member, nftId, memberId, message);
 
     }
-
-
 }
