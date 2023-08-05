@@ -44,7 +44,7 @@ public class MemberInfoController {
     private final TokenService tokenService;
     private final MemberInfoService memberInfoService;
     private final MemberRepository memberRepository;
-    private MemberService memberService;
+    private final MemberService memberService;
 
     // 회원 정보 조회
     @Operation(summary = "회원 정보", description = "회원가입후 회원 정보 조회 메서드입니다."+"\n\n### [ 참고사항 ]\n\n"+"- try it out 해주세요\n\n")
