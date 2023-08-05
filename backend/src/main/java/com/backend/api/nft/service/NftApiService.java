@@ -2,7 +2,7 @@ package com.backend.api.nft.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.backend.api.drawing.service.DrawingViewService;
+import com.backend.domain.drawing.DrawingService;
 import com.backend.domain.drawing.entity.Drawing;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.nft.Dto.TokenMetaData;
@@ -38,7 +38,7 @@ public class NftApiService {
     private final WalletClient walletClient;
     private final NftTokenClient nftTokenClient;
     private final StringEncryptor stringEncryptor;
-    private final DrawingViewService drawingViewService;
+    private final DrawingService drawingService;
     private final NftRepository nftRepository;
     private final AmazonS3Client amazonS3Client;
 
@@ -76,7 +76,7 @@ public class NftApiService {
         if (wallet == null) {
             throw new BusinessException(ErrorCode.NOT_FOUND_WALLET);
         }
-        Drawing drawing = drawingViewService.findDrawingById(drawingId);
+        Drawing drawing = drawingService.findDrawingById(drawingId);
         // 본인 그림이 아닌 경우
         if (!drawing.getMember().getMemberId().equals(member.getMemberId())){
             throw new BusinessException(ErrorCode.UNAUTHORIZED_NFT);
