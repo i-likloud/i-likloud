@@ -42,6 +42,7 @@ import com.ssafy.likloud.ui.drawingpad.BitmapCanvasObject.selectedColor
 import com.ssafy.likloud.ui.drawingpad.BitmapCanvasObject.selectedEraserStrokeWidth
 import com.ssafy.likloud.ui.drawingpad.BitmapCanvasObject.selectedStrokeWidth
 import com.ssafy.likloud.util.createMultipartFromUri
+import com.ssafy.likloud.util.createMultipartFromUriNameFile
 import com.ssafy.likloud.util.makeButtonAnimationX
 import com.ssafy.likloud.util.makeButtonAnimationXWithDuration
 import com.ssafy.likloud.util.saveImageToGallery
@@ -67,8 +68,8 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
     private var isPenStylePadOpened = false
     private val largerWidth by lazy { applicationContext.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._120sdp) }
     private val originalWidth by lazy { applicationContext.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._100sdp) }
-    val largerWeight = 1.2f
-    val originalWeight = 1.0f
+    private val largerWeight = 1.2f
+    private val originalWeight = 1.0f
     private lateinit var layoutListener: OnGlobalLayoutListener
 
     override fun onAttach(context: Context) {
@@ -77,12 +78,114 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
     }
 
     override fun initListener() {
+
+        penClickListener()
+        penStylePadClickListener()
+        undoRedoClickListener()
+
+        binding.layoutDrawingPad.setOnClickListener {
+            movePenWithLayoutToLeft()
+        }
+
+        mActivity.onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().popBackStack()
+                }
+            })
+
+        binding.buttonClear.setOnClickListener {
+            if (points.isEmpty()) return@setOnClickListener
+            clearedPoints = ArrayDeque(points.toList())
+            points.clear()
+            isCleared = true
+            bitmap?.eraseColor(Color.TRANSPARENT)
+            binding.canvasDrawingpad.invalidate()
+        }
+
+
+
+        layoutListener = OnGlobalLayoutListener {
+            if (imageViewHeight != binding.imageChosenPhoto.height) {
+                binding.cardviewCanvas.visibility = View.VISIBLE
+                makeButtonAnimationXWithDuration(binding.cardviewCanvas, 0f , 500)
+                imageViewHeight = binding.imageChosenPhoto.height
+                Log.d(TAG, "onViewCreated: ${imageViewHeight}")
+                binding.canvasDrawingpad.layoutParams.height = imageViewHeight
+                binding.canvasDrawingpad.requestLayout()
+            }
+        }
+        binding.imageChosenPhoto.viewTreeObserver.addOnGlobalLayoutListener(layoutListener)
+
+        binding.buttonSaveDrawing.clicked {
+            bmp = viewToBitmap(binding.canvasDrawingpad)
+            mainActivityViewModel.setDrawingBitmap(bmp!!)
+            mainActivityViewModel.setDrawingMultipart(
+                createMultipartFromUriNameFile(
+                    requireContext(),
+                    Uri.parse(
+                        saveImageToGallery(
+                            requireContext(),
+                            bmp!!,
+                            SimpleDateFormat("yyMMdd_HHmmss").format(Date())
+                        )
+                    )
+                )!!
+            )
+            findNavController().navigate(R.id.action_drawingPadFragment_to_drawingFormFragment)
+        }
+
+        binding.seekbarPen.apply {
+            value = selectedStrokeWidth
+            addOnChangeListener(Slider.OnChangeListener { slider, value, fromUser ->
+                selectedStrokeWidth = value
+                val layoutParams = binding.dotPensize.layoutParams as LinearLayout.LayoutParams
+                layoutParams.height = value.toInt()
+                binding.dotPensize.layoutParams = layoutParams
+                binding.dotPensize.requestLayout()
+            })
+        }
+
+        binding.seekbarEraser.apply {
+            value = selectedEraserStrokeWidth
+            addOnChangeListener(Slider.OnChangeListener { slider, value, fromUser ->
+                selectedEraserStrokeWidth = value
+            })
+        }
+    }
+
+    /**
+     * 앞으로가기, 뒤로가기 클릭 리스너 입니다.
+     */
+    private fun undoRedoClickListener() {
+        undoRedoMap.entries.forEach { entry ->
+            entry.key.setOnClickListener {
+                processUndoRedo(entry.value)
+                redrawRemainingPoints()
+                binding.canvasDrawingpad.invalidate()
+            }
+        }
+    }
+
+    private fun penStylePadClickListener() {
+        binding.buttonPenWidth.setOnClickListener {
+            if (isPenStylePadOpened) movePenWithLayoutToLeft()
+            else movePenWithLayoutToRight()
+        }
+    }
+
+    /**
+     * 펜을 클릭된 것은 키우고, 아닌 것은 원래 사이즈로 되돌립니다.
+     */
+    private fun penClickListener() {
         colorMap.entries.forEach { entry ->
             entry.key.setOnClickListener {
                 selectedColor = entry.value
                 if (selectedColor != Color.TRANSPARENT) {
                     setDotAndButtonView()
                 }
+
 
                 colorMap.entries.forEach { otherEntry ->
                     val view = otherEntry.key
@@ -109,94 +212,20 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
                 } else null
             }
         }
-
-        binding.buttonPenWidth.setOnClickListener {
-            if (isPenStylePadOpened) movePenWithLayoutToLeft()
-            else movePenWithLayoutToRight()
-        }
-
-        binding.layoutDrawingPad.setOnClickListener {
-            movePenWithLayoutToLeft()
-        }
-
-        mActivity.onBackPressedDispatcher.addCallback(
-            viewLifecycleOwner,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    findNavController().popBackStack()
-                }
-            })
-
-        binding.buttonClear.setOnClickListener {
-            if (points.isEmpty()) return@setOnClickListener
-            clearedPoints = ArrayDeque(points.toList())
-            points.clear()
-            isCleared = true
-            bitmap?.eraseColor(Color.TRANSPARENT)
-            binding.canvasDrawingpad.invalidate()
-        }
-
-        undoRedoMap.entries.forEach { entry ->
-            entry.key.setOnClickListener {
-                processUndoRedo(entry.value)
-                redrawRemainingPoints()
-                binding.canvasDrawingpad.invalidate()
-            }
-        }
-
-        layoutListener = OnGlobalLayoutListener {
-            if (imageViewHeight != binding.imageChosenPhoto.height) {
-                imageViewHeight = binding.imageChosenPhoto.height
-                Log.d(TAG, "onViewCreated: ${imageViewHeight}")
-                binding.canvasDrawingpad.layoutParams.height = imageViewHeight
-                binding.canvasDrawingpad.requestLayout()
-            }
-        }
-        binding.imageChosenPhoto.viewTreeObserver.addOnGlobalLayoutListener(layoutListener)
-
-        binding.buttonSaveDrawing.clicked {
-            bmp = viewToBitmap(binding.canvasDrawingpad)
-            mainActivityViewModel.setDrawingBitmap(bmp!!)
-            mainActivityViewModel.setDrawingMultipart(
-                createMultipartFromUri(
-                    requireContext(),
-                    Uri.parse(
-                        saveImageToGallery(
-                            requireContext(),
-                            bmp!!,
-                            SimpleDateFormat("yyMMdd_HHmmss").format(Date())
-                        )
-                    )
-                )!!
-            )
-        }
-
-        binding.seekbarPen.apply {
-            value = selectedStrokeWidth
-            addOnChangeListener(Slider.OnChangeListener { slider, value, fromUser ->
-                selectedStrokeWidth = value
-                val layoutParams = binding.dotPensize.layoutParams as LinearLayout.LayoutParams
-                layoutParams.height = value.toInt()
-                binding.dotPensize.layoutParams = layoutParams
-                binding.dotPensize.requestLayout()
-            })
-        }
-
-        binding.seekbarEraser.apply {
-            value = selectedEraserStrokeWidth
-            addOnChangeListener(Slider.OnChangeListener { slider, value, fromUser ->
-                selectedEraserStrokeWidth = value
-            })
-        }
     }
 
-
+    /**
+     * 펜 스타일 패드를 숨깁니다.
+     */
     private fun movePenWithLayoutToLeft() {
         if(!isPenStylePadOpened) return
         isPenStylePadOpened = false
         makeButtonAnimationX(binding.layoutPenEraserWidth, -800f)
     }
 
+    /**
+     * 펜스타일 패드를 보여줍니다.
+     */
     private fun movePenWithLayoutToRight() {
         if(isPenStylePadOpened) return
         isPenStylePadOpened = true
@@ -235,19 +264,15 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
 
     private fun initView() {
 
+        // 초기 펜 스타일 현재 글자 크기로 지정
         setDotAndButtonView()
         val newWidth = selectedStrokeWidth.toInt()
-        // 뷰의 레이아웃 파라미터를 가져옵니다.
         val layoutParams = binding.dotPensize.layoutParams as LinearLayout.LayoutParams
-        // 뷰의 너비를 변경합니다.
         layoutParams.height = newWidth
-        // 변경된 레이아웃 파라미터를 뷰에 설정합니다.
         binding.dotPensize.layoutParams = layoutParams
-        // 뷰의 레이아웃을 갱신합니다.
         binding.dotPensize.requestLayout()
 
-
-
+        // 검정색 펜만 초기에 크기 키움
         colorMap.entries.forEach { otherEntry ->
             val view = otherEntry.key
             val layoutParams = view.layoutParams as LinearLayout.LayoutParams
@@ -266,22 +291,30 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
 
         }
 
+        // 지우개인 경우 투명색 지정 및 지워지는 기능 추가
         paint.xfermode = if (selectedColor == Color.TRANSPARENT) {
             PorterDuffXfermode(PorterDuff.Mode.CLEAR)
         } else null
 
+        // 펜 스타일 버튼 초기에 숨기기
         makeButtonAnimationXWithDuration(binding.layoutPenEraserWidth, -800f, 0)
+        makeButtonAnimationXWithDuration(binding.cardviewCanvas, 1000f, 0)
     }
 
+    /**
+     * 선택한 색으로 펜스타일 지정 패드의 뷰를 설정합니다.
+     */
     private fun setDotAndButtonView() {
-        binding.buttonSaveDrawing.setText(getString(R.string.save_drawing))
+        binding.buttonSaveDrawing.setText(getString(R.string.move_to_save))
         binding.dotPensize.setCardBackgroundColor(selectedColor)
         binding.seekbarPen.trackActiveTintList = ColorStateList.valueOf(selectedColor)
         binding.seekbarPen.thumbTintList = ColorStateList.valueOf(selectedColor)
         binding.seekbarPen.trackActiveTintList = ColorStateList.valueOf(selectedColor)
     }
 
-
+    /**
+     * 뒤로가기, 앞으로 가기에 따라 지워진 큐, 그려진 큐에 add 합니다.
+     */
     private fun processUndoRedo(isUndo: Boolean) {
         if (isUndo) {
             if (isCleared && points.isEmpty()) {
@@ -304,6 +337,9 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
     }
 
 
+    /**
+     * point 객체들을 paint 해줍니다.
+     */
     private fun redrawRemainingPoints() {
         points.forEachIndexed { index, point ->
             if (index >= 1 && point.isContinue) {
@@ -319,6 +355,9 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
         }
     }
 
+    /**
+     * 각 point마다 색을 정해주고, 투명색, 즉 지우개인 경우 지우기 모드를 적용합니다.
+     */
     fun updatePaintForPoint(point: Point) {
         paint.color = point.color
         paint.strokeWidth = point.strokeWidth
@@ -327,6 +366,10 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
         } else null
     }
 
+    /**
+     * mainviewmodel에서 저장한 그림 사진을 imageview와 캔버스에 로드합니다.
+     * 이미지뷰는 크기 측정만을 위함으로 실제로 그려지지는 않습니다.
+     */
     fun loadImage() {
         Glide.with(this)
             .load(mainActivityViewModel.uploadingPhotoUrl.value)
@@ -346,6 +389,9 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
     }
 
 
+    /**
+     * canvas 뷰를 bitmap 객체로 변환합니다.
+     */
     fun viewToBitmap(view: View): Bitmap {
         val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)

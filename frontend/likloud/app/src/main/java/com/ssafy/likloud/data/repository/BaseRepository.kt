@@ -14,6 +14,7 @@ import com.ssafy.likloud.data.model.response.LoginResponse
 import com.ssafy.likloud.data.model.response.ReLoginResponse
 import com.ssafy.likloud.data.model.SampleDto
 import com.ssafy.likloud.data.model.UserDto
+import com.ssafy.likloud.data.model.drawing.DrawingUploadResponse
 import com.ssafy.likloud.data.model.request.LoginAdditionalRequest
 import com.ssafy.likloud.data.model.request.MemberInfoRequest
 import com.ssafy.likloud.data.model.request.ProfileEditRequest
@@ -23,6 +24,8 @@ import com.ssafy.likloud.data.model.response.StoreItemBuyResponse
 import com.ssafy.likloud.data.model.response.StoreResponse
 import retrofit2.Response
 import okhttp3.MultipartBody
+import retrofit2.http.Part
+import retrofit2.http.Path
 
 interface BaseRepository {
 
@@ -76,15 +79,24 @@ interface BaseRepository {
      * 사진을 업로드 하여 구름인지 아닌지 결과값을 가져옵니다.
      */
     suspend fun postPhotoMultipart(
-        multipartBodyPartList : List<MultipartBody.Part>,
+        multipartBodyPartList: List<MultipartBody.Part>,
         memberInfoDto: MemberInfoDto
-    ) : Response<List<PhotoUploadResponseDto>>
+    ): Response<List<PhotoUploadResponseDto>>
 
 
     suspend fun postSinglePhotoMultipart(
-        multipartBodyPart : MultipartBody.Part,
+        multipartBodyPart: MultipartBody.Part,
         memberInfoDto: MemberInfoDto
-    ) : NetworkResult<List<PhotoUploadResponseDto>>
+    ): NetworkResult<List<PhotoUploadResponseDto>>
+
+
+    suspend fun postDrawingMultipart(
+        file: MultipartBody.Part,
+        photoId: Int,
+        title: String,
+        content: String,
+        memberInfoDto: MemberInfoDto
+    ): NetworkResult<DrawingUploadResponse>
 
     /**
      * 사진 게시물 조회
@@ -126,14 +138,17 @@ interface BaseRepository {
      * 개임 성공 시 은코인 상승
      */
     suspend fun plusSilver(): NetworkResult<String>
+
     /**
      * 내가 그린 그림 조회(마이페이지)
      */
     suspend fun getMyDrawingListDtoList(): NetworkResult<MutableList<DrawingListDto>>
+
     /**
      * 내가 좋아요 한 그림 조회(마이페이지)
      */
     suspend fun getLikeDrawingListDtoList(): NetworkResult<MutableList<DrawingListDto>>
+
     /**
      * 내가 올린 사진 조회(마이페이지)
      */
@@ -158,14 +173,17 @@ interface BaseRepository {
      * 내가 즐찾한 사진 조회(마이페이지)
      */
     suspend fun getBookmarkPhotoListDtoList(): NetworkResult<MutableList<PhotoListDto>>
+
     /**
      * 사진 상세 조회
      */
     suspend fun getPhotoDetail(photoId: Int): NetworkResult<PhotoListDto>
+
     /**
      * 좋아요 조회
      */
     suspend fun changeDrawingLike(drawingId: Int): NetworkResult<String>
+
     /**
      * 사진 즐찾
      */

@@ -2,6 +2,8 @@ package com.ssafy.likloud
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.media.AsyncPlayer
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -29,6 +31,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     lateinit var baseRepository: BaseRepository
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
+    private lateinit var mediaPlayer: MediaPlayer
 
     private val mainActivityViewModel: MainActivityViewModel by viewModels()
 
@@ -39,7 +42,24 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         initView()
         initNavController()
         initListener()
+
+        mediaPlayer = MediaPlayer.create(this,R.raw.idokay_the_cycle_continues)
+        mediaPlayer.start()
     }
+
+    fun toggleMusic() {
+        mediaPlayer.apply {
+            if (isPlaying){
+                pause()
+                mainActivityViewModel.setToggleButtonText(getString(R.string.bgm_on))
+            }
+            else {
+                start()
+                mainActivityViewModel.setToggleButtonText(getString(R.string.bgm_off))
+            }
+        }
+    }
+
 
     private fun initListener() {
         binding.layoutProfile.setOnClickListener {
