@@ -29,7 +29,7 @@ public class HistoryService {
     }
     
     // 히스토리 생성(nft, 좋아요, 북마크)
-    public void createHistory(String content, Member member,HistoryType historyType){
+    public void createHistory(String content, Member member, HistoryType historyType){
         History history = new History();
         history.setContent(content);
         history.setMember(member);

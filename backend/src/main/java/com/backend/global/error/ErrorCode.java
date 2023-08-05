@@ -43,6 +43,7 @@ public enum ErrorCode {
     ALREADY_WALLET(HttpStatus.BAD_REQUEST, "NFT-005", "이미 지갑이 있습니다."),
     UNAUTHORIZED_KEY(HttpStatus.UNAUTHORIZED, "NFT-006", "토큰과 사용자의 인증키가 다릅니다."),
     NOT_FOUND_TRANSFER(HttpStatus.NOT_FOUND, "NFT-007", "해당 거래내역을 찾을 수 없습니다."),
+    CANNOT_GIFT_TO_SELF(HttpStatus.BAD_REQUEST, "NFT-008", "본인에게는 선물할 수 없습니다."),
 
 
     // 아이템
@@ -58,9 +59,9 @@ public enum ErrorCode {
     NOT_FOUND_FILE(HttpStatus.NOT_FOUND, "File-003", "파일을 찾을 수 없습니다."),
     ;
 
-    private HttpStatus httpStatus;
-    private String errorCode;
-    private String description;
+    private final HttpStatus httpStatus;
+    private final String errorCode;
+    private final String description;
 
     ErrorCode(HttpStatus httpStatus, String errorCode, String description) {
         this.httpStatus = httpStatus;
