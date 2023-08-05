@@ -26,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Tag(name = "Member", description = "회원 관련 api")
@@ -83,4 +84,29 @@ public class MemberInfoController {
         return ResponseEntity.ok(memberInfo);
     }
 
+    // 멤버 검색
+    @Operation(summary = "사용자 검색 페이지", description = "NFT선물을 위해 보낼 사람 검색하는 페이지 입니다."+"\n\n### [ 참고사항 ]\n\n"+"- 처음에는 모든 유저를 보여줍니다.\n\n"+"- 이후 아래 사용자 검색을 통해 닉네임을 검색하면 입력값을 포함한 값만 나타냅니다.\n\n")
+    @GetMapping("/serch")
+    public ResponseEntity<List<MemberSearchDto>> memberSerach(){
+        List<Member> members = memberService.findList();
+        List<MemberSearchDto> membersList = memberInfoService.getMemberList(members);
+        return ResponseEntity.ok(membersList);
+    }
+
+    //닉네임으로 맴버 검색
+    @Operation(summary = "사용자 검색", description = "NFT선물을 위해 보낼 사람 검색하는 기능입니다."+"\n\n### [ 수행절차 ]\n\n"+"- 닉네임에 포함되어야 되는 텍스트값을 입력합니다.\n\n")
+    @PostMapping("/serch/{nickname}")
+    public ResponseEntity<List<MemberSearchDto>> memberSerachTogive(@PathVariable(required = false) String nickname){
+        if (nickname==null){
+            List<Member> members = memberService.findList();
+            List<MemberSearchDto> membserSerachList = memberInfoService.getMemberList(members);
+
+            return ResponseEntity.ok(membserSerachList);
+        } else {
+            List<Member> membersSerach = memberService.findMemberByNickname(nickname);
+            List<MemberSearchDto> membserSerachList = memberInfoService.getMemberList(membersSerach);
+
+            return ResponseEntity.ok(membserSerachList);
+        }
+    }
 }

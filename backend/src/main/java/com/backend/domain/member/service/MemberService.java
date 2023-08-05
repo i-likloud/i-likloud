@@ -88,6 +88,13 @@ public class MemberService {
                 .orElseThrow(() -> new EntityNotFoundException("Member not found with id: " + memberId));
     }
 
+    public List<Member> findMemberByNickname(String nickname) {
+        return memberRepository.findByNicknameContaining(nickname)
+                .orElseThrow(() ->  new BusinessException(ErrorCode.MEMBER_NOT_EXISTS));
+    }
+    public List<Member> findList() {
+        return memberRepository.findAll();
+    }
 
     public List<Likes> getLikesByMemberId(Long memberId) {
         Member member = memberRepository.findById(memberId)
