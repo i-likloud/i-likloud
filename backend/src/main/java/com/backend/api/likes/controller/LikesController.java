@@ -52,7 +52,7 @@ public class LikesController {
 
             // 그림 작성자의 Firebase 토큰 가져오기
             String authorToken = memberService.getAuthorFirebaseToken(drawingId);
-            Member user = memberService.findMemberById(drawingId);
+            Member user = memberService.findMemberById(member.getMemberId());
 
             // 현재 유저의 닉네임
             String CurrentUserNickname = member.getNickname();
