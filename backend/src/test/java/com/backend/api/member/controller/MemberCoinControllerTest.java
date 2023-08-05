@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class MemberCoinControllerTest extends BaseIntegrationTest {
     private AccessToken accessToken;
-    private String token = AccessToken.getToken();
+    private String token = AccessToken.getNewToken();
 
     @Test
     @Rollback

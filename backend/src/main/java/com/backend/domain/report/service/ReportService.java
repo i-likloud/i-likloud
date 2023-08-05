@@ -3,7 +3,6 @@ package com.backend.domain.report.service;
 import com.backend.domain.drawing.entity.Drawing;
 import com.backend.domain.drawing.repository.DrawingRepository;
 import com.backend.domain.member.entity.Member;
-import com.backend.domain.member.repository.MemberRepository;
 import com.backend.domain.report.entity.Report;
 import com.backend.domain.report.repository.ReportRepository;
 import com.backend.global.error.ErrorCode;
@@ -17,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReportService {
 
     private final ReportRepository reportRepository;
-    private final MemberRepository memberRepository;
     private final DrawingRepository drawingRepository;
 
     @Transactional
