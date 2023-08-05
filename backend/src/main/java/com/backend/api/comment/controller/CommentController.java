@@ -43,6 +43,7 @@ public class CommentController {
 
         // 게시글 작성자의 Firebase 토큰 가져오기
         String authorToken = memberService.getAuthorFirebaseToken(drawingId);
+        Member user = memberService.findMemberById(drawingId);
         // 현재 유저의 닉네임
         String CurrentUserNickname = member.getNickname();
 
@@ -53,7 +54,7 @@ public class CommentController {
 
 
         // HistoryDB에 담기
-        historyService.createHistory(body,member, HistoryType.COMMENT);
+        historyService.createHistory(body,user, HistoryType.COMMENT);
 
         return commentService.createComment(drawingId, content, member);
 
