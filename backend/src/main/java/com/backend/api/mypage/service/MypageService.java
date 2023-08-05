@@ -6,10 +6,11 @@ import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.service.MemberService;
 import com.backend.domain.nft.entity.Nft;
 import com.backend.domain.nft.entity.NftTransfer;
+import com.backend.domain.nft.repository.NftRepository;
 import com.backend.domain.nft.repository.NftTransferRepository;
 import com.backend.domain.nft.service.NftService;
 import com.backend.domain.nft.service.NftTransferService;
-import com.backend.external.nft.client.DeleteTokenClient;
+import com.backend.external.nft.client.NftTokenClient;
 import com.backend.external.nft.dto.DeleteTokenDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +26,8 @@ public class MypageService {
     private final NftService nftService;
     private final NftTransferRepository nftTransferRepository;
     private final NftTransferService nftTransferService;
-    private final DeleteTokenClient deleteTokenClient;
+    private final NftTokenClient nftTokenClient;
+    private final NftRepository nftRepository;
 
     @Value("${KAS.client.authorization}")
     private String authorization;
@@ -81,13 +83,12 @@ public class MypageService {
                         .build();
 
         // 토큰 소멸
-        deleteTokenClient.deleteToken("1001", authorization, contract, nftTransfer.getTokenId(), request);
-
+        nftTokenClient.deleteToken("1001", authorization, contract, nftTransfer.getTokenId(), request);
         // 거래 삭제
         nftTransferRepository.deleteById(transferId);
+        // NFT 삭제
+        nftRepository.deleteById(nftId);
 
     }
-
-
 }
 

@@ -20,6 +20,7 @@ import com.backend.domain.nft.entity.Nft;
 import com.backend.domain.nft.entity.NftTransfer;
 import com.backend.domain.nft.repository.NftRepository;
 import com.backend.domain.nft.repository.NftTransferRepository;
+import com.backend.domain.nft.service.NftService;
 import com.backend.domain.photo.entity.Photo;
 import com.backend.domain.photo.repository.PhotoRepository;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,7 @@ public class MyPageListService {
     private final AccessoryRepository accessoryRepository;
     private final NftRepository nftRepository;
     private final NftTransferRepository nftTransferRepository;
+    private final NftService nftService;
 
     @Cacheable(value = "likes", key = "#memberId") // 좋아요 그림 캐시 적용
     public List<DrawingListDto> likeDrawing(Long memberId){
@@ -112,9 +114,9 @@ public class MyPageListService {
                     MypageInfoDto mypageInfoDto = MypageInfoDto.of(fromMember);
 
                     // NFT 정보
-                    NftListResponseDto nftListResponseDto = new NftListResponseDto(nftTransfer.getNft());
+                    Nft nft = nftService.findNftById(nftTransfer.getNft().getNftId());
 
-                    return new NftGiftDto(nftTransfer, mypageInfoDto, nftListResponseDto);
+                    return new NftGiftDto(nftTransfer, mypageInfoDto, nft);
                 })
                 .collect(Collectors.toList());
     }

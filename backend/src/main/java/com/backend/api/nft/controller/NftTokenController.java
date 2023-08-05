@@ -3,13 +3,13 @@ package com.backend.api.nft.controller;
 import com.backend.api.history.service.HistoryService;
 import com.backend.api.member.service.MemberCoinService;
 import com.backend.api.nft.dto.NftResponseDto;
+import com.backend.api.nft.dto.NftTransferResponseDto;
 import com.backend.api.nft.service.NftApiService;
 import com.backend.api.nft.service.NftTransferApiService;
 import com.backend.domain.history.constant.HistoryType;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.service.MemberService;
 import com.backend.domain.nft.entity.Nft;
-import com.backend.domain.nft.entity.NftTransfer;
 import com.backend.external.nft.dto.TokenListDto;
 import com.backend.external.nft.dto.WalletDto;
 import com.backend.global.error.ErrorCode;
@@ -77,8 +77,8 @@ public class NftTokenController {
     @GetMapping("/wallet/{memberId}")
     @CustomApi
     @Operation(summary = "특정 멤버 NFT 지갑 조회", description = "사용자의 NFT 발행 내역을 조회합니다."+"\n\n### [ 수행절차 ]\n\n"+"- NFT 조회하고 싶은 사용자의 id값을 memberId에 넣어줍니다.\n\n"+"- Execute 해주세요\n\n")
-    public TokenListDto.Response getTokenList(@PathVariable Long memberId, @MemberInfo MemberInfoDto memberInfoDto) {
-        Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
+    public TokenListDto.Response getTokenList(@PathVariable Long memberId) {
+        Member member = memberService.findMemberById(memberId);
 
         return nftApiService.getTokenList(member);
     }
@@ -94,14 +94,14 @@ public class NftTokenController {
     // NFT 토큰 전송
     @PostMapping("/token/{nftId}/to/{memberId}")
     @Operation(summary = "특정 멤버에게 토큰 전송", description = "토큰을 특정 사용자에게 전송합니다.")
-    public NftTransfer transferToken(@PathVariable Long memberId, @PathVariable Long nftId,
-                                     @RequestParam(value = "message") String message,
-                                     @MemberInfo MemberInfoDto memberInfoDto){
+    public NftTransferResponseDto transferToken(@PathVariable Long nftId, @PathVariable Long memberId,
+                                                @RequestParam(value = "message") String message,
+                                                @MemberInfo MemberInfoDto memberInfoDto){
         Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
 
         // 선물 받는 사람의 Firebase 토큰 가져오기
         String authorToken = memberService.getAuthorFirebaseToken(nftId);
-        Member user = memberService.findMemberById(nftId);
+        Member user = memberService.findMemberById(memberId);
 
         // 현재 유저의 닉네임
         String CurrentUserNickname = member.getNickname();
