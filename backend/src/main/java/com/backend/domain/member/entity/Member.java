@@ -4,6 +4,7 @@ import com.backend.domain.accessory.entity.Accessory;
 import com.backend.domain.bookmark.entity.Bookmarks;
 import com.backend.domain.common.BaseEntity;
 import com.backend.domain.drawing.entity.Drawing;
+import com.backend.domain.history.entity.History;
 import com.backend.domain.likes.entity.Likes;
 import com.backend.domain.member.constant.Role;
 import com.backend.domain.member.constant.SocialType;
@@ -93,6 +94,11 @@ public class Member extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Nft> nfts = new ArrayList<>();
+
+    // History와 OneToOne 관계
+    @OneToOne
+    @JoinColumn(name = "history_id")
+    private History history;
 
 
     //== 멤버 필드 업데이트 ==//

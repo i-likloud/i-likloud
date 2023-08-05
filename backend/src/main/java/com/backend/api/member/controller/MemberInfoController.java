@@ -26,6 +26,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 
 @Tag(name = "Member", description = "회원 관련 api")
@@ -83,4 +85,31 @@ public class MemberInfoController {
         return ResponseEntity.ok(memberInfo);
     }
 
+    // 멤버 검색
+    @Operation(summary = "사용자 검색 페이지", description = "NFT선물을 위해 보낼 사람 검색하는 페이지 입니다."+"\n\n### [ 참고사항 ]\n\n"+"- 처음에는 모든 유저를 보여줍니다.\n\n"+"- 이후 아래 사용자 검색을 통해 닉네임을 검색하면 입력값을 포함한 값만 나타냅니다.\n\n")
+    @CustomApi
+    @GetMapping("/search/home")
+    public ResponseEntity<List<MemberSearchDto>> memberSerach(){
+        List<Member> members = memberService.findList();
+        List<MemberSearchDto> membersList = memberInfoService.getMemberList(members);
+        return ResponseEntity.ok(membersList);
+    }
+
+    //닉네임으로 맴버 검색
+    @Operation(summary = "사용자 검색", description = "NFT선물을 위해 보낼 사람 검색하는 기능입니다."+"\n\n### [ 수행절차 ]\n\n"+"- 닉네임에 포함되어야 되는 텍스트값을 입력합니다.\n\n")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "#### 성공"), @ApiResponse(responseCode = "에러", description = "#### 에러 이유를 확인 하십시오", content =@Content(schema = @Schema(implementation = ErrorResponse.class), examples = {@ExampleObject( name = "400_User-004", value = "해당 회원은 존재하지 않습니다. 다른 닉네임으로 검색해주세요. DB에 저장된 닉네임만 검색가능합니다."), @ExampleObject( name = "401_Auth-001", value = "토큰이 만료되었습니다. 토큰을 재발급 받아주세요"), @ExampleObject( name = "401_Auth-004", value = "해당 토큰은 ACCESS TOKEN이 아닙니다. 토큰값이 추가정보 기입에서 받은 new token 값이 맞는지 확인해주세요"), @ExampleObject( name = "401_Auth-005", value = "해당 토큰은 유효한 토큰이 아닙니다. 추가정보 기입에서 받은 new token 값을 넣어주세요"), @ExampleObject( name = "401_Auth-006", value = "Authorization Header가 없습니다. 자물쇠에 access token값을 넣어주세요."), @ExampleObject( name = "403_Auth-009", value = "회원이 아닙니다. 추가정보로 이동하여 추가정보를 입력해 주세요."), @ExampleObject( name = "500", value = "서버에러")}))}) @PostMapping("/search/{nickname}")
+    public ResponseEntity<List<MemberSearchDto>> memberSerachTogive(@PathVariable(required = false) String nickname){
+        List<Member> members;
+        if (nickname == null){
+            members = memberService.findList();
+        } else {
+            members = memberService.findMemberByNickname(nickname);
+        }
+
+        // 닉네임 길이별로 오름차순 정렬
+        members.sort(Comparator.comparingInt(member -> member.getNickname().length()));
+
+        List<MemberSearchDto> memberSearchList = memberInfoService.getMemberList(members);
+        return ResponseEntity.ok(memberSearchList);
+    }
 }

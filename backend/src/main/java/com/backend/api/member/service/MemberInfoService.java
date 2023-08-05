@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MemberInfoService {
@@ -26,6 +29,19 @@ public class MemberInfoService {
     public MemberSearchDto getMember(Member memberId) {
         return MemberSearchDto.of(memberId);
     }
+
+    @Transactional(readOnly = true)
+    public List<MemberSearchDto> getMemberList(List<Member> memberList) {
+        List<MemberSearchDto> result = new ArrayList<>();
+
+        for (Member member : memberList) {
+            MemberSearchDto searchDto = MemberSearchDto.of(member);
+            result.add(searchDto);
+        }
+
+        return result;
+    }
+
 
     // 추가정보 업데이트
     @Transactional

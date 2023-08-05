@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class MemberInfoControllerTest extends BaseIntegrationTest {
 
 
-    private String token = AccessToken.getToken();
+    private String token = AccessToken.getNewToken();
 
     private String userEmail = AccessToken.getTestEmail();
     @Test
@@ -65,7 +65,7 @@ class MemberInfoControllerTest extends BaseIntegrationTest {
             // when
             ResultActions resultActions = mvc.perform(patch("/api/member/additional" )
                             .accept(MediaType.APPLICATION_JSON)
-                            .header("Authorization", "Bearer " + AccessToken.getToken_two())
+                            .header("Authorization", "Bearer " + AccessToken.getSecondToken())
                             .content(requestBody)
                             .contentType(MediaType.APPLICATION_JSON))
                     .andDo(MockMvcResultHandlers.print());
