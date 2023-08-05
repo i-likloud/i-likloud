@@ -34,6 +34,7 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
     private val activityViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var photoListAdapter: PhotoListAdapter
     private lateinit var photoDrawingListAdapter: PhotoDrawingListAdapter
+    private var isScrolling = false
 
 
     override fun onAttach(context: Context) {
@@ -69,21 +70,27 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
         binding.apply {
             //최신순 눌렀을 때
             buttonRecentOrder.setOnClickListener {
-                photoListFragmentViewModel.getRecentOrderPhotoListDtoList()
-                initRecyclerView()
-                toggleButton(buttonRecentOrder)
+                if(!isScrolling) {
+                    photoListFragmentViewModel.getRecentOrderPhotoListDtoList()
+                    initRecyclerView()
+                    toggleButton(buttonRecentOrder)
+                }
             }
             //랭킹순 눌렀을 때
             buttonRankingOrder.setOnClickListener{
-                photoListFragmentViewModel.getRankingOrderPhotoListDtoList()
-                initRecyclerView()
-                toggleButton(buttonRankingOrder)
+                if(!isScrolling) {
+                    photoListFragmentViewModel.getRankingOrderPhotoListDtoList()
+                    initRecyclerView()
+                    toggleButton(buttonRankingOrder)
+                }
             }
             //즐찾순 눌렀을 때
             buttonBookmarkOrder.setOnClickListener{
-                photoListFragmentViewModel.getBookmarkOrderPhotoListDtoList()
-                initRecyclerView()
-                toggleButton(buttonBookmarkOrder)
+                if(!isScrolling) {
+                    photoListFragmentViewModel.getBookmarkOrderPhotoListDtoList()
+                    initRecyclerView()
+                    toggleButton(buttonBookmarkOrder)
+                }
             }
             //즐겨찾기(스타)를 눌렀을 때
             imageStar.setOnClickListener {
@@ -124,6 +131,7 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
         photoListFragmentViewModel.currentPhotoMember.observe(viewLifecycleOwner){
             //사진 정보, 유저 정보 뷰 세팅
             initInfoView(photoListFragmentViewModel.currentPhotoListDto.value!!, it)
+            isScrolling = false
         }
 
         photoListFragmentViewModel.currentPhotoDrawingList.observe(viewLifecycleOwner){
@@ -157,6 +165,14 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
                     //본인한테서 멈췄을 때 이벤트
                     override fun onItemSelected(position: Int) {
                         photoListFragmentViewModel.setCurrentPhotoListDto(photoListFragmentViewModel.currentPhotoListDtoList.value!![position])
+                    }
+                })
+                addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                        super.onScrollStateChanged(recyclerView, newState)
+                        if (newState != RecyclerView.SCROLL_STATE_IDLE) {
+                            isScrolling = true
+                        }
                     }
                 })
             }

@@ -89,6 +89,7 @@ class DrawingListFragmentViewModel @Inject constructor(
         viewModelScope.launch {
             baseRepository.registDrawingComment(drawingId, content).onSuccess {
                 _currentDrawingCommentList.value!!.add(it)
+                Log.d(TAG, "registDrawingComment... ${_currentDrawingCommentList.value}")
                 _currentDrawingCommentList.value = _currentDrawingCommentList.value!!
             }
         }
