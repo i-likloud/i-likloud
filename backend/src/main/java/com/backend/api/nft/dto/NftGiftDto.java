@@ -1,6 +1,7 @@
 package com.backend.api.nft.dto;
 
 import com.backend.api.mypage.dto.MypageInfoDto;
+import com.backend.domain.nft.entity.Nft;
 import com.backend.domain.nft.entity.NftTransfer;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,13 +12,21 @@ public class NftGiftDto {
 
     private Long transferId;
     private MypageInfoDto mypageInfoDto;
-    private NftListResponseDto nftListResponseDto;
+    private final Long nftId;
+    private final String imageUrl;
+    private final String title;
+    private final String content;
+    private final String tokenId;
     private String message;
 
-    public NftGiftDto (NftTransfer nftTransfer, MypageInfoDto mypageInfoDto, NftListResponseDto nftListResponseDto){
+    public NftGiftDto (NftTransfer nftTransfer, MypageInfoDto mypageInfoDto, Nft nft){
         this.message = nftTransfer.getMessage();
         this.transferId = nftTransfer.getTransferId();
         this.mypageInfoDto = mypageInfoDto;
-        this.nftListResponseDto = nftListResponseDto;
+        this.nftId = nft.getNftId();
+        this.tokenId = nft.getTokenId();
+        this.title = nft.getDrawing().getTitle();
+        this.imageUrl = nft.getDrawing().getImageUrl();
+        this.content = nft.getDrawing().getContent();
     }
 }
