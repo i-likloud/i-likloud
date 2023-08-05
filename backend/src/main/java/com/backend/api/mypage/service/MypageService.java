@@ -14,6 +14,7 @@ import com.backend.external.nft.client.NftTokenClient;
 import com.backend.external.nft.dto.DeleteTokenDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,6 +64,7 @@ public class MypageService {
 
     // 선물 수락
     @Transactional
+    @CacheEvict(value = "nft", key = "#member.memberId")
     public NftListResponseDto acceptGift(Long transferId, Long nftId, Member member) {
         Nft nft = nftService.findNftById(nftId);
         // 소유자 변경
