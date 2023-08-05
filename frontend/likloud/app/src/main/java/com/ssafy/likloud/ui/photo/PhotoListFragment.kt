@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -31,6 +32,9 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
     private val photoListFragmentViewModel: PhotoListFragmentViewModel by viewModels()
     private lateinit var mainActivity: MainActivity
     private val activityViewModel: MainActivityViewModel by activityViewModels()
+    private lateinit var photoListAdapter: PhotoListAdapter
+    private lateinit var photoDrawingListAdapter: PhotoDrawingListAdapter
+    private var isScrolling = false
 
 
     override fun onAttach(context: Context) {
@@ -57,21 +61,36 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
 
     private fun init(){
         photoListFragmentViewModel.getRecentOrderPhotoListDtoList()
+        toggleButton(binding.buttonRecentOrder)
+        initRecyclerView()
+        initPhotoDrawingListRecyclerView()
     }
 
     override fun initListener() {
         binding.apply {
             //최신순 눌렀을 때
             buttonRecentOrder.setOnClickListener {
-                photoListFragmentViewModel.getRecentOrderPhotoListDtoList()
+                if(!isScrolling) {
+                    photoListFragmentViewModel.getRecentOrderPhotoListDtoList()
+                    initRecyclerView()
+                    toggleButton(buttonRecentOrder)
+                }
             }
             //랭킹순 눌렀을 때
             buttonRankingOrder.setOnClickListener{
-                photoListFragmentViewModel.getRankingOrderPhotoListDtoList()
+                if(!isScrolling) {
+                    photoListFragmentViewModel.getRankingOrderPhotoListDtoList()
+                    initRecyclerView()
+                    toggleButton(buttonRankingOrder)
+                }
             }
             //즐찾순 눌렀을 때
             buttonBookmarkOrder.setOnClickListener{
-                photoListFragmentViewModel.getBookmarkOrderPhotoListDtoList()
+                if(!isScrolling) {
+                    photoListFragmentViewModel.getBookmarkOrderPhotoListDtoList()
+                    initRecyclerView()
+                    toggleButton(buttonBookmarkOrder)
+                }
             }
             //즐겨찾기(스타)를 눌렀을 때
             imageStar.setOnClickListener {
@@ -97,8 +116,7 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
     private fun initObserver(){
 
         photoListFragmentViewModel.currentPhotoListDtoList.observe(viewLifecycleOwner){
-            //사진 목록 리사이클러뷰 세팅 후 현재 가운데 사진 조회
-            initRecyclerView()
+            photoListAdapter.submitList(it)
             photoListFragmentViewModel.setCurrentPhotoListDto(it[0])
         }
 
@@ -113,11 +131,12 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
         photoListFragmentViewModel.currentPhotoMember.observe(viewLifecycleOwner){
             //사진 정보, 유저 정보 뷰 세팅
             initInfoView(photoListFragmentViewModel.currentPhotoListDto.value!!, it)
+            isScrolling = false
         }
 
         photoListFragmentViewModel.currentPhotoDrawingList.observe(viewLifecycleOwner){
             //현재 사진에 대한 그림들 리사이클러뷰 세팅
-            initPhotoDrawingListRecyclerView()
+            photoDrawingListAdapter.submitList(it)
         }
 
         photoListFragmentViewModel.isBookmarked.observe(viewLifecycleOwner){
@@ -135,7 +154,7 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
 
     private fun initRecyclerView(){
         Log.d(TAG, "initRecyclerView list : ${photoListFragmentViewModel.currentPhotoListDtoList.value} ")
-        val photoListAdapter = PhotoListAdapter(photoListFragmentViewModel.currentPhotoListDtoList.value!!)
+        photoListAdapter = PhotoListAdapter()
         binding.apply {
             recyclerviewDrawaing.apply {
                 this.adapter = photoListAdapter
@@ -145,7 +164,15 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
                 setItemSelectListener(object : CarouselLayoutManager.OnSelected {
                     //본인한테서 멈췄을 때 이벤트
                     override fun onItemSelected(position: Int) {
-                        photoListFragmentViewModel.setCurrentPhotoListDto(photoListAdapter.list[position])
+                        photoListFragmentViewModel.setCurrentPhotoListDto(photoListFragmentViewModel.currentPhotoListDtoList.value!![position])
+                    }
+                })
+                addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                        super.onScrollStateChanged(recyclerView, newState)
+                        if (newState != RecyclerView.SCROLL_STATE_IDLE) {
+                            isScrolling = true
+                        }
                     }
                 })
             }
@@ -169,8 +196,17 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
         }
     }
 
+    private fun toggleButton(view: View){
+        binding.apply {
+            buttonRecentOrder.background = ContextCompat.getDrawable(mainActivity, R.drawable.button_frame_black)
+            buttonRankingOrder.background = ContextCompat.getDrawable(mainActivity, R.drawable.button_frame_black)
+            buttonBookmarkOrder.background = ContextCompat.getDrawable(mainActivity, R.drawable.button_frame_black)
+        }
+        view.background = ContextCompat.getDrawable(mainActivity, R.drawable.button_frame_skyblue)
+    }
+
     private fun initPhotoDrawingListRecyclerView(){
-        val photoDrawingListAdapter = PhotoDrawingListAdapter(photoListFragmentViewModel.   currentPhotoDrawingList.value!!)
+        photoDrawingListAdapter = PhotoDrawingListAdapter()
         binding.apply {
             recyclerviewPhotoDrawingList.apply {
                 layoutManager = LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false)

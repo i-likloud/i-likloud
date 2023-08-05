@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -36,7 +37,9 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
     private val drawingListFragmentViewModel : DrawingListFragmentViewModel by viewModels()
     private lateinit var mainActivity: MainActivity
     private val activityViewModel: MainActivityViewModel by activityViewModels()
+    private lateinit var drawingListAdapter: DrawingListAdapter
     private lateinit var commentListAdapter: CommentListAdapter
+    private var isScrolling = false
 
 
     override fun onAttach(context: Context) {
@@ -61,6 +64,8 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
 
     private fun init(){
         drawingListFragmentViewModel.getRecentOrderDrawingListDtoList()
+        toggleButton(binding.buttonRecentOrder)
+        initRecyclerView()
         initCommentRecyclerView()
     }
 
@@ -69,15 +74,27 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         binding.apply {
             //최신순 눌렀을 때
             buttonRecentOrder.setOnClickListener {
-                drawingListFragmentViewModel.getRecentOrderDrawingListDtoList()
+                if(!isScrolling) {
+                    drawingListFragmentViewModel.getRecentOrderDrawingListDtoList()
+                    initRecyclerView()
+                    toggleButton(buttonRecentOrder)
+                }
             }
             //랭킹순 눌렀을 때
             buttonRankingOrder.setOnClickListener{
-                drawingListFragmentViewModel.getRankingOrderDrawingListDtoList()
+                if(!isScrolling) {
+                    drawingListFragmentViewModel.getRankingOrderDrawingListDtoList()
+                    initRecyclerView()
+                    toggleButton(buttonRankingOrder)
+                }
             }
             //조회순 눌렀을 때
             buttonViewOrder.setOnClickListener {
-                drawingListFragmentViewModel.getViewOrderDrawingListDtoLit()
+                if(!isScrolling) {
+                    drawingListFragmentViewModel.getViewOrderDrawingListDtoLit()
+                    initRecyclerView()
+                    toggleButton(buttonViewOrder)
+                }
             }
             //좋아요 눌렀을 때
             imageHeart.setOnClickListener {
@@ -117,8 +134,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
     private fun initObserver(){
 
         drawingListFragmentViewModel.currentDrawingListDtoList.observe(viewLifecycleOwner){
-            //그림 목록 리사이클러뷰 세팅
-            initRecyclerView()
+            drawingListAdapter.submitList(it)
             drawingListFragmentViewModel.getCurrentDrawingDetailDto(it[0])
         }
 
@@ -132,6 +148,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         drawingListFragmentViewModel.currentDrawingMember.observe(viewLifecycleOwner){
             //현재 그림에 대한 정보, 그림 그린 멤버 정보 뷰 세팅
             initInfoView(drawingListFragmentViewModel.currentDrawingDetailDto.value!!, it)
+            isScrolling = false
         }
 
         drawingListFragmentViewModel.isLiked.observe(viewLifecycleOwner){
@@ -147,6 +164,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         }
 
         drawingListFragmentViewModel.currentDrawingCommentList.observe(viewLifecycleOwner){
+            Log.d(TAG, "commentObserver .... $it")
             commentListAdapter.submitList(it.toMutableList())
         }
     }
@@ -170,8 +188,17 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         }
     }
 
+    private fun toggleButton(view: View){
+        binding.apply {
+            buttonRecentOrder.background = ContextCompat.getDrawable(mainActivity, R.drawable.button_frame_black)
+            buttonRankingOrder.background = ContextCompat.getDrawable(mainActivity, R.drawable.button_frame_black)
+            buttonViewOrder.background = ContextCompat.getDrawable(mainActivity, R.drawable.button_frame_black)
+        }
+        view.background = ContextCompat.getDrawable(mainActivity, R.drawable.button_frame_skyblue)
+    }
+
     private fun initRecyclerView(){
-        val drawingListAdapter = DrawingListAdapter(drawingListFragmentViewModel.currentDrawingListDtoList.value!!)
+        drawingListAdapter = DrawingListAdapter()
         binding.recyclerviewDrawaing.apply {
             this.adapter = drawingListAdapter
             set3DItem(true)
@@ -181,8 +208,15 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
                 //본인한테서 멈췄을 때 이벤트
                 override fun onItemSelected(position: Int) {
                     //여기서 selectedDrawing을 가지고 DrawingDetailDto 받아라
-                    drawingListFragmentViewModel.getCurrentDrawingDetailDto(drawingListAdapter.list[position])
-                    Log.d(TAG, "SelectedDrawingDetail : ${drawingListFragmentViewModel.currentDrawingDetailDto.value} ")
+                    drawingListFragmentViewModel.getCurrentDrawingDetailDto(drawingListFragmentViewModel.currentDrawingListDtoList.value!![position])
+                }
+            })
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (newState != RecyclerView.SCROLL_STATE_IDLE) {
+                        isScrolling = true
+                    }
                 }
             })
         }
