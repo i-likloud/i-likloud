@@ -24,7 +24,8 @@ import java.util.List;
 public class HistoryController {
     private final HistoryService historyService;
     private final MemberService memberService;
-
+    
+    // 히스토리 목록 보기
     @Operation(summary = "내 히스토리", description = "나의 알림 히스토리목록을 보여주는 메소드입니다")
     @GetMapping("/")
     public ResponseEntity<List<HistoryDto>> getMyHistory(@MemberInfo MemberInfoDto memberInfoDto) {
@@ -39,6 +40,7 @@ public class HistoryController {
         }
     }
 
+    // 삭제기능
     @Operation(summary = "내 히스토리 삭제", description = "내 히스토리 중 특정 하나를 삭제하는 메소드입니다")
     @DeleteMapping("/delete/{historyId}")
     public ResponseEntity<String> deleteHistory(@PathVariable Long historyId, @MemberInfo MemberInfoDto memberInfoDto){

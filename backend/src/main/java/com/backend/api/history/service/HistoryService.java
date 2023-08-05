@@ -18,7 +18,8 @@ import java.util.stream.Collectors;
 @Service
 public class HistoryService {
     private final HistoryRepository historyRepository;
-
+    
+    // 내 히스토리 보기
     public List<HistoryDto> getMyHistory(Long memberId) {
         List<History> list = historyRepository.findAllByMemberMemberId(memberId);
 
@@ -26,7 +27,8 @@ public class HistoryService {
                 .map(HistoryDto::new)
                 .collect(Collectors.toList());
     }
-
+    
+    // 히스토리 생성(nft, 좋아요, 북마크)
     public void createHistory(String content, Member member,HistoryType historyType){
         History history = new History();
         history.setContent(content);
@@ -34,7 +36,8 @@ public class HistoryService {
         history.setHistoryType(historyType);
         historyRepository.save(history);
     }
-
+    
+    // 히스토리 삭제
     @Transactional
     public void deleteHistory(Long historyId, Long memberId){
         History history = historyRepository.findById(historyId)
