@@ -6,6 +6,7 @@ import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.service.MemberService;
 import com.backend.domain.nft.entity.Nft;
 import com.backend.domain.nft.entity.NftTransfer;
+import com.backend.domain.nft.repository.NftRepository;
 import com.backend.domain.nft.repository.NftTransferRepository;
 import com.backend.domain.nft.service.NftService;
 import com.backend.domain.nft.service.NftTransferService;
@@ -26,6 +27,7 @@ public class MypageService {
     private final NftTransferRepository nftTransferRepository;
     private final NftTransferService nftTransferService;
     private final NftTokenClient nftTokenClient;
+    private final NftRepository nftRepository;
 
     @Value("${KAS.client.authorization}")
     private String authorization;
@@ -82,12 +84,11 @@ public class MypageService {
 
         // 토큰 소멸
         nftTokenClient.deleteToken("1001", authorization, contract, nftTransfer.getTokenId(), request);
-
         // 거래 삭제
         nftTransferRepository.deleteById(transferId);
+        // NFT 삭제
+        nftRepository.deleteById(nftId);
 
     }
-
-
 }
 
