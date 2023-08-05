@@ -32,6 +32,7 @@ class PhotoDetailFragment : BaseFragment<FragmentPhotoDetailBinding>(FragmentPho
     private val photoDetailFragmentViewModel: PhotoDetailFragmentViewModel by viewModels()
     private lateinit var mainActivity: MainActivity
     private val activityViewModel: MainActivityViewModel by activityViewModels()
+    private lateinit var photoDrawingListAdapter: PhotoDrawingListAdapter
     val args: PhotoDetailFragmentArgs by navArgs()
 
 
@@ -86,6 +87,7 @@ class PhotoDetailFragment : BaseFragment<FragmentPhotoDetailBinding>(FragmentPho
 
     private fun init(){
         photoDetailFragmentViewModel.getCurrentPhotoDetail(args.photoId)
+        initPhotoDrawingListRecyclerView()
     }
 
     override fun initListener() {
@@ -131,7 +133,7 @@ class PhotoDetailFragment : BaseFragment<FragmentPhotoDetailBinding>(FragmentPho
         }
     }
     private fun initPhotoDrawingListRecyclerView(){
-        val photoDrawingListAdapter = PhotoDrawingListAdapter(photoDetailFragmentViewModel.currentPhotoDrawingList.value!!)
+        photoDrawingListAdapter = PhotoDrawingListAdapter()
         binding.apply {
             recyclerviewPhotoDrawingList.apply {
                 layoutManager = LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false)

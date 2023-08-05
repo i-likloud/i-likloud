@@ -12,7 +12,7 @@ import com.ssafy.likloud.R
 import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.databinding.ItemPhotoBinding
 
-class PhotoDrawingListAdapter (var list : MutableList<DrawingListDto>): ListAdapter<DrawingListDto, PhotoDrawingListAdapter.PhotoDrawingListHolder>(
+class PhotoDrawingListAdapter (): ListAdapter<DrawingListDto, PhotoDrawingListAdapter.PhotoDrawingListHolder>(
     PhotoDrawingListComparator
 ) {
     private var pre: Int = 0
@@ -52,14 +52,9 @@ class PhotoDrawingListAdapter (var list : MutableList<DrawingListDto>): ListAdap
         return PhotoDrawingListHolder(binding)
     }
 
-
-    override fun getItemCount(): Int {
-        return list.size
-    }
-
     override fun onBindViewHolder(holder: PhotoDrawingListHolder, position: Int) {
         holder.apply {
-            bindInfo(list.get(position))
+            bindInfo(getItem(position))
         }
 
     }
