@@ -11,6 +11,7 @@ import androidx.core.animation.doOnEnd
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.NftDto
 import com.ssafy.likloud.databinding.ItemNftBinding
@@ -33,17 +34,27 @@ class NftListAdapter (var context: Context): ListAdapter<NftDto, NftListAdapter.
     }
     inner class NftHolder(binding: ItemNftBinding) : RecyclerView.ViewHolder(binding.root){
 
-        val drawingLayout = binding.layoutDrawing
-        val frontLayout = binding.layoutFront
-        val backLayout = binding.layoutBack
+        val layoutNft = binding.layoutNft
+        val layoutFront = binding.layoutFront
+        val layoutBack = binding.layoutBack
+        val imageNft = binding.imageNft
+        val textNickname = binding.textNftNickname
+        val textTitle = binding.textNftTitle
+        val textContent = binding.textNftContent
 
         fun bindInfo(nftDto : NftDto){
 
-            drawingLayout.setOnClickListener{
-                if (backLayout.visibility == View.INVISIBLE) {
-                    flip(context, backLayout, frontLayout)
+            Glide.with(imageNft)
+                .load(nftDto.imageUrl)
+                .into(imageNft)
+            textNickname.text = nftDto.owner
+            textTitle.text = nftDto.title
+            textContent.text = nftDto.content
+            layoutNft.setOnClickListener{
+                if (layoutBack.visibility == View.INVISIBLE) {
+                    flip(context, layoutBack, layoutFront)
                 } else {
-                    flip(context, frontLayout, backLayout)
+                    flip(context, layoutFront, layoutBack)
                 }
             }
         }
