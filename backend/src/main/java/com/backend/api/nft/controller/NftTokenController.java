@@ -6,7 +6,6 @@ import com.backend.api.nft.dto.NftResponseDto;
 import com.backend.api.nft.dto.NftTransferResponseDto;
 import com.backend.api.nft.service.NftApiService;
 import com.backend.api.nft.service.NftTransferApiService;
-import com.backend.domain.history.constant.HistoryType;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.service.MemberService;
 import com.backend.domain.nft.entity.Nft;
@@ -92,30 +91,17 @@ public class NftTokenController {
     }
 
     // NFT 토큰 전송
-    @PostMapping("/token/{nftId}/to/{memberId}")
+    @PostMapping("/token/{nftId}/to/{toMemberId}")
     @Operation(summary = "특정 멤버에게 토큰 전송", description = "토큰을 특정 사용자에게 전송합니다.")
-    public NftTransferResponseDto transferToken(@PathVariable Long nftId, @PathVariable Long memberId,
+    public NftTransferResponseDto transferToken(@PathVariable Long nftId, @PathVariable Long toMemberId,
                                                 @RequestParam(value = "message") String message,
                                                 @MemberInfo MemberInfoDto memberInfoDto){
         Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
 
-        // 선물 받는 사람의 Firebase 토큰 가져오기
-        String authorToken = memberService.getAuthorFirebaseToken(nftId);
-        Member user = memberService.findMemberById(memberId);
+        // 토큰 선물 알림 보내기
+        fcmService.tokenGiftAlert(toMemberId, member);
 
-        // 현재 유저의 닉네임
-        String CurrentUserNickname = member.getNickname();
-
-        // 작성자에게 알림 보내기
-        String title = "뭉게뭉게 도화지";
-        String body = String.format("%s 님이 그림을 선물하였습니다.",CurrentUserNickname);
-        fcmService.sendFCMNotification(authorToken,title,body);
-
-        // HistoryDB에 담기
-        historyService.createHistory(body,user, HistoryType.LIKE);
-
-
-        return nftTransferApiService.transferToken(member, nftId, memberId, message);
+        return nftTransferApiService.transferToken(member, nftId, toMemberId, message);
 
     }
 }

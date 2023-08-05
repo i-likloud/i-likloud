@@ -1,7 +1,5 @@
 package com.backend.api.likes.service;
 
-//import com.amazonaws.services.kms.model.NotFoundException;
-
 import com.backend.domain.drawing.entity.Drawing;
 import com.backend.domain.drawing.repository.DrawingRepository;
 import com.backend.domain.likes.entity.Likes;

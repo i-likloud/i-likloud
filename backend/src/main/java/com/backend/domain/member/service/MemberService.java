@@ -1,15 +1,12 @@
 package com.backend.domain.member.service;
 
-import com.backend.domain.drawing.entity.Drawing;
 import com.backend.domain.drawing.repository.DrawingRepository;
-import com.backend.domain.likes.entity.Likes;
 import com.backend.domain.likes.repository.LikesRepository;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.repository.MemberRepository;
 import com.backend.global.error.ErrorCode;
 import com.backend.global.error.exception.AuthenticationException;
 import com.backend.global.error.exception.BusinessException;
-import jnr.a64asm.Mem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +30,7 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    public Member updateMember(Member updatedMember) {
+    public void updateMember(Member updatedMember) {
         Long memberId = updatedMember.getMemberId();
         Member existingMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException("Member not found with id: " + memberId));
@@ -44,15 +41,7 @@ public class MemberService {
         }
 
         // 회원 정보 업데이트
-        return memberRepository.save(existingMember);
-    }
-
-    public String getAuthorFirebaseToken(Long drawingId) {
-        Drawing drawing = drawingRepository.findById(drawingId)
-                .orElseThrow(() -> new EntityNotFoundException("Drawing not found with id: " + drawingId));
-
-        Member author = drawing.getMember(); // Drawing 엔티티에 작성자(Member) 정보가 있는 가정하에 작성자를 가져옴
-        return author.getFirebaseToken();
+        memberRepository.save(existingMember);
     }
 
     // 중복 검증
@@ -89,10 +78,6 @@ public class MemberService {
                 .orElseThrow(() -> new EntityNotFoundException("Member not found with id: " + memberId));
     }
 
-    public Member findMemberByDrawingId(Long drawingId){
-        return memberRepository.findByDrawings_DrawingId(drawingId);
-    }
-
     public List<Member> findMemberByNickname(String nickname) {
         return memberRepository.findByNicknameContaining(nickname)
                 .orElseThrow(() ->  new BusinessException(ErrorCode.MEMBER_NOT_EXISTS));
@@ -101,27 +86,4 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    public List<Likes> getLikesByMemberId(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid memberId: " + memberId));
-        return member.getLikes();
-    }
-
-    public List<Likes> getDrawingsByMemberId(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid memberId: " + memberId));
-        return member.getLikes();
-    }
-
-    public List<Likes> getBookmarkByMemberId(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid memberId: " + memberId));
-        return member.getLikes();
-    }
-
-    public List<Likes> getPhotosByMemberId(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid memberId: " + memberId));
-        return member.getLikes();
-    }
 }
