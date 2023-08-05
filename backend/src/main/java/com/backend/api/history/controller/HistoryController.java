@@ -12,9 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,7 +24,8 @@ import java.util.List;
 public class HistoryController {
     private final HistoryService historyService;
     private final MemberService memberService;
-
+    
+    // 히스토리 목록 보기
     @Operation(summary = "내 히스토리", description = "나의 알림 히스토리목록을 보여주는 메소드입니다")
     @GetMapping("/")
     public ResponseEntity<List<HistoryDto>> getMyHistory(@MemberInfo MemberInfoDto memberInfoDto) {
@@ -40,5 +39,15 @@ public class HistoryController {
 
         }
     }
+
+    // 삭제기능
+    @Operation(summary = "내 히스토리 삭제", description = "내 히스토리 중 특정 하나를 삭제하는 메소드입니다")
+    @DeleteMapping("/delete/{historyId}")
+    public ResponseEntity<String> deleteHistory(@PathVariable Long historyId, @MemberInfo MemberInfoDto memberInfoDto){
+        Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
+        historyService.deleteHistory(historyId, member.getMemberId());
+        return ResponseEntity.ok(String.format("%d번 히스토리 삭제", historyId));
+    }
+
 
 }

@@ -1,9 +1,11 @@
 package com.backend.api.nft.controller;
 
+import com.backend.api.history.service.HistoryService;
 import com.backend.api.member.service.MemberCoinService;
 import com.backend.api.nft.dto.NftResponseDto;
 import com.backend.api.nft.service.NftApiService;
 import com.backend.api.nft.service.NftTransferApiService;
+import com.backend.domain.history.constant.HistoryType;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.service.MemberService;
 import com.backend.domain.nft.entity.Nft;
@@ -13,6 +15,7 @@ import com.backend.external.nft.dto.WalletDto;
 import com.backend.global.error.ErrorCode;
 import com.backend.global.error.ErrorResponse;
 import com.backend.global.error.exception.BusinessException;
+import com.backend.global.firebase.service.FCMService;
 import com.backend.global.resolver.memberInfo.MemberInfo;
 import com.backend.global.resolver.memberInfo.MemberInfoDto;
 import com.backend.global.util.CustomApi;
@@ -37,6 +40,8 @@ public class NftTokenController {
     private final NftTransferApiService nftTransferApiService;
     private final MemberService memberService;
     private final MemberCoinService memberCoinService;
+    private final FCMService fcmService;
+    private final HistoryService historyService;
 
     // 지갑 생성
     @PostMapping("/wallet")
@@ -93,6 +98,23 @@ public class NftTokenController {
                                      @RequestParam(value = "message") String message,
                                      @MemberInfo MemberInfoDto memberInfoDto){
         Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
+
+        // 선물 받는 사람의 Firebase 토큰 가져오기
+        String authorToken = memberService.getAuthorFirebaseToken(nftId);
+        Member user = memberService.findMemberById(nftId);
+
+        // 현재 유저의 닉네임
+        String CurrentUserNickname = member.getNickname();
+
+        // 작성자에게 알림 보내기
+        String title = "뭉게뭉게 도화지";
+        String body = String.format("%s 님이 그림을 선물하였습니다.",CurrentUserNickname);
+        fcmService.sendFCMNotification(authorToken,title,body);
+
+        // HistoryDB에 담기
+        historyService.createHistory(body,user, HistoryType.LIKE);
+
+
         return nftTransferApiService.transferToken(member, nftId, memberId, message);
 
     }
