@@ -1,22 +1,31 @@
 package com.backend.api.common;
 
 public class AccessToken {
+    private static final String refreshToken =
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJSRUZSRVNIIiwiaWF0IjoxNjkxMTI3MDI1LCJleHAiOjE2OTE3MzE4MjUsImVtYWlsIjoiaG9pbGRheTUzMDNAbmF2ZXIuY29tIn0.vjkkBHG81sKGHhkS_4SezOTVsiKgh6xGhf_2tCLGP37RIljbhoPNrm0RktwLJf1y-O2fWDxnWfqm1wazJKXNeQ";
 
-    private static final String token_two =
-            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBQ0NFU1MiLCJpYXQiOjE2OTEwNTE5OTMsImV4cCI6MTY5MTA1Mzc5MywiZW1haWwiOiJob2lsZGF5NTMwM0BuYXZlci5jb20iLCJyb2xlIjoiTUVNQkVSIn0.V9V4IsH36grO3VfF76xgATvSedyKXMcKJuH6UggIdcVG4_HKkDMg2PVRJurCct56N_9eeJGfRi4zxP9evsk1wA";
-    private static final String token_one =
-            "Br_DgZX1wBQXR1oeynNvWR1_6DinK03DQ1SRGfeqCisM1AAAAYm6jSPA";
-    private static final String token =
-            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBQ0NFU1MiLCJpYXQiOjE2OTExMzEwODEsImV4cCI6MTY5MTEzMjg4MSwiZW1haWwiOiJod2Nob2kzM0BuYXZlci5jb20iLCJyb2xlIjoiTUVNQkVSIn0.y8nckX72wxYVWqs7bSmK0XPVy-UMDnJhDQoC0o825YcIeFtmRv3wG-bwAlhmIcCX7JLkg6UDHzWBuoqFAGAX8Q";
+
+    private static final String secondToken =
+"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBQ0NFU1MiLCJpYXQiOjE2OTExMTE1OTYsImV4cCI6MTY5MTExMzM5NiwiZW1haWwiOiJob2lsZGF5NTMwM0BuYXZlci5jb20iLCJyb2xlIjoiTUVNQkVSIn0.v_gpxnxirMmncbbO8SL3I3HaRAGU8YVWao5HMYuv_h52se1dJsE8-yc0-5U_fECcxFbo4zgo_di9oH1QA8MvcQ";
+
+    private static final String firstToken =
+            "npnrgm6rj_OufxQaFa4EuXjHnfUL2H-a7dsvrVgICj10mAAAAYm-Gsh8";
+    private static final String newToken =
+"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBQ0NFU1MiLCJpYXQiOjE2OTExMzE2NjIsImV4cCI6MTY5MTEzMzQ2MiwiZW1haWwiOiJob2lsZGF5NTMwM0BuYXZlci5jb20iLCJyb2xlIjoiTUVNQkVSIn0.D1hNldGvdYZ2rjnDmZEqoC5OjDFUNrZVtJg9NN9DCsV03D2ahO98Ey8qryrfDB4RrgYH6QPtSqKtbk0paY1_8A";
+
     private static final String testEmail =
             "hoilday5303@naver.com";
-    public static String getToken() {
-        return token;
+    public static String getNewToken() {
+        return newToken;
     }
 
-    public static String getToken_two() {return token_two;}
+    public static String getSecondToken() {return secondToken;}
 
     public static String getTestEmail() {
         return testEmail;
+    }
+
+    public static String getRefreshToken() {
+        return refreshToken;
     }
 }

@@ -47,12 +47,12 @@ public class NftApiService {
     private final AmazonS3Client amazonS3Client;
 
     @Value("${KAS.client.authorization}")
-    private String Authorization;
+    private String authorization;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    @Value("${KAS.client.contract}")
+    @Value("${KAS.client.contract-alias}")
     private String contract;
 
     @Transactional
@@ -62,7 +62,7 @@ public class NftApiService {
             throw new BusinessException(ErrorCode.ALREADY_WALLET);
         }
         // 지갑생성
-        WalletDto.Response response =  walletClient.createWallet("1001", Authorization);
+        WalletDto.Response response =  walletClient.createWallet("1001", authorization);
 
         // 멤버 필드 업데이트
         member.setWallet(response.getAddress());
@@ -106,14 +106,14 @@ public class NftApiService {
         log.info(requestDto.getTo());
         log.info(requestDto.getId());
         log.info(requestDto.getUri());
-        NftTokenDto.Response response = nftTokenClient.createToken("1001", Authorization, "i-likloud", requestDto);
+        NftTokenDto.Response response = nftTokenClient.createToken("1001", authorization, "i-likloud", requestDto);
         log.info("발급됨");
 
         return requestDto.getId();
     }
 
     // S3에 메타데이터 업로드
-    private void uploadMetadataToS3(String metadataJson, String key) {
+    public void uploadMetadataToS3(String metadataJson, String key) {
         byte[] contentAsBytes = metadataJson.getBytes(StandardCharsets.UTF_8);
         ByteArrayInputStream contentsAsStream = new ByteArrayInputStream(contentAsBytes);
         ObjectMetadata md = new ObjectMetadata();
@@ -124,7 +124,7 @@ public class NftApiService {
     // 업로드 후 엔티티 생성
     @Transactional
     public Nft uploadNFT(Drawing drawing, Member member, String tokenId) {
-        TokenMetaData metaData = new TokenMetaData(drawing.getTitle(), drawing.getContent(), drawing.getImageUrl(), member.getWallet(), member.getEmail(), tokenId);
+        TokenMetaData metaData = new TokenMetaData(drawing.getTitle(), drawing.getContent(), drawing.getImageUrl(), member.getEmail(), member.getEmail(), tokenId);
         // 메타데이터 JSON 변환
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonMetaData;
@@ -163,11 +163,11 @@ public class NftApiService {
     // 특정 사용자 NFT 토큰 조회
     public TokenListDto.Response getTokenList(Member member) {
         log.info("찾기");
-        return memberNftListClient.getTokenList("1001", Authorization, "i-likloud", member.getWallet());
+        return memberNftListClient.getTokenList("1001", authorization, contract, member.getWallet());
     }
 
     // 모든 토큰 조회
     public TokenListDto.Response getAllTokenList(){
-        return allTokenListClient.getAllTokenList("1001", Authorization, "i-likloud");
+        return allTokenListClient.getAllTokenList("1001", authorization, contract);
     }
 }

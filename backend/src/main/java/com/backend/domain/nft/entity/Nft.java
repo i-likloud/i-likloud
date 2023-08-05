@@ -39,6 +39,10 @@ public class Nft extends BaseEntity {
     @JoinColumn(name = "drawing_id")
     private Drawing drawing;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "transfer_Id")
+    private NftTransfer nftTransfer;
+
     @Builder
     public Nft(String nftImageUrl, String contract) {
         this.nftImageUrl = nftImageUrl;

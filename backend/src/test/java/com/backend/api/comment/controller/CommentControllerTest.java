@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class CommentControllerTest extends BaseIntegrationTest {
 
     private AccessToken accessToken;
-    private String token = AccessToken.getToken();
+    private String token = AccessToken.getNewToken();
     private String userEmail = AccessToken.getTestEmail();
 
     @Test

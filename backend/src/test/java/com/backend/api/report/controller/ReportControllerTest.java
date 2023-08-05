@@ -22,7 +22,7 @@ class ReportControllerTest extends BaseIntegrationTest {
     private MemberService memberService;
 
     private AccessToken accessToken;
-    private String token = AccessToken.getToken();
+    private String token = AccessToken.getNewToken();
     private String userEmail = AccessToken.getTestEmail();
 
     @Test
