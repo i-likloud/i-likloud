@@ -1,5 +1,6 @@
 package com.ssafy.likloud.ui.game
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,11 +20,22 @@ class GameFragmentViewModel @Inject constructor(
 ) : ViewModel() {
 
     /////////////////// 이미지 크기 ///////////////////////
+    private var _initialFrameWidth = MutableLiveData<Int>()
+    val initialFrameWidth: LiveData<Int>
+        get() = _initialFrameWidth
+    private var _initialFrameHeight = MutableLiveData<Int>()
+    val initialFrameHeight: LiveData<Int>
+        get() = _initialFrameHeight
+    fun setInitialFrameSize(width: Int, height: Int){
+        _initialFrameWidth.value = width
+        _initialFrameHeight.value = height
+    }
+
     private var _frameWidth = MutableLiveData<Int>()
     val frameWidth: LiveData<Int>
         get() = _frameWidth
-    fun setFrameWidth(width: Int){
-        _frameWidth.value = width
+    fun setFrameWidth(){
+        _frameWidth.value = _initialFrameWidth.value
     }
     fun increaseFrameWidth(width: Int){
         _frameWidth.value = _frameWidth.value!! + width
@@ -35,8 +47,8 @@ class GameFragmentViewModel @Inject constructor(
     private var _frameHeight = MutableLiveData<Int>()
     val frameHeight: LiveData<Int>
         get() = _frameHeight
-    fun setFrameHeight(height: Int){
-        _frameHeight.value = height
+    fun setFrameHeight(){
+        _frameHeight.value = _initialFrameHeight.value
     }
     fun increaseFrameHeight(height: Int){
         _frameHeight.value = _frameHeight.value!! + height
@@ -49,6 +61,9 @@ class GameFragmentViewModel @Inject constructor(
     private var _remainTime = MutableLiveData<Int>(30)
     val remainTime: LiveData<Int>
         get() = _remainTime
+    fun initRemainTime(){
+        _remainTime.value = 30
+    }
     fun decreaseRemainTime(){
         _remainTime.value = _remainTime.value!! - 1
     }
