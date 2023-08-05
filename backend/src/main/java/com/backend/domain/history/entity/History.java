@@ -29,8 +29,4 @@ public class History extends BaseEntity {
     @Column(nullable = false)
     private HistoryType historyType;
 
-    public History(String content, HistoryType historyType){
-        this.content = content;
-        this.historyType = historyType;
-    }
 }
