@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="300dp"
     android:layout_margin = "10dp"
     android:id="@+id/layout_drawing">
 
@@ -11,31 +11,84 @@
         android:id="@+id/layout_back"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#93E19A"
+        android:background="@drawable/frame_rounded_border_black_radius50"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="invisible">
 
-        <include
-            layout = "@layout/item_nft_component_back"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/text_nft_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CSH"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_margin="@dimen/_10sdp"/>
+
+            <TextView
+                android:id="@+id/text_nft_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TITLE"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
+                app:layout_constraintTop_toBottomOf="@id/text_nft_nickname"
+                app:layout_constraintStart_toStartOf="@id/text_nft_nickname"/>
+
+            <TextView
+                android:id="@+id/text_nft_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CONTENT"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
+                app:layout_constraintTop_toBottomOf="@id/text_nft_title"
+                app:layout_constraintStart_toStartOf="@id/text_nft_title"/>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                app:lottie_fileName="lottie_animation_nft_stamp.json"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </FrameLayout>
 
     <FrameLayout
         android:id="@+id/layout_front"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F1ADAD"
+        android:background="@drawable/frame_rounded_border_black_radius50"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <include
-            layout = "@layout/item_nft_component_front"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            app:cardCornerRadius="50dp"
+            android:background="@drawable/frame_rounded_border_black_radius50"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:id="@+id/image_nft_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/cloud2"
+                android:scaleType="fitXY"/>
+
+        </androidx.cardview.widget.CardView>
+
     </FrameLayout>
 
 

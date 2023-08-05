@@ -12,22 +12,23 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.likloud.data.model.DrawingListDto
+import com.ssafy.likloud.data.model.NftDto
 import com.ssafy.likloud.databinding.ItemNftBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class NftListAdapter (var context: Context, var list : ArrayList<DrawingListDto>): ListAdapter<DrawingListDto, NftListAdapter.NftHolder>(
+class NftListAdapter (var context: Context): ListAdapter<NftDto, NftListAdapter.NftHolder>(
     NftListComparator
 ) {
-    companion object NftListComparator : DiffUtil.ItemCallback<DrawingListDto>() {
-        override fun areItemsTheSame(oldItem: DrawingListDto, newItem: DrawingListDto): Boolean {
+    companion object NftListComparator : DiffUtil.ItemCallback<NftDto>() {
+        override fun areItemsTheSame(oldItem: NftDto, newItem: NftDto): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: DrawingListDto, newItem: DrawingListDto): Boolean {
-            return oldItem.drawingId  == newItem.drawingId
+        override fun areContentsTheSame(oldItem: NftDto, newItem: NftDto): Boolean {
+            return oldItem.nftId  == newItem.nftId
         }
     }
     inner class NftHolder(binding: ItemNftBinding) : RecyclerView.ViewHolder(binding.root){
@@ -36,7 +37,7 @@ class NftListAdapter (var context: Context, var list : ArrayList<DrawingListDto>
         val frontLayout = binding.layoutFront
         val backLayout = binding.layoutBack
 
-        fun bindInfo(drawing : DrawingListDto){
+        fun bindInfo(nftDto : NftDto){
 
             drawingLayout.setOnClickListener{
                 if (backLayout.visibility == View.INVISIBLE) {
@@ -55,36 +56,10 @@ class NftListAdapter (var context: Context, var list : ArrayList<DrawingListDto>
         return NftHolder(binding)
     }
 
-
-    override fun getItemCount(): Int {
-        return list.size
-    }
-
     override fun onBindViewHolder(holder: NftHolder, position: Int) {
         holder.apply {
-            bindInfo(list.get(position))
+            bindInfo(getItem(position))
         }
-    }
-
-    fun updateData(list: ArrayList<DrawingListDto>) {
-        this.list = list
-        notifyDataSetChanged()
-    }
-
-    //Use the method for item changed
-    fun itemChanged() {
-        // remove last item for test purposes
-        this.list[0] = (DrawingListDto())
-        notifyItemChanged(0)
-
-    }
-
-    //Use the method for checking the itemRemoved
-    fun removeData() {
-        // remove last item for test purposes
-        val orgListSize = list.size
-        this.list = this.list.subList(0, orgListSize - 1).toList() as ArrayList<DrawingListDto>
-        notifyItemRemoved(orgListSize - 1)
     }
 
     private fun flip(context: Context, visibleView: View, inVisibleView: View) {
@@ -140,9 +115,5 @@ class NftListAdapter (var context: Context, var list : ArrayList<DrawingListDto>
         fun onClick(view: View, position: Int, info:String)
     }
     //클릭리스너 선언
-    private lateinit var itemClickListner: ItemClickListener
-    //클릭리스너 등록 매소드
-    fun setItemClickListener(itemClickListener: ItemClickListener) {
-        this.itemClickListner = itemClickListener
-    }
+    lateinit var itemClickListner: ItemClickListener
 }

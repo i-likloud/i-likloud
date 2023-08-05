@@ -161,6 +161,9 @@
         <action
             android:id="@+id/action_mypageFragment_to_photoDetailFragment"
             app:destination="@id/photoDetailFragment" />
+        <action
+            android:id="@+id/action_mypageFragment_to_nftListFragment"
+            app:destination="@id/nftListFragment" />
     </fragment>
 
     <fragment
