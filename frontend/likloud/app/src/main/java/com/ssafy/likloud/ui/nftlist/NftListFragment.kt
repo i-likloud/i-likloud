@@ -55,7 +55,14 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
     }
 
     override fun initListener() {
+        binding.apply {
+            buttonMyNft.setOnClickListener {
 
+            }
+            buttonGiftNft.setOnClickListener {
+
+            }
+        }
     }
 
     private fun initObserver(){
