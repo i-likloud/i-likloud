@@ -8,8 +8,6 @@ import com.backend.domain.member.entity.Member;
 import com.backend.domain.nft.Dto.TokenMetaData;
 import com.backend.domain.nft.entity.Nft;
 import com.backend.domain.nft.repository.NftRepository;
-import com.backend.external.nft.client.AllTokenListClient;
-import com.backend.external.nft.client.MemberNftListClient;
 import com.backend.external.nft.client.NftTokenClient;
 import com.backend.external.nft.client.WalletClient;
 import com.backend.external.nft.dto.NftTokenDto;
@@ -39,11 +37,9 @@ public class NftApiService {
 
     private final WalletClient walletClient;
     private final NftTokenClient nftTokenClient;
-    private final MemberNftListClient memberNftListClient;
     private final StringEncryptor stringEncryptor;
     private final DrawingViewService drawingViewService;
     private final NftRepository nftRepository;
-    private final AllTokenListClient allTokenListClient;
     private final AmazonS3Client amazonS3Client;
 
     @Value("${KAS.client.authorization}")
@@ -163,11 +159,11 @@ public class NftApiService {
     // 특정 사용자 NFT 토큰 조회
     public TokenListDto.Response getTokenList(Member member) {
         log.info("찾기");
-        return memberNftListClient.getTokenList("1001", authorization, contract, member.getWallet());
+        return nftTokenClient.getTokenList("1001", authorization, contract, member.getWallet());
     }
 
     // 모든 토큰 조회
     public TokenListDto.Response getAllTokenList(){
-        return allTokenListClient.getAllTokenList("1001", authorization, contract);
+        return nftTokenClient.getAllTokenList("1001", authorization, contract);
     }
 }

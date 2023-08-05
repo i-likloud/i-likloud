@@ -16,8 +16,6 @@ public class NftTransferDto {
         private String to;
     }
 
-
-
     @Getter
     @Setter
     @Builder

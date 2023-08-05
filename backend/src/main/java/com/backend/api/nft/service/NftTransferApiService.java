@@ -3,6 +3,7 @@ package com.backend.api.nft.service;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.backend.api.nft.dto.NftTransferResponseDto;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.service.MemberService;
 import com.backend.domain.nft.Dto.TokenMetaData;
@@ -10,12 +11,13 @@ import com.backend.domain.nft.entity.Nft;
 import com.backend.domain.nft.entity.NftTransfer;
 import com.backend.domain.nft.repository.NftTransferRepository;
 import com.backend.domain.nft.service.NftService;
-import com.backend.external.nft.client.NftTransferClient;
+import com.backend.external.nft.client.NftTokenClient;
 import com.backend.external.nft.dto.NftTransferDto;
 import com.backend.global.error.ErrorCode;
 import com.backend.global.error.exception.BusinessException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,11 +30,12 @@ import java.nio.charset.StandardCharsets;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class NftTransferApiService {
 
     private final NftService nftService;
     private final MemberService memberService;
-    private final NftTransferClient nftTransferClient;
+    private final NftTokenClient nftTokenClient;
     private final NftTransferRepository nftTransferRepository;
     private final StringEncryptor stringEncryptor;
     private final AmazonS3Client amazonS3Client;
@@ -50,7 +53,7 @@ public class NftTransferApiService {
     // 토큰 전송 시작
     @Transactional
     @CacheEvict(value = "nft", key = "#fromMember.memberId")
-    public NftTransfer transferToken(Member fromMember, Long nftId, Long toMemberId, String message) {
+    public NftTransferResponseDto transferToken(Member fromMember, Long nftId, Long toMemberId, String message) {
         // 보낼 토큰
         Nft nft = nftService.findNftById(nftId);
         // 토큰 받을 멤버
@@ -70,9 +73,10 @@ public class NftTransferApiService {
         // key 검증 후 맞으면 거래 진행
         if (checkKeyId(nft, fromMember)) {
             // 클레이튼API 호출
-            NftTransferDto.Response response = nftTransferClient.transferToken("1001", authorization, contract, nft.getTokenId(), requestDto);
+            NftTransferDto.Response response = nftTokenClient.transferToken("1001", authorization, contract, nft.getTokenId(), requestDto);
             // 거래내역 엔티티 생성
-            return uploadNftTransfer(nft, fromMember, toMember, response.getTransactionHash(), message);
+            NftTransfer nftTransfer = uploadNftTransfer(nft, fromMember, toMember, response.getTransactionHash(), message);
+            return new NftTransferResponseDto(nftTransfer);
         } else {
             throw new BusinessException(ErrorCode.UNAUTHORIZED_KEY);
         }
