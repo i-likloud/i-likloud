@@ -52,18 +52,20 @@ public class LikesController {
 
             // 그림 작성자의 Firebase 토큰 가져오기
             String authorToken = memberService.getAuthorFirebaseToken(drawingId);
-            Member user = memberService.findMemberById(member.getMemberId());
+            Member user = memberService.findMemberByDrawingId(drawingId);
 
-            // 현재 유저의 닉네임
-            String CurrentUserNickname = member.getNickname();
+            if (member!= user) {
+                // 현재 유저의 닉네임
+                String CurrentUserNickname = member.getNickname();
 
-            // 작성자에게 알림 보내기
-            String title = "뭉게뭉게 도화지";
-            String body = String.format("%s 님이 회원님의 그림을 좋아합니다.",CurrentUserNickname);
-            fcmService.sendFCMNotification(authorToken,title,body);
+                // 작성자에게 알림 보내기
+                String title = "뭉게뭉게 도화지";
+                String body = String.format("%s 님이 회원님의 그림을 좋아합니다.", CurrentUserNickname);
+                fcmService.sendFCMNotification(authorToken, title, body);
 
-            // HistoryDB에 담기
-            historyService.createHistory(body,user, HistoryType.LIKE);
+                // HistoryDB에 담기
+                historyService.createHistory(body, user, HistoryType.LIKE);
+            }
 
             return ResponseEntity.ok(String.format("%d번 게시물 좋아요", drawingId));
         }

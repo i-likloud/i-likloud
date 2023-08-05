@@ -9,6 +9,7 @@ import com.backend.domain.member.repository.MemberRepository;
 import com.backend.global.error.ErrorCode;
 import com.backend.global.error.exception.AuthenticationException;
 import com.backend.global.error.exception.BusinessException;
+import jnr.a64asm.Mem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,6 +87,10 @@ public class MemberService {
     public Member findMemberById(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException("Member not found with id: " + memberId));
+    }
+
+    public Member findMemberByDrawingId(Long drawingId){
+        return memberRepository.findByDrawings_DrawingId(drawingId);
     }
 
     public List<Member> findMemberByNickname(String nickname) {
