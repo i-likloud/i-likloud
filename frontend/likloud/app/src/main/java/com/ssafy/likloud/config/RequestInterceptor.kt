@@ -1,7 +1,6 @@
 package com.ssafy.likloud.config
 
 import android.util.Log
-import com.ssafy.likloud.ApplicationClass
 import com.ssafy.likloud.ApplicationClass.Companion.X_ACCESS_TOKEN
 import com.ssafy.likloud.ApplicationClass.Companion.sharedPreferences
 //import com.ssafy.templateapplication.ApplicationClass.Companion.sharedPreferences
@@ -12,11 +11,12 @@ import java.io.IOException
 import java.lang.Exception
 
 private const val TAG = "XAccessTokenInterceptor_싸피"
-class XAccessTokenInterceptor : Interceptor {
+class RequestInterceptor : Interceptor {
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         val builder: Request.Builder = chain.request().newBuilder()
+
         Log.d(TAG, "intercept XAccessTokenInterceptor: ${sharedPreferences.getString(X_ACCESS_TOKEN)}")
         try {
             sharedPreferences.getString(X_ACCESS_TOKEN).let { token ->
