@@ -2,25 +2,42 @@ package com.ssafy.likloud
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.media.AsyncPlayer
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.AnimationUtils
 import android.view.animation.OvershootInterpolator
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.ssafy.likloud.base.BaseActivity
 import com.ssafy.likloud.data.repository.BaseRepository
 import com.ssafy.likloud.databinding.ActivityMainBinding
@@ -32,6 +49,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+private const val TAG = "MainActivity_싸피"
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
 
@@ -40,39 +58,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
     private lateinit var mediaPlayer: MediaPlayer
+    private lateinit var auth: FirebaseAuth
+    private lateinit var googleSignInClient: GoogleSignInClient
 
     private val mainActivityViewModel: MainActivityViewModel by viewModels()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // 스플래시
-//        val handler = Handler(Looper.getMainLooper())
-//        handler.postDelayed(Runnable {
-//            Intent(this, MainActivity::class.java).apply {
-//                startActivity(this)
-//                finish()
-//            }
-//        }, 3000) // 3초 후(3000) 스플래시 화면을 닫습니다
-
-//        CoroutineScope(Dispatchers.Main).launch {
-//            binding.navHostFragment.visibility = View.INVISIBLE
-//            delay(4500)
-//            binding.gifAppIntro.visibility = View.INVISIBLE
-//            binding.navHostFragment.scaleX = 0.8f
-//            binding.navHostFragment.scaleY = 0.8f
-//            ObjectAnimator.ofFloat(binding.navHostFragment, "scaleX", 1f).apply {
-//                interpolator = OvershootInterpolator()
-//                duration = 200
-//                start()
-//            }
-//            ObjectAnimator.ofFloat(binding.navHostFragment, "scaleY", 1f).apply {
-//                interpolator = OvershootInterpolator()
-//                duration = 200
-//                start()
-//            }
-//            binding.navHostFragment.visibility = View.VISIBLE
-//        }
+        val permissionList = arrayOf(
+            android.Manifest.permission.POST_NOTIFICATIONS
+        )
+        requestMultiplePermission.launch(permissionList)
+        initFCMMessageAccept()
 
         initObserver()
         initView()
@@ -149,25 +147,95 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private fun initNavController() {
         navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
+    }
 
-//        navController.addOnDestinationChangedListener { _, destination, _ ->
-//            when (destination.id) {
-//                R.id.mapFragment -> showBottomNav()
-//                R.id.postListFragment -> showBottomNav()
-//                R.id.myPageFragment -> showBottomNav()
-//                else -> hideBottomNav()
-//            }
-//        }
-//        binding.bottomNavi.setupWithNavController(navController)
-//
-//        // 중복터치 막기!!
-//        binding.bottomNavi.setOnItemReselectedListener { menuItem ->
-//            when (menuItem.itemId) {
-//                R.id.mapFragment -> {}
-//                R.id.postListFragment -> {}
-//                R.id.myPageFragment -> {}
-//            }
-//        }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun initFCMMessageAccept(){
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(TAG, "FCM 토큰 얻기에 실패하였습니다.", task.exception)
+                return@OnCompleteListener
+            }
+            // token log 남기기
+            Log.d(TAG, "token 정보: ${task.result}")
+            if(task.result != null){
+                uploadToken(task.result)
+            }
+        })
+        createNotificationChannel(channel_id, "ssafy")
+    }
+
+    // notification 수신 시 foreground에서 notification 생성 위해 channel 생성
+    @RequiresApi(Build.VERSION_CODES.O)
+    // Notification 수신을 위한 체널 추가
+    private fun createNotificationChannel(id: String, name: String) {
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        val channel = NotificationChannel(id, name, importance)
+
+        val notificationManager: NotificationManager
+                = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
+
+    }
+
+    companion object {
+        private const val RC_SIGN_IN = 9001
+        const val channel_id = "ssafy_channel"
+        fun uploadToken(token:String){
+
+        }
+    }
+
+    private fun initAuth() {
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
+        auth = Firebase.auth
+        signIn()
+    }
+
+    private fun signIn() {
+        val signInIntent = googleSignInClient.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                val account = task.getResult(ApiException::class.java)!!
+                Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
+                firebaseAuthWithGoogle(account.idToken!!)
+            } catch (e: ApiException) {
+                // Google Sign In failed, update UI appropriately
+                Log.w(TAG, "Google sign in failed", e)
+            }
+        }
+    }
+
+    // [START auth_with_google]
+    private fun firebaseAuthWithGoogle(idToken: String) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "signInWithCredential:success")
+                    val user = auth.currentUser
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "signInWithCredential:failure", task.exception)
+                }
+            }
     }
 
     /**
@@ -190,4 +258,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     fun changeProfileLayoutInvisible() {
         binding.layoutProfile.visibility = View.INVISIBLE
     }
+
+
+
+    private val requestMultiplePermission =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { results ->
+            results.forEach {
+            }
+        }
+
+
 }
