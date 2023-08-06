@@ -43,7 +43,7 @@ object NetworkModule {
         OkHttpClient.Builder()
             .readTimeout(5000, TimeUnit.MILLISECONDS)
             .connectTimeout(5000, TimeUnit.MILLISECONDS)
-            .addNetworkInterceptor(XAccessTokenInterceptor()) // JWT 자동 헤더 전송
+            .addInterceptor(XAccessTokenInterceptor()) // JWT 자동 헤더 전송
 //            .addInterceptor(EmptyBodyInterceptor())
             .addInterceptor(BearerInterceptor()) // Refresh Token
 //            .addInterceptor(ErrorResponseInterceptor()) // Error Response

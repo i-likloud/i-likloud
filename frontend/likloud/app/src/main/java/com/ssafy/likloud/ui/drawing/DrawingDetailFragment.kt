@@ -122,7 +122,12 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
                 }
             }
             buttonNft.setOnClickListener {
-                drawingDetailFragmentViewModel.registNft(args.drawingId)
+                if(activityViewModel.memberInfo.value!!.silverCoin>=5) {
+                    drawingDetailFragmentViewModel.registNft(args.drawingId)
+                }else{
+                    //여기서 siverCoin 부족 메시지
+                    Toast.makeText(mainActivity,"silverCoin 확인 바람", Toast.LENGTH_SHORT).show()
+                }
             }
         }
         // 안드로이드 뒤로가기 버튼 눌렀을 때
