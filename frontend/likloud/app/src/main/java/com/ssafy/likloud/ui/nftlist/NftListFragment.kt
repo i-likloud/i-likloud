@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -14,6 +15,7 @@ import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
 import com.ssafy.likloud.data.model.DrawingListDto
+import com.ssafy.likloud.data.model.NftListDto
 import com.ssafy.likloud.databinding.FragmentNftListBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -86,7 +88,15 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
     private fun initNftListRecyclerView(){
         nftListAdapter = NftListAdapter(mainActivity)
         binding.recyclerviewNft.apply {
-            this.adapter = nftListAdapter
+            this.adapter = nftListAdapter.apply {
+                itemClickListner = object: NftListAdapter.ItemClickListener{
+                    override fun onClick(nftDto: NftListDto) {
+                        //선물하기 로직
+                        Toast.makeText(mainActivity, "선물하기 클릭...", Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+            }
             layoutManager = GridLayoutManager(mainActivity,3)
         }
     }

@@ -67,14 +67,14 @@
                     app:layout_constraintTop_toBottomOf="@id/text_nft_title"
                     app:layout_constraintStart_toStartOf="@id/text_nft_title"/>
 
-    <!--            <com.airbnb.lottie.LottieAnimationView-->
-    <!--                android:layout_width="150dp"-->
-    <!--                android:layout_height="150dp"-->
-    <!--                app:lottie_fileName="lottie_animation_nft_stamp.json"-->
-    <!--                app:lottie_autoPlay="true"-->
-    <!--                app:lottie_loop="true"-->
-    <!--                app:layout_constraintEnd_toEndOf="parent"-->
-    <!--                app:layout_constraintBottom_toBottomOf="parent"/>-->
+                <!--            <com.airbnb.lottie.LottieAnimationView-->
+                <!--                android:layout_width="150dp"-->
+                <!--                android:layout_height="150dp"-->
+                <!--                app:lottie_fileName="lottie_animation_nft_stamp.json"-->
+                <!--                app:lottie_autoPlay="true"-->
+                <!--                app:lottie_loop="true"-->
+                <!--                app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                app:layout_constraintBottom_toBottomOf="parent"/>-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -87,18 +87,32 @@
                 app:layout_constraintEnd_toEndOf="parent">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button_gift"
+                    android:id="@+id/button_gift_agree"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     app:layout_constraintWidth_percent="0.5"
-                    android:text="@string/gift"
+                    android:text="@string/gift_agree"
                     style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
                     android:background="@drawable/frame_rounded_border_skyblue_radius50"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_gift_degree"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:layout_constraintWidth_percent="0.5"
+                    android:text="@string/gift_degree"
+                    style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
+                    android:background="@drawable/frame_rounded_border_skyblue_radius50"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/button_gift_agree"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

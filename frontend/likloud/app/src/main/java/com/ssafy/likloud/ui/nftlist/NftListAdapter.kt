@@ -3,6 +3,7 @@ package com.ssafy.likloud.ui.nftlist
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+private const val TAG = "차선호"
 class NftListAdapter (var context: Context): ListAdapter<NftListDto, NftListAdapter.NftHolder>(
     NftListComparator
 ) {
@@ -40,6 +42,7 @@ class NftListAdapter (var context: Context): ListAdapter<NftListDto, NftListAdap
         val textNickname = binding.textNftNickname
         val textTitle = binding.textNftTitle
         val textContent = binding.textNftContent
+        val buttonGift = binding.buttonGift
 
         fun bindInfo(nftDto : NftListDto){
 
@@ -55,6 +58,9 @@ class NftListAdapter (var context: Context): ListAdapter<NftListDto, NftListAdap
                 } else {
                     flip(context, layoutFront, layoutBack)
                 }
+            }
+            buttonGift.setOnClickListener {
+                itemClickListner.onClick(nftDto)
             }
         }
     }
@@ -122,7 +128,7 @@ class NftListAdapter (var context: Context): ListAdapter<NftListDto, NftListAdap
 
     //    //클릭 인터페이스 정의 사용하는 곳에서 만들어준다.
     interface ItemClickListener {
-        fun onClick(view: View, position: Int, info:String)
+        fun onClick(nftDto: NftListDto)
     }
     //클릭리스너 선언
     lateinit var itemClickListner: ItemClickListener

@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.ssafy.likloud.data.model.NftGiftDto
 import com.ssafy.likloud.data.model.NftListDto
 import com.ssafy.likloud.databinding.ItemNftBinding
+import com.ssafy.likloud.databinding.ItemNftGiftBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -32,7 +33,7 @@ class NftGiftAdapter (var context: Context): ListAdapter<NftGiftDto, NftGiftAdap
             return oldItem.nftId  == newItem.nftId
         }
     }
-    inner class NftGiftHolder(binding: ItemNftBinding) : RecyclerView.ViewHolder(binding.root){
+    inner class NftGiftHolder(binding: ItemNftGiftBinding) : RecyclerView.ViewHolder(binding.root){
 
         val layoutNft = binding.layoutNft
         val layoutFront = binding.layoutFront
@@ -41,6 +42,8 @@ class NftGiftAdapter (var context: Context): ListAdapter<NftGiftDto, NftGiftAdap
         val textNickname = binding.textNftNickname
         val textTitle = binding.textNftTitle
         val textContent = binding.textNftContent
+        val buttonGiftAgree = binding.buttonGiftAgree
+        val buttonGiftDegree = binding.buttonGiftDegree
 
         fun bindInfo(giftDto : NftGiftDto){
 
@@ -57,12 +60,20 @@ class NftGiftAdapter (var context: Context): ListAdapter<NftGiftDto, NftGiftAdap
                     flip(context, layoutFront, layoutBack)
                 }
             }
+
+            buttonGiftAgree.setOnClickListener {
+                //선물 수락 이벤트
+            }
+
+            buttonGiftDegree.setOnClickListener {
+                //선물 거부 이벤트
+            }
         }
     }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NftGiftAdapter.NftGiftHolder {
-        val binding = ItemNftBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemNftGiftBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return NftGiftHolder(binding)
     }
 
