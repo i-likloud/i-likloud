@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -25,6 +26,7 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
     private val nftListFragmentViewModel : NftListFragmentViewModel by viewModels()
     private lateinit var mainActivity: MainActivity
     private lateinit var nftListAdapter: NftListAdapter
+    private lateinit var giftListAdapter: NftGiftAdapter
 
 
     override fun onAttach(context: Context) {
@@ -51,16 +53,22 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
 
     private fun init(){
         nftListFragmentViewModel.getMyNftDtoList()
+        toggleButton(binding.buttonMyNft)
         initNftListRecyclerView()
     }
 
     override fun initListener() {
         binding.apply {
             buttonMyNft.setOnClickListener {
-
+                nftListFragmentViewModel.getMyNftDtoList()
+                initNftListRecyclerView()
+                toggleButton(binding.buttonMyNft)
             }
             buttonGiftNft.setOnClickListener {
-
+                nftListFragmentViewModel.getNftGiftList()
+                //선물함 불러온거 viewmodel에서 처리할 필요 있음
+                initGiftListRecyclerView()
+                toggleButton(binding.buttonGiftNft)
             }
         }
     }
@@ -69,6 +77,9 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
         nftListFragmentViewModel.myNftDtoList.observe(viewLifecycleOwner){
             nftListAdapter.submitList(it)
             Log.d(TAG, "nftList : $it")
+        }
+        nftListFragmentViewModel.giftNftDtoList.observe(viewLifecycleOwner){
+            giftListAdapter.submitList(it)
         }
     }
 
@@ -80,5 +91,20 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
         }
     }
 
+    private fun initGiftListRecyclerView(){
+        giftListAdapter = NftGiftAdapter(mainActivity)
+        binding.recyclerviewNft.apply {
+            this.adapter = giftListAdapter
+            layoutManager = GridLayoutManager(mainActivity,3)
+        }
+    }
+
+    private fun toggleButton(view: View){
+        binding.apply {
+            buttonMyNft.background = ContextCompat.getDrawable(mainActivity, R.drawable.button_frame_black)
+            buttonGiftNft.background = ContextCompat.getDrawable(mainActivity, R.drawable.button_frame_black)
+        }
+        view.background = ContextCompat.getDrawable(mainActivity, R.drawable.button_frame_skyblue)
+    }
 
 }
