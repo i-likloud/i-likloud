@@ -171,7 +171,7 @@ interface BaseService {
      * 사진 상세 조회
      */
     @GET("api/photo/{photoId}")
-    suspend fun getPhotoDetail(@Path("photoId") photoId: Int): Response<PhotoListDto>
+    suspend fun getCurrentPhotoListDto(@Path("photoId") photoId: Int): Response<PhotoListDto>
     /**
      * 그림 좋아요
      */

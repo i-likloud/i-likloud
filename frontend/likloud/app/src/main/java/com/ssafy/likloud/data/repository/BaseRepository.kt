@@ -176,7 +176,7 @@ interface BaseRepository {
     /**
      * 사진 상세 조회
      */
-    suspend fun getPhotoDetail(photoId: Int): NetworkResult<PhotoListDto>
+    suspend fun getCurrentPhotoListDto(photoId: Int): NetworkResult<PhotoListDto>
 
     /**
      * 좋아요 조회

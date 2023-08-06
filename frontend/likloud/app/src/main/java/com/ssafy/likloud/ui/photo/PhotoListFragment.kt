@@ -117,7 +117,7 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
 
         photoListFragmentViewModel.currentPhotoListDtoList.observe(viewLifecycleOwner){
             photoListAdapter.submitList(it)
-            photoListFragmentViewModel.setCurrentPhotoListDto(it[0])
+            photoListFragmentViewModel.getCurrentPhotoListDto(it[0].photoId)
         }
 
         photoListFragmentViewModel.currentPhotoListDto.observe(viewLifecycleOwner){
@@ -140,6 +140,7 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
         }
 
         photoListFragmentViewModel.isBookmarked.observe(viewLifecycleOwner){
+            Log.d(TAG, "initObserverStar : $it ")
             if (it) {
                 binding.imageStar.setImageResource(R.drawable.icon_selected_star)
             } else {
@@ -164,7 +165,7 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
                 setItemSelectListener(object : CarouselLayoutManager.OnSelected {
                     //본인한테서 멈췄을 때 이벤트
                     override fun onItemSelected(position: Int) {
-                        photoListFragmentViewModel.setCurrentPhotoListDto(photoListFragmentViewModel.currentPhotoListDtoList.value!![position])
+                        photoListFragmentViewModel.getCurrentPhotoListDto(photoListFragmentViewModel.currentPhotoListDtoList.value!![position].photoId)
                     }
                 })
                 addOnScrollListener(object : RecyclerView.OnScrollListener() {

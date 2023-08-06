@@ -204,7 +204,12 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
             this.adapter = drawingListAdapter.apply {
                 itemClickListner = object: DrawingListAdapter.ItemClickListener{
                     override fun onClick(drawing: DrawingListDto) {
-                        drawingListFragmentViewModel.registNft(drawing.drawingId)
+                        if(activityViewModel.memberInfo.value!!.silverCoin>=5) {
+                            drawingListFragmentViewModel.registNft(drawing.drawingId)
+                        }else{
+                            //여기서 silverCoin 부족하다고 뜸
+                            Toast.makeText(mainActivity,"silverCoin 확인 바람", Toast.LENGTH_SHORT).show()
+                        }
                     }
 
                 }
