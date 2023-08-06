@@ -59,6 +59,9 @@ public class DrawingUploadService {
     public DrawingUploadDto uploadFileAndCreateDrawings(MultipartFile file, String title, String content, Member member, Long photoId) {
 
         try {
+            Photo photo = photoRepository.findById(photoId)
+                    .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_PHOTO));
+
             DrawingFile drawingFile = uploadDrawingFile(file, title);
 
             Drawing drawing = createDrawing(title, content, member, drawingFile, photoId);
@@ -66,9 +69,6 @@ public class DrawingUploadService {
             drawingFile.setDrawing(drawing);
 
             // 연결된 사진의 선택 횟수 증가
-            Photo photo = photoRepository.findById(photoId)
-                    .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_PHOTO));
-
             photo.incrementPickCnt();
 
             return new DrawingUploadDto(drawing);

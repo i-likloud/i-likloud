@@ -22,7 +22,7 @@ public class DrawingFile extends BaseEntity {
 
     private String filePath;
 
-    @OneToOne(mappedBy = "drawingFile")
+    @OneToOne(mappedBy = "drawingFile", fetch = FetchType.LAZY)
     private Drawing drawing;
 
     public DrawingFile(String fileName, String filePath) {

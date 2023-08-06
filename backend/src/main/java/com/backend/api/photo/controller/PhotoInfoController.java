@@ -102,7 +102,7 @@ public class PhotoInfoController {
 
         Bookmarks bookmark = photoInfoService.getBookmarkIfExists(member, photoId);
         if(bookmark != null) {
-            photoInfoService.unpickPhoto(member, bookmark);
+            photoInfoService.unpickPhoto(photoId, member, bookmark);
             return  ResponseEntity.ok(String.format("%d번 사진 북마크 취소", photoId));
         }
         else {

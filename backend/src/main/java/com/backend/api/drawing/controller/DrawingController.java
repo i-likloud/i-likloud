@@ -57,9 +57,9 @@ public class DrawingController {
     @GetMapping("/")
     @CustomApi
     @Operation(summary = "그림 게시물 전체 조회", description = "그림 게시물들을 전체 조회합니다."+"\n\n### [ 참고사항 ]\n\n"+"- 바로 Execute 할 경우 최신순으로 정렬됩니다.(기본값) orderBy 값이 createdAt인지 확인하세요\n\n"+"- 좋아요 순으로 조회하고 싶다면 orderBy 값에 likesCount 라고 변경해주세요\n\n"+"- 조회수 순으로 조회하고 싶다면orderBy 값에 viewCount 라고 변경해주세요\n\n"+"- Execute 해주세요\n\n")
-    public ResponseEntity<List<DrawingListDto>> drawingBoard(@MemberInfo MemberInfoDto memberInfoDto, @RequestParam(defaultValue = "createdAt") String orderBy){
-        Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
-        List<DrawingListDto> drawings = drawingViewService.getAllDrawings(member, orderBy);
+    public ResponseEntity<List<DrawingListDto>> drawingBoard(@RequestParam(defaultValue = "createdAt") String orderBy){
+
+        List<DrawingListDto> drawings = drawingViewService.getAllDrawings(orderBy);
         return ResponseEntity.ok().body(drawings);
     }
 

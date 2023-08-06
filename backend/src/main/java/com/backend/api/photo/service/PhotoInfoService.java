@@ -140,6 +140,9 @@ public class PhotoInfoService {
             throw new BusinessException(ErrorCode.UNAUTHORIZED_MEMBER);
         }
 
+        // 북마크 일괄 삭제
+        bookmarkRepository.deleteBookmarksByPhotoId(photoId);
+
         // Photo와 연관된 Drawing들의 photo 필드를 null로 설정하여 연관 관계 해제
         drawingRepository.unlinkDrawingsFromPhoto(photoId);
 
@@ -162,18 +165,17 @@ public class PhotoInfoService {
         bookmarkRepository.save(bookmark);
 
         // 즐겨찾기 수 증가
-        photo.setBookmarkCnt(photo.getBookmarkCnt() +1);
+        photoRepository.increaseBookmarkCount(photoId);
     }
 
     // 사진 즐겨찾기 취소
     @Transactional
     @CacheEvict(value = "bookMarks", key = "#member.memberId")
-    public void unpickPhoto(Member member, Bookmarks bookmark) {
-        Photo photo = bookmark.getPhoto();
+    public void unpickPhoto(Long photoId, Member member, Bookmarks bookmark) {
         // 북마크 제거
         bookmarkRepository.delete(bookmark);
         // 즐겨찾기 수 감소
-        photo.setBookmarkCnt(photo.getBookmarkCnt() - 1);
+        photoRepository.decreaseBookmarkCount(photoId);
 
     }
 
