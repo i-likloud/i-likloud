@@ -14,18 +14,18 @@ class SuccessGameDialog(
     override fun initListener() {
         binding.apply {
             buttonGoHome.setOnClickListener {
+                dismiss() // 다이얼로그 닫기
                 val parentFragment = parentFragment
                 if (parentFragment is GameFragment) {
-                    parentFragment.changeNextFragment("home")
+                    parentFragment.refreshFragment()
                 }
-                dismiss() // 다이얼로그 닫기
             }
             buttonReGame.setOnClickListener {
+                dismiss() // 다이얼로그 닫기
                 val parentFragment = parentFragment
                 if (parentFragment is GameFragment) {
-                    parentFragment.changeNextFragment("game")
+                    parentFragment.refreshFragment()
                 }
-                dismiss() // 다이얼로그 닫기
             }
         }
     }
