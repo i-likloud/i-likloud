@@ -2,8 +2,8 @@ package com.backend.api.photo.controller;
 
 import com.backend.api.common.AccessToken;
 import com.backend.api.common.BaseIntegrationTest;
-
 import com.backend.api.photo.service.PhotoInfoService;
+import com.backend.domain.bookmark.entity.Bookmarks;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.service.MemberService;
 import org.junit.jupiter.api.Test;
@@ -13,9 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers; // 이 부분을 추가해주세요
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -151,7 +150,7 @@ class PhotoInfoControllerTest extends BaseIntegrationTest {
         Long photoId = 1L;
 //        String userEmail = "hoilday5303@naver.com";
         Member member = memberService.findMemberByEmail(userEmail);
-        boolean isAlreadyBookmarked = photoInfoService.isAlreadyBookmarked(member, photoId);
+        Bookmarks bookmarked = photoInfoService.getBookmarkIfExists(member, photoId);
 
         try {
             //when
@@ -166,15 +165,15 @@ class PhotoInfoControllerTest extends BaseIntegrationTest {
             resultActions.andExpect(status().isOk());
 
             //토글확인
-            boolean isNowBookmarked = photoInfoService.isAlreadyBookmarked(member, photoId);
-            if (isAlreadyBookmarked) {
-                if (!isNowBookmarked) {
+            Bookmarks NowBookmarked = photoInfoService.getBookmarkIfExists(member, photoId);
+            if (bookmarked != null) {
+                if (NowBookmarked != null) {
                     System.out.println("토글 실패: 픽 취소가 되지 않았습니다.");
                 } else {
                     System.out.println("토글 성공: 픽 취소가 정상적으로 되었습니다.");
                 }
             } else {
-                if (isNowBookmarked) {
+                if (NowBookmarked == null) {
                     System.out.println("토글 실패: 픽이 정상적으로 되지 않았습니다.");
                 } else {
                     System.out.println("토글 성공: 픽이 취소되었습니다.");

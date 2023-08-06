@@ -59,10 +59,10 @@ public class Drawing extends BaseEntity {
     @JoinColumn(name = "nft_id")
     private Nft nft;
 
-    @OneToMany(mappedBy = "drawing", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "drawing", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Likes> likes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "drawing", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "drawing", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
 
     @Builder

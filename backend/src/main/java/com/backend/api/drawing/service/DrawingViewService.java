@@ -5,12 +5,12 @@ package com.backend.api.drawing.service;
 import com.backend.api.drawing.dto.DrawingDetailDto;
 import com.backend.api.drawing.dto.DrawingFromPhotoDto;
 import com.backend.api.drawing.dto.DrawingListDto;
+import com.backend.domain.comment.repository.CommentRepository;
 import com.backend.domain.drawing.entity.Drawing;
 import com.backend.domain.drawing.repository.DrawingRepository;
 import com.backend.domain.likes.repository.LikesRepository;
 import com.backend.domain.member.entity.Member;
-import com.backend.domain.nft.entity.Nft;
-import com.backend.domain.nft.service.NftService;
+import com.backend.domain.nft.repository.NftRepository;
 import com.backend.global.error.ErrorCode;
 import com.backend.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
@@ -30,12 +30,14 @@ public class DrawingViewService {
 
     private final DrawingRepository drawingRepository;
     private final LikesRepository likesRepository;
-    private final NftService nftService;
+    private final CommentRepository commentRepository;
+    private final NftRepository nftRepository;
 
 
     // 전체 게시물 조회
     @Cacheable(value = "allDrawings", key = "#orderBy", unless = "#orderBy != 'createdAt'")
-    public List<DrawingListDto> getAllDrawings(Member member, String orderBy){
+    public List<DrawingListDto> getAllDrawings(String orderBy){
+
         List<Drawing> drawings = drawingRepository.findAll(Sort.by(Sort.Direction.DESC, orderBy));
 
         return drawings.stream()
@@ -46,7 +48,8 @@ public class DrawingViewService {
     // 상세 게시물 조회
     @Transactional
     public DrawingDetailDto getDrawing(Long drawingId, Long memberId){
-        Drawing drawing = drawingRepository.findById(drawingId)
+        // 그림 가져올 때 댓글과 함께 가져오기
+        Drawing drawing = drawingRepository.findByIdWithComments(drawingId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_DRAWING));
 
         // 조회수 증가
@@ -65,16 +68,23 @@ public class DrawingViewService {
             @CacheEvict(value = "drawings", key = "#memberId")
     })
     public void deleteDrawing(Long drawingId, Long memberId) {
+
         Drawing drawing = drawingRepository.findById(drawingId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_DRAWING));
-
+        // 본인 그림 아닌경우
         if(!drawing.getMember().getMemberId().equals(memberId)){
             throw new BusinessException(ErrorCode.UNAUTHORIZED_MEMBER);
         }
-        // NFT의 그림 null 처리
-        Nft nft = nftService.findNftByDrawingId(drawingId);
-        nft.setDrawing(null);
 
+        // 댓글 일괄 삭제
+        commentRepository.deleteCommentByDrawingId(drawingId);
+        // 좋아요 일괄 삭제
+        likesRepository.deleteLikesByDrawingId(drawingId);
+
+        // NFT의 그림 null 처리
+        nftRepository.unlinkNftFromDrawing(drawingId);
+
+        // 그림 삭제
         drawingRepository.delete(drawing);
 
     }

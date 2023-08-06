@@ -1,15 +1,14 @@
 package com.backend.api.photo.service;
 
 import com.backend.api.drawing.dto.DrawingWithBookmarksDto;
-import com.backend.api.likes.service.LikesService;
 import com.backend.api.photo.dto.PhotoDetailDto;
 import com.backend.api.photo.dto.PhotoInfoResponseDto;
 import com.backend.domain.bookmark.entity.Bookmarks;
 import com.backend.domain.bookmark.repository.BookmarkRepository;
 import com.backend.domain.drawing.entity.Drawing;
 import com.backend.domain.drawing.repository.DrawingRepository;
+import com.backend.domain.likes.repository.LikesRepository;
 import com.backend.domain.member.entity.Member;
-import com.backend.domain.member.repository.MemberRepository;
 import com.backend.domain.photo.entity.Photo;
 import com.backend.domain.photo.repository.PhotoRepository;
 import com.backend.global.error.ErrorCode;
@@ -22,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -29,15 +29,14 @@ import java.util.stream.Collectors;
 public class PhotoInfoService {
 
     private final PhotoRepository photoRepository;
-    private final MemberRepository memberRepository;
     private final BookmarkRepository bookmarkRepository;
     private final DrawingRepository drawingRepository;
-    private final LikesService likesService;
+    private final LikesRepository likesRepository;
 
     // 최신순 전체 조회
     @Transactional(readOnly = true)
     @Cacheable(value = "allPhotos", key = "'searchAllDesc'")
-    public List<PhotoInfoResponseDto> searchAllDesc(Member member) {
+    public List<PhotoInfoResponseDto> searchAllDesc() {
 
         long startTime = System.currentTimeMillis();
 
@@ -55,7 +54,7 @@ public class PhotoInfoService {
 
     // 인기순 전체 조회
     @Transactional(readOnly = true)
-    public List<PhotoInfoResponseDto> searchAllPickCntDesc(Member member){
+    public List<PhotoInfoResponseDto> searchAllPickCntDesc(){
 
         long startTime = System.currentTimeMillis();
 
@@ -74,7 +73,7 @@ public class PhotoInfoService {
 
     // 북마크 전체 조회
     @Transactional(readOnly = true)
-    public List<PhotoInfoResponseDto> searchAllBookmarkCntDesc(Member member){
+    public List<PhotoInfoResponseDto> searchAllBookmarkCntDesc(){
 
         long startTime = System.currentTimeMillis();
 
@@ -96,23 +95,33 @@ public class PhotoInfoService {
         Photo photo = photoRepository.findById(photoId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_PHOTO));
 
-        boolean memberBookmarked = this.isAlreadyBookmarked(member, photo.getPhotoId());
+        boolean memberBookmarked = false;
+
+        Bookmarks bookmark = this.getBookmarkIfExists(member, photo.getPhotoId());
+
+        // 북마크 되어있으면 true
+        if (bookmark != null){
+            memberBookmarked = true;
+        }
 
         return new PhotoDetailDto(photo, memberBookmarked);
     }
 
     // 특정 사진과 관련된 모든 그림
     @Transactional(readOnly = true)
-    public List<DrawingWithBookmarksDto> getDrawingsByPhotoId(Long photoId) {
+    public List<DrawingWithBookmarksDto> getDrawingsByPhotoId(Long photoId, Member member) {
         Photo photo = photoRepository.findById(photoId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 photo가 존재하지 않습니다."));
 
         List<Drawing> drawings = drawingRepository.findByPhotoOrderByLikesCountDesc(photo);
 
+        List<Long> drawingIds = drawings.stream().map(Drawing::getDrawingId).collect(Collectors.toList());
+
+        // member에 의해 좋아요된 drawingId 목록 가져오기
+        Set<Long> likedDrawingIds = likesRepository.findLikedDrawingIdsByMember(member.getMemberId(), drawingIds);
+
         return drawings.stream()
-                .map(drawing ->{
-                    boolean memberLiked = likesService.isAlreadyLiked(new Member(),drawing.getDrawingId());
-                    return new DrawingWithBookmarksDto(drawing, memberLiked);})
+                .map(drawing -> new DrawingWithBookmarksDto(drawing, likedDrawingIds.contains(drawing.getDrawingId())))
                 .collect(Collectors.toList());
     }
 
@@ -126,28 +135,27 @@ public class PhotoInfoService {
         Photo photo = photoRepository.findById(photoId)
                 .orElseThrow(()-> new BusinessException(ErrorCode.NOT_FOUND_PHOTO));
 
+        // 본인 사진 아닌 경우
         if(!photo.getMember().getMemberId().equals(member.getMemberId())){
             throw new BusinessException(ErrorCode.UNAUTHORIZED_MEMBER);
         }
 
-        // Photo와 연관된 Drawing들의 photo 필드를 null로 설정하여 연관 관계 해제
-        List<Drawing> drawings = photo.getDrawings();
-        for (Drawing drawing : drawings) {
-            drawing.setPhoto(null);
-        }
+        // 북마크 일괄 삭제
+        bookmarkRepository.deleteBookmarksByPhotoId(photoId);
 
+        // Photo와 연관된 Drawing들의 photo 필드를 null로 설정하여 연관 관계 해제
+        drawingRepository.unlinkDrawingsFromPhoto(photoId);
+
+        // photo 삭제
         photoRepository.delete(photo);
     }
 
     // 사진 즐겨찾기
     @Transactional
-    @CacheEvict(value = "bookMarks", key = "#memberId")
-    public void pickPhoto(Long photoId, Long memberId) {
+    @CacheEvict(value = "bookMarks", key = "#member.memberId")
+    public void pickPhoto(Long photoId, Member member) {
         Photo photo = photoRepository.findById(photoId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 photo가 존재하지 않습니다."));
-
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 member가 존재하지 않습니다."));
 
         Bookmarks bookmark = Bookmarks.builder()
                 .member(member)
@@ -157,28 +165,24 @@ public class PhotoInfoService {
         bookmarkRepository.save(bookmark);
 
         // 즐겨찾기 수 증가
-        photo.setBookmarkCnt(photo.getBookmarkCnt() +1);
-
+        photoRepository.increaseBookmarkCount(photoId);
     }
 
     // 사진 즐겨찾기 취소
     @Transactional
-    @CacheEvict(value = "bookMarks", key = "#memberId")
-    public void unpickPhoto(Long photoId, Long memberId) {
-        Bookmarks bookmark = bookmarkRepository.findByMemberMemberIdAndPhotoPhotoId(memberId, photoId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 즐겨찾기가 존재하지 않습니다."));
-
+    @CacheEvict(value = "bookMarks", key = "#member.memberId")
+    public void unpickPhoto(Long photoId, Member member, Bookmarks bookmark) {
+        // 북마크 제거
         bookmarkRepository.delete(bookmark);
-
         // 즐겨찾기 수 감소
-        Photo photo = bookmark.getPhoto();
-        photo.setBookmarkCnt(photo.getBookmarkCnt() - 1);
+        photoRepository.decreaseBookmarkCount(photoId);
 
     }
 
-    // 북마크확인
-    public boolean isAlreadyBookmarked(Member member, Long photoId) {
-        return bookmarkRepository.existsByMemberMemberIdAndPhotoPhotoId(member.getMemberId(), photoId);
+    // 북마크확인, 있으면 북마크 반환
+    public Bookmarks getBookmarkIfExists(Member member, Long photoId) {
+        return bookmarkRepository.findByMemberMemberIdAndPhotoPhotoId(member.getMemberId(), photoId)
+                .orElse(null);
     }
 
 }
