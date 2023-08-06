@@ -136,4 +136,6 @@ dependencies {
     //lottie
     implementation 'com.airbnb.android:lottie:6.0.0'
 
+    //gif
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
 }

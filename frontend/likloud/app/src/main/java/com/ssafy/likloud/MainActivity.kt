@@ -2,11 +2,16 @@ package com.ssafy.likloud
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.media.AsyncPlayer
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
+import android.view.animation.AccelerateInterpolator
 import android.view.animation.AnimationUtils
+import android.view.animation.OvershootInterpolator
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.activity.viewModels
@@ -21,6 +26,9 @@ import com.ssafy.likloud.data.repository.BaseRepository
 import com.ssafy.likloud.databinding.ActivityMainBinding
 import com.ssafy.likloud.ui.login.LoginFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -37,6 +45,34 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // 스플래시
+//        val handler = Handler(Looper.getMainLooper())
+//        handler.postDelayed(Runnable {
+//            Intent(this, MainActivity::class.java).apply {
+//                startActivity(this)
+//                finish()
+//            }
+//        }, 3000) // 3초 후(3000) 스플래시 화면을 닫습니다
+
+//        CoroutineScope(Dispatchers.Main).launch {
+//            binding.navHostFragment.visibility = View.INVISIBLE
+//            delay(4500)
+//            binding.gifAppIntro.visibility = View.INVISIBLE
+//            binding.navHostFragment.scaleX = 0.8f
+//            binding.navHostFragment.scaleY = 0.8f
+//            ObjectAnimator.ofFloat(binding.navHostFragment, "scaleX", 1f).apply {
+//                interpolator = OvershootInterpolator()
+//                duration = 200
+//                start()
+//            }
+//            ObjectAnimator.ofFloat(binding.navHostFragment, "scaleY", 1f).apply {
+//                interpolator = OvershootInterpolator()
+//                duration = 200
+//                start()
+//            }
+//            binding.navHostFragment.visibility = View.VISIBLE
+//        }
 
         initObserver()
         initView()
