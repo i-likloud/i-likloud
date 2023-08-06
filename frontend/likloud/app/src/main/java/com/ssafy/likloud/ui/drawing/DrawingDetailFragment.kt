@@ -121,6 +121,9 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
                     keyboard.hideSoftInputFromWindow(edittextDrawingComment.windowToken,0)
                 }
             }
+            buttonNft.setOnClickListener {
+                drawingDetailFragmentViewModel.registNft(args.drawingId)
+            }
         }
         // 안드로이드 뒤로가기 버튼 눌렀을 때
         mainActivity.onBackPressedDispatcher.addCallback(
@@ -152,6 +155,12 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             textDrawingContent.text = drawingDetail.content
             textLikeCount.text = drawingDetail.likesCount.toString()
             textViewCount.text = drawingDetail.viewCount.toString()
+            Log.d(TAG, "member ${member.nickname} // user ${activityViewModel.memberInfo.value!!.nickname}")
+            if(member.nickname == activityViewModel.memberInfo.value!!.nickname){
+                buttonNft.visibility = View.VISIBLE
+            }else{
+                buttonNft.visibility = View.GONE
+            }
         }
     }
 

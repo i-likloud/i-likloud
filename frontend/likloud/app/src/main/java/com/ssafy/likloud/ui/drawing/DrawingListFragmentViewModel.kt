@@ -154,4 +154,12 @@ class DrawingListFragmentViewModel @Inject constructor(
             }
         }
     }
+    fun registNft(drawingId: Int){
+        viewModelScope.launch {
+            baseRepository.registNft(drawingId).onSuccess {
+                // NFT 발급 성공
+                Log.d(TAG, "registNft 성공")
+            }
+        }
+    }
 }

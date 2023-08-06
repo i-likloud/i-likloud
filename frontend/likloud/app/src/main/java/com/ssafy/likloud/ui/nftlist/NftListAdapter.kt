@@ -12,23 +12,22 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.ssafy.likloud.data.model.DrawingListDto
-import com.ssafy.likloud.data.model.NftDto
+import com.ssafy.likloud.data.model.NftListDto
 import com.ssafy.likloud.databinding.ItemNftBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class NftListAdapter (var context: Context): ListAdapter<NftDto, NftListAdapter.NftHolder>(
+class NftListAdapter (var context: Context): ListAdapter<NftListDto, NftListAdapter.NftHolder>(
     NftListComparator
 ) {
-    companion object NftListComparator : DiffUtil.ItemCallback<NftDto>() {
-        override fun areItemsTheSame(oldItem: NftDto, newItem: NftDto): Boolean {
+    companion object NftListComparator : DiffUtil.ItemCallback<NftListDto>() {
+        override fun areItemsTheSame(oldItem: NftListDto, newItem: NftListDto): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: NftDto, newItem: NftDto): Boolean {
+        override fun areContentsTheSame(oldItem: NftListDto, newItem: NftListDto): Boolean {
             return oldItem.nftId  == newItem.nftId
         }
     }
@@ -42,14 +41,14 @@ class NftListAdapter (var context: Context): ListAdapter<NftDto, NftListAdapter.
         val textTitle = binding.textNftTitle
         val textContent = binding.textNftContent
 
-        fun bindInfo(nftDto : NftDto){
+        fun bindInfo(nftDto : NftListDto){
 
             Glide.with(imageNft)
                 .load(nftDto.imageUrl)
                 .into(imageNft)
-            textNickname.text = nftDto.owner
-            textTitle.text = nftDto.title
-            textContent.text = nftDto.content
+            textNickname.text = "이름 : ${nftDto.owner}"
+            textTitle.text = "제목 : ${nftDto.title}"
+            textContent.text = " 내용 : ${nftDto.content}"
             layoutNft.setOnClickListener{
                 if (layoutBack.visibility == View.INVISIBLE) {
                     flip(context, layoutBack, layoutFront)

@@ -11,7 +11,8 @@ import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.data.model.MemberInfoDto
 import com.ssafy.likloud.data.model.MemberProfileDto
-import com.ssafy.likloud.data.model.NftDto
+import com.ssafy.likloud.data.model.NftListDto
+import com.ssafy.likloud.data.model.NftRegistDto
 import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
@@ -183,7 +184,11 @@ class BaseRepositoryImpl @Inject constructor(
         return handleApi { baseAPIService.deleteDrawingComment(commentId).body()!! }
     }
 
-    override suspend fun getMyNftList(): NetworkResult<MutableList<NftDto>> {
+    override suspend fun getMyNftList(): NetworkResult<MutableList<NftListDto>> {
         return handleApi { baseAPIService.getMyNftList().body()!! }
+    }
+
+    override suspend fun registNft(drawingId: Int): NetworkResult<NftRegistDto> {
+        return handleApi { baseAPIService.registNft(drawingId).body()!! }
     }
 }

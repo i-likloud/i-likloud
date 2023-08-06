@@ -7,7 +7,8 @@ import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.data.model.MemberInfoDto
 import com.ssafy.likloud.data.model.MemberProfileDto
-import com.ssafy.likloud.data.model.NftDto
+import com.ssafy.likloud.data.model.NftListDto
+import com.ssafy.likloud.data.model.NftRegistDto
 import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
@@ -24,8 +25,6 @@ import com.ssafy.likloud.data.model.response.StoreItemBuyResponse
 import com.ssafy.likloud.data.model.response.StoreResponse
 import retrofit2.Response
 import okhttp3.MultipartBody
-import retrofit2.http.Part
-import retrofit2.http.Path
 
 interface BaseRepository {
 
@@ -199,5 +198,9 @@ interface BaseRepository {
     /**
      * 내 NFT 조회
      */
-    suspend fun getMyNftList(): NetworkResult<MutableList<NftDto>>
+    suspend fun getMyNftList(): NetworkResult<MutableList<NftListDto>>
+    /**
+     * NFT 발급
+     */
+    suspend fun registNft(drawingId: Int): NetworkResult<NftRegistDto>
 }
