@@ -66,9 +66,9 @@ class BearerInterceptor: Interceptor {
                     Log.d(TAG, "intercept 현재 찐 refresh: ${sharedPreferences.getString(
                         X_REFRESH_TOKEN)}")
                     if(result.isSuccessful) {
-
-                        Log.d(TAG, "intercept: dddd")
                         sharedPreferences.putString("access_token", result.body()!!.accessToken)
+                        Log.d(TAG, "intercept: dddd")
+
                         Log.d(TAG, "intercept: 만료된 토큰 다시 받은거 ${result.body()!!.accessToken}")
 //                        sharedPreferences.putString("refresh_token", result.data.refreshToken)
                         accessToken = result.body()!!.accessToken

@@ -14,6 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.ssafy.likloud.ApplicationClass
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
@@ -168,9 +169,16 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
             clickBgmToggle = { toggleMusic()},
             logout = {logout()},
             deleteUser = {deleteUser()},
-            bgmText = mainActivityViewModel.toggleBgmString.value!!
+            bgmText = musicStatus()
         )
         dialog.show(childFragmentManager, TAG)
+    }
+
+    private fun musicStatus(): String {
+        if(ApplicationClass.sharedPreferences.getMusicStatus() == true){
+            return getString(R.string.bgm_off)
+        }
+        return getString(R.string.bgm_on)
     }
 
     private fun toggleMusic() {

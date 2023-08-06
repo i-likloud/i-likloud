@@ -13,19 +13,6 @@ class SharedPreferencesUtil(context: Context) {
         editor.putStringSet(ApplicationClass.COOKIES_KEY_NAME, cookies)
         editor.apply()
     }
-
-//    fun addUser(user : User){
-//        val editor = preferences.edit()
-//        editor.putString("userid", user.userid)
-//        editor.putString("nickname", user.nickname)
-//        editor.apply()
-//    }
-
-//    fun getUserid() : String {
-//       val id = preferences.getString("userid", "")
-//        return id!!
-//    }
-
     fun deleteUser() {
         val editor = preferences.edit()
         editor.clear()
@@ -51,5 +38,21 @@ class SharedPreferencesUtil(context: Context) {
         val editor = preferences.edit()
         editor.putString(key, token)
         editor.apply()
+    }
+
+    fun setMusicOff() {
+        val editor = preferences.edit()
+        editor.putBoolean("is_music_played", false)
+        editor.apply()
+    }
+
+    fun setMusicOn() {
+        val editor = preferences.edit()
+        editor.putBoolean("is_music_played", true)
+        editor.apply()
+    }
+
+    fun getMusicStatus() : Boolean{
+        return preferences.getBoolean("is_music_played", true)
     }
 }
