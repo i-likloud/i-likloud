@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="400dp"
     android:layout_margin = "10dp"
     android:id="@+id/layout_nft">
 
@@ -21,12 +21,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:id="@+id/image_nft_medal"
+                android:layout_width="100dp"
+                android:layout_height="120dp"
+                android:src="@drawable/image_nft_medal"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="@dimen/_10sdp"/>
+
             <TextView
                 android:id="@+id/text_nft_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="CSH"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_margin="@dimen/_10sdp"/>
@@ -36,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TITLE"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
                 app:layout_constraintTop_toBottomOf="@id/text_nft_nickname"
                 app:layout_constraintStart_toStartOf="@id/text_nft_nickname"/>
 
@@ -45,18 +54,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="CONTENT"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
                 app:layout_constraintTop_toBottomOf="@id/text_nft_title"
                 app:layout_constraintStart_toStartOf="@id/text_nft_title"/>
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                app:lottie_fileName="lottie_animation_nft_stamp.json"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+<!--            <com.airbnb.lottie.LottieAnimationView-->
+<!--                android:layout_width="150dp"-->
+<!--                android:layout_height="150dp"-->
+<!--                app:lottie_fileName="lottie_animation_nft_stamp.json"-->
+<!--                app:lottie_autoPlay="true"-->
+<!--                app:lottie_loop="true"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"/>-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
