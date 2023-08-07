@@ -296,7 +296,9 @@ class LoginFragment :
     fun getUserEmailFromKakao() {
         UserApiClient.instance.me { user, error ->
             val userEmail = user?.kakaoAccount?.email
-            sharedPreferences.putString(USER_EMAIL, userEmail!!)
+            userEmail?.let {
+                sharedPreferences.putString(USER_EMAIL, userEmail)
+            }
         }
     }
 }

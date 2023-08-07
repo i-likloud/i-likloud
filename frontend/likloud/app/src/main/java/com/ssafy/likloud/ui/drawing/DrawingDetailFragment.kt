@@ -40,6 +40,8 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
     val args: DrawingDetailFragmentArgs by navArgs()
     private lateinit var  memberProfileDto : MemberProfileDto
     private lateinit var commentListAdapter: CommentListAdapter
+    private var isCurUserObserved : Boolean = false
+    private var isCurCommentObserved : Boolean = false
 
 
     override fun onAttach(context: Context) {
@@ -74,21 +76,28 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
         }
 
         drawingDetailFragmentViewModel.currentDrawingMember.observe(viewLifecycleOwner) {
+            Log.d(TAG, "initObserver: observed currentDrawingMember")
             initInfoView(drawingDetailFragmentViewModel.currentDrawingDetail.value!!, it)
             memberProfileDto = it
+            if(!isCurUserObserved) return@observe
+            activityViewModel.memberInfo.observe(viewLifecycleOwner){
+                isCurUserObserved = true
+                Log.d(TAG, "initObserver: observed currentUser")
+                // 현재 user가 받아져 오면 recyclerview 생성
+                initCommentRecyclerView()
+                initCurUserView(memberProfileDto)
+
+                // user가 받아져 온 다음에 comment ui 업데이트
+                if(!isCurCommentObserved) return@observe
+                drawingDetailFragmentViewModel.currentDrawingCommentList.observe(viewLifecycleOwner){
+                    isCurCommentObserved = true
+                    commentListAdapter.submitList(it.toMutableList())
+                }
+            }
             activityViewModel.getMemberInfo(ApplicationClass.sharedPreferences.getString(USER_EMAIL)!!)
         }
 
-        activityViewModel.memberInfo.observe(viewLifecycleOwner){
-            // 현재 user가 받아져 오면 recyclerview 생성
-            initCommentRecyclerView()
-            initCurUserView(memberProfileDto)
 
-            // user가 받아져 온 다음에 comment ui 업데이트
-            drawingDetailFragmentViewModel.currentDrawingCommentList.observe(viewLifecycleOwner){
-                commentListAdapter.submitList(it.toMutableList())
-            }
-        }
 
         drawingDetailFragmentViewModel.isLiked.observe(viewLifecycleOwner){
             Log.d(TAG, "current isLiked: $it")

@@ -12,8 +12,11 @@ import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
 import com.ssafy.likloud.data.repository.BaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
@@ -34,8 +37,8 @@ class DrawingFormFragmentViewModel @Inject constructor(
     val descMessageText : StateFlow<String> get() = _descMessageText.asStateFlow()
 
 
-    private val _isDrawingUploaded: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val isDrawingUploaded : StateFlow<Boolean> get() = _isDrawingUploaded.asStateFlow()
+    private val _isDrawingUploaded: MutableSharedFlow<Boolean> = MutableSharedFlow()
+    val isDrawingUploaded : SharedFlow<Boolean> get() = _isDrawingUploaded.asSharedFlow()
 
     // emit으로 수정 필요
     fun settitleMessage(text : String){
