@@ -11,13 +11,16 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.navigation.NavDeepLinkBuilder
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.R
+import com.ssafy.likloud.ui.drawing.DrawingDetailFragmentArgs
 import java.util.*
 
 private const val TAG = "MyFirebaseMessageServic_싸피"
+
 class MyFirebaseMessageService : FirebaseMessagingService() {
 
     // 새로운 토큰이 생성될 때 마다 해당 콜백이 호출된다.
@@ -32,24 +35,55 @@ class MyFirebaseMessageService : FirebaseMessagingService() {
     // 메시지가 오면 호출되는 함수
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        Log.d(TAG, "onMessageReceived: $remoteMessage")
+        Log.d(TAG, "onMessageReceived: ${remoteMessage.data}")
 
         remoteMessage.notification?.apply {
-            Log.d(TAG, "onMessageReceived: ssss")
+//            Log.d(TAG, "onMessageReceived: ssss")
+            val navBuilder = NavDeepLinkBuilder(this@MyFirebaseMessageService)
 //            val messageTitle = title 이런 식으로 title body 받을 수 있음
-            val intent = Intent(this@MyFirebaseMessageService, MainActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // 동작 방식
+            val pendingIntent : PendingIntent
+            when (remoteMessage.data["historyType"]) {
+                "COMMENT" -> {
+                    Log.d(TAG, "onMessageReceived: comment received")
+                    val args = DrawingDetailFragmentArgs(remoteMessage.data["drawingId"]!!.toInt())
+
+                    pendingIntent = NavDeepLinkBuilder(this@MyFirebaseMessageService)
+                        .setComponentName(MainActivity::class.java)
+                        .setGraph(R.navigation.nav_graph)
+                        .setDestination(R.id.drawingDetailFragment)
+                        .setArguments(args.toBundle())
+                        .createPendingIntent()
+                }
+                "FragmentB" -> {
+                    pendingIntent = navBuilder
+                        .setComponentName(MainActivity::class.java)
+                        .setGraph(R.navigation.nav_graph)
+                        .setDestination(R.id.drawingListFragment)
+                        .createPendingIntent()
+                }
+                else -> {
+                    pendingIntent = navBuilder
+                        .setComponentName(MainActivity::class.java)
+                        .setGraph(R.navigation.nav_graph)
+                        .setDestination(R.id.drawingListFragment)
+                        .createPendingIntent()
+                }
             }
-            val pendingIntent = PendingIntent.getActivity(this@MyFirebaseMessageService,0,intent, PendingIntent.FLAG_IMMUTABLE)
-            val builder = NotificationCompat.Builder(this@MyFirebaseMessageService,MainActivity.channel_id)
-                .setSmallIcon(android.R.drawable.ic_dialog_info)
-                .setContentTitle(title)
-                .setContentText(body)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
-                .setFullScreenIntent(pendingIntent, true)
+
+
+            // 이하 동일한 코드...
+
+            val builder =
+                NotificationCompat.Builder(this@MyFirebaseMessageService, MainActivity.channel_id)
+                    .setSmallIcon(android.R.drawable.ic_dialog_info)
+                    .setContentTitle(title)
+                    .setContentText(body)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .setFullScreenIntent(pendingIntent, true)
             val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.notify(101,builder.build())
+            notificationManager.notify(101, builder.build())
         }
     }
 }
+
