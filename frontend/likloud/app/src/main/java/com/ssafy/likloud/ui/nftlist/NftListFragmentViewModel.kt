@@ -42,5 +42,22 @@ class NftListFragmentViewModel @Inject constructor(
             }
         }
     }
+    private var _isAccepted = MutableLiveData<Boolean>()
+    val isAccepted: LiveData<Boolean>
+        get() = _isAccepted
+    fun acceptGift(transferId: Int, nftId: Int){
+        viewModelScope.launch {
+            baseRepository.acceptGift(transferId, nftId).onSuccess {
 
+            }
+        }
+    }
+
+    fun rejectGift(transferId: Int, nftId: Int){
+        viewModelScope.launch {
+            baseRepository.rejectGift(transferId, nftId).onSuccess {
+
+            }
+        }
+    }
 }

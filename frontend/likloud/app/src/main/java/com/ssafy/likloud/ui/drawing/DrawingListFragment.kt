@@ -135,8 +135,10 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
     private fun initObserver(){
 
         drawingListFragmentViewModel.currentDrawingListDtoList.observe(viewLifecycleOwner){
-            drawingListAdapter.submitList(it)
-            drawingListFragmentViewModel.getCurrentDrawingDetailDto(it[0])
+            if(it.size!=0) {
+                drawingListAdapter.submitList(it)
+                drawingListFragmentViewModel.getCurrentDrawingDetailDto(it[0])
+            }
         }
 
         drawingListFragmentViewModel.currentDrawingDetailDto.observe(viewLifecycleOwner){

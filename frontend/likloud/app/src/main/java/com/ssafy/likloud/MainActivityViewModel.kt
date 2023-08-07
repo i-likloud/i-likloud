@@ -170,4 +170,16 @@ class MainActivityViewModel @Inject constructor(
         }
     }
 
+    ///////////////////// 지갑 발급 여부 ///////////////////////////
+    private var _isWallet = MutableLiveData<Boolean>()
+    val isWallet: LiveData<Boolean>
+        get() = _isWallet
+    fun getNftWallet(){
+        viewModelScope.launch {
+            baseRepository.getNftWallet().onSuccess {
+                _isWallet.value = true
+            }
+        }
+    }
+
 }

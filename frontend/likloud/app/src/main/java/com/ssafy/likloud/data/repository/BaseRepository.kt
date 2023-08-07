@@ -10,6 +10,7 @@ import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.data.model.NftGiftDto
 import com.ssafy.likloud.data.model.NftListDto
 import com.ssafy.likloud.data.model.NftRegistDto
+import com.ssafy.likloud.data.model.NftWalletDto
 import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
@@ -223,4 +224,16 @@ interface BaseRepository {
      * 회원 정보 조회
      */
     suspend fun getMemberInfo2(): NetworkResult<MemberInfoResponse>
+    /**
+     * NFT 지갑 발급
+     */
+    suspend fun getNftWallet(): NetworkResult<NftWalletDto>
+    /**
+     * 선물 수락
+     */
+    suspend fun acceptGift(@Path("transferId") transferId: Int, @Path("nftId") nftId: Int): NetworkResult<NftListDto>
+    /**
+     * 선물 거부
+     */
+    suspend fun rejectGift(@Path("transferId") transferId: Int, @Path("nftId") nftId: Int): NetworkResult<String>
 }

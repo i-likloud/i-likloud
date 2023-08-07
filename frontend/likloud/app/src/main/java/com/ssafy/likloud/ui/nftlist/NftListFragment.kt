@@ -114,6 +114,13 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
                 activityViewModel.setIsSended(false)
             }
         }
+        nftListFragmentViewModel.isAccepted.observe(viewLifecycleOwner){
+            if(it){ //수락했을 때
+
+            }else{ //거부했을 때
+
+            }
+        }
     }
 
     private fun initNftListRecyclerView(){
@@ -140,11 +147,11 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
         binding.recyclerviewNft.apply {
             this.adapter = giftListAdapter.apply {
                 itemClickListner = object: NftGiftAdapter.ItemClickListener{
-                    override fun onAgreeClick(nftGiftDto: NftGiftDto) {
+                    override fun onAcceptClick(nftGiftDto: NftGiftDto) {
                         //수락하기 버튼 눌렀을 때
                     }
 
-                    override fun onDegreeClick(nftGiftDto: NftGiftDto) {
+                    override fun onRejectClick(nftGiftDto: NftGiftDto) {
                         //거절하기 버튼 눌렀을 때
                     }
 

@@ -42,17 +42,17 @@ class NftGiftAdapter (var context: Context): ListAdapter<NftGiftDto, NftGiftAdap
         val textNickname = binding.textNftNickname
         val textTitle = binding.textNftTitle
         val textContent = binding.textNftContent
-        val buttonGiftAgree = binding.buttonGiftAgree
-        val buttonGiftDegree = binding.buttonGiftDegree
+        val buttonGiftAccept = binding.buttonGiftAccept
+        val buttonGiftReject = binding.buttonGiftReject
 
         fun bindInfo(nftGiftDto : NftGiftDto){
 
-//            Glide.with(imageNft)
-//                .load(nftDto.imageUrl)
-//                .into(imageNft)
-//            textNickname.text = "이름 : ${nftDto.owner}"
-//            textTitle.text = "제목 : ${nftDto.title}"
-//            textContent.text = " 내용 : ${nftDto.content}"
+            Glide.with(imageNft)
+                .load(nftGiftDto.imageUrl)
+                .into(imageNft)
+//            textNickname.text = "이름 : ${nftGiftDto.}"
+//            textTitle.text = "제목 : ${nftGiftDto.title}"
+//            textContent.text = " 내용 : ${nftGiftDto.content}"
             layoutNft.setOnClickListener{
                 if (layoutBack.visibility == View.INVISIBLE) {
                     flip(context, layoutBack, layoutFront)
@@ -61,14 +61,14 @@ class NftGiftAdapter (var context: Context): ListAdapter<NftGiftDto, NftGiftAdap
                 }
             }
 
-            buttonGiftAgree.setOnClickListener {
+            buttonGiftAccept.setOnClickListener {
                 //선물 수락 이벤트
-                itemClickListner.onAgreeClick(nftGiftDto)
+                itemClickListner.onAcceptClick(nftGiftDto)
             }
 
-            buttonGiftDegree.setOnClickListener {
+            buttonGiftReject.setOnClickListener {
                 //선물 거부 이벤트
-                itemClickListner.onDegreeClick(nftGiftDto)
+                itemClickListner.onRejectClick(nftGiftDto)
             }
         }
     }
@@ -135,8 +135,8 @@ class NftGiftAdapter (var context: Context): ListAdapter<NftGiftDto, NftGiftAdap
 
     //    //클릭 인터페이스 정의 사용하는 곳에서 만들어준다.
     interface ItemClickListener {
-        fun onAgreeClick(nftGiftDto: NftGiftDto)
-        fun onDegreeClick(nftGiftDto: NftGiftDto)
+        fun onAcceptClick(nftGiftDto: NftGiftDto)
+        fun onRejectClick(nftGiftDto: NftGiftDto)
     }
     //클릭리스너 선언
     lateinit var itemClickListner: ItemClickListener

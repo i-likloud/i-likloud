@@ -11,6 +11,7 @@ import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.data.model.NftGiftDto
 import com.ssafy.likloud.data.model.NftListDto
 import com.ssafy.likloud.data.model.NftRegistDto
+import com.ssafy.likloud.data.model.NftWalletDto
 import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
@@ -224,6 +225,22 @@ interface BaseService {
      */
     @GET("api/member/info")
     suspend fun getMemgerInfo2(): Response<MemberInfoResponse>
+    /**
+     * NFT 지갑 발급
+     */
+    @POST("api/nft/wallet")
+    suspend fun getNftWallet(): Response<NftWalletDto>
+    /**
+     * 선물 수락
+     */
+    @POST("api/mypage/gift/{transferId}/accept/{nftId}")
+    suspend fun acceptGift(@Path("transferId") transferId: Int, @Path("nftId") nftId: Int): Response<NftListDto>
+    /**
+     * 선물 거부
+     */
+    @POST("api/mypage/gift/{transferId}/reject/{nftId}")
+    suspend fun rejectGift(@Path("transferId") transferId: Int, @Path("nftId") nftId: Int): Response<String>
+
 }
 
 //api 만드는 과정

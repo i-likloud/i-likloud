@@ -87,7 +87,7 @@
                 app:layout_constraintEnd_toEndOf="parent">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button_gift_agree"
+                    android:id="@+id/button_gift_accept"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     app:layout_constraintWidth_percent="0.5"
@@ -99,7 +99,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button_gift_degree"
+                    android:id="@+id/button_gift_reject"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     app:layout_constraintWidth_percent="0.5"
@@ -107,7 +107,7 @@
                     style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
                     android:background="@drawable/frame_rounded_border_skyblue_radius50"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/button_gift_agree"
+                    app:layout_constraintStart_toEndOf="@id/button_gift_accept"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
 

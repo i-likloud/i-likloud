@@ -119,6 +119,7 @@ class DrawingDetailFragmentViewModel@Inject constructor(
                 // NFT 발급 성공
                 Log.d(TAG, "registNft 성공")
                 _isSuccess.value = true
+                _nftYn.value = true
             }
         }
     }
