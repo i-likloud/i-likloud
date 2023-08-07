@@ -38,6 +38,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
+import com.ssafy.likloud.ApplicationClass.Companion.FIREBASE_TOKEN
 import com.ssafy.likloud.base.BaseActivity
 import com.ssafy.likloud.data.repository.BaseRepository
 import com.ssafy.likloud.databinding.ActivityMainBinding
@@ -191,7 +192,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         private const val RC_SIGN_IN = 9001
         const val channel_id = "ssafy_channel"
         fun uploadToken(token: String) {
-
+            ApplicationClass.sharedPreferences.putString(FIREBASE_TOKEN, token)
         }
     }
 
