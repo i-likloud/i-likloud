@@ -31,6 +31,10 @@ class DrawingFormFragmentViewModel @Inject constructor(
     private val _descMessageText: MutableStateFlow<String> = MutableStateFlow("")
     val descMessageText : StateFlow<String> get() = _descMessageText.asStateFlow()
 
+
+    private val _isDrawingUploaded: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isDrawingUploaded : StateFlow<Boolean> get() = _isDrawingUploaded.asStateFlow()
+
     // emit으로 수정 필요
     fun settitleMessage(text : String){
         _titleMessageText.value = text
@@ -44,6 +48,7 @@ class DrawingFormFragmentViewModel @Inject constructor(
         viewModelScope.launch {
             baseRepository.postDrawingMultipart(multipartBody, uploadPhotoId, title, description , MemberInfoDto("email", "role")).onSuccess {
                 Log.d(TAG, "uploadDrawing: success")
+                _isDrawingUploaded.emit(true)
             }
         }
 

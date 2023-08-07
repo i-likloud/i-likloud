@@ -273,12 +273,13 @@ class LoginFragment :
                         context,
                         callback = callback
                     )
+                    getUserEmailFromKakao()
                 } else if (token != null) {
                     Log.i(
                         ContentValues.TAG,
                         "카카오톡으로 로그인 성공 accesstoken ${token.accessToken}"
                     )
-                    Log.i(ContentValues.TAG, "카카오톡: ${token.scopes?.get(2)}")
+                    getUserEmailFromKakao()
                     sharedPreferences.putString(X_ACCESS_TOKEN, token.accessToken)
                     loginFragmentViewModel.postLogin("email", "KAKAO")
 //                    findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
@@ -287,6 +288,15 @@ class LoginFragment :
         }
         else {
             UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
+            getUserEmailFromKakao()
+        }
+    }
+
+
+    fun getUserEmailFromKakao() {
+        UserApiClient.instance.me { user, error ->
+            val userEmail = user?.kakaoAccount?.email
+            sharedPreferences.putString(USER_EMAIL, userEmail!!)
         }
     }
 }
