@@ -21,7 +21,7 @@ public class HistoryService {
     
     // 내 히스토리 보기
     public List<HistoryDto> getMyHistory(Long memberId) {
-        List<History> list = historyRepository.findAllByMemberMemberId(memberId);
+        List<History> list = historyRepository.findAllByMemberMemberIdOrderByCreatedAtDesc(memberId);
 
         return list.stream()
                 .map(HistoryDto::new)

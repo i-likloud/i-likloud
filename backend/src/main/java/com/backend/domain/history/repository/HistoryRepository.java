@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface HistoryRepository extends JpaRepository<History, Long> {
 
-    List<History> findAllByMemberMemberId(Long memberId);
+    List<History> findAllByMemberMemberIdOrderByCreatedAtDesc(Long memberId);
 }
