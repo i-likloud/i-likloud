@@ -15,6 +15,7 @@ import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
 import com.ssafy.likloud.data.model.DrawingListDto
+import com.ssafy.likloud.data.model.NftGiftDto
 import com.ssafy.likloud.data.model.NftListDto
 import com.ssafy.likloud.databinding.FragmentNftListBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -104,7 +105,18 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
     private fun initGiftListRecyclerView(){
         giftListAdapter = NftGiftAdapter(mainActivity)
         binding.recyclerviewNft.apply {
-            this.adapter = giftListAdapter
+            this.adapter = giftListAdapter.apply {
+                itemClickListner = object: NftGiftAdapter.ItemClickListener{
+                    override fun onAgreeClick(nftGiftDto: NftGiftDto) {
+                        //수락하기 버튼 눌렀을 때
+                    }
+
+                    override fun onDegreeClick(nftGiftDto: NftGiftDto) {
+                        //거절하기 버튼 눌렀을 때
+                    }
+
+                }
+            }
             layoutManager = GridLayoutManager(mainActivity,3)
         }
     }

@@ -45,7 +45,7 @@ class NftGiftAdapter (var context: Context): ListAdapter<NftGiftDto, NftGiftAdap
         val buttonGiftAgree = binding.buttonGiftAgree
         val buttonGiftDegree = binding.buttonGiftDegree
 
-        fun bindInfo(giftDto : NftGiftDto){
+        fun bindInfo(nftGiftDto : NftGiftDto){
 
 //            Glide.with(imageNft)
 //                .load(nftDto.imageUrl)
@@ -63,10 +63,12 @@ class NftGiftAdapter (var context: Context): ListAdapter<NftGiftDto, NftGiftAdap
 
             buttonGiftAgree.setOnClickListener {
                 //선물 수락 이벤트
+                itemClickListner.onAgreeClick(nftGiftDto)
             }
 
             buttonGiftDegree.setOnClickListener {
                 //선물 거부 이벤트
+                itemClickListner.onDegreeClick(nftGiftDto)
             }
         }
     }
@@ -133,7 +135,8 @@ class NftGiftAdapter (var context: Context): ListAdapter<NftGiftDto, NftGiftAdap
 
     //    //클릭 인터페이스 정의 사용하는 곳에서 만들어준다.
     interface ItemClickListener {
-        fun onClick(view: View, position: Int, info:String)
+        fun onAgreeClick(nftGiftDto: NftGiftDto)
+        fun onDegreeClick(nftGiftDto: NftGiftDto)
     }
     //클릭리스너 선언
     lateinit var itemClickListner: ItemClickListener
