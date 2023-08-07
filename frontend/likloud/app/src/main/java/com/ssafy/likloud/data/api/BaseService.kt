@@ -1,5 +1,6 @@
 package com.ssafy.likloud.data.api
 
+import android.provider.ContactsContract.CommonDataKinds.Nickname
 import com.ssafy.likloud.base.BaseResponse
 import com.ssafy.likloud.data.model.CommentDto
 import com.ssafy.likloud.data.model.DrawingDetailDto
@@ -208,6 +209,16 @@ interface BaseService {
      */
     @GET("api/mypage/gift")
     suspend fun getNftGiftList(): Response<MutableList<NftGiftDto>>
+    /**
+     * 닉네임으로 유저 검색
+     */
+    @POST("api/member/search/{nickname}")
+    suspend fun getCurrentSearchUserList(@Path("nickname") nickname: String): Response<MutableList<MemberInfoResponse>>
+    /**
+     * nft 선물하기
+     */
+    @POST("api/nft/token/{nftId}/to/{toMemberId}")
+    suspend fun sendGift(@Path("nftId") nftId: Int, @Path("toMemberId") toMemberId: Int, @Query("message") message: String): Response<NftGiftDto>
 }
 
 //api 만드는 과정

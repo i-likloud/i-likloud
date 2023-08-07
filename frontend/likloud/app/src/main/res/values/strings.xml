@@ -84,5 +84,8 @@
     <string name="gift_agree">수락</string>
     <string name="gift_degree">거부</string>
     <string name="gift">선물하기</string>
+    <string name="search_user">찾으려는 사용자의 닉네임을 입력하세요</string>
+    <string name="message_nft_gift">메시지를 작성해주세요!</string>
+    <string name="cancel_gift">취소</string>
 
 </resources>

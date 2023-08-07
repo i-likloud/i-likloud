@@ -146,4 +146,19 @@ class MainActivityViewModel @Inject constructor(
         }
     }
 
+    /////////////////////////// 선물 성공 /////////////////////////////////////////
+    private var _isSended = MutableLiveData<Boolean>(false)
+    val isSended: LiveData<Boolean>
+        get() = _isSended
+    fun setIsSended(value: Boolean){
+        _isSended.value = value
+    }
+    fun sendGift(nftId: Int, toMemberId: Int, message: String){
+        viewModelScope.launch {
+            baseRepository.sendGift(nftId, toMemberId, message).onSuccess {
+                _isSended.value = true
+            }
+        }
+    }
+
 }

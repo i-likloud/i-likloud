@@ -26,6 +26,9 @@ import com.ssafy.likloud.data.model.response.StoreItemBuyResponse
 import com.ssafy.likloud.data.model.response.StoreResponse
 import retrofit2.Response
 import okhttp3.MultipartBody
+import retrofit2.http.POST
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface BaseRepository {
 
@@ -208,4 +211,12 @@ interface BaseRepository {
      * 내 선물함 조회
      */
     suspend fun getNftGiftList(): NetworkResult<MutableList<NftGiftDto>>
+    /**
+     * 닉네임으로 유저 검색
+     */
+    suspend fun getCurrentSearchUserList(@Path("nickname") nickname: String): NetworkResult<MutableList<MemberInfoResponse>>
+    /**
+     * nft 선물하기
+     */
+    suspend fun sendGift(@Path("nftId") nftId: Int, @Path("toMemberId") toMemberId: Int, @Query("message") message: String): NetworkResult<NftGiftDto>
 }

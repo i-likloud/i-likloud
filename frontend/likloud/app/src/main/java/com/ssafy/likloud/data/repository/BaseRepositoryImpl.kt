@@ -196,4 +196,12 @@ class BaseRepositoryImpl @Inject constructor(
     override suspend fun getNftGiftList(): NetworkResult<MutableList<NftGiftDto>> {
         return handleApi { baseAPIService.getNftGiftList().body()!! }
     }
+
+    override suspend fun getCurrentSearchUserList(nickname: String): NetworkResult<MutableList<MemberInfoResponse>> {
+        return handleApi { baseAPIService.getCurrentSearchUserList(nickname).body()!! }
+    }
+
+    override suspend fun sendGift(nftId: Int, toMemberId: Int, message: String): NetworkResult<NftGiftDto> {
+        return handleApi { baseAPIService.sendGift(nftId, toMemberId, message).body()!! }
+    }
 }

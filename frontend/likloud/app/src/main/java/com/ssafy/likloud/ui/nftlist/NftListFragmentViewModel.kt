@@ -28,6 +28,10 @@ class NftListFragmentViewModel @Inject constructor(
         }
     }
 
+    var isShowSearchUserFragment = false
+
+
+
     private var _giftNftDtoList = MutableLiveData<MutableList<NftGiftDto>>()
     val giftNftDtoList: LiveData<MutableList<NftGiftDto>>
         get() = _giftNftDtoList
