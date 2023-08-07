@@ -7,6 +7,7 @@ import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.data.model.MemberInfoDto
 import com.ssafy.likloud.data.model.MemberProfileDto
+import com.ssafy.likloud.data.model.NftGiftDto
 import com.ssafy.likloud.data.model.NftListDto
 import com.ssafy.likloud.data.model.NftRegistDto
 import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
@@ -202,6 +203,11 @@ interface BaseService {
      */
     @POST("api/nft/token/{drawingId}")
     suspend fun registNft(@Path("drawingId") drawingId: Int): Response<NftRegistDto>
+    /**
+     * NFT 선물함 조회
+     */
+    @GET("api/mypage/gift")
+    suspend fun getNftGiftList(): Response<MutableList<NftGiftDto>>
 }
 
 //api 만드는 과정

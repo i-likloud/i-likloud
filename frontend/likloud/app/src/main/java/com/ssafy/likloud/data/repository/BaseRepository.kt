@@ -7,6 +7,7 @@ import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.data.model.MemberInfoDto
 import com.ssafy.likloud.data.model.MemberProfileDto
+import com.ssafy.likloud.data.model.NftGiftDto
 import com.ssafy.likloud.data.model.NftListDto
 import com.ssafy.likloud.data.model.NftRegistDto
 import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
@@ -203,4 +204,8 @@ interface BaseRepository {
      * NFT 발급
      */
     suspend fun registNft(drawingId: Int): NetworkResult<NftRegistDto>
+    /**
+     * 내 선물함 조회
+     */
+    suspend fun getNftGiftList(): NetworkResult<MutableList<NftGiftDto>>
 }

@@ -81,5 +81,8 @@
     <string name="title_nft">NFT</string>
     <string name="my_nft">내 NFT</string>
     <string name="gift_nft">선물함</string>
+    <string name="gift_agree">수락</string>
+    <string name="gift_degree">거부</string>
+    <string name="gift">선물하기</string>
 
 </resources>
