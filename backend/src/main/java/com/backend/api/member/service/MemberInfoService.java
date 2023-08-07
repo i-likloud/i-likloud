@@ -1,6 +1,7 @@
 package com.backend.api.member.service;
 
 import com.backend.api.member.dto.MemberDto;
+import com.backend.api.member.dto.MemberFindDto;
 import com.backend.api.member.dto.MemberInfoResponseDto;
 import com.backend.api.member.dto.MemberSearchDto;
 import com.backend.domain.member.constant.Role;
@@ -31,11 +32,11 @@ public class MemberInfoService {
     }
 
     @Transactional(readOnly = true)
-    public List<MemberSearchDto> getMemberList(List<Member> memberList) {
-        List<MemberSearchDto> result = new ArrayList<>();
+    public List<MemberFindDto> getMemberList(List<Member> memberList) {
+        List<MemberFindDto> result = new ArrayList<>();
 
         for (Member member : memberList) {
-            MemberSearchDto searchDto = MemberSearchDto.of(member);
+            MemberFindDto searchDto = MemberFindDto.of(member);
             result.add(searchDto);
         }
 
