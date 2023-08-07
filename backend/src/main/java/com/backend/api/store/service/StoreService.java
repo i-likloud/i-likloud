@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,15 +34,27 @@ public class StoreService {
 
     // 상점 아이템 조회(보유 여부 추가)
     public List<StoreWithAccessoryDto> getAllAccessorysWithOwnership(Long memberId) {
-        Member member = memberService.findMemberById(memberId);
-        List<Store> allaccessorys = storeRepository.findAll();
 
-        return allaccessorys.stream()
-                .map(store -> {
-                    boolean owned = accessoryService.isAlreadyOwned(member, store.getStoreId());
-                    return new StoreWithAccessoryDto(store, owned);
-                })
+        long startTime = System.currentTimeMillis();
+
+        List<Store> stores = storeRepository.findAll();
+
+        List<Long> storeIds = stores.stream().map(Store::getStoreId).collect(Collectors.toList());
+
+        // 현재 멤버가 구매한 아이템id 목록
+        Set<Long> boughtStoreIds = accessoryRepository.findBoughtStoreIdsByMember(memberId, storeIds);
+
+        List<StoreWithAccessoryDto> response = stores.stream()
+                .map(store -> new StoreWithAccessoryDto(store, boughtStoreIds.contains(store.getStoreId())))
                 .collect(Collectors.toList());
+
+        long endTime = System.currentTimeMillis();
+        long executionTime = endTime - startTime;
+
+        System.out.println("Query Execution Time: " + executionTime + " milliseconds");
+
+        return response;
+
     }
 
     public Store findStoreByStoreId(Long storeId){
@@ -51,8 +64,7 @@ public class StoreService {
 
     // 악세사리 구매
     @Transactional
-    public ProfileDto buyAccessory(String email, Long storeId) {
-        Member member = memberService.findMemberByEmail(email);
+    public ProfileDto buyAccessory(Member member, Long storeId) {
         Store buyStore = findStoreByStoreId(storeId);
 
         int targetCoin = buyStore.getAccessoryPrice();
@@ -68,10 +80,10 @@ public class StoreService {
         boolean alreadyOwned = myAccessories.stream().anyMatch(accessory -> accessory.getStore().getStoreId().equals(storeId));
 
         if (!alreadyOwned) {
-            member.setGoldCoin(currentGoldCoin - targetCoin);
+            member.updateGoldCoin(currentGoldCoin - targetCoin);
             memberRepository.save(member);
 
-            // member가 sotr_id번의 Accessory를 샀다.
+            // member가 storeId번의 Accessory를 샀다.
             Accessory accessory = Accessory.builder()
                     .store(buyStore)
                     .member(member)
