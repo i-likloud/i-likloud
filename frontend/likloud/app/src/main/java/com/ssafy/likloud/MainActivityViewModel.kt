@@ -116,10 +116,6 @@ class MainActivityViewModel @Inject constructor(
         }
     }
 
-    fun setToggleButtonText(text : String){
-        _toggleBgmString.value = text
-    }
-
     fun setProfileImage(color: Int, face: Int) {
         _profileColor.value = color
         _profileFace.value = face

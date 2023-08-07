@@ -38,6 +38,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
+import com.ssafy.likloud.ApplicationClass.Companion.FIREBASE_TOKEN
 import com.ssafy.likloud.base.BaseActivity
 import com.ssafy.likloud.data.repository.BaseRepository
 import com.ssafy.likloud.databinding.ActivityMainBinding
@@ -50,6 +51,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val TAG = "MainActivity_싸피"
+
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
 
@@ -58,12 +60,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
     private lateinit var mediaPlayer: MediaPlayer
-    private lateinit var auth: FirebaseAuth
-    private lateinit var googleSignInClient: GoogleSignInClient
 
     private val mainActivityViewModel: MainActivityViewModel by viewModels()
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val permissionList = arrayOf(
@@ -76,20 +76,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         initView()
         initNavController()
         initListener()
+        Log.d(TAG, "onCreate: oncreated!")
 
-        mediaPlayer = MediaPlayer.create(this,R.raw.idokay_the_cycle_continues)
-        mediaPlayer.start()
+        mediaPlayer = MediaPlayer.create(this, R.raw.summer_shower_quincas_moreira)
+        if(ApplicationClass.sharedPreferences.getMusicStatus()==true && !mediaPlayer.isPlaying){
+            mediaPlayer.start()
+        }
+
     }
 
     fun toggleMusic() {
         mediaPlayer.apply {
-            if (isPlaying){
+            if (isPlaying) {
                 pause()
-                mainActivityViewModel.setToggleButtonText(getString(R.string.bgm_on))
-            }
-            else {
+                ApplicationClass.sharedPreferences.setMusicOff()
+            } else {
                 start()
-                mainActivityViewModel.setToggleButtonText(getString(R.string.bgm_off))
+                ApplicationClass.sharedPreferences.setMusicOn()
             }
         }
     }
@@ -101,12 +104,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 R.id.homeFragment -> {
                     navController.navigate(R.id.action_homeFragment_to_mypageFragment)
                 }
+
                 R.id.photoListFragment -> {
                     navController.navigate(R.id.action_photoListFragment_to_mypageFragment)
                 }
+
                 R.id.drawingListFragment -> {
                     navController.navigate(R.id.action_drawingListFragment_to_mypageFragment)
                 }
+
                 R.id.mypageFragment -> {
 
                 }
@@ -115,7 +121,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     private fun initObserver() {
-        lifecycleScope.launch{
+        lifecycleScope.launch {
             mainActivityViewModel.memberInfo.observe(this@MainActivity) {
                 changeProfileColor(it.profileColor)
                 changeProfileFace(it.profileFace)
@@ -126,9 +132,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     R.id.mypageFragment -> {
 
                     }
+
                     R.id.storeFragment -> {
 
                     }
+
                     else -> {
                         changeProfileLayoutVisible()
                     }
@@ -145,13 +153,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     private fun initNavController() {
-        navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
     }
 
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun initFCMMessageAccept(){
+    private fun initFCMMessageAccept() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
                 Log.w(TAG, "FCM 토큰 얻기에 실패하였습니다.", task.exception)
@@ -159,7 +168,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             }
             // token log 남기기
             Log.d(TAG, "token 정보: ${task.result}")
-            if(task.result != null){
+            if (task.result != null) {
                 uploadToken(task.result)
             }
         })
@@ -173,8 +182,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         val importance = NotificationManager.IMPORTANCE_HIGH
         val channel = NotificationChannel(id, name, importance)
 
-        val notificationManager: NotificationManager
-                = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager: NotificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
 
     }
@@ -182,60 +191,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     companion object {
         private const val RC_SIGN_IN = 9001
         const val channel_id = "ssafy_channel"
-        fun uploadToken(token:String){
-
+        fun uploadToken(token: String) {
+            ApplicationClass.sharedPreferences.putString(FIREBASE_TOKEN, token)
         }
-    }
-
-    private fun initAuth() {
-
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-
-        googleSignInClient = GoogleSignIn.getClient(this, gso)
-        auth = Firebase.auth
-        signIn()
-    }
-
-    private fun signIn() {
-        val signInIntent = googleSignInClient.signInIntent
-        startActivityForResult(signInIntent, RC_SIGN_IN)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                val account = task.getResult(ApiException::class.java)!!
-                Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
-                firebaseAuthWithGoogle(account.idToken!!)
-            } catch (e: ApiException) {
-                // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e)
-            }
-        }
-    }
-
-    // [START auth_with_google]
-    private fun firebaseAuthWithGoogle(idToken: String) {
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "signInWithCredential:success")
-                    val user = auth.currentUser
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "signInWithCredential:failure", task.exception)
-                }
-            }
     }
 
     /**
@@ -244,9 +202,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     fun changeProfileColor(num: Int) {
         binding.profileColor.setImageResource(mainActivityViewModel.waterDropColorList[num].resourceId)
     }
+
     fun changeProfileFace(num: Int) {
         binding.profileFace.setImageResource(mainActivityViewModel.waterDropFaceList[num].resourceId)
     }
+
     fun changeProfileAccessory(num: Int) {
         binding.profileAccessory.setImageResource(mainActivityViewModel.waterDropAccessoryList[num].resourceId)
     }
@@ -258,7 +218,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     fun changeProfileLayoutInvisible() {
         binding.layoutProfile.visibility = View.INVISIBLE
     }
-
 
 
     private val requestMultiplePermission =
