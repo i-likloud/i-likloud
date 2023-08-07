@@ -169,6 +169,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         drawingListFragmentViewModel.currentDrawingCommentList.observe(viewLifecycleOwner){
             Log.d(TAG, "commentObserver .... $it")
             commentListAdapter.submitList(it.toMutableList())
+            if(it.size!=0) binding.recyclerviewDrawingComment.smoothScrollToPosition(it.size-1)
         }
     }
 
