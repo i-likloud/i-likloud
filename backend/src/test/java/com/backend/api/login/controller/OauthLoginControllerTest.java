@@ -1,5 +1,6 @@
 package com.backend.api.login.controller;
 
+import com.backend.api.common.AccessToken;
 import com.backend.api.common.BaseIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -13,7 +14,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class OauthLoginControllerTest extends BaseIntegrationTest {
 
-    private String token = "7DIHxIMcPDNhehj9CvLCUczow6po_CxZxjrwSlzUCj10EQAAAYm6lbZQ";
+    private AccessToken accessToken;
+    private String token = AccessToken.getNewToken();
 
     @Test
     @Rollback
