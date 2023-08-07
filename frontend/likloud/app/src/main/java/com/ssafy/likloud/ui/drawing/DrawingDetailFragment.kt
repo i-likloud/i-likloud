@@ -80,7 +80,14 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
         }
 
         activityViewModel.memberInfo.observe(viewLifecycleOwner){
+            // 현재 user가 받아져 오면 recyclerview 생성
+            initCommentRecyclerView()
             initCurUserView(memberProfileDto)
+
+            // user가 받아져 온 다음에 comment ui 업데이트
+            drawingDetailFragmentViewModel.currentDrawingCommentList.observe(viewLifecycleOwner){
+                commentListAdapter.submitList(it.toMutableList())
+            }
         }
 
         drawingDetailFragmentViewModel.isLiked.observe(viewLifecycleOwner){
@@ -98,10 +105,7 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
 
 
 
-        drawingDetailFragmentViewModel.currentDrawingCommentList.observe(viewLifecycleOwner){
-            commentListAdapter.submitList(it.toMutableList())
 
-        }
     }
 
     private fun init(){
@@ -109,7 +113,7 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
         Log.d(TAG, "init: args.drawingId is ${args.drawingId}")
         drawingDetailFragmentViewModel.getCurrentPhotoDrawingDetail(args.drawingId)
 
-        initCommentRecyclerView()
+
     }
 
     override fun initListener() {
