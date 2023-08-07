@@ -26,10 +26,10 @@ public class FCMService {
     public void sendFCMNotification(String token, String title, String body, Long drawingId, HistoryType historyType) {
         try{
             // 알림 내용 설정
-            Notification notification = Notification.builder()
-                    .setTitle(title)
-                    .setBody(body)
-                    .build();
+//            Notification notification = Notification.builder()
+//                    .setTitle(title)
+//                    .setBody(body)
+//                    .build();
 
             Map<String, String> data = new HashMap<>();
             data.put("drawingId", String.valueOf(drawingId));
@@ -37,7 +37,7 @@ public class FCMService {
 
             // 알림 보낼 대상 설정
             Message message = Message.builder()
-                    .setNotification(notification)
+//                    .setNotification(notification)
                     .putAllData(data)
                     .setToken(token)
                     .build();
