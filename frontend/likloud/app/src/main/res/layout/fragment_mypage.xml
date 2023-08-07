@@ -132,7 +132,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:text="name"
+                    android:text=""
                     style="@style/Theme.AppCompat.TextView.pretendard.Size20" />
 
             </LinearLayout>
@@ -190,7 +190,7 @@
                             android:id="@+id/textview_ticket_cnt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="몇개"
+                            android:text=""
                             android:layout_gravity="center"
                             style="@style/Theme.AppCompat.TextView.jua.dark.Size08"/>
 
@@ -228,7 +228,7 @@
                             android:id="@+id/textview_stamp_cnt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="몇개"
+                            android:text=""
                             android:layout_gravity="center"
                             style="@style/Theme.AppCompat.TextView.jua.dark.Size08"/>
                     </LinearLayout>
