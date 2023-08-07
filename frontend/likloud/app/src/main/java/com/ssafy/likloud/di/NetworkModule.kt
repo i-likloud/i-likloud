@@ -45,7 +45,7 @@ object NetworkModule {
 //            .addInterceptor(EmptyBodyInterceptor())
             .addInterceptor(ResponseInterceptor()) // Refresh Token
 //            .addInterceptor(ErrorResponseInterceptor()) // Error Response
-//            .addNetworkInterceptor(XAccessTokenInterceptor()) // JWT 자동 헤더 전송
+            .addInterceptor(RequestInterceptor()) // JWT 자동 헤더 전송
 //            .addInterceptor(AddCookiesInterceptor())  //쿠키 전송
 //            .addInterceptor(ReceivedCookiesInterceptor()) //쿠키 추출
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
