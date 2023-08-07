@@ -134,4 +134,5 @@ dependencies {
 
     //gif
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
+
 }

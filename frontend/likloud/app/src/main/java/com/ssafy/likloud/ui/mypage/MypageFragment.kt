@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.view.animation.OvershootInterpolator
+import android.widget.FrameLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -43,10 +44,26 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         val profileFace = mainActivityViewModel.waterDropFaceList[mainActivityViewModel.memberInfo.value!!.profileFace].resourceId
         val profileAccessory = mainActivityViewModel.waterDropAccessoryList[mainActivityViewModel.memberInfo.value!!.profileAccessory].resourceId
         setProfileImages(profileColor, profileFace, profileAccessory)
-
+        binding.textviewNickname.text = mainActivityViewModel.memberInfo.value!!.nickname
+        binding.textviewTicketCnt.text = mainActivityViewModel.memberInfo.value!!.goldCoin.toString()
+        binding.textviewStampCnt.text = mainActivityViewModel.memberInfo.value!!.silverCoin.toString()
         // 프래그먼트 연결성을 부드럽게 하기 위한 애니메이션
         binding.layoutMyCharacter.translationX = -500f
         makeButtonAnimationX(binding.layoutMyCharacter, 0f)
+        binding.textviewNickname.scaleX = 0.5f
+        binding.textviewNickname.scaleY = 0.5f
+        binding.textviewTicketCnt.scaleX = 0.5f
+        binding.textviewTicketCnt.scaleY = 0.5f
+        binding.textviewStampCnt.scaleX = 0.5f
+        binding.textviewStampCnt.scaleY = 0.5f
+
+        binding.textviewNickname.alpha = 0f
+        binding.textviewTicketCnt.alpha = 0f
+        binding.textviewStampCnt.alpha = 0f
+        makeAnimationFade(binding.textviewNickname, 1f)
+        makeAnimationFade(binding.textviewTicketCnt, 1f)
+        makeAnimationFade(binding.textviewStampCnt, 1f)
+
     }
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,9 +84,9 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
 
     private fun initView() {
         mActivity.changeProfileLayoutInvisible()
-        binding.textviewNickname.text = mainActivityViewModel.memberInfo.value!!.nickname
-        binding.textviewTicketCnt.text = mainActivityViewModel.memberInfo.value!!.goldCoin.toString()
-        binding.textviewStampCnt.text = mainActivityViewModel.memberInfo.value!!.silverCoin.toString()
+//        binding.textviewNickname.text = mainActivityViewModel.memberInfo.value!!.nickname
+//        binding.textviewTicketCnt.text = mainActivityViewModel.memberInfo.value!!.goldCoin.toString()
+//        binding.textviewStampCnt.text = mainActivityViewModel.memberInfo.value!!.silverCoin.toString()
         mypageFragmentViewModel.getMyDrawingListDtoList()
     }
 
@@ -196,6 +213,21 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
 //            interpolator = DecelerateInterpolator()
             interpolator = OvershootInterpolator()
             duration = 500
+            start()
+        }
+    }
+
+    private fun makeAnimationFade(view: View, values: Float) {
+        ObjectAnimator.ofFloat(view, "alpha", values).apply {
+            duration = 100
+            start()
+        }
+        ObjectAnimator.ofFloat(view, "scaleX", values).apply {
+            duration = 200
+            start()
+        }
+        ObjectAnimator.ofFloat(view, "scaleY", values).apply {
+            duration = 200
             start()
         }
     }

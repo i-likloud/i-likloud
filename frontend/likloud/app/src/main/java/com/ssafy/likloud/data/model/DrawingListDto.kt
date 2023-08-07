@@ -26,6 +26,9 @@ data class DrawingListDto(
     val memberLiked: Boolean,
 
     @SerializedName("memberId")
-    val memberId: Int
+    val memberId: Int,
+
+    @SerializedName("nftYn")
+    val nftYn: Boolean
 
     )

@@ -1,5 +1,6 @@
 package com.ssafy.likloud.ui.mypage
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.databinding.ItemMypageDrawingBinding
 import com.ssafy.likloud.databinding.ItemMypagePhotoBinding
 
+private const val TAG = "차선호"
 class MypageDrawingAdapter  (var list : MutableList<DrawingListDto>): ListAdapter<DrawingListDto, MypageDrawingAdapter.DrawingListHolder>(
     DrawingListComparator
 ) {
@@ -30,10 +32,17 @@ class MypageDrawingAdapter  (var list : MutableList<DrawingListDto>): ListAdapte
     inner class DrawingListHolder(binding: ItemMypageDrawingBinding) : RecyclerView.ViewHolder(binding.root){
         val imageDrawing = binding.imageDrawing
         val layoutMypageDrawing = binding.layoutItemMypageDrawing
+        val imageNftMedal = binding.imageNftMedal
         fun bindInfo(drawing : DrawingListDto){
             Glide.with(imageDrawing)
                 .load(drawing.imageUrl)
                 .into(imageDrawing)
+            Log.d(TAG, "nft유무 : ${drawing.nftYn}")
+            if(drawing.nftYn){
+                imageNftMedal.visibility = View.VISIBLE
+            }else{
+                imageNftMedal.visibility = View.INVISIBLE
+            }
 
             if (layoutPosition >= pre) {
                 layoutMypageDrawing.animation = AnimationUtils.loadAnimation(layoutMypageDrawing.context, R.anim.list_item_anim_from_right)
