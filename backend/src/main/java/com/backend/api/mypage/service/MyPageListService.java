@@ -95,7 +95,6 @@ public class MyPageListService {
     // 보유 NFT 조회
     @Cacheable(value = "nft", key = "#memberId") // 내 NFT 캐시 적용
     public List<NftListResponseDto> getMyNft(Long memberId){
-        Member member = memberService.findMemberById(memberId);
         List<Nft> nftList = nftRepository.findAllByMemberMemberId(memberId);
 
         return nftList.stream()

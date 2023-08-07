@@ -28,6 +28,12 @@ public class Nft extends BaseEntity {
     @Column(nullable = false)
     private String contract;
 
+    @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false)
+    private String content;
+
     @Column(columnDefinition = "TEXT", nullable = false)
     private String nftMetadata;
 

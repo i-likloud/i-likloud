@@ -19,10 +19,10 @@ public class NftListResponseDto {
 
     public NftListResponseDto(Nft nft) {
         this.owner = nft.getMember().getNickname();
-        this.title = nft.getDrawing().getTitle();
+        this.title = nft.getTitle();
         this.nftId = nft.getNftId();
         this.imageUrl = nft.getNftImageUrl();
-        this.content = nft.getDrawing().getContent();
+        this.content = nft.getContent();
         this.tokenId = nft.getTokenId();
     }
 
