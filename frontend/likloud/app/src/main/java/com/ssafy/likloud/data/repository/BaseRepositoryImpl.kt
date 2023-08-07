@@ -204,4 +204,8 @@ class BaseRepositoryImpl @Inject constructor(
     override suspend fun sendGift(nftId: Int, toMemberId: Int, message: String): NetworkResult<NftGiftDto> {
         return handleApi { baseAPIService.sendGift(nftId, toMemberId, message).body()!! }
     }
+
+    override suspend fun getMemberInfo2(): NetworkResult<MemberInfoResponse> {
+        return handleApi { baseAPIService.getMemgerInfo2().body()!!}
+    }
 }

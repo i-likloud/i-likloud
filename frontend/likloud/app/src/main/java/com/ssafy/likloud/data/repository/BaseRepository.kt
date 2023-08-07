@@ -219,4 +219,8 @@ interface BaseRepository {
      * nft 선물하기
      */
     suspend fun sendGift(@Path("nftId") nftId: Int, @Path("toMemberId") toMemberId: Int, @Query("message") message: String): NetworkResult<NftGiftDto>
+    /**
+     * 회원 정보 조회
+     */
+    suspend fun getMemberInfo2(): NetworkResult<MemberInfoResponse>
 }

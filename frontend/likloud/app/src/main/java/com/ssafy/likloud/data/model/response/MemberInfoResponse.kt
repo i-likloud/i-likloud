@@ -23,5 +23,8 @@ data class MemberInfoResponse(
     val profileFace: Int,
 
     @SerializedName("silverCoin")
-    val silverCoin: Int
+    val silverCoin: Int,
+
+    @SerializedName("wallet")
+    val wallet: String
 )

@@ -219,6 +219,11 @@ interface BaseService {
      */
     @POST("api/nft/token/{nftId}/to/{toMemberId}")
     suspend fun sendGift(@Path("nftId") nftId: Int, @Path("toMemberId") toMemberId: Int, @Query("message") message: String): Response<NftGiftDto>
+    /**
+     * 회원 정보 조회
+     */
+    @GET("api/member/info")
+    suspend fun getMemgerInfo2(): Response<MemberInfoResponse>
 }
 
 //api 만드는 과정

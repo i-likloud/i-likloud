@@ -92,7 +92,16 @@ class MainActivityViewModel @Inject constructor(
      */
     suspend fun getMemberInfo(email: String) {
         viewModelScope.launch {
-            baseRepository.getMemberInfo(MemberInfoRequest(email)).apply {
+//            baseRepository.getMemberInfo(MemberInfoRequest(email)).apply {
+//                onSuccess {
+//                    Log.d(TAG, "getUserInfo: onSuccess ${it}")
+//                    _memberInfo.postValue(it)
+//                }
+//                onError {
+//                    Log.d(TAG, "getUserInfo: ${it.message}")
+//                }
+//            }
+            baseRepository.getMemberInfo2().apply {
                 onSuccess {
                     Log.d(TAG, "getUserInfo: onSuccess ${it}")
                     _memberInfo.postValue(it)

@@ -30,10 +30,17 @@ class MypageDrawingAdapter  (var list : MutableList<DrawingListDto>): ListAdapte
     inner class DrawingListHolder(binding: ItemMypageDrawingBinding) : RecyclerView.ViewHolder(binding.root){
         val imageDrawing = binding.imageDrawing
         val layoutMypageDrawing = binding.layoutItemMypageDrawing
+        val imageNftMedal = binding.imageNftMedal
         fun bindInfo(drawing : DrawingListDto){
             Glide.with(imageDrawing)
                 .load(drawing.imageUrl)
                 .into(imageDrawing)
+
+            if(drawing.nftYn){
+                imageNftMedal.visibility = View.VISIBLE
+            }else{
+                imageNftMedal.visibility = View.INVISIBLE
+            }
 
             if (layoutPosition >= pre) {
                 layoutMypageDrawing.animation = AnimationUtils.loadAnimation(layoutMypageDrawing.context, R.anim.list_item_anim_from_right)

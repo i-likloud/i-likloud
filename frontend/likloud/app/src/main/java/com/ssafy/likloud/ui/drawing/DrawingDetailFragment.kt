@@ -91,6 +91,20 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             commentListAdapter.submitList(it.toMutableList())
 
         }
+
+        drawingDetailFragmentViewModel.nftYn.observe(viewLifecycleOwner){
+            if(it){
+                binding.buttonNft.setBackgroundResource(R.drawable.frame_rounded_border_skyblue_radius50)
+            }else{
+                binding.buttonNft.setBackgroundResource(R.drawable.frame_button_rounded_border_grey_radius50)
+            }
+        }
+
+        drawingDetailFragmentViewModel.isSuccess.observe(viewLifecycleOwner){
+            if(it){
+//                activityViewModel.
+            }
+        }
     }
 
     private fun init(){
@@ -122,11 +136,15 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
                 }
             }
             buttonNft.setOnClickListener {
-                if(activityViewModel.memberInfo.value!!.silverCoin>=5) {
-                    drawingDetailFragmentViewModel.registNft(args.drawingId)
+                if(activityViewModel.memberInfo.value!!.wallet == null){
+                    // 지갑 발행해라
                 }else{
-                    //여기서 siverCoin 부족 메시지
-                    Toast.makeText(mainActivity,"silverCoin 확인 바람", Toast.LENGTH_SHORT).show()
+                    if(activityViewModel.memberInfo.value!!.silverCoin>=5) {
+                        drawingDetailFragmentViewModel.registNft(args.drawingId)
+                    }else{
+                        //여기서 siverCoin 부족 메시지
+                        Toast.makeText(mainActivity,"silverCoin 확인 바람", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
