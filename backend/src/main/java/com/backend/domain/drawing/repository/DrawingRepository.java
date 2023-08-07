@@ -26,8 +26,8 @@ public interface DrawingRepository extends JpaRepository<Drawing, Long> {
     void unlinkDrawingsFromPhoto(@Param("photoId") Long photoId);
 
     // 댓글이랑 같이 그림 가져오기
-    @Query("SELECT d FROM Drawing d JOIN FETCH d.comments WHERE d.drawingId = :drawingId")
-    Optional<Drawing> findByIdWithComments(@Param("drawingId") Long drawingId);
+    @Query("SELECT d FROM Drawing d LEFT JOIN FETCH d.comments WHERE d.drawingId = :drawingId")
+    Optional<Drawing> findByDrawingIdWithComments(@Param("drawingId") Long drawingId);
 
     // 좋아요 증가
     @Transactional

@@ -51,7 +51,7 @@ public class OauthLoginService {
         jwtDto = tokenManager.createJwtDto(oauthMember.getEmail(), oauthMember.getRole());
         oauthMember.updateRefreshToken(jwtDto);
 
-        return OauthLoginDto.Response.of(jwtDto);
+        return OauthLoginDto.Response.of(jwtDto, oauthMember.getRole());
     }
 
     private boolean shouldUpdateFirebaseToken(Member member, String firebaseToken) {

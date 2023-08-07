@@ -49,7 +49,7 @@ public class DrawingViewService {
     @Transactional
     public DrawingDetailDto getDrawing(Long drawingId, Long memberId){
         // 그림 가져올 때 댓글과 함께 가져오기
-        Drawing drawing = drawingRepository.findByIdWithComments(drawingId)
+        Drawing drawing = drawingRepository.findByDrawingIdWithComments(drawingId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_DRAWING));
 
         // 조회수 증가
