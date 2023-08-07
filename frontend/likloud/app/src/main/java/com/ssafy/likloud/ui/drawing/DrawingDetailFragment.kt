@@ -16,6 +16,8 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.ssafy.likloud.ApplicationClass
+import com.ssafy.likloud.ApplicationClass.Companion.USER_EMAIL
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
@@ -36,6 +38,7 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
     private lateinit var mainActivity: MainActivity
     private val activityViewModel: MainActivityViewModel by activityViewModels()
     val args: DrawingDetailFragmentArgs by navArgs()
+    private lateinit var  memberProfileDto : MemberProfileDto
     private lateinit var commentListAdapter: CommentListAdapter
 
 
@@ -72,6 +75,12 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
 
         drawingDetailFragmentViewModel.currentDrawingMember.observe(viewLifecycleOwner) {
             initInfoView(drawingDetailFragmentViewModel.currentDrawingDetail.value!!, it)
+            memberProfileDto = it
+            activityViewModel.getMemberInfo(ApplicationClass.sharedPreferences.getString(USER_EMAIL)!!)
+        }
+
+        activityViewModel.memberInfo.observe(viewLifecycleOwner){
+            initCurUserView(memberProfileDto)
         }
 
         drawingDetailFragmentViewModel.isLiked.observe(viewLifecycleOwner){
@@ -87,6 +96,8 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             binding.textLikeCount.text = it.toString()
         }
 
+
+
         drawingDetailFragmentViewModel.currentDrawingCommentList.observe(viewLifecycleOwner){
             commentListAdapter.submitList(it.toMutableList())
 
@@ -95,7 +106,9 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
 
     private fun init(){
         //여기서 args.drawingId로 DrawingDetailDto 불러와야 함
+        Log.d(TAG, "init: args.drawingId is ${args.drawingId}")
         drawingDetailFragmentViewModel.getCurrentPhotoDrawingDetail(args.drawingId)
+
         initCommentRecyclerView()
     }
 
@@ -155,12 +168,16 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             textDrawingContent.text = drawingDetail.content
             textLikeCount.text = drawingDetail.likesCount.toString()
             textViewCount.text = drawingDetail.viewCount.toString()
-            Log.d(TAG, "member ${member.nickname} // user ${activityViewModel.memberInfo.value!!.nickname}")
-            if(member.nickname == activityViewModel.memberInfo.value!!.nickname){
-                buttonNft.visibility = View.VISIBLE
-            }else{
-                buttonNft.visibility = View.GONE
-            }
+
+        }
+    }
+
+    private fun initCurUserView(member: MemberProfileDto){
+//        Log.d(TAG, "member ${member.nickname} // user ${activityViewModel.memberInfo.value!!.nickname}")
+        if(member.nickname == activityViewModel.memberInfo.value!!.nickname){
+            binding.buttonNft.visibility = View.VISIBLE
+        }else{
+            binding.buttonNft.visibility = View.GONE
         }
     }
 
@@ -178,5 +195,4 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             layoutManager = LinearLayoutManager(mainActivity, LinearLayoutManager.VERTICAL, false)
         }
     }
-
 }
