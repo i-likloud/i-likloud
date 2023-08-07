@@ -104,10 +104,6 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
         }
 
 
-
-
-        }
-
         drawingDetailFragmentViewModel.nftYn.observe(viewLifecycleOwner){
             if(it){
                 binding.buttonNft.setBackgroundResource(R.drawable.frame_button_rounded_border_grey_radius50)
