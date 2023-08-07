@@ -42,17 +42,16 @@ class NftGiftAdapter (var context: Context): ListAdapter<NftGiftDto, NftGiftAdap
         val textNickname = binding.textNftNickname
         val textTitle = binding.textNftTitle
         val textContent = binding.textNftContent
-        val buttonGiftAccept = binding.buttonGiftAccept
-        val buttonGiftReject = binding.buttonGiftReject
+        val buttonGiftConfirm = binding.buttonGiftConfirm
 
         fun bindInfo(nftGiftDto : NftGiftDto){
 
             Glide.with(imageNft)
                 .load(nftGiftDto.imageUrl)
                 .into(imageNft)
-//            textNickname.text = "이름 : ${nftGiftDto.}"
-//            textTitle.text = "제목 : ${nftGiftDto.title}"
-//            textContent.text = " 내용 : ${nftGiftDto.content}"
+            textNickname.text = "이름 : ${nftGiftDto.memberInfo.nickname}"
+            textTitle.text = "제목 : ${nftGiftDto.title}"
+            textContent.text = " 내용 : ${nftGiftDto.content}"
             layoutNft.setOnClickListener{
                 if (layoutBack.visibility == View.INVISIBLE) {
                     flip(context, layoutBack, layoutFront)
@@ -61,14 +60,9 @@ class NftGiftAdapter (var context: Context): ListAdapter<NftGiftDto, NftGiftAdap
                 }
             }
 
-            buttonGiftAccept.setOnClickListener {
-                //선물 수락 이벤트
-                itemClickListner.onAcceptClick(nftGiftDto)
-            }
-
-            buttonGiftReject.setOnClickListener {
-                //선물 거부 이벤트
-                itemClickListner.onRejectClick(nftGiftDto)
+            buttonGiftConfirm.setOnClickListener {
+                //선물 확인 버튼 NftGiftConfirmDialog 띄워라
+                itemClickListner.onConfirmClick(nftGiftDto)
             }
         }
     }
@@ -135,8 +129,7 @@ class NftGiftAdapter (var context: Context): ListAdapter<NftGiftDto, NftGiftAdap
 
     //    //클릭 인터페이스 정의 사용하는 곳에서 만들어준다.
     interface ItemClickListener {
-        fun onAcceptClick(nftGiftDto: NftGiftDto)
-        fun onRejectClick(nftGiftDto: NftGiftDto)
+        fun onConfirmClick(nftGiftDto: NftGiftDto)
     }
     //클릭리스너 선언
     lateinit var itemClickListner: ItemClickListener
