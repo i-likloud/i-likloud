@@ -206,7 +206,7 @@
     <style name="MyChipStyle" parent="@style/Widget.MaterialComponents.Chip.Choice">
         <!-- 원하는 속성들을 추가/변경할 수 있습니다 -->
         <item name="android:textColor">@color/selector_chip_stroke_color</item>
-        <item name="android:textSize">@dimen/_6sdp</item>
+        <item name="android:textSize">@dimen/_10sdp</item>
         <!-- 원하는 다른 속성들 ... -->
         <item name="android:textStyle">bold</item>
         <item name="rippleColor">@color/sky_blue_deep</item>

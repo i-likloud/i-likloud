@@ -13,8 +13,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/app_background_3"
-    tools:context=".MainActivity">
+    android:background="@drawable/app_background_3">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/layout_appbar"
@@ -32,21 +31,20 @@
 
             <ImageView
                 android:id="@+id/button_back"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_margin="10dp"
+                android:layout_width="@dimen/_23sdp"
+                android:layout_height="@dimen/_23sdp"
+                android:layout_margin="@dimen/_3sdp"
                 android:src="@drawable/button_back_arrow" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="100dp"
-                android:gravity="center"
+                android:layout_marginRight="@dimen/_29sdp"
                 android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_weight="1"
                 android:text="@string/title_photo_list"
-                android:textSize="46dp"
-                android:layout_marginTop="10dp"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size32"/>
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size16"/>
 
         </LinearLayout>
 
@@ -130,14 +128,14 @@
             app:layout_constraintHeight_percent="0.2"
             android:layout_margin="@dimen/_10sdp"
             android:background="@drawable/frame_rounded_border_radius50"
-            android:elevation="@dimen/_20sdp"
+            android:elevation="@dimen/_4sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <FrameLayout
                 android:id="@+id/layout_drawing_profile"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/_17sdp"
+                android:layout_height="@dimen/_17sdp"
                 android:layout_marginStart="@dimen/_7sdp"
                 android:layout_marginTop="@dimen/_7sdp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -183,8 +181,8 @@
 
             <ImageView
                 android:id="@+id/image_star"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/_10sdp"
+                android:layout_height="@dimen/_10sdp"
                 android:src="@drawable/icon_unselected_star"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/text_bookmark_count"
@@ -204,8 +202,8 @@
 
             <ImageView
                 android:id="@+id/image_view"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/_10sdp"
+                android:layout_height="@dimen/_10sdp"
                 android:src="@drawable/icon_draw"
                 app:layout_constraintTop_toTopOf="@id/image_star"
                 app:layout_constraintBottom_toBottomOf="@id/image_star"
@@ -225,7 +223,7 @@
             android:layout_marginHorizontal="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@drawable/frame_rounded_border_radius50"
-            android:elevation="@dimen/_20sdp"
+            android:elevation="@dimen/_4sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_info">
 

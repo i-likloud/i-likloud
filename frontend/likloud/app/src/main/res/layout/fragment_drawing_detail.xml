@@ -32,21 +32,20 @@
 
             <ImageView
                 android:id="@+id/button_back"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_margin="10dp"
+                android:layout_width="@dimen/_23sdp"
+                android:layout_height="@dimen/_23sdp"
+                android:layout_margin="@dimen/_3sdp"
                 android:src="@drawable/button_back_arrow" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="100dp"
+                android:layout_marginRight="@dimen/_29sdp"
                 android:gravity="center"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:text="@string/title_photo_list"
-                android:textSize="46dp"
-                android:layout_marginTop="10dp"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size32"/>
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size16"/>
 
         </LinearLayout>
 
@@ -91,10 +90,11 @@
 
             </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_nft"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="@dimen/_33sdp"
+                android:layout_height="@dimen/_33sdp"
+                android:background="@drawable/frame_button_rounded_border_green_radius50"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_margin="@dimen/_10sdp"/>
