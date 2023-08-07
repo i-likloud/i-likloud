@@ -1,5 +1,6 @@
 package com.ssafy.likloud.ui.drawing
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,6 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+private const val TAG = "차선호"
 @HiltViewModel
 class DrawingDetailFragmentViewModel@Inject constructor(
     private val baseRepository: BaseRepository
@@ -102,6 +104,15 @@ class DrawingDetailFragmentViewModel@Inject constructor(
                 _likeCount.value = _currentDrawingDetail.value!!.likesCount
             }else{
                 _likeCount.value = _currentDrawingDetail.value!!.likesCount + 1
+            }
+        }
+    }
+
+    fun registNft(drawingId: Int){
+        viewModelScope.launch {
+            baseRepository.registNft(drawingId).onSuccess {
+                // NFT 발급 성공
+                Log.d(TAG, "registNft 성공")
             }
         }
     }

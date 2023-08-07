@@ -3,7 +3,6 @@ package com.ssafy.likloud.ui.nftlist
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,27 +12,28 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.ssafy.likloud.data.model.NftGiftDto
 import com.ssafy.likloud.data.model.NftListDto
 import com.ssafy.likloud.databinding.ItemNftBinding
+import com.ssafy.likloud.databinding.ItemNftGiftBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-private const val TAG = "차선호"
-class NftListAdapter (var context: Context): ListAdapter<NftListDto, NftListAdapter.NftHolder>(
-    NftListComparator
+class NftGiftAdapter (var context: Context): ListAdapter<NftGiftDto, NftGiftAdapter.NftGiftHolder>(
+    NftGiftComparator
 ) {
-    companion object NftListComparator : DiffUtil.ItemCallback<NftListDto>() {
-        override fun areItemsTheSame(oldItem: NftListDto, newItem: NftListDto): Boolean {
+    companion object NftGiftComparator : DiffUtil.ItemCallback<NftGiftDto>() {
+        override fun areItemsTheSame(oldItem: NftGiftDto, newItem: NftGiftDto): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: NftListDto, newItem: NftListDto): Boolean {
+        override fun areContentsTheSame(oldItem: NftGiftDto, newItem: NftGiftDto): Boolean {
             return oldItem.nftId  == newItem.nftId
         }
     }
-    inner class NftHolder(binding: ItemNftBinding) : RecyclerView.ViewHolder(binding.root){
+    inner class NftGiftHolder(binding: ItemNftGiftBinding) : RecyclerView.ViewHolder(binding.root){
 
         val layoutNft = binding.layoutNft
         val layoutFront = binding.layoutFront
@@ -42,16 +42,17 @@ class NftListAdapter (var context: Context): ListAdapter<NftListDto, NftListAdap
         val textNickname = binding.textNftNickname
         val textTitle = binding.textNftTitle
         val textContent = binding.textNftContent
-        val buttonGift = binding.buttonGift
+        val buttonGiftAgree = binding.buttonGiftAgree
+        val buttonGiftDegree = binding.buttonGiftDegree
 
-        fun bindInfo(nftDto : NftListDto){
+        fun bindInfo(nftGiftDto : NftGiftDto){
 
-            Glide.with(imageNft)
-                .load(nftDto.imageUrl)
-                .into(imageNft)
-            textNickname.text = "이름 : ${nftDto.owner}"
-            textTitle.text = "제목 : ${nftDto.title}"
-            textContent.text = " 내용 : ${nftDto.content}"
+//            Glide.with(imageNft)
+//                .load(nftDto.imageUrl)
+//                .into(imageNft)
+//            textNickname.text = "이름 : ${nftDto.owner}"
+//            textTitle.text = "제목 : ${nftDto.title}"
+//            textContent.text = " 내용 : ${nftDto.content}"
             layoutNft.setOnClickListener{
                 if (layoutBack.visibility == View.INVISIBLE) {
                     flip(context, layoutBack, layoutFront)
@@ -59,20 +60,26 @@ class NftListAdapter (var context: Context): ListAdapter<NftListDto, NftListAdap
                     flip(context, layoutFront, layoutBack)
                 }
             }
-            buttonGift.setOnClickListener {
-                itemClickListner.onClick(nftDto)
+
+            buttonGiftAgree.setOnClickListener {
+                //선물 수락 이벤트
+                itemClickListner.onAgreeClick(nftGiftDto)
+            }
+
+            buttonGiftDegree.setOnClickListener {
+                //선물 거부 이벤트
+                itemClickListner.onDegreeClick(nftGiftDto)
             }
         }
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NftHolder {
-        val binding = ItemNftBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-//        return RecyclerView.ViewHolder(inflater)
-        return NftHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NftGiftAdapter.NftGiftHolder {
+        val binding = ItemNftGiftBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return NftGiftHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: NftHolder, position: Int) {
+    override fun onBindViewHolder(holder: NftGiftAdapter.NftGiftHolder, position: Int) {
         holder.apply {
             bindInfo(getItem(position))
         }
@@ -128,7 +135,8 @@ class NftListAdapter (var context: Context): ListAdapter<NftListDto, NftListAdap
 
     //    //클릭 인터페이스 정의 사용하는 곳에서 만들어준다.
     interface ItemClickListener {
-        fun onClick(nftDto: NftListDto)
+        fun onAgreeClick(nftGiftDto: NftGiftDto)
+        fun onDegreeClick(nftGiftDto: NftGiftDto)
     }
     //클릭리스너 선언
     lateinit var itemClickListner: ItemClickListener

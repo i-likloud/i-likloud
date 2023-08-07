@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ssafy.likloud.ApplicationClass.Companion.FIREBASE_TOKEN
 import com.ssafy.likloud.ApplicationClass.Companion.X_ACCESS_TOKEN
 import com.ssafy.likloud.ApplicationClass.Companion.X_REFRESH_TOKEN
 import com.ssafy.likloud.ApplicationClass.Companion.sharedPreferences
@@ -20,6 +21,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val TAG = "LoginFragmentViewModel_싸피"
+
 @HiltViewModel
 class LoginFragmentViewModel @Inject constructor(
     private val baseRepository: BaseRepository
@@ -28,7 +30,7 @@ class LoginFragmentViewModel @Inject constructor(
     val isTokenReceived: LiveData<Boolean>
         get() = _isTokenReceived
 
-    fun getTokenValidation(accessToken : String){
+    fun getTokenValidation(accessToken: String) {
         // token validation checking api 구현 필요
         _isTokenReceived.value = true
     }
@@ -43,7 +45,13 @@ class LoginFragmentViewModel @Inject constructor(
      */
     fun postLogin(email: String, socialType: String) {
         viewModelScope.launch {
-            baseRepository.postLogin(LoginRequest(email, socialType)).onSuccess {
+            baseRepository.postLogin(
+                LoginRequest(
+                    email, socialType, sharedPreferences.getString(
+                        FIREBASE_TOKEN
+                    )?: "firebase_token_not_registered"
+                )
+            ).onSuccess {
                 _loginResponse.value = it
                 sharedPreferences.putString(X_ACCESS_TOKEN, it.accessToken)
                 Log.d(TAG, "postLogin 찐 refresh: ${it.refreshToken}")

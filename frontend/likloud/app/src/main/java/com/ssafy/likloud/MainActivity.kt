@@ -2,25 +2,43 @@ package com.ssafy.likloud
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.media.AsyncPlayer
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.AnimationUtils
 import android.view.animation.OvershootInterpolator
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.ssafy.likloud.ApplicationClass.Companion.FIREBASE_TOKEN
 import com.ssafy.likloud.base.BaseActivity
 import com.ssafy.likloud.data.repository.BaseRepository
 import com.ssafy.likloud.databinding.ActivityMainBinding
@@ -31,6 +49,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+private const val TAG = "MainActivity_싸피"
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
@@ -43,55 +63,36 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     private val mainActivityViewModel: MainActivityViewModel by viewModels()
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // 스플래시
-//        val handler = Handler(Looper.getMainLooper())
-//        handler.postDelayed(Runnable {
-//            Intent(this, MainActivity::class.java).apply {
-//                startActivity(this)
-//                finish()
-//            }
-//        }, 3000) // 3초 후(3000) 스플래시 화면을 닫습니다
-
-//        CoroutineScope(Dispatchers.Main).launch {
-//            binding.navHostFragment.visibility = View.INVISIBLE
-//            delay(4500)
-//            binding.gifAppIntro.visibility = View.INVISIBLE
-//            binding.navHostFragment.scaleX = 0.8f
-//            binding.navHostFragment.scaleY = 0.8f
-//            ObjectAnimator.ofFloat(binding.navHostFragment, "scaleX", 1f).apply {
-//                interpolator = OvershootInterpolator()
-//                duration = 200
-//                start()
-//            }
-//            ObjectAnimator.ofFloat(binding.navHostFragment, "scaleY", 1f).apply {
-//                interpolator = OvershootInterpolator()
-//                duration = 200
-//                start()
-//            }
-//            binding.navHostFragment.visibility = View.VISIBLE
-//        }
+        val permissionList = arrayOf(
+            android.Manifest.permission.POST_NOTIFICATIONS
+        )
+        requestMultiplePermission.launch(permissionList)
+        initFCMMessageAccept()
 
         initObserver()
         initView()
         initNavController()
         initListener()
+        Log.d(TAG, "onCreate: oncreated!")
 
-        mediaPlayer = MediaPlayer.create(this,R.raw.idokay_the_cycle_continues)
-        mediaPlayer.start()
+        mediaPlayer = MediaPlayer.create(this, R.raw.summer_shower_quincas_moreira)
+        if(ApplicationClass.sharedPreferences.getMusicStatus()==true && !mediaPlayer.isPlaying){
+            mediaPlayer.start()
+        }
+
     }
 
     fun toggleMusic() {
         mediaPlayer.apply {
-            if (isPlaying){
+            if (isPlaying) {
                 pause()
-                mainActivityViewModel.setToggleButtonText(getString(R.string.bgm_on))
-            }
-            else {
+                ApplicationClass.sharedPreferences.setMusicOff()
+            } else {
                 start()
-                mainActivityViewModel.setToggleButtonText(getString(R.string.bgm_off))
+                ApplicationClass.sharedPreferences.setMusicOn()
             }
         }
     }
@@ -103,12 +104,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 R.id.homeFragment -> {
                     navController.navigate(R.id.action_homeFragment_to_mypageFragment)
                 }
+
                 R.id.photoListFragment -> {
                     navController.navigate(R.id.action_photoListFragment_to_mypageFragment)
                 }
+
                 R.id.drawingListFragment -> {
                     navController.navigate(R.id.action_drawingListFragment_to_mypageFragment)
                 }
+
                 R.id.mypageFragment -> {
 
                 }
@@ -117,7 +121,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     private fun initObserver() {
-        lifecycleScope.launch{
+        lifecycleScope.launch {
             mainActivityViewModel.memberInfo.observe(this@MainActivity) {
                 changeProfileColor(it.profileColor)
                 changeProfileFace(it.profileFace)
@@ -128,9 +132,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     R.id.mypageFragment -> {
 
                     }
+
                     R.id.storeFragment -> {
 
                     }
+
                     else -> {
                         changeProfileLayoutVisible()
                     }
@@ -147,27 +153,47 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     private fun initNavController() {
-        navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
+    }
 
-//        navController.addOnDestinationChangedListener { _, destination, _ ->
-//            when (destination.id) {
-//                R.id.mapFragment -> showBottomNav()
-//                R.id.postListFragment -> showBottomNav()
-//                R.id.myPageFragment -> showBottomNav()
-//                else -> hideBottomNav()
-//            }
-//        }
-//        binding.bottomNavi.setupWithNavController(navController)
-//
-//        // 중복터치 막기!!
-//        binding.bottomNavi.setOnItemReselectedListener { menuItem ->
-//            when (menuItem.itemId) {
-//                R.id.mapFragment -> {}
-//                R.id.postListFragment -> {}
-//                R.id.myPageFragment -> {}
-//            }
-//        }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun initFCMMessageAccept() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(TAG, "FCM 토큰 얻기에 실패하였습니다.", task.exception)
+                return@OnCompleteListener
+            }
+            // token log 남기기
+            Log.d(TAG, "token 정보: ${task.result}")
+            if (task.result != null) {
+                uploadToken(task.result)
+            }
+        })
+        createNotificationChannel(channel_id, "ssafy")
+    }
+
+    // notification 수신 시 foreground에서 notification 생성 위해 channel 생성
+    @RequiresApi(Build.VERSION_CODES.O)
+    // Notification 수신을 위한 체널 추가
+    private fun createNotificationChannel(id: String, name: String) {
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        val channel = NotificationChannel(id, name, importance)
+
+        val notificationManager: NotificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
+
+    }
+
+    companion object {
+        private const val RC_SIGN_IN = 9001
+        const val channel_id = "ssafy_channel"
+        fun uploadToken(token: String) {
+            ApplicationClass.sharedPreferences.putString(FIREBASE_TOKEN, token)
+        }
     }
 
     /**
@@ -176,9 +202,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     fun changeProfileColor(num: Int) {
         binding.profileColor.setImageResource(mainActivityViewModel.waterDropColorList[num].resourceId)
     }
+
     fun changeProfileFace(num: Int) {
         binding.profileFace.setImageResource(mainActivityViewModel.waterDropFaceList[num].resourceId)
     }
+
     fun changeProfileAccessory(num: Int) {
         binding.profileAccessory.setImageResource(mainActivityViewModel.waterDropAccessoryList[num].resourceId)
     }
@@ -190,4 +218,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     fun changeProfileLayoutInvisible() {
         binding.layoutProfile.visibility = View.INVISIBLE
     }
+
+
+    private val requestMultiplePermission =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { results ->
+            results.forEach {
+            }
+        }
+
+
 }

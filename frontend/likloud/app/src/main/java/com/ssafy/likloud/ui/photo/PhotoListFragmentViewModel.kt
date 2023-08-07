@@ -63,7 +63,15 @@ class PhotoListFragmentViewModel @Inject constructor(
     val currentPhotoListDto: LiveData<PhotoListDto>
         get() = _currentPhotoListDto
     fun setCurrentPhotoListDto(dto: PhotoListDto){
+        Log.d(TAG, "setCurrentPhotoListDto: $dto")
         _currentPhotoListDto.value = dto
+    }
+    fun getCurrentPhotoListDto(photoId: Int){
+        viewModelScope.launch {
+            baseRepository.getCurrentPhotoListDto(photoId).onSuccess {
+                _currentPhotoListDto.value = it
+            }
+        }
     }
 
 
@@ -97,6 +105,7 @@ class PhotoListFragmentViewModel @Inject constructor(
     val isBookmarked: LiveData<Boolean>
         get() = _isBookmarked
     fun setIsBookmarked(){
+        Log.d(TAG, "setIsBookmarked: ${_currentPhotoListDto.value}")
         _isBookmarked.value = _currentPhotoListDto.value!!.memberBookmarked
         initialIsBookmarked = _currentPhotoListDto.value!!.memberBookmarked
     }

@@ -27,7 +27,7 @@ class PhotoDetailFragmentViewModel  @Inject constructor(
      */
     fun getCurrentPhotoDetail(photoId: Int){
         viewModelScope.launch {
-            baseRepository.getPhotoDetail(photoId).onSuccess {
+            baseRepository.getCurrentPhotoListDto(photoId).onSuccess {
                 _currentPhotoDetail.value = it
             }
         }

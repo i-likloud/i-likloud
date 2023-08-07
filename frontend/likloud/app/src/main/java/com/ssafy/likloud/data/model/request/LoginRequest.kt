@@ -7,5 +7,8 @@ data class LoginRequest(
     val email: String,
 
     @SerializedName("socialType")
-    val socialType: String
+    val socialType: String,
+
+    @SerializedName("firebaseToken")
+    val firebaseToken : String
 )

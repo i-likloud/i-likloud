@@ -89,6 +89,7 @@ class DrawingListFragmentViewModel @Inject constructor(
         viewModelScope.launch {
             baseRepository.registDrawingComment(drawingId, content).onSuccess {
                 _currentDrawingCommentList.value!!.add(it)
+                Log.d(TAG, "registDrawingComment... ${_currentDrawingCommentList.value}")
                 _currentDrawingCommentList.value = _currentDrawingCommentList.value!!
             }
         }
@@ -150,6 +151,14 @@ class DrawingListFragmentViewModel @Inject constructor(
                 _likeCount.value = _currentDrawingDetailDto.value!!.likesCount
             }else{
                 _likeCount.value = _currentDrawingDetailDto.value!!.likesCount + 1
+            }
+        }
+    }
+    fun registNft(drawingId: Int){
+        viewModelScope.launch {
+            baseRepository.registNft(drawingId).onSuccess {
+                // NFT 발급 성공
+                Log.d(TAG, "registNft 성공")
             }
         }
     }

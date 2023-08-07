@@ -11,7 +11,9 @@ import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.data.model.MemberInfoDto
 import com.ssafy.likloud.data.model.MemberProfileDto
-import com.ssafy.likloud.data.model.NftDto
+import com.ssafy.likloud.data.model.NftGiftDto
+import com.ssafy.likloud.data.model.NftListDto
+import com.ssafy.likloud.data.model.NftRegistDto
 import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
@@ -163,8 +165,8 @@ class BaseRepositoryImpl @Inject constructor(
         return handleApi { baseAPIService.getBookmarkPhotoListDtoList().body()!! }
     }
 
-    override suspend fun getPhotoDetail(photoId: Int): NetworkResult<PhotoListDto> {
-        return handleApi { baseAPIService.getPhotoDetail(photoId).body()!! }
+    override suspend fun getCurrentPhotoListDto(photoId: Int): NetworkResult<PhotoListDto> {
+        return handleApi { baseAPIService.getCurrentPhotoListDto(photoId).body()!! }
     }
 
     override suspend fun changeDrawingLike(drawingId: Int): NetworkResult<String> {
@@ -183,7 +185,15 @@ class BaseRepositoryImpl @Inject constructor(
         return handleApi { baseAPIService.deleteDrawingComment(commentId).body()!! }
     }
 
-    override suspend fun getMyNftList(): NetworkResult<MutableList<NftDto>> {
+    override suspend fun getMyNftList(): NetworkResult<MutableList<NftListDto>> {
         return handleApi { baseAPIService.getMyNftList().body()!! }
+    }
+
+    override suspend fun registNft(drawingId: Int): NetworkResult<NftRegistDto> {
+        return handleApi { baseAPIService.registNft(drawingId).body()!! }
+    }
+
+    override suspend fun getNftGiftList(): NetworkResult<MutableList<NftGiftDto>> {
+        return handleApi { baseAPIService.getNftGiftList().body()!! }
     }
 }

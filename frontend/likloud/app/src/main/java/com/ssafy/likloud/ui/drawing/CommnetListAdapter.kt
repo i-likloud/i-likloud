@@ -53,6 +53,11 @@ class CommentListAdapter  (var activityViewModel: MainActivityViewModel): ListAd
             textContent.text = comment.content
             textTime.text = comment.createdAt
             //여기 자기가 쓴 댓글인지 비교해서 쓰레기통 보여줘라
+            if(comment.memberId == activityViewModel.memberInfo.value!!.memberId){
+                imageDeleteComment.visibility = View.VISIBLE
+            }else{
+                imageDeleteComment.visibility = View.GONE
+            }
 
             imageDeleteComment.setOnClickListener{
                 itemClickListner.onClick(comment, layoutPosition)

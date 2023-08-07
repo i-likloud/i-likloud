@@ -7,7 +7,9 @@ import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.data.model.MemberInfoDto
 import com.ssafy.likloud.data.model.MemberProfileDto
-import com.ssafy.likloud.data.model.NftDto
+import com.ssafy.likloud.data.model.NftGiftDto
+import com.ssafy.likloud.data.model.NftListDto
+import com.ssafy.likloud.data.model.NftRegistDto
 import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
@@ -170,7 +172,7 @@ interface BaseService {
      * 사진 상세 조회
      */
     @GET("api/photo/{photoId}")
-    suspend fun getPhotoDetail(@Path("photoId") photoId: Int): Response<PhotoListDto>
+    suspend fun getCurrentPhotoListDto(@Path("photoId") photoId: Int): Response<PhotoListDto>
     /**
      * 그림 좋아요
      */
@@ -195,7 +197,17 @@ interface BaseService {
      * 내 NFT 조회
      */
     @GET("api/mypage/nft")
-    suspend fun getMyNftList(): Response<MutableList<NftDto>>
+    suspend fun getMyNftList(): Response<MutableList<NftListDto>>
+    /**
+     * NFT 발급
+     */
+    @POST("api/nft/token/{drawingId}")
+    suspend fun registNft(@Path("drawingId") drawingId: Int): Response<NftRegistDto>
+    /**
+     * NFT 선물함 조회
+     */
+    @GET("api/mypage/gift")
+    suspend fun getNftGiftList(): Response<MutableList<NftGiftDto>>
 }
 
 //api 만드는 과정

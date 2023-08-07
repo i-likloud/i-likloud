@@ -23,8 +23,9 @@ data class DrawingListDto(
     val likesCount: Int,
 
     @SerializedName("memberLiked")
-    val memberLiked: Boolean
+    val memberLiked: Boolean,
 
-    ){
-    constructor(): this(0,"","","",0,0,false)
-}
+    @SerializedName("memberId")
+    val memberId: Int
+
+    )
