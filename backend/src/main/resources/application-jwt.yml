@@ -2,7 +2,7 @@ jwt:
   secretKey: ENC(UoSA2pnIzSG+x4PBxrOc/jXGD4P+KfCuEyC107z//+g=)
 
   access:
-    expiration: 180000 # 30? (1000L(ms -> s) * 60L(s -> m) * 30L
+    expiration: 1800000 # 30? (1000L(ms -> s) * 60L(s -> m) * 30L
 
   refresh:
     expiration: 604800000 #  (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> D) * 7(1D))
