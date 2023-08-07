@@ -2,6 +2,7 @@ package com.backend.api.mypage.service;
 
 import com.backend.api.mypage.dto.ProfileDto;
 import com.backend.api.nft.dto.NftListResponseDto;
+import com.backend.domain.drawing.repository.DrawingRepository;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.service.MemberService;
 import com.backend.domain.nft.entity.Nft;
@@ -29,6 +30,7 @@ public class MypageService {
     private final NftTransferService nftTransferService;
     private final NftTokenClient nftTokenClient;
     private final NftRepository nftRepository;
+    private final DrawingRepository drawingRepository;
 
     @Value("${KAS.client.authorization}")
     private String authorization;
@@ -78,12 +80,15 @@ public class MypageService {
     // 선물 거절
     @Transactional
     public void rejectGift(Long transferId, Long nftId, Member member) {
+
         NftTransfer nftTransfer = nftTransferService.findTransferById(transferId);
 
         DeleteTokenDto.Request request = DeleteTokenDto.Request.builder()
                         .from(member.getWallet())
                         .build();
 
+        // 그림의 NFT null 처리
+        drawingRepository.unlinkDrawingFromNft(nftId);
         // 토큰 소멸
         nftTokenClient.deleteToken("1001", authorization, contract, nftTransfer.getTokenId(), request);
         // 거래 삭제

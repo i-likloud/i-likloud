@@ -63,9 +63,9 @@ public class NftTransferApiService {
             throw new BusinessException(ErrorCode.NOT_FOUND_WALLET);
         }
         // 본인에게 선물 x
-        if (fromMember.getMemberId().equals(toMemberId)){
-            throw new BusinessException(ErrorCode.CANNOT_GIFT_TO_SELF);
-        }
+//        if (fromMember.getMemberId().equals(toMemberId)){
+//            throw new BusinessException(ErrorCode.CANNOT_GIFT_TO_SELF);
+//        }
         // 보내는 사람 주소
         String sender = fromMember.getWallet();
 

@@ -25,6 +25,11 @@ public interface DrawingRepository extends JpaRepository<Drawing, Long> {
     @Query("UPDATE Drawing d SET d.photo = NULL WHERE d.photo.photoId = :photoId")
     void unlinkDrawingsFromPhoto(@Param("photoId") Long photoId);
 
+    // NFT 소멸시 관련 그림의 NFT null 처리
+    @Modifying
+    @Query("UPDATE Drawing d SET d.nft = NULL WHERE d.nft.nftId = :nftId")
+    void unlinkDrawingFromNft(@Param("nftId") Long nftId);
+
     // 댓글이랑 같이 그림 가져오기
     @Query("SELECT d FROM Drawing d LEFT JOIN FETCH d.comments WHERE d.drawingId = :drawingId")
     Optional<Drawing> findByDrawingIdWithComments(@Param("drawingId") Long drawingId);
