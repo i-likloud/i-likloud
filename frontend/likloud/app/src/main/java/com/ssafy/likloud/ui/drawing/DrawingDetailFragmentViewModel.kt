@@ -31,6 +31,7 @@ class DrawingDetailFragmentViewModel@Inject constructor(
             baseRepository.getDrawingDetail(drawingId).onSuccess {
                 _currentDrawingDetail.value = it
                 _currentDrawingCommentList.value = it.commentList
+                _nftYn.value = it.nftYn
             }
         }
     }
@@ -108,12 +109,25 @@ class DrawingDetailFragmentViewModel@Inject constructor(
         }
     }
 
+    private var _isSuccess = MutableLiveData<Boolean>()
+    val isSuccess: LiveData<Boolean>
+        get() = _isSuccess
+
     fun registNft(drawingId: Int){
         viewModelScope.launch {
             baseRepository.registNft(drawingId).onSuccess {
                 // NFT 발급 성공
                 Log.d(TAG, "registNft 성공")
+                _isSuccess.value = true
+                _nftYn.value = true
             }
         }
+    }
+
+    private var _nftYn = MutableLiveData<Boolean>()
+    val nftYn: LiveData<Boolean>
+        get() = _nftYn
+    fun setNftYn(value: Boolean){
+        _nftYn.value = value
     }
 }

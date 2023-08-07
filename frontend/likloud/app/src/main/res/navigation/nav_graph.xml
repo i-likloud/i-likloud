@@ -134,7 +134,11 @@
         android:id="@+id/nftListFragment"
         android:name="com.ssafy.likloud.ui.nftlist.NftListFragment"
         android:label="fragment_nft_list"
-        tools:layout="@layout/fragment_nft_list" />
+        tools:layout="@layout/fragment_nft_list" >
+        <action
+            android:id="@+id/action_nftListFragment_to_nftGiftSearchUserFragment"
+            app:destination="@id/nftGiftSearchUserFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/mypageFragment"
@@ -243,5 +247,10 @@
             android:id="@+id/action_photoDetailFragment_to_drawingDetailFragment"
             app:destination="@id/drawingDetailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/nftGiftSearchUserFragment"
+        android:name="com.ssafy.likloud.ui.nftlist.NftGiftSearchUserFragment"
+        android:label="fragment_nft_gift_search_user"
+        tools:layout="@layout/fragment_nft_gift_search_user"/>
 
 </navigation>

@@ -116,8 +116,10 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
     private fun initObserver(){
 
         photoListFragmentViewModel.currentPhotoListDtoList.observe(viewLifecycleOwner){
-            photoListAdapter.submitList(it)
-            photoListFragmentViewModel.getCurrentPhotoListDto(it[0].photoId)
+            if(it.size!=0) {
+                photoListAdapter.submitList(it)
+                photoListFragmentViewModel.getCurrentPhotoListDto(it[0].photoId)
+            }
         }
 
         photoListFragmentViewModel.currentPhotoListDto.observe(viewLifecycleOwner){

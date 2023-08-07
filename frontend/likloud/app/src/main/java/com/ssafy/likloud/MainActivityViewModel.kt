@@ -98,7 +98,16 @@ class MainActivityViewModel @Inject constructor(
      */
     fun getMemberInfo(email: String) {
         viewModelScope.launch {
-            baseRepository.getMemberInfo(MemberInfoRequest(email)).apply {
+//            baseRepository.getMemberInfo(MemberInfoRequest(email)).apply {
+//                onSuccess {
+//                    Log.d(TAG, "getUserInfo: onSuccess ${it}")
+//                    _memberInfo.postValue(it)
+//                }
+//                onError {
+//                    Log.d(TAG, "getUserInfo: ${it.message}")
+//                }
+//            }
+            baseRepository.getMemberInfo2().apply {
                 onSuccess {
                     Log.d(TAG, "getUserInfo: onSuccess ${it}")
                     _memberInfo.postValue(it)
@@ -149,6 +158,33 @@ class MainActivityViewModel @Inject constructor(
         viewModelScope.launch {
             baseRepository.plusSilver()
             getMemberInfo(ApplicationClass.sharedPreferences.getString("user_email").toString())
+        }
+    }
+
+    /////////////////////////// 선물 성공 /////////////////////////////////////////
+    private var _isSended = MutableLiveData<Boolean>(false)
+    val isSended: LiveData<Boolean>
+        get() = _isSended
+    fun setIsSended(value: Boolean){
+        _isSended.value = value
+    }
+    fun sendGift(nftId: Int, toMemberId: Int, message: String){
+        viewModelScope.launch {
+            baseRepository.sendGift(nftId, toMemberId, message).onSuccess {
+                _isSended.value = true
+            }
+        }
+    }
+
+    ///////////////////// 지갑 발급 여부 ///////////////////////////
+    private var _isWallet = MutableLiveData<Boolean>()
+    val isWallet: LiveData<Boolean>
+        get() = _isWallet
+    fun getNftWallet(){
+        viewModelScope.launch {
+            baseRepository.getNftWallet().onSuccess {
+                _isWallet.value = true
+            }
         }
     }
 

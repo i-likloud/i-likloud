@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/frame_skybluelight_rounded_border_black_radius50"
+    android:paddingTop="@dimen/_12sdp"
+    android:paddingBottom="@dimen/_10sdp"
+    android:paddingLeft="@dimen/_10sdp"
+    android:paddingRight="@dimen/_10sdp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="@dimen/_200sdp"-->
+<!--        android:text="dfdfdfdfdfd"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"/>-->
+
+    <TextView
+        android:id="@+id/text_alert_title"
+        style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_20sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/message_nft_gift"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/edittext_message"
+        style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_150sdp"
+        app:layout_constraintWidth_percent="0.8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_alert_title"
+        android:gravity="center"
+        android:background="@drawable/frame_rounded_border_black_radius50"
+        android:hint="@string/message_nft_gift"
+        android:maxLength="50"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:padding="@dimen/_8sdp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_30sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edittext_message"
+        android:layout_marginTop="@dimen/_5sdp">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_confirm_gift"
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/button_frame_skyblue"
+            android:text="@string/gift"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button_cancel_gift"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.45" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_cancel_gift"
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/button_frame_skyblue"
+            android:text="@string/cancel_gift"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/button_confirm_gift"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.45" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
