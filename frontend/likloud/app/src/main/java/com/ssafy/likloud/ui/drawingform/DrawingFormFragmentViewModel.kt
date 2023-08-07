@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ssafy.likloud.data.api.onError
 import com.ssafy.likloud.data.api.onSuccess
 import com.ssafy.likloud.data.model.MemberInfoDto
 import com.ssafy.likloud.data.model.request.LoginRequest
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import javax.inject.Inject
+import kotlin.math.log
 
 private const val TAG = "DrawingFormFragmentView_싸피"
 @HiltViewModel
@@ -48,8 +50,12 @@ class DrawingFormFragmentViewModel @Inject constructor(
         viewModelScope.launch {
             baseRepository.postDrawingMultipart(multipartBody, uploadPhotoId, title, description , MemberInfoDto("email", "role")).onSuccess {
                 Log.d(TAG, "uploadDrawing: success")
+                Log.d(TAG, "uploadDrawing: ${title}")
                 _isDrawingUploaded.emit(true)
             }
+                .onError {
+                    Log.d(TAG, "uploadDrawing: fail")
+                }
         }
 
     }
