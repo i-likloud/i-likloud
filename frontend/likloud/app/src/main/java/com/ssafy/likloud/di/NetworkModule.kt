@@ -71,7 +71,4 @@ object NetworkModule {
     @Provides
     fun provideMainAPIService(retrofit: Retrofit) : BaseService =
         retrofit.create(BaseService::class.java)
-
-
-
 }
