@@ -30,9 +30,4 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
             })
         }
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d(TAG, "onDestroy: 사라짐!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    }
 }

@@ -16,5 +16,8 @@ data class LoginResponse (
     val accessTokenExpirationPeriod: String,
 
     @SerializedName("refreshTokenExpirationPeriod")
-    val refreshTokenExpirationPeriod: String
+    val refreshTokenExpirationPeriod: String,
+
+    @SerializedName("role")
+    val role: String
 )

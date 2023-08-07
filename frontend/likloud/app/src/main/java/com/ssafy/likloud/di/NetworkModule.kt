@@ -3,10 +3,8 @@ package com.ssafy.likloud.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.ssafy.likloud.config.AddCookiesInterceptor
-import com.ssafy.likloud.config.BearerInterceptor
-import com.ssafy.likloud.config.ReceivedCookiesInterceptor
-import com.ssafy.likloud.config.XAccessTokenInterceptor
+import com.ssafy.likloud.config.RequestInterceptor
+import com.ssafy.likloud.config.ResponseInterceptor
 import com.ssafy.likloud.data.api.ApiClient.BASE_URL
 import com.ssafy.likloud.data.api.BaseService
 import dagger.Module
@@ -43,13 +41,13 @@ object NetworkModule {
         OkHttpClient.Builder()
             .readTimeout(5000, TimeUnit.MILLISECONDS)
             .connectTimeout(5000, TimeUnit.MILLISECONDS)
-            .addInterceptor(XAccessTokenInterceptor()) // JWT 자동 헤더 전송
+//            .addInterceptor(RequestInterceptor()) // JWT 자동 헤더 전송
 //            .addInterceptor(EmptyBodyInterceptor())
-            .addInterceptor(BearerInterceptor()) // Refresh Token
+            .addInterceptor(ResponseInterceptor()) // Refresh Token
 //            .addInterceptor(ErrorResponseInterceptor()) // Error Response
-//            .addNetworkInterceptor(XAccessTokenInterceptor()) // JWT 자동 헤더 전송
-            .addInterceptor(AddCookiesInterceptor())  //쿠키 전송
-            .addInterceptor(ReceivedCookiesInterceptor()) //쿠키 추출
+            .addInterceptor(RequestInterceptor()) // JWT 자동 헤더 전송
+//            .addInterceptor(AddCookiesInterceptor())  //쿠키 전송
+//            .addInterceptor(ReceivedCookiesInterceptor()) //쿠키 추출
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
 //    }
@@ -73,7 +71,4 @@ object NetworkModule {
     @Provides
     fun provideMainAPIService(retrofit: Retrofit) : BaseService =
         retrofit.create(BaseService::class.java)
-
-
-
 }

@@ -213,7 +213,13 @@
         android:id="@+id/drawingFormFragment"
         android:name="com.ssafy.likloud.ui.drawingform.DrawingFormFragment"
         android:label="fragment_drawing_form"
-        tools:layout="@layout/fragment_drawing_form" />
+        tools:layout="@layout/fragment_drawing_form" >
+        <action
+            android:id="@+id/action_drawingFormFragment_to_drawingListFragment"
+            app:popUpTo="@string/home"
+            app:popUpToInclusive="false"
+            app:destination="@id/drawingListFragment" />
+    </fragment>
         
     <fragment
         android:id="@+id/storeFragment"

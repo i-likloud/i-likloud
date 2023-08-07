@@ -21,6 +21,7 @@ import okhttp3.MultipartBody
 import javax.inject.Inject
 
 private const val TAG = "MainActivityViewModel_싸피"
+
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
     private val baseRepository: BaseRepository
@@ -66,31 +67,36 @@ class MainActivityViewModel @Inject constructor(
         get() = _memberInfo
 
     private val _drawingBitmap = MutableLiveData<Bitmap>()
-    val drawingBitmap : LiveData<Bitmap> get() = _drawingBitmap
+    val drawingBitmap: LiveData<Bitmap> get() = _drawingBitmap
 
     private val _drawingMultipartBody = MutableLiveData<MultipartBody.Part>()
     val drawingMultipartBody: LiveData<MultipartBody.Part> get() = _drawingMultipartBody
 
     // 최종적으로 업로드 결정된 사진url
-    private val _uploadingPhotoUrl = MutableLiveData<String>("https://www.freeiconspng.com/uploads/metal-black-red-transparent-background-for-the-symbol-error-5.png")
-    val uploadingPhotoUrl : LiveData<String>
-        get()  = _uploadingPhotoUrl
+    private val _uploadingPhotoUrl =
+        MutableLiveData<String>("https://www.freeiconspng.com/uploads/metal-black-red-transparent-background-for-the-symbol-error-5.png")
+    val uploadingPhotoUrl: LiveData<String>
+        get() = _uploadingPhotoUrl
 
 
     private val _uploadingPhotoId = MutableLiveData<Int>(1)
-    val uploadingPhotoId : LiveData<Int>
-        get()  = _uploadingPhotoId
+    val uploadingPhotoId: LiveData<Int>
+        get() = _uploadingPhotoId
 
 
     private val _toggleBgmString = MutableLiveData<String>("BGM OFF")
-    val toggleBgmString : LiveData<String>
-        get()  = _toggleBgmString
+    val toggleBgmString: LiveData<String>
+        get() = _toggleBgmString
+
+
+    private val _fcmReceivedDrawingId = MutableLiveData<Int>()
+    val fcmReceivedDrawingId: LiveData<Int> get() = _fcmReceivedDrawingId
 
 
     /**
      * 멤버 정보를 가져옵니다.
      */
-    suspend fun getMemberInfo(email: String) {
+    fun getMemberInfo(email: String) {
         viewModelScope.launch {
 //            baseRepository.getMemberInfo(MemberInfoRequest(email)).apply {
 //                onSuccess {
@@ -113,7 +119,7 @@ class MainActivityViewModel @Inject constructor(
         }
     }
 
-    suspend fun editProflie(profileEditRequest: ProfileEditRequest) {
+    fun editProflie(profileEditRequest: ProfileEditRequest) {
         viewModelScope.launch {
             baseRepository.editMyProfile(profileEditRequest)
                 .onSuccess {
@@ -130,11 +136,11 @@ class MainActivityViewModel @Inject constructor(
         _profileFace.value = face
     }
 
-    fun setUploadingPhotoUrl(url : String){
+    fun setUploadingPhotoUrl(url: String) {
         _uploadingPhotoUrl.value = url
     }
 
-    fun setUploadingPhotoId(id : Int){
+    fun setUploadingPhotoId(id: Int) {
         _uploadingPhotoId.value = id
     }
 
@@ -142,13 +148,13 @@ class MainActivityViewModel @Inject constructor(
         _drawingMultipartBody.value = multipartBody
     }
 
-    fun setDrawingBitmap(bitmap : Bitmap){
+    fun setDrawingBitmap(bitmap: Bitmap) {
         _drawingBitmap.value = bitmap
     }
 
 
     ////////////////////////// 게임 성공 api 호출 ///////////////////////
-    fun plusSilver(){
+    fun plusSilver() {
         viewModelScope.launch {
             baseRepository.plusSilver()
             getMemberInfo(ApplicationClass.sharedPreferences.getString("user_email").toString())

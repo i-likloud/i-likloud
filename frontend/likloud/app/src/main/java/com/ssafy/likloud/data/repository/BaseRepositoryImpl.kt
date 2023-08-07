@@ -1,6 +1,7 @@
 package com.ssafy.likloud.data.repository
 
 
+import android.util.Log
 import com.ssafy.likloud.ApplicationClass
 import com.ssafy.likloud.data.api.BaseService
 import com.ssafy.likloud.data.api.NetworkResult
@@ -34,6 +35,7 @@ import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Named
 
+private const val TAG = "BaseRepositoryImpl_싸피"
 class BaseRepositoryImpl @Inject constructor(
     @Named("Main") private val baseAPIService: BaseService
 ) : BaseRepository {
@@ -50,6 +52,7 @@ class BaseRepositoryImpl @Inject constructor(
     }
 
     override suspend fun postRefreshToken(): NetworkResult<ReLoginResponse> {
+        Log.d(TAG, "postRefreshToken: BaseRepositoryImpl 통신 코드입니다. 401이 떴을 때 두번 불려야 정상입니다.")
         return handleApi {
             baseAPIService.postRefreshToken(
                 "Bearer ${
