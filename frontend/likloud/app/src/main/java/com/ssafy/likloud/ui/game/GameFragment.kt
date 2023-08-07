@@ -107,15 +107,6 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
             }
         }
 
-        gameFragmentViewModel.nextFragment.observe(viewLifecycleOwner){
-            Log.d(TAG, "nextFragment : ${it} ")
-            //여기서 Fragment 변경 / 새로고침
-            if(it == "home"){
-                findNavController().navigate(R.id.action_gameFragment_to_homeFragment)
-            }else{
-                findNavController().navigate(R.id.action_gameFragment_self)
-            }
-        }
     }
 
     private fun init() {
@@ -201,8 +192,8 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
         }
     }
 
-    fun changeNextFragment(value: String){
-        gameFragmentViewModel.changeNextFragment(value)
+    fun goHomefragment(){
+        findNavController().navigate(R.id.action_gameFragment_to_homeFragment)
     }
 
     override fun onPause() {

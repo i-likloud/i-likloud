@@ -78,7 +78,12 @@ class GameFragmentViewModel @Inject constructor(
     val currentQuestionIdx: LiveData<Int>
         get() = _currentQuestionIdx
     fun increaseCurrentQuestionIdx(){
-        _currentQuestionIdx.value = _currentQuestionIdx.value!! + 1
+        if(_currentQuestionIdx.value == 28){
+            randomQuestionIdxList = (0 until 30).shuffled().subList(0,30)
+            _currentQuestionIdx.value = 0
+        }else {
+            _currentQuestionIdx.value = _currentQuestionIdx.value!! + 1
+        }
     }
 
 

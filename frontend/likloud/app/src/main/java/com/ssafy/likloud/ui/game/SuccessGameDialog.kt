@@ -17,7 +17,7 @@ class SuccessGameDialog(
                 dismiss() // 다이얼로그 닫기
                 val parentFragment = parentFragment
                 if (parentFragment is GameFragment) {
-                    parentFragment.refreshFragment()
+                    parentFragment.goHomefragment()
                 }
             }
             buttonReGame.setOnClickListener {
