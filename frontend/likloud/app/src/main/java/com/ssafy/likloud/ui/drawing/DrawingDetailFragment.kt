@@ -79,17 +79,20 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             Log.d(TAG, "initObserver: observed currentDrawingMember")
             initInfoView(drawingDetailFragmentViewModel.currentDrawingDetail.value!!, it)
             memberProfileDto = it
-            if(!isCurUserObserved) return@observe
+            if(isCurUserObserved) return@observe
             activityViewModel.memberInfo.observe(viewLifecycleOwner){
                 isCurUserObserved = true
                 Log.d(TAG, "initObserver: observed currentUser")
                 // 현재 user가 받아져 오면 recyclerview 생성
-                initCommentRecyclerView()
+
                 initCurUserView(memberProfileDto)
 
                 // user가 받아져 온 다음에 comment ui 업데이트
-                if(!isCurCommentObserved) return@observe
+                if(isCurCommentObserved) return@observe
+
                 drawingDetailFragmentViewModel.currentDrawingCommentList.observe(viewLifecycleOwner){
+                    initCommentRecyclerView()
+                    Log.d(TAG, "initObserver: observed comment")
                     isCurCommentObserved = true
                     commentListAdapter.submitList(it.toMutableList())
                 }
