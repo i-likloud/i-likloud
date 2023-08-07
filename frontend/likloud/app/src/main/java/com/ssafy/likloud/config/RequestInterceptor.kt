@@ -10,19 +10,19 @@ import okhttp3.Response
 import java.io.IOException
 import java.lang.Exception
 
-private const val TAG = "XAccessTokenInterceptor_싸피"
+private const val TAG = "RequestInterceptor_싸피"
 class RequestInterceptor : Interceptor {
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         val builder: Request.Builder = chain.request().newBuilder()
 
-        Log.d(TAG, "intercept XAccessTokenInterceptor: ${sharedPreferences.getString(X_ACCESS_TOKEN)}")
+        Log.d(TAG, "intercept RequestInterceptor: ${sharedPreferences.getString(X_ACCESS_TOKEN)}")
         try {
             sharedPreferences.getString(X_ACCESS_TOKEN).let { token ->
                 token?.let {
                     builder.addHeader("Authorization", "Bearer $token")
-                    Log.d(TAG, "intercept: aaaaa")
+                    Log.d(TAG, "intercept: JWT AccessToken 헤더에 담았습니다.")
                     return chain.proceed(builder.build())
                 }
             }
