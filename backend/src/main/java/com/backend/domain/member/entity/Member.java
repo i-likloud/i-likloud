@@ -106,6 +106,10 @@ public class Member extends BaseEntity {
         this.nickname = nickname;
     }
 
+    public void updateGoldCoin(int goldCoin){
+        this.goldCoin = goldCoin;
+    }
+
     public void editProfile(int profileFace, int profileColor, int profileAccessory){
         this.profileColor = profileColor;
         this.profileFace = profileFace;

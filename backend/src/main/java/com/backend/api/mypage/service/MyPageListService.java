@@ -82,8 +82,7 @@ public class MyPageListService {
     }
 
     // 보유 아이템 조회
-    public List<AccessoryDto> getMyAccessory(Long memberId) {
-        Member member = memberService.findMemberById(memberId);
+    public List<AccessoryDto> getMyAccessory(Member member) {
         List<Accessory> accessories = accessoryRepository.findByMember(member);
 
         return accessories.stream()

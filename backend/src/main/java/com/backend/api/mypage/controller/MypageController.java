@@ -143,7 +143,7 @@ public class MypageController {
     public ResponseEntity<List<AccessoryDto>> getMyAccessorys (@MemberInfo MemberInfoDto memberInfoDto){
         try{
             Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
-            List<AccessoryDto> result = myPageListService.getMyAccessory(member.getMemberId());
+            List<AccessoryDto> result = myPageListService.getMyAccessory(member);
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

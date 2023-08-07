@@ -8,6 +8,8 @@ import com.backend.api.store.dto.StoreBuyResponseDto;
 import com.backend.api.store.service.StoreService;
 import com.backend.domain.accessory.dto.AccessoryDto;
 import com.backend.domain.accessory.dto.AccessoryUploadRequestDto;
+import com.backend.domain.member.entity.Member;
+import com.backend.domain.member.service.MemberService;
 import com.backend.domain.store.dto.StoreWithAccessoryDto;
 import com.backend.domain.store.entity.Store;
 import com.backend.global.error.ErrorResponse;
@@ -37,6 +39,7 @@ public class StoreController {
     private final MypageService mypageService;
     private final StoreService storeService;
     private final MyPageListService myPageListService;
+    private final MemberService memberService;
 
     @Operation(summary = "상점 홈", description = "상점 홈에 들어가면 필요한 정보 반환을 수행합니다."+"\n\n### [ 수행절차 ]\n\n"+"- try it out 해주세요\n\n")
     @CustomApi
@@ -61,10 +64,11 @@ public class StoreController {
     @PostMapping("/buy/{storeId}")
     public ResponseEntity<StoreBuyResponseDto> buyAccessory(@RequestParam Long storeId,@MemberInfo MemberInfoDto memberInfoDto) {
         String email = memberInfoDto.getEmail();
-        ProfileDto profileDto = storeService.buyAccessory(email, storeId);
+        Member member = memberService.findMemberByEmail(email);
+        ProfileDto profileDto = storeService.buyAccessory(member, storeId);
 
         // 보유 아이템 목록 응답
-        List<AccessoryDto> myAccessories = myPageListService.getMyAccessory(profileDto.getMemberId());
+        List<AccessoryDto> myAccessories = myPageListService.getMyAccessory(member);
 
         StoreBuyResponseDto responseDto = StoreBuyResponseDto.builder()
                 .profile(profileDto)
