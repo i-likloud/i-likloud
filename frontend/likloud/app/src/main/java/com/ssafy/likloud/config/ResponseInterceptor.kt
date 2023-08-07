@@ -35,18 +35,12 @@ class ResponseInterceptor: Interceptor {
         var accessToken = ""
         var isRefreshable = false
 
-        Log.d(TAG, "intercept BearerInterceptor: ${sharedPreferences.getString(X_REFRESH_TOKEN)}")
-        Log.d(TAG, "intercept: 지금 메시지!!!!!!@!@!@!@!@!@! ${response.message}")
-        Log.d(TAG, "intercept: 지금 코드!!!!!!@!@!@!@!@!@! ${response.code}")
-        Log.d(TAG, "intercept: 지금 객체!!!!!!@!@!@!@!@!@! ${response}")
-        Log.d(TAG, "intercept: 지금 바디!!!!!!@!@!@!@!@!@! ${response.body}")
-        Log.d(TAG, "intercept: 지금 네트워크 리스폰스!!!!!!@!@!@!@!@!@! ${response.networkResponse}")
-//        val testResponse = parseResponseTest(response.body)
-//        Log.d(TAG, "intercept: 떠라떠라떠라@!!!!!!!!!!!!!!!!!!!@!@! ${testResponse}")
+        Log.d(TAG, "intercept: 지금 코드 ${response.code}")
+        Log.d(TAG, "intercept: 지금 네트워크 리스폰스 ${response.networkResponse}")
 
         when (response.code) {
             400 -> {
-
+                Log.d(TAG, "intercept: 에러 : 400 에러입니다.")
             }
 
             401 -> { // 여러 에러들 종합 (에러 메시지로 확인하자.)
@@ -102,15 +96,15 @@ class ResponseInterceptor: Interceptor {
             }
 
             403 -> {
-
+                Log.d(TAG, "intercept: 에러 : 403 에러입니다.")
             }
 
             404 -> {
-
+                Log.d(TAG, "intercept: 에러 : 404 에러입니다.")
             }
 
             500 -> { // 서버에러
-
+                Log.d(TAG, "intercept: 에러 : 500 에러입니다.")
             }
         }
 

@@ -148,10 +148,10 @@ class StoreFragment : BaseFragment<FragmentStoreBinding>(FragmentStoreBinding::b
                         storeFragmentViewModel.postBuyAccessory(data.storeId)
                         lottieView.visibility = View.VISIBLE
                         lottieView.playAnimation()
-                        showSnackbar("success", "구매 완료!")
+                        showSnackbar(binding.root, "success", "구매 완료!")
                     }
                     else {
-                        showSnackbar("fail", "티켓이 ${data.accessoryPrice - storeFragmentViewModel.memberInfo.value!!.goldCoin} 만큼 부족해요.")
+                        showSnackbar(binding.root, "fail", "티켓이 ${data.accessoryPrice - storeFragmentViewModel.memberInfo.value!!.goldCoin} 만큼 부족해요.")
                     }
                 }
             }
@@ -229,23 +229,5 @@ class StoreFragment : BaseFragment<FragmentStoreBinding>(FragmentStoreBinding::b
             }
         }
         return 0
-    }
-
-    private fun showSnackbar(type: String, message: String) {
-        val snackbar = Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
-        snackbar.setTextColor(ContextCompat.getColor(mActivity, R.color.black))
-        when (type) {
-            "success" -> {
-                snackbar.setBackgroundTint(ContextCompat.getColor(mActivity, R.color.green_mild))
-                snackbar.setActionTextColor(ContextCompat.getColor(mActivity, R.color.sky_blue_deep))
-                snackbar.setAction("확인하러 가기 ->") {
-                    findNavController().navigate(R.id.action_storeFragment_to_profileEditFragment)
-                }
-            }
-            "fail" -> {
-                snackbar.setBackgroundTint(ContextCompat.getColor(mActivity, R.color.red_mile))
-            }
-        }
-        snackbar.show()
     }
 }

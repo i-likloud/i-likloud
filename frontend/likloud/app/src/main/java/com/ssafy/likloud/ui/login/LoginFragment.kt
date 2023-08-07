@@ -91,7 +91,6 @@ class LoginFragment :
      * 필요한 정보를 init 합니다.
      */
     private fun init() {
-//        NaverIdLoginSDK.initialize(mActivity, R.string.naver_oauth_client_id.toString(), R.string.naver_oauth_client_secret.toString(), R.string.naver_oauth_client_name.toString())
         NaverIdLoginSDK.initialize(
             mActivity,
             OAUTH_CLIENT_ID,
@@ -105,12 +104,14 @@ class LoginFragment :
             Log.d(TAG, "init: ${sharedPreferences.getString(X_REFRESH_TOKEN)}")
 
             viewLifecycleOwner.lifecycleScope.launch {
-                withContext(Dispatchers.Main) {
+                withContext(Dispatchers.IO) {
                     mainActivityViewModel.getMemberInfo(sharedPreferences.getString(USER_EMAIL).toString())
+                    withContext(Dispatchers.Main) {
+//                        showSnackbar(binding.root, "success", "안녕하세요 ${mainActivityViewModel.memberInfo.value!!.nickname}님!")
+                        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                    }
                 }
             }
-
-            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
         }
     }
 
@@ -127,6 +128,24 @@ class LoginFragment :
         loginFragmentViewModel.loginResponse.observe(viewLifecycleOwner) {
             sharedPreferences.putString(X_ACCESS_TOKEN, it.accessToken)
             sharedPreferences.putString(X_REFRESH_TOKEN, it.refreshToken)
+            Log.d(TAG, "initObserver: ${it.role}")
+            when (it.role) {
+                "MEMBER" -> {
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        withContext(Dispatchers.IO) {
+                            mainActivityViewModel.getMemberInfo(sharedPreferences.getString(USER_EMAIL).toString())
+                            withContext(Dispatchers.Main) {
+//                                showSnackbar(binding.root, "success", "안녕하세요 ${mainActivityViewModel.memberInfo.value!!.nickname}님!")
+                                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                            }
+                        }
+                    }
+                }
+                "GUEST" -> {
+//                    showSnackbar(binding.root, "success", "뭉게뭉게 도화지에 오신것을 환영합니다!")
+                    findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
+                }
+            }
         }
     }
 
@@ -161,9 +180,9 @@ class LoginFragment :
 
                             loginFragmentViewModel.postLogin(email, "NAVER")
 //                            loginFragmentViewModel.getTokenValidation(token.accessToken)
-                            findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
+//                            findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
 
-                            Log.d(TAG, "onSuccess: 로그인 리스폰스 ${loginFragmentViewModel.loginResponse}")
+//                            Log.d(TAG, "onSuccess: 로그인 리스폰스 ${loginFragmentViewModel.loginResponse}")
 //                            Log.d(TAG, "onSuccess: 저장된 JWT AT ${sharedPreferences.getString(
 //                                X_ACCESS_TOKEN)}")
 //                            Log.d(TAG, "onSuccess: 저장된 JWT RT ${sharedPreferences.getString(
@@ -208,8 +227,6 @@ class LoginFragment :
                     showCustomToast("errorCode:$errorCode, errorDesc:$errorDescription")
                 }
             }
-
-
         }
 
 
@@ -228,9 +245,13 @@ class LoginFragment :
                 Log.i(ContentValues.TAG, "카카오톡으로 로그인 성공 accesstoken ${token.accessToken}")
                 Log.i(ContentValues.TAG, "카카오톡으로 로그인 성공 refreshtoken ${token.refreshToken}")
 //                Log.i(ContentValues.TAG, "카카오톡: ${token.scopes?.get(2)}")
+                val email = token.scopes!![0]
+
+                Log.d(TAG, "startKakaoLogin: 카카오 로그인 이메일은? -> ${email}")
                 sharedPreferences.putString(X_ACCESS_TOKEN, token.accessToken)
+                sharedPreferences.putString(USER_EMAIL, email)
                 loginFragmentViewModel.postLogin("email", "KAKAO")
-                findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
+//                findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
 //                loginFragmentViewModel.getTokenValidation(token.accessToken)
             }
         }
@@ -260,7 +281,7 @@ class LoginFragment :
                     Log.i(ContentValues.TAG, "카카오톡: ${token.scopes?.get(2)}")
                     sharedPreferences.putString(X_ACCESS_TOKEN, token.accessToken)
                     loginFragmentViewModel.postLogin("email", "KAKAO")
-                    findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
+//                    findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
                 }
             }
         }
