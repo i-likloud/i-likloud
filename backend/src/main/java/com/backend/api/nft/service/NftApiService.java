@@ -141,6 +141,8 @@ public class NftApiService {
                 .nftImageUrl(drawing.getImageUrl())
                 .nftMetadata(metadataUrl)
                 .contract(contract)
+                .title(drawing.getTitle())
+                .content(drawing.getContent())
                 .member(member)
                 .tokenId(tokenId)
                 .drawing(drawing)

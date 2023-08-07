@@ -25,8 +25,8 @@ public class NftGiftDto {
         this.mypageInfoDto = mypageInfoDto;
         this.nftId = nft.getNftId();
         this.tokenId = nft.getTokenId();
-        this.title = nft.getDrawing().getTitle();
-        this.imageUrl = nft.getDrawing().getImageUrl();
-        this.content = nft.getDrawing().getContent();
+        this.title = nft.getTitle();
+        this.imageUrl = nft.getNftImageUrl();
+        this.content = nft.getContent();
     }
 }
