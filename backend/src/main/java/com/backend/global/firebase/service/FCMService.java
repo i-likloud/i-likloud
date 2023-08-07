@@ -12,6 +12,9 @@ import com.google.firebase.messaging.Notification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class FCMService {
@@ -20,7 +23,7 @@ public class FCMService {
     private final HistoryService historyService;
     private final MemberService memberService;
 
-    public void sendFCMNotification(String token, String title, String body) {
+    public void sendFCMNotification(String token, String title, String body, Long drawingId, HistoryType historyType) {
         try{
             // 알림 내용 설정
             Notification notification = Notification.builder()
@@ -28,11 +31,18 @@ public class FCMService {
                     .setBody(body)
                     .build();
 
+            Map<String, String> data = new HashMap<>();
+            data.put("drawingId", String.valueOf(drawingId));
+            data.put("historyType", historyType.name());
+
             // 알림 보낼 대상 설정
             Message message = Message.builder()
                     .setNotification(notification)
+                    .putAllData(data)
                     .setToken(token)
                     .build();
+
+
 
             // FCM으로 알림 전송
             String response = FirebaseMessaging.getInstance().send(message);
@@ -57,10 +67,10 @@ public class FCMService {
             // 게시글 작성자에게 알림 보내기
             String title = "뭉게뭉게 도화지";
             String body = String.format("%s 님이 회원님의 그림에 댓글을 남겼습니다.", CurrentUserNickname);
-            this.sendFCMNotification(authorToken, title, body);
+            this.sendFCMNotification(authorToken, title, body, drawingId,HistoryType.COMMENT);
 
             // HistoryDB에 담기
-            historyService.createHistory(body, creator, HistoryType.COMMENT);
+            historyService.createHistory(body, creator, HistoryType.COMMENT, drawingId);
         }
     }
 
@@ -79,10 +89,10 @@ public class FCMService {
             // 게시글 작성자에게 알림 보내기
             String title = "뭉게뭉게 도화지";
             String body = String.format("%s 님이 회원님의 그림을 좋아합니다.", CurrentUserNickname);
-            this.sendFCMNotification(authorToken, title, body);
+            this.sendFCMNotification(authorToken, title, body, drawingId,HistoryType.LIKE);
 
             // HistoryDB에 담기
-            historyService.createHistory(body, creator, HistoryType.LIKE);
+            historyService.createHistory(body, creator, HistoryType.LIKE, drawingId);
         }
     }
 
@@ -98,10 +108,10 @@ public class FCMService {
         // 작성자에게 알림 보내기
         String title = "뭉게뭉게 도화지";
         String body = String.format("%s 님이 그림을 선물하였습니다.",CurrentUserNickname);
-        this.sendFCMNotification(authorToken,title,body);
+        this.sendFCMNotification(authorToken,title,body, null,HistoryType.GIFT);
 
         // HistoryDB에 담기
-        historyService.createHistory(body, toMember, HistoryType.LIKE);
+        historyService.createHistory(body, toMember, HistoryType.LIKE, null);
 
     }
 }
