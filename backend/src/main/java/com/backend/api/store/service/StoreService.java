@@ -39,10 +39,8 @@ public class StoreService {
 
         List<Store> stores = storeRepository.findAll();
 
-        List<Long> storeIds = stores.stream().map(Store::getStoreId).collect(Collectors.toList());
-
         // 현재 멤버가 구매한 아이템id 목록
-        Set<Long> boughtStoreIds = accessoryRepository.findBoughtStoreIdsByMember(memberId, storeIds);
+        Set<Long> boughtStoreIds = accessoryRepository.findBoughtStoreIdsByMember(memberId);
 
         List<StoreWithAccessoryDto> response = stores.stream()
                 .map(store -> new StoreWithAccessoryDto(store, boughtStoreIds.contains(store.getStoreId())))
