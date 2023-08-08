@@ -111,4 +111,7 @@ class GameFragmentViewModel @Inject constructor(
     var successGameDialog = SuccessGameDialog()
     var failGameDialog = FailGameDialog()
 
+    //////////////// 게임 시작 다이얼로그
+    val gameStartDialog = GameStartDialog()
+
 }

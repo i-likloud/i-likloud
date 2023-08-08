@@ -60,9 +60,10 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initObserver()
-        init()
-        initListener()
+        showGameStartDialog()
+//        initObserver()
+//        init()
+//        initListener()
 
     }
 
@@ -147,7 +148,7 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
         gameFragmentViewModel.setFrameHeight()
         Log.d(TAG, "init: ${gameFragmentViewModel.frameWidth.value}")
 
-        coroutineProfile = CoroutineScope(Dispatchers.Main)
+//        coroutineProfile = CoroutineScope(Dispatchers.Main)
         coroutineProfile.launch {
             while(gameFragmentViewModel.frameWidth.value!! > 12){
                 delay(200)
@@ -162,7 +163,7 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
             }
         }
 
-        coroutineTime = CoroutineScope(Dispatchers.Main)
+//        coroutineTime = CoroutineScope(Dispatchers.Main)
         coroutineTime.launch {
             Log.d(TAG, "coroutineTime launch....")
             while(gameFragmentViewModel.remainTime.value!! > 0){
@@ -207,9 +208,23 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
         gameFragmentViewModel.initRemainTime()
         coroutineProfile.cancel()
         coroutineTime.cancel()
+        coroutineTime = CoroutineScope(Dispatchers.Main)
+        coroutineProfile = CoroutineScope(Dispatchers.Main)
 //        initObserver()
         initView()
 //        initListener()
+    }
+
+    fun showGameStartDialog(){
+        gameFragmentViewModel.gameStartDialog.show(childFragmentManager, "game start")
+        coroutineTime = CoroutineScope(Dispatchers.Main)
+        coroutineProfile = CoroutineScope(Dispatchers.Main)
+    }
+
+    fun gameStart(){
+        initObserver()
+        init()
+        initListener()
     }
 
 
