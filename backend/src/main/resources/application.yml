@@ -27,11 +27,14 @@ spring:
       hibernate:
         format_sql: true # sql 예쁘게 출력
         default_batch_fetch_size: 1000 # 일대다 컬렉션 조회 시 성능 최적화 : 100 ~ 1000 권장
+        jdbc:
+          time_zone: Asia/Seoul
 
   servlet:
     multipart:
       max-file-size: 20MB # 파일 업로드 요청 시 하나의 파일 크기를 10MB 제한
       max-request-size: 100MB # 파일 업로드 요청 시 모든 파일 크기합을 100MB 제한
+
 
   mvc:
     pathmatch:

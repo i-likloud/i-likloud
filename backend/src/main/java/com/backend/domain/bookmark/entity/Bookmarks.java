@@ -28,4 +28,10 @@ public class Bookmarks extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "photo_id")
     private Photo photo;
+
+    public Bookmarks(Member member, Photo photo) {
+        this.member = member;
+        this.photo = photo;
+    }
+
 }
