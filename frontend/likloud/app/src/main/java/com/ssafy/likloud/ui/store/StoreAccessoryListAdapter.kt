@@ -44,13 +44,13 @@ class StoreAccessoryListAdapter() :
                 imageFiltering(data.accessoryName)
                 if (data.owned) {
                     binding.buttonBuy.apply {
-                        setBackgroundResource(R.drawable.frame_button_rounded_border_grey_radius50)
+                        setBackgroundResource(R.drawable.frame_button_grey_mild)
                         text = "구매됨"
                         isClickable = false
                         isEnabled = false
                     }
                 } else {
-                    binding.buttonBuy.setBackgroundResource(R.drawable.frame_button_rounded_border_green_radius50)
+                    binding.buttonBuy.setBackgroundResource(R.drawable.frame_button_green_mild)
                 }
                 binding.textviewMoney.text = data.accessoryPrice.toString()
             }

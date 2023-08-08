@@ -231,7 +231,8 @@
                     android:text="@string/title_nft"
                     style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
                     android:layout_margin="@dimen/_2sdp"
-                    android:background="@drawable/frame_rounded_border_skyblue_radius50" />
+                    android:elevation="@dimen/_2sdp"
+                    android:background="@drawable/frame_button_purple_mild" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/button_go_store"
@@ -241,8 +242,9 @@
                     android:text="@string/go_store"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/_2sdp"
+                    android:elevation="@dimen/_2sdp"
                     style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
-                    android:background="@drawable/frame_rounded_border_skyblue_radius50">
+                    android:background="@drawable/frame_button_purple_mild">
 
                 </androidx.appcompat.widget.AppCompatButton>
 
