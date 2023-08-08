@@ -95,6 +95,7 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
                     Log.d(TAG, "initObserver: observed comment")
                     isCurCommentObserved = true
                     commentListAdapter.submitList(it.toMutableList())
+                    if(it.size!=0) binding.recyclerviewDrawingComment.smoothScrollToPosition(it.size)
                 }
             }
             activityViewModel.getMemberInfo(ApplicationClass.sharedPreferences.getString(USER_EMAIL)!!)

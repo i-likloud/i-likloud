@@ -86,6 +86,10 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
             buttonDismissFragment.setOnClickListener {
                 endSearchUserFragment()
             }
+            //뒤로가기 눌렀을 때
+            buttonBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
         }
 
         mainActivity.onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
@@ -120,6 +124,7 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
                 nftListFragmentViewModel.getNftGiftList()
             }else{ //거부했을 때
                 Toast.makeText(mainActivity, "거절했음", Toast.LENGTH_SHORT).show()
+                nftListFragmentViewModel.getNftGiftList()
             }
         }
     }
