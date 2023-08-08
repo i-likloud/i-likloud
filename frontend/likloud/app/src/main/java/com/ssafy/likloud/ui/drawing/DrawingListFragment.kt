@@ -3,6 +3,7 @@ package com.ssafy.likloud.ui.drawing
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Bundle
+import android.text.Layout
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.bumptech.glide.Glide
 import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager
+import com.navercorp.nid.NaverIdLoginSDK
 import com.ssafy.likloud.ApplicationClass
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.MainActivityViewModel
@@ -36,11 +38,8 @@ import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.databinding.FragmentDrawingListBinding
 import dagger.hilt.android.AndroidEntryPoint
-<<<<<<< frontend/likloud/app/src/main/java/com/ssafy/likloud/ui/drawing/DrawingListFragment.kt
 import kotlinx.coroutines.delay
-=======
 import kotlinx.coroutines.flow.collectLatest
->>>>>>> frontend/likloud/app/src/main/java/com/ssafy/likloud/ui/drawing/DrawingListFragment.kt
 import kotlinx.coroutines.launch
 
 private const val TAG = "차선호"
@@ -53,7 +52,6 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
     private lateinit var drawingListAdapter: DrawingListAdapter
     private lateinit var commentListAdapter: CommentListAdapter
     private var isScrolling = false
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -81,10 +79,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         initRecyclerView()
         initCommentRecyclerView()
 
-        binding.layoutInfo.translationX = 1600f
-        binding.layoutComment.translationX = 1600f
-        binding.recyclerviewDrawaing.translationX = -1600f
-        initAnimation()
+        loadingAnimation()
     }
 
     private fun initAnimation() {
@@ -106,6 +101,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
                     drawingListFragmentViewModel.getRecentOrderDrawingListDtoList()
                     initRecyclerView()
                     toggleButton(buttonRecentOrder)
+                    loadingAnimation()
                 }
             }
             //랭킹순 눌렀을 때
@@ -114,6 +110,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
                     drawingListFragmentViewModel.getRankingOrderDrawingListDtoList()
                     initRecyclerView()
                     toggleButton(buttonRankingOrder)
+                    loadingAnimation()
                 }
             }
             //조회순 눌렀을 때
@@ -122,6 +119,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
                     drawingListFragmentViewModel.getViewOrderDrawingListDtoLit()
                     initRecyclerView()
                     toggleButton(buttonViewOrder)
+                    loadingAnimation()
                 }
             }
             //좋아요 눌렀을 때
@@ -231,11 +229,11 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
 
     private fun toggleButton(view: View){
         binding.apply {
-            buttonRecentOrder.background = ContextCompat.getDrawable(mainActivity, R.drawable.button_frame_black)
-            buttonRankingOrder.background = ContextCompat.getDrawable(mainActivity, R.drawable.button_frame_black)
-            buttonViewOrder.background = ContextCompat.getDrawable(mainActivity, R.drawable.button_frame_black)
+            buttonRecentOrder.background = ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_grey_mild)
+            buttonRankingOrder.background = ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_grey_mild)
+            buttonViewOrder.background = ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_grey_mild)
         }
-        view.background = ContextCompat.getDrawable(mainActivity, R.drawable.button_frame_skyblue)
+        view.background = ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_yellow_mild_200)
     }
 
     private fun initRecyclerView(){
@@ -306,5 +304,12 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
 
     fun sendReport(content: String){
         drawingListFragmentViewModel.sendReport(content)
+    }
+
+    private fun loadingAnimation() {
+        binding.layoutInfo.translationX = 1300f
+        binding.layoutComment.translationX = 1300f
+        binding.recyclerviewDrawaing.translationX = -1300f
+        initAnimation()
     }
 }

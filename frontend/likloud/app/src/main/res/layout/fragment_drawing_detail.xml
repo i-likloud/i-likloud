@@ -44,7 +44,7 @@
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:text="@string/title_photo_list"
+                android:text="@string/title_drawing_detail"
                 style="@style/Theme.AppCompat.TextView.jua.dark.Size16"/>
 
         </LinearLayout>
@@ -114,12 +114,11 @@
             android:layout_height="0dp"
             app:layout_constraintWidth_percent="0.35"
             android:background="@drawable/frame_rounded_border_radius50"
-            android:elevation="@dimen/_20sdp"
+            android:elevation="@dimen/_4sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.45"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginVertical="@dimen/_10sdp"
-            android:layout_marginHorizontal="@dimen/_15sdp">
+            android:layout_margin="@dimen/_10sdp">
 
             <ImageView
                 android:id="@+id/button_report"
@@ -132,9 +131,9 @@
                 android:layout_marginTop="@dimen/_7sdp"/>
 
             <FrameLayout
-                android:id="@+id/layout_drawing_profile"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:id="@+id/layout_image_profile"
+                android:layout_width="@dimen/_17sdp"
+                android:layout_height="@dimen/_17sdp"
                 android:layout_marginStart="@dimen/_7sdp"
                 android:layout_marginTop="@dimen/_7sdp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -143,7 +142,7 @@
                 <ImageView
                     android:id="@+id/image_profile_color"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"/>
 
                 <ImageView
                     android:id="@+id/image_profile_face"
@@ -163,9 +162,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_4sdp"
                 style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
-                app:layout_constraintBottom_toBottomOf="@id/layout_drawing_profile"
-                app:layout_constraintStart_toEndOf="@id/layout_drawing_profile"
-                app:layout_constraintTop_toTopOf="@id/layout_drawing_profile" />
+                app:layout_constraintBottom_toBottomOf="@id/layout_image_profile"
+                app:layout_constraintStart_toEndOf="@id/layout_image_profile"
+                app:layout_constraintTop_toTopOf="@id/layout_image_profile" />
 
             <TextView
                 android:id="@+id/text_drawing_title"
@@ -173,8 +172,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_4sdp"
                 style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
-                app:layout_constraintStart_toStartOf="@id/layout_drawing_profile"
-                app:layout_constraintTop_toBottomOf="@id/layout_drawing_profile" />
+                app:layout_constraintStart_toStartOf="@id/layout_image_profile"
+                app:layout_constraintTop_toBottomOf="@id/layout_image_profile" />
 
             <TextView
                 android:id="@+id/text_drawing_content"
@@ -202,8 +201,8 @@
             <ImageView
                 android:id="@+id/image_heart"
                 android:src="@drawable/icon_unselected_heart"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/_10sdp"
+                android:layout_height="@dimen/_10sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/text_like_count"
                 android:layout_marginEnd="@dimen/_5sdp"
@@ -222,8 +221,8 @@
 
             <ImageView
                 android:id="@+id/image_view"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/_10sdp"
+                android:layout_height="@dimen/_10sdp"
                 android:src="@drawable/icon_view"
                 app:layout_constraintTop_toTopOf="@id/image_heart"
                 app:layout_constraintBottom_toBottomOf="@id/image_heart"
@@ -239,28 +238,29 @@
             android:layout_height="0dp"
             app:layout_constraintWidth_percent="0.35"
             app:layout_constraintHeight_percent="0.45"
+            android:layout_margin="@dimen/_10sdp"
             android:background="@drawable/frame_rounded_border_radius50"
-            android:elevation="@dimen/_20sdp"
+            android:elevation="@dimen/_4sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginVertical="@dimen/_10sdp"
-            android:layout_marginHorizontal="@dimen/_15sdp"
-            android:paddingHorizontal="@dimen/_10sdp"
-            android:paddingVertical="@dimen/_5sdp">
+            android:paddingVertical="@dimen/_4sdp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_drawing_comment"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:paddingHorizontal="@dimen/_10sdp"
                 app:layout_constraintHeight_percent="0.8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginBottom="@dimen/_2sdp"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintHeight_percent="0.2"
+                app:layout_constraintWidth_percent="0.9"
                 app:layout_constraintTop_toBottomOf="@id/recyclerview_drawing_comment"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -272,16 +272,22 @@
                     android:layout_height="match_parent"
                     app:layout_constraintWidth_percent="0.8"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:background="@drawable/frame_button_grey_mild"
+                    android:paddingHorizontal="@dimen/_4sdp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    style="@style/Theme.AppCompat.TextView.pretendard.Size08"/>
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/button_drawing_comment"
                     android:layout_width="0dp"
-                    android:layout_height = "match_parent"
-                    app:layout_constraintWidth_percent="0.2"
-                    android:background="@drawable/button_frame_skyblue"
-                    android:text="입력"
+                    android:layout_height="match_parent"
+                    app:layout_constraintWidth_percent="0.18"
+                    android:background="@drawable/frame_button_green_mild"
+                    android:text="@string/input_text"
+                    android:elevation="@dimen/_2sdp"
+                    android:layout_margin="@dimen/_2sdp"
+                    style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@id/edittext_drawing_comment"
                     app:layout_constraintBottom_toBottomOf="parent"/>

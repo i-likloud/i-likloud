@@ -6,6 +6,7 @@
     <string name="onboarding_one">신기한 구름이 보이면\n사진을 찍어서\n업로드 해봐요</string>
     <string name="onboarding_two">사람들의 구름사진에\n그림을\n그려보아요</string>
     <string name="onboarding_three">내가 그린 구름그림을\n나만의 그림으로\n만들어봐요</string>
+    <string name="input_text">입력</string>
 
     <string name="upload">업로드</string>
     <string name="caution">주의!</string>
@@ -21,6 +22,7 @@
     <string name="recent_order">최신순</string>
     <string name="view_order">조회순</string>
     <string name="bookmark_order">즐찾순</string>
+    <string name="title_drawing_detail">그림</string>
 
     <!--home-->
     <string name="home">HOME</string>

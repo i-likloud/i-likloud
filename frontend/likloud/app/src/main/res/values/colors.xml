@@ -23,6 +23,6 @@
     <color name="eraser_reached">#EF7772</color>
     <color name="yellow_mild_500">#FFCA28</color>
     <color name="yellow_mild_200">#FFF59D</color>
-    <color name="grey_mild">#9FFFFFFF</color>
+    <color name="grey_mild">#EBEBEB</color>
 
 </resources>

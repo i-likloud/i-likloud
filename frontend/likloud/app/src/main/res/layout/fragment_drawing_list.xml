@@ -74,38 +74,44 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_recent_order"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/_17sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_2sdp"
                 app:layout_constraintWidth_percent="0.95"
-                android:background="@drawable/button_frame_black"
+                android:background="@drawable/frame_button_grey_mild"
                 android:text="@string/recent_order"
                 style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                android:elevation="@dimen/_2sdp"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_ranking_order"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/_17sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_2sdp"
                 app:layout_constraintWidth_percent="0.95"
-                android:background="@drawable/button_frame_black"
+                android:background="@drawable/frame_button_grey_mild"
                 android:text="@string/ranking_order"
                 style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
                 app:layout_constraintTop_toBottomOf="@id/button_recent_order"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                android:elevation="@dimen/_2sdp"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_view_order"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/_17sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_2sdp"
                 app:layout_constraintWidth_percent="0.95"
-                android:background="@drawable/button_frame_black"
+                android:background="@drawable/frame_button_grey_mild"
                 android:text="@string/view_order"
                 style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
                 app:layout_constraintTop_toBottomOf="@id/button_ranking_order"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                android:elevation="@dimen/_2sdp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -256,22 +262,24 @@
             android:elevation="@dimen/_4sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:paddingHorizontal="@dimen/_10sdp"
-            android:paddingVertical="@dimen/_5sdp">
+            android:paddingVertical="@dimen/_4sdp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_drawing_comment"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:paddingHorizontal="@dimen/_10sdp"
                 app:layout_constraintHeight_percent="0.8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginBottom="@dimen/_2sdp"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintHeight_percent="0.2"
+                app:layout_constraintWidth_percent="0.9"
                 app:layout_constraintTop_toBottomOf="@id/recyclerview_drawing_comment"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -283,6 +291,8 @@
                     android:layout_height="match_parent"
                     app:layout_constraintWidth_percent="0.8"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:background="@drawable/frame_button_grey_mild"
+                    android:paddingHorizontal="@dimen/_4sdp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     style="@style/Theme.AppCompat.TextView.pretendard.Size08"/>
@@ -290,10 +300,13 @@
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/button_drawing_comment"
                     android:layout_width="0dp"
-                    android:layout_height = "match_parent"
-                    app:layout_constraintWidth_percent="0.2"
-                    android:background="@drawable/button_frame_skyblue"
-                    android:text="입력"
+                    android:layout_height="match_parent"
+                    app:layout_constraintWidth_percent="0.18"
+                    android:background="@drawable/frame_button_green_mild"
+                    android:text="@string/input_text"
+                    android:elevation="@dimen/_2sdp"
+                    android:layout_margin="@dimen/_2sdp"
+                    style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@id/edittext_drawing_comment"
                     app:layout_constraintBottom_toBottomOf="parent"/>
