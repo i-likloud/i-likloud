@@ -36,11 +36,8 @@ import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.databinding.FragmentDrawingListBinding
 import dagger.hilt.android.AndroidEntryPoint
-<<<<<<< frontend/likloud/app/src/main/java/com/ssafy/likloud/ui/drawing/DrawingListFragment.kt
 import kotlinx.coroutines.delay
-=======
 import kotlinx.coroutines.flow.collectLatest
->>>>>>> frontend/likloud/app/src/main/java/com/ssafy/likloud/ui/drawing/DrawingListFragment.kt
 import kotlinx.coroutines.launch
 
 private const val TAG = "차선호"

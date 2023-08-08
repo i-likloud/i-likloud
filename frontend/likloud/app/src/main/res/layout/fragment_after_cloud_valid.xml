@@ -29,25 +29,50 @@
 
     </androidx.cardview.widget.CardView>
 
-    <com.ssafy.likloud.util.CustomButton
+    <LinearLayout
         android:id="@+id/button_upload_only"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/_10sdp"
-        android:elevation="2dp"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_28sdp"
+        android:layout_gravity="right"
         android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@drawable/frame_button_grey_mild"
+        android:elevation="@dimen/_2sdp"
+        android:gravity="center"
+        android:layout_marginEnd="@dimen/_10sdp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <com.ssafy.likloud.util.CustomButton
+
+        <TextView
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/upload_only" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/button_draw_instantly"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_28sdp"
+        android:layout_gravity="right"
+        android:background="@drawable/frame_button_yellow_mild_200"
+        android:elevation="@dimen/_2sdp"
+        android:gravity="center"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_10sdp"
-        android:translationZ="1dp"
-        android:elevation="1dp"
-        app:layout_constraintBottom_toTopOf="@id/button_upload_only"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/button_upload_only"
+        app:layout_constraintEnd_toEndOf="parent">
+
+
+        <TextView
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/draw_instantly" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,8 +12,8 @@ object BitmapCanvasObject {
     var clearedPoints = ArrayDeque<Point>()
     var isCleared = false
     var selectedColor = Color.BLACK
-    var selectedStrokeWidth = 10f
-    var selectedEraserStrokeWidth = 10f
+    var selectedStrokeWidth = 1f
+    var selectedEraserStrokeWidth = 1f
     var bitmap: Bitmap? = null
     var bitmapCanvas: Canvas? = null
 

@@ -21,7 +21,6 @@ import com.ssafy.likloud.ApplicationClass.Companion.FIREBASE_TOKEN
 import com.ssafy.likloud.base.BaseActivity
 import com.ssafy.likloud.data.repository.BaseRepository
 import com.ssafy.likloud.databinding.ActivityMainBinding
-import com.ssafy.likloud.util.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -36,7 +35,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
     private lateinit var mediaPlayer: MediaPlayer
-    lateinit var loadingDialog: LoadingDialog
 
     private val mainActivityViewModel: MainActivityViewModel by viewModels()
 
@@ -55,9 +53,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             mediaPlayer.start()
         }
 
-        loadingDialog = LoadingDialog(this)
     }
 
+    /**
+     * 음악을 토글하고 sharedPreference 값도 토글합니다.
+     */
     fun toggleMusic() {
         mediaPlayer.apply {
             if (isPlaying) {
@@ -132,6 +132,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
 
+    /**
+     * FCM메시지를 받아 sharedPreference에 반영합니다.
+     */
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initFCMMessageAccept() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
@@ -148,7 +151,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         createNotificationChannel(channel_id, "ssafy")
     }
 
-    // notification 수신 시 foreground에서 notification 생성 위해 channel 생성
+    /**
+     * notification 수신 시 foreground에서 notification 생성 위해 channel 생성
+     */
     @RequiresApi(Build.VERSION_CODES.O)
     // Notification 수신을 위한 체널 추가
     private fun createNotificationChannel(id: String, name: String) {
@@ -191,13 +196,5 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     fun changeProfileLayoutInvisible() {
         binding.layoutProfile.visibility = View.INVISIBLE
     }
-
-
-    private val requestMultiplePermission =
-        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { results ->
-            results.forEach {
-            }
-        }
-
 
 }
