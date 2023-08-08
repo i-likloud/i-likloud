@@ -89,4 +89,14 @@
     <string name="cancel_gift">취소</string>
     <string name="make_nft">NFT 만들기</string>
 
+    <!--fcm-->
+    <string name="body_comment">님이 내 게시글에 댓글을 달았어요!</string>
+    <string name="body_like">님이 내 게시글에 좋아요를 눌렀어요!"</string>
+    <string name="body_gift">님이 선물을 보냈어요!</string>
+    <string name="title_check_logout">정말로 로그아웃 하시겠습니까?</string>
+    <string name="desc_check_logout">구름들은 회원님이 필요해요!</string>
+    <string name="not_logout">취소하기</string>
+    <string name="logout_yes">로그아웃 하기</string>
+
+
 </resources>

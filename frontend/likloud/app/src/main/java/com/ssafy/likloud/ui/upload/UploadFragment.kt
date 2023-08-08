@@ -35,6 +35,7 @@ import com.ssafy.likloud.databinding.FragmentUploadBinding
 import com.ssafy.likloud.util.createMultipartFromUri
 import com.ssafy.likloud.util.saveImageToGallery
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -80,7 +81,7 @@ class UploadFragment :
                 Log.d(TAG, "onViewCreated: observed!")
                 if (it == true) {
                     aiCheckingDialog.dismiss()
-                    showCustomToast("축하합니다! 구름이네요!")
+                    showSnackbar(binding.root, "info", "선택한 사진은 구름이에요!")
                     uploadFragmentViewModel.uploadPhotoUrl.value?.let { url ->
                         mainActivityViewModel.setUploadingPhotoUrl(url)
                     }
@@ -88,7 +89,7 @@ class UploadFragment :
                         mainActivityViewModel.setUploadingPhotoId(id)
                     }
                     findNavController().navigate(R.id.action_homeFragment_to_afterCloudValidFragment)
-
+                    this.cancel()
                 } else {
                     aiCheckingDialog.dismiss()
                     invokeNotCloudDialog()
@@ -257,4 +258,8 @@ class UploadFragment :
         galleryActivityResult.launch("image/*")
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy: destroyed!")
+    }
 }

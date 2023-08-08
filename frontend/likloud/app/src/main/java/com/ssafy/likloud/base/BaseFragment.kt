@@ -73,6 +73,10 @@ abstract class BaseFragment<B : ViewBinding>(
             "fail" -> {
                 snackbar.setBackgroundTint(ContextCompat.getColor(requireActivity(), R.color.red_mile))
             }
+
+            "info" ->{
+                snackbar.setBackgroundTint(ContextCompat.getColor(requireActivity(), R.color.green_mild))
+            }
         }
         snackbar.show()
     }

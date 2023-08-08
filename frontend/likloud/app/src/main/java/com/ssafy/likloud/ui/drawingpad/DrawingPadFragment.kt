@@ -114,6 +114,7 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
                 Log.d(TAG, "onViewCreated: ${imageViewHeight}")
                 binding.canvasDrawingpad.layoutParams.height = imageViewHeight
                 binding.canvasDrawingpad.requestLayout()
+
             }
         }
         binding.imageChosenPhoto.viewTreeObserver.addOnGlobalLayoutListener(layoutListener)

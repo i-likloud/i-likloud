@@ -27,6 +27,7 @@ import com.ssafy.likloud.data.model.response.MemberInfoResponse
 import com.ssafy.likloud.data.model.response.StoreItemBuyResponse
 import com.ssafy.likloud.data.model.response.StoreResponse
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -48,6 +49,10 @@ interface BaseService {
     // 회원가입 / (로그인)
     @POST("api/oauth/login")
     suspend fun postLogin(@Body body: LoginRequest): Response<LoginResponse>
+
+    // 로그아웃
+    @POST("api/oauth/logout")
+    suspend fun postLogout(): Response<String>
 
     // 유저 정보를 받아온다.
     @GET("api/mypage/home")
@@ -96,8 +101,8 @@ interface BaseService {
     suspend fun postDrawingMultipart(
         @Path("photoId") photoId: Int,
         @Part file : MultipartBody.Part,
-        @Part("title") title : String,
-        @Part("content") content : String,
+        @Part("title") title : RequestBody,
+        @Part("content") content : RequestBody,
         @Part("memberInfoDto") memberInfoDto: MemberInfoDto
     ): Response<DrawingUploadResponse>
 

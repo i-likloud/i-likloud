@@ -31,6 +31,7 @@ import com.ssafy.likloud.data.model.response.MemberInfoResponse
 import com.ssafy.likloud.data.model.response.StoreItemBuyResponse
 import com.ssafy.likloud.data.model.response.StoreResponse
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Named
@@ -68,6 +69,14 @@ class BaseRepositoryImpl @Inject constructor(
         return handleApi { baseAPIService.postLogin(loginRequest).body()!! }
     }
 
+
+    override suspend fun postLogout(): Response<String> {
+        return baseAPIService.postLogout()
+    }
+
+
+
+
     override suspend fun getMemberInfo(memberInfoRequest: MemberInfoRequest): NetworkResult<MemberInfoResponse> {
         return handleApi { baseAPIService.getMemberInfo(memberInfoRequest).body()!! }
     }
@@ -103,8 +112,8 @@ class BaseRepositoryImpl @Inject constructor(
     override suspend fun postDrawingMultipart(
         file: MultipartBody.Part,
         photoId: Int,
-        title: String,
-        content: String,
+        title: RequestBody,
+        content: RequestBody,
         memberInfoDto: MemberInfoDto
     ): NetworkResult<DrawingUploadResponse> {
         return handleApi {
