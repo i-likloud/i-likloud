@@ -27,6 +27,8 @@ public class History extends BaseEntity {
 
     private Long drawingId;
 
+    private Long sendId;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private HistoryType historyType;
