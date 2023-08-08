@@ -28,6 +28,7 @@ import com.ssafy.likloud.data.model.response.StoreItemBuyResponse
 import com.ssafy.likloud.data.model.response.StoreResponse
 import retrofit2.Response
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -53,6 +54,13 @@ interface BaseRepository {
     suspend fun postLogin(
         loginRequest: LoginRequest
     ): NetworkResult<LoginResponse>
+
+
+    /**
+     * 로그아웃 합니다.
+     */
+    suspend fun postLogout(
+    ): Response<String>
 
     /**
      * 현재 로그인 되어있는 토큰을 가지고 멤버정보를 가져옵니다.
@@ -98,8 +106,8 @@ interface BaseRepository {
     suspend fun postDrawingMultipart(
         file: MultipartBody.Part,
         photoId: Int,
-        title: String,
-        content: String,
+        title: RequestBody,
+        content: RequestBody,
         memberInfoDto: MemberInfoDto
     ): NetworkResult<DrawingUploadResponse>
 

@@ -63,6 +63,8 @@
             app:popExitAnim="@anim/fade_out" />
         <action
             android:id="@+id/action_homeFragment_to_afterCloudValidFragment"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
             app:destination="@id/afterCloudValidFragment" />
         <action
             android:id="@+id/action_homeFragment_to_gameFragment"
@@ -76,6 +78,8 @@
         tools:layout="@layout/fragment_onboarding">
         <action
             android:id="@+id/action_onboardingFragment_to_loginFragment"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
             app:destination="@id/loginFragment" />
     </fragment>
 
@@ -86,6 +90,8 @@
         tools:layout="@layout/fragment_upload">
         <action
             android:id="@+id/action_uploadFragment_to_afterCloudValidFragment"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
             app:destination="@id/afterCloudValidFragment" />
     </fragment>
     <fragment
@@ -108,9 +114,13 @@
         tools:layout="@layout/fragment_after_cloud_valid">
         <action
             android:id="@+id/action_afterCloudValidFragment_to_drawingPadFragment"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
             app:destination="@id/drawingPadFragment" />
         <action
             android:id="@+id/action_afterCloudValidFragment_to_photoListFragment"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
             app:destination="@id/photoListFragment" />
     </fragment>
     <fragment
@@ -168,6 +178,15 @@
         <action
             android:id="@+id/action_mypageFragment_to_nftListFragment"
             app:destination="@id/nftListFragment" />
+        <action
+            android:id="@+id/action_mypageFragment_to_loginFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"
+            app:destination="@id/loginFragment" />
     </fragment>
 
     <fragment

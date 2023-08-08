@@ -19,11 +19,15 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 import kotlin.math.log
 
 private const val TAG = "DrawingFormFragmentView_싸피"
+
 @HiltViewModel
 class DrawingFormFragmentViewModel @Inject constructor(
     private val baseRepository: BaseRepository
@@ -31,27 +35,38 @@ class DrawingFormFragmentViewModel @Inject constructor(
 
     // 변화가 있는 데이터를 감지해야 하므로 stateflow 사용
     private val _titleMessageText: MutableStateFlow<String> = MutableStateFlow("")
-    val titleMessageText : StateFlow<String> get() = _titleMessageText.asStateFlow()
+    val titleMessageText: StateFlow<String> get() = _titleMessageText.asStateFlow()
 
     private val _descMessageText: MutableStateFlow<String> = MutableStateFlow("")
-    val descMessageText : StateFlow<String> get() = _descMessageText.asStateFlow()
+    val descMessageText: StateFlow<String> get() = _descMessageText.asStateFlow()
 
 
     private val _isDrawingUploaded: MutableSharedFlow<Boolean> = MutableSharedFlow()
-    val isDrawingUploaded : SharedFlow<Boolean> get() = _isDrawingUploaded.asSharedFlow()
+    val isDrawingUploaded: SharedFlow<Boolean> get() = _isDrawingUploaded.asSharedFlow()
 
     // emit으로 수정 필요
-    fun settitleMessage(text : String){
+    fun settitleMessage(text: String) {
         _titleMessageText.value = text
     }
 
-    fun setDescMessage(text : String){
+    fun setDescMessage(text: String) {
         _descMessageText.value = text
     }
 
-    fun uploadDrawing(multipartBody: MultipartBody.Part, uploadPhotoId : Int, title: String, description : String){
+    fun uploadDrawing(
+        multipartBody: MultipartBody.Part,
+        uploadPhotoId: Int,
+        title: String,
+        description: String
+    ) {
         viewModelScope.launch {
-            baseRepository.postDrawingMultipart(multipartBody, uploadPhotoId, title, description , MemberInfoDto("email", "role")).onSuccess {
+            baseRepository.postDrawingMultipart(
+                multipartBody,
+                uploadPhotoId,
+                RequestBody.create("text/plain".toMediaTypeOrNull(), title),
+                RequestBody.create("text/plain".toMediaTypeOrNull(), description),
+                MemberInfoDto("email", "role")
+            ).onSuccess {
                 Log.d(TAG, "uploadDrawing: success")
                 Log.d(TAG, "uploadDrawing: ${title}")
                 _isDrawingUploaded.emit(true)
@@ -60,7 +75,5 @@ class DrawingFormFragmentViewModel @Inject constructor(
                     Log.d(TAG, "uploadDrawing: fail")
                 }
         }
-
     }
-
 }
