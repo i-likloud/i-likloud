@@ -16,6 +16,8 @@ class HomeFragmentViewModel @Inject constructor(
     private val baseRepository: BaseRepository
 ) : ViewModel() {
     private val _user = MutableLiveData<UserDto>()
+
+
 //    val user: LiveData<UserDto>
 //        get() = _user
 //

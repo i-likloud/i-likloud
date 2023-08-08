@@ -41,12 +41,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val permissionList = arrayOf(
-            android.Manifest.permission.POST_NOTIFICATIONS
-        )
-        requestMultiplePermission.launch(permissionList)
         initFCMMessageAccept()
-
         initObserver()
         initView()
         initNavController()
