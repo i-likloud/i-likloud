@@ -57,25 +57,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_appbar">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_nft"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="NFT"
-            style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
-            android:background="@drawable/frame_rounded_border_skyblue_radius50"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginStart="@dimen/_10sdp"/>
-
 
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.8"
-            app:layout_constraintWidth_percent="0.45"
+            app:layout_constraintWidth_percent="0.4"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -143,7 +131,7 @@
             android:id="@+id/linearLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintWidth_percent="0.55"
+            app:layout_constraintWidth_percent="0.6"
             android:orientation="vertical"
             android:gravity="center"
             android:layout_margin="@dimen/_6sdp"
@@ -234,27 +222,29 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/button_go_store"
-                    android:layout_width="@dimen/_80sdp"
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_nft"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/_6sdp"
                     android:layout_gravity="center"
+                    android:text="@string/title_nft"
+                    style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
                     android:layout_margin="@dimen/_2sdp"
+                    android:background="@drawable/frame_rounded_border_skyblue_radius50" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_go_store"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_6sdp"
+                    android:text="@string/go_store"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/_2sdp"
+                    style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
                     android:background="@drawable/frame_rounded_border_skyblue_radius50">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/go_store"
-                        android:layout_marginRight="@dimen/_4sdp"
-                        style="@style/Theme.AppCompat.TextView.jua.dark.Size12"/>
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/ic_right_arrow"/>
-                </LinearLayout>
+                </androidx.appcompat.widget.AppCompatButton>
 
             </LinearLayout>
 
@@ -277,8 +267,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
-                    android:text="@string/my_drawing"
-                    app:chipStrokeWidth="2dp"/>
+                    android:text="@string/my_drawing" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_my_photo"
@@ -286,8 +275,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
-                    android:text="@string/my_upload_picture"
-                    app:chipStrokeWidth="2dp" />
+                    android:text="@string/my_upload_picture" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_like_drawing"
@@ -295,8 +283,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
-                    android:text="@string/my_likes"
-                    app:chipStrokeWidth="2dp" />
+                    android:text="@string/my_likes" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_bookmark_photo"
@@ -304,8 +291,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
-                    android:text="@string/my_bookmark"
-                    app:chipStrokeWidth="2dp" />
+                    android:text="@string/my_bookmark" />
 
             </com.google.android.material.chip.ChipGroup>
 
@@ -314,7 +300,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:padding="@dimen/_14sdp"
+                android:paddingHorizontal="@dimen/_11sdp"
                 android:layout_marginHorizontal="@dimen/_4sdp"
                 android:layout_marginBottom="@dimen/_4sdp"
                 android:elevation="@dimen/_2sdp"
@@ -324,14 +310,11 @@
 
         <ImageView
             android:id="@+id/button_edit"
-            android:layout_width="@dimen/_21sdp"
-            android:layout_height="@dimen/_21sdp"
+            android:layout_width="@dimen/_26sdp"
+            android:layout_height="@dimen/_26sdp"
+            android:elevation="@dimen/_18sdp"
             android:src="@drawable/ic_edit"
-            android:layout_marginTop="@dimen/_30sdp"
-            android:layout_marginLeft="@dimen/_8sdp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:elevation="@dimen/_18sdp"/>
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout2" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

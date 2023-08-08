@@ -24,21 +24,20 @@
 
             <ImageView
                 android:id="@+id/button_back"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_margin="10dp"
+                android:layout_width="@dimen/_23sdp"
+                android:layout_height="@dimen/_23sdp"
+                android:layout_margin="@dimen/_3sdp"
                 android:src="@drawable/button_back_arrow" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="100dp"
+                android:layout_marginRight="@dimen/_29sdp"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:text="@string/title_nft"
-                android:textSize="46dp"
-                android:layout_marginTop="10dp"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size32"/>
+                android:layout_weight="1"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size16"/>
 
         </LinearLayout>
 

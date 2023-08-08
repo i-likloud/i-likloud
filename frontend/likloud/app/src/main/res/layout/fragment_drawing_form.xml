@@ -148,7 +148,7 @@
             android:layout_marginStart="@dimen/_8sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_8sdp"
-            android:background="@drawable/frame_rounded_border_radius20green"
+            android:background="@drawable/frame_button_rounded_border_green_radius50"
             android:elevation="@dimen/_10sdp"
             android:text="@string/save_drawing"
             app:layout_constraintEnd_toEndOf="parent"

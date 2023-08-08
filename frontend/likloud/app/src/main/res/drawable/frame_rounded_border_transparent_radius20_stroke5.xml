@@ -2,7 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <solid android:color="@color/transparent" /><!-- 배경 색상 설정 -->
-    <corners android:radius="20dp" /> <!-- 테두리를 둥글게 만드는 반지름 값 설정 -->
+    <corners android:radius="@dimen/_7sdp" /> <!-- 테두리를 둥글게 만드는 반지름 값 설정 -->
     <stroke
         android:color="@color/gray08"
         android:width = "5dp"/>
