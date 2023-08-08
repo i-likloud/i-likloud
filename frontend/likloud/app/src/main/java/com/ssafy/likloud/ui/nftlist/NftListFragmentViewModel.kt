@@ -64,8 +64,9 @@ class NftListFragmentViewModel @Inject constructor(
 
     fun rejectGift(nftGiftDto: NftGiftDto){
         viewModelScope.launch {
-            baseRepository.rejectGift(nftGiftDto.transferId, nftGiftDto.nftId)
-            _isAccepted.value = false
+            baseRepository.rejectGift(nftGiftDto.transferId, nftGiftDto.nftId).onSuccess {
+                _isAccepted.value = false
+            }
         }
     }
 }
