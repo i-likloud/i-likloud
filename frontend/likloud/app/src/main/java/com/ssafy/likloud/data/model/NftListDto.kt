@@ -13,6 +13,8 @@ data class NftListDto(
     @SerializedName("owner")
     val owner: String,
     @SerializedName("title")
-    val title: String
+    val title: String,
+    @SerializedName("tokenId")
+    val tokenId: String
 )
 

@@ -40,6 +40,8 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
     val args: DrawingDetailFragmentArgs by navArgs()
     private lateinit var  memberProfileDto : MemberProfileDto
     private lateinit var commentListAdapter: CommentListAdapter
+    private var isCurUserObserved : Boolean = false
+    private var isCurCommentObserved : Boolean = false
 
 
     override fun onAttach(context: Context) {
@@ -74,14 +76,31 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
         }
 
         drawingDetailFragmentViewModel.currentDrawingMember.observe(viewLifecycleOwner) {
+            Log.d(TAG, "initObserver: observed currentDrawingMember")
             initInfoView(drawingDetailFragmentViewModel.currentDrawingDetail.value!!, it)
             memberProfileDto = it
+            if(isCurUserObserved) return@observe
+            activityViewModel.memberInfo.observe(viewLifecycleOwner){
+                isCurUserObserved = true
+                Log.d(TAG, "initObserver: observed currentUser")
+                // 현재 user가 받아져 오면 recyclerview 생성
+
+                initCurUserView(memberProfileDto)
+
+                // user가 받아져 온 다음에 comment ui 업데이트
+                if(isCurCommentObserved) return@observe
+
+                drawingDetailFragmentViewModel.currentDrawingCommentList.observe(viewLifecycleOwner){
+                    initCommentRecyclerView()
+                    Log.d(TAG, "initObserver: observed comment")
+                    isCurCommentObserved = true
+                    commentListAdapter.submitList(it.toMutableList())
+                }
+            }
             activityViewModel.getMemberInfo(ApplicationClass.sharedPreferences.getString(USER_EMAIL)!!)
         }
 
-        activityViewModel.memberInfo.observe(viewLifecycleOwner){
-            initCurUserView(memberProfileDto)
-        }
+
 
         drawingDetailFragmentViewModel.isLiked.observe(viewLifecycleOwner){
             Log.d(TAG, "current isLiked: $it")
@@ -97,10 +116,31 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
         }
 
 
+        drawingDetailFragmentViewModel.nftYn.observe(viewLifecycleOwner){
+            if(it){
+                binding.buttonNft.setBackgroundResource(R.drawable.frame_button_rounded_border_grey_radius50)
+            }else{
+                binding.buttonNft.setBackgroundResource(R.drawable.frame_rounded_border_skyblue_radius50)
+            }
+        }
 
-        drawingDetailFragmentViewModel.currentDrawingCommentList.observe(viewLifecycleOwner){
-            commentListAdapter.submitList(it.toMutableList())
+        activityViewModel.isWallet.observe(viewLifecycleOwner){
+            if(it){
+                Toast.makeText(mainActivity, "지급 발급 완료! 이제 맘껏 하시오", Toast.LENGTH_SHORT).show()
+                Log.d(TAG, "지갑 발급 완료!")
+                if(activityViewModel.memberInfo.value!!.silverCoin>=5) {
+                    drawingDetailFragmentViewModel.registNft(args.drawingId)
+                }else{
+                    //여기서 siverCoin 부족 메시지
+                    Toast.makeText(mainActivity,"silverCoin 확인 바람", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
 
+        drawingDetailFragmentViewModel.isSuccess.observe(viewLifecycleOwner){
+            Toast.makeText(mainActivity, "nft 발급 완료", Toast.LENGTH_SHORT).show()
+            Log.d(TAG, "nft 발급 완료")
+            //seekbar를 통해 확인하러 가기 만들면 좋을듯
         }
     }
 
@@ -109,7 +149,7 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
         Log.d(TAG, "init: args.drawingId is ${args.drawingId}")
         drawingDetailFragmentViewModel.getCurrentPhotoDrawingDetail(args.drawingId)
 
-        initCommentRecyclerView()
+
     }
 
     override fun initListener() {
@@ -135,11 +175,24 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
                 }
             }
             buttonNft.setOnClickListener {
-                if(activityViewModel.memberInfo.value!!.silverCoin>=5) {
-                    drawingDetailFragmentViewModel.registNft(args.drawingId)
+                Log.d(TAG, "현재 지갑 상태 : ${activityViewModel.memberInfo.value!!.wallet} 현재 그림 nftyYn ${drawingDetailFragmentViewModel.nftYn.value}")
+                if(drawingDetailFragmentViewModel.nftYn.value == false) {
+                    if (activityViewModel.memberInfo.value!!.wallet == null) {
+                        // 지갑 발행해라
+                        Log.d(TAG, "지갑이 없네요 발급할게요")
+                        activityViewModel.getNftWallet()
+                    } else {
+                        Log.d(TAG, "이미 지갑이 있네요")
+                        if (activityViewModel.memberInfo.value!!.silverCoin >= 5) {
+                            drawingDetailFragmentViewModel.registNft(args.drawingId)
+                        } else {
+                            //여기서 siverCoin 부족 메시지
+                            Toast.makeText(mainActivity, "silverCoin 확인 바람", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
                 }else{
-                    //여기서 siverCoin 부족 메시지
-                    Toast.makeText(mainActivity,"silverCoin 확인 바람", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(mainActivity, "이미 발급 받은 그림입니다.", Toast.LENGTH_SHORT).show()
                 }
             }
         }

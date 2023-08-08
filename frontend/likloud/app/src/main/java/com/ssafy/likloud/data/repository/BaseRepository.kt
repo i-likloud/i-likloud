@@ -10,6 +10,7 @@ import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.data.model.NftGiftDto
 import com.ssafy.likloud.data.model.NftListDto
 import com.ssafy.likloud.data.model.NftRegistDto
+import com.ssafy.likloud.data.model.NftWalletDto
 import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
@@ -26,6 +27,9 @@ import com.ssafy.likloud.data.model.response.StoreItemBuyResponse
 import com.ssafy.likloud.data.model.response.StoreResponse
 import retrofit2.Response
 import okhttp3.MultipartBody
+import retrofit2.http.POST
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface BaseRepository {
 
@@ -208,4 +212,28 @@ interface BaseRepository {
      * 내 선물함 조회
      */
     suspend fun getNftGiftList(): NetworkResult<MutableList<NftGiftDto>>
+    /**
+     * 닉네임으로 유저 검색
+     */
+    suspend fun getCurrentSearchUserList(@Path("nickname") nickname: String): NetworkResult<MutableList<MemberInfoResponse>>
+    /**
+     * nft 선물하기
+     */
+    suspend fun sendGift(@Path("nftId") nftId: Int, @Path("toMemberId") toMemberId: Int, @Query("message") message: String): NetworkResult<NftGiftDto>
+    /**
+     * 회원 정보 조회
+     */
+    suspend fun getMemberInfo2(): NetworkResult<MemberInfoResponse>
+    /**
+     * NFT 지갑 발급
+     */
+    suspend fun getNftWallet(): NetworkResult<NftWalletDto>
+    /**
+     * 선물 수락
+     */
+    suspend fun acceptGift(@Path("transferId") transferId: Int, @Path("nftId") nftId: Int): NetworkResult<NftListDto>
+    /**
+     * 선물 거부
+     */
+    suspend fun rejectGift(@Path("transferId") transferId: Int, @Path("nftId") nftId: Int): NetworkResult<String>
 }

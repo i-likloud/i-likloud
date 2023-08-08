@@ -26,4 +26,14 @@
 
     </androidx.cardview.widget.CardView>
 
+    <ImageView
+        android:id="@+id/image_nft_medal"
+        android:layout_width="100dp"
+        android:layout_height="120dp"
+        android:src="@drawable/image_nft_medal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:translationZ="@dimen/_1sdp"
+        android:layout_marginEnd="@dimen/_10sdp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

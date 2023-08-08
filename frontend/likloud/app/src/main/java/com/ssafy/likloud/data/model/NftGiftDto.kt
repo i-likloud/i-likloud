@@ -20,5 +20,9 @@ data class NftGiftDto(
     @SerializedName("tokenId")
     val tokenId: String,
     @SerializedName("transferId")
-    val transferId: Int
+    val transferId: Int,
+    @SerializedName("toMember")
+    val toMember: Int,
+    @SerializedName("fromMember")
+    val fromMember: Int
 )

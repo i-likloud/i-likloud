@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ssafy.likloud.MainActivityViewModel
+import com.ssafy.likloud.R
 import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.databinding.ItemDrawingBinding
 
@@ -29,20 +30,11 @@ class DrawingListAdapter  (var activityViewModel: MainActivityViewModel): ListAd
 
     inner class DrawingListHolder(binding: ItemDrawingBinding) : RecyclerView.ViewHolder(binding.root){
         val imageDrawing = binding.imageDrawing
-        val buttonNft = binding.buttonNft
         fun bindInfo(drawing : DrawingListDto){
             Glide.with(imageDrawing)
                 .load(drawing.imageUrl)
                 .into(imageDrawing)
             Log.d(TAG, "artist : ${drawing.drawingId} // user : ${activityViewModel.memberInfo.value!!.nickname} ")
-            if(drawing.memberId == activityViewModel.memberInfo.value!!.memberId){
-                buttonNft.visibility = View.VISIBLE
-            }else{
-                buttonNft.visibility = View.GONE
-            }
-            buttonNft.setOnClickListener{
-                itemClickListner.onClick(drawing)
-            }
         }
     }
 

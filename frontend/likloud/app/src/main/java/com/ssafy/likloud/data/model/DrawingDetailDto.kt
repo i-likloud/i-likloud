@@ -37,8 +37,9 @@ data class DrawingDetailDto(
     val createdAt: String,
 
     @SerializedName("comments")
-    val commentList: MutableList<CommentDto>
+    val commentList: MutableList<CommentDto>,
 
-){
-    constructor() : this(0,0,"", "","",0,0,false,"","", mutableListOf())
-}
+    @SerializedName("nftYn")
+    val nftYn: Boolean
+
+)

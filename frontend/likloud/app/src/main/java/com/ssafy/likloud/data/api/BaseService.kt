@@ -1,5 +1,6 @@
 package com.ssafy.likloud.data.api
 
+import android.provider.ContactsContract.CommonDataKinds.Nickname
 import com.ssafy.likloud.base.BaseResponse
 import com.ssafy.likloud.data.model.CommentDto
 import com.ssafy.likloud.data.model.DrawingDetailDto
@@ -10,6 +11,7 @@ import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.data.model.NftGiftDto
 import com.ssafy.likloud.data.model.NftListDto
 import com.ssafy.likloud.data.model.NftRegistDto
+import com.ssafy.likloud.data.model.NftWalletDto
 import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
@@ -208,6 +210,37 @@ interface BaseService {
      */
     @GET("api/mypage/gift")
     suspend fun getNftGiftList(): Response<MutableList<NftGiftDto>>
+    /**
+     * 닉네임으로 유저 검색
+     */
+    @POST("api/member/search/{nickname}")
+    suspend fun getCurrentSearchUserList(@Path("nickname") nickname: String): Response<MutableList<MemberInfoResponse>>
+    /**
+     * nft 선물하기
+     */
+    @POST("api/nft/token/{nftId}/to/{toMemberId}")
+    suspend fun sendGift(@Path("nftId") nftId: Int, @Path("toMemberId") toMemberId: Int, @Query("message") message: String): Response<NftGiftDto>
+    /**
+     * 회원 정보 조회
+     */
+    @GET("api/member/info")
+    suspend fun getMemgerInfo2(): Response<MemberInfoResponse>
+    /**
+     * NFT 지갑 발급
+     */
+    @POST("api/nft/wallet")
+    suspend fun getNftWallet(): Response<NftWalletDto>
+    /**
+     * 선물 수락
+     */
+    @POST("api/mypage/gift/{transferId}/accept/{nftId}")
+    suspend fun acceptGift(@Path("transferId") transferId: Int, @Path("nftId") nftId: Int): Response<NftListDto>
+    /**
+     * 선물 거부
+     */
+    @POST("api/mypage/gift/{transferId}/reject/{nftId}")
+    suspend fun rejectGift(@Path("transferId") transferId: Int, @Path("nftId") nftId: Int): Response<String>
+
 }
 
 //api 만드는 과정
