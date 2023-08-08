@@ -42,21 +42,27 @@ class NftListFragmentViewModel @Inject constructor(
             }
         }
     }
+
+    lateinit var nftGiftConfimDialog: NftGiftConfimDialog
+    fun setNftGiftConfirmDialog(nftGiftDto: NftGiftDto){
+        nftGiftConfimDialog = NftGiftConfimDialog(nftGiftDto)
+    }
+
     private var _isAccepted = MutableLiveData<Boolean>()
     val isAccepted: LiveData<Boolean>
         get() = _isAccepted
-    fun acceptGift(transferId: Int, nftId: Int){
+    fun acceptGift(nftGiftDto: NftGiftDto){
         viewModelScope.launch {
-            baseRepository.acceptGift(transferId, nftId).onSuccess {
-
+            baseRepository.acceptGift(nftGiftDto.transferId, nftGiftDto.nftId).onSuccess {
+                _isAccepted.value = true
             }
         }
     }
 
-    fun rejectGift(transferId: Int, nftId: Int){
+    fun rejectGift(nftGiftDto: NftGiftDto){
         viewModelScope.launch {
-            baseRepository.rejectGift(transferId, nftId).onSuccess {
-
+            baseRepository.rejectGift(nftGiftDto.transferId, nftGiftDto.nftId).onSuccess {
+                _isAccepted.value = false
             }
         }
     }

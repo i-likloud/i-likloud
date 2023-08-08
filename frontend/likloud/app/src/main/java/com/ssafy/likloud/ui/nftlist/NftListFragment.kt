@@ -116,9 +116,10 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
         }
         nftListFragmentViewModel.isAccepted.observe(viewLifecycleOwner){
             if(it){ //수락했을 때
-
+                Toast.makeText(mainActivity, "수락했어용", Toast.LENGTH_SHORT).show()
+                nftListFragmentViewModel.getNftGiftList()
             }else{ //거부했을 때
-
+                Toast.makeText(mainActivity, "거절했음", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -147,12 +148,10 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
         binding.recyclerviewNft.apply {
             this.adapter = giftListAdapter.apply {
                 itemClickListner = object: NftGiftAdapter.ItemClickListener{
-                    override fun onAcceptClick(nftGiftDto: NftGiftDto) {
-                        //수락하기 버튼 눌렀을 때
-                    }
-
-                    override fun onRejectClick(nftGiftDto: NftGiftDto) {
-                        //거절하기 버튼 눌렀을 때
+                    override fun onConfirmClick(nftGiftDto: NftGiftDto) {
+                        //선물 확인 버튼 눌렀을 때 NftGiftConfirmDialog 띄워라
+                        nftListFragmentViewModel.setNftGiftConfirmDialog(nftGiftDto)
+                        nftListFragmentViewModel.nftGiftConfimDialog.show(childFragmentManager, "confirm gift")
                     }
 
                 }
@@ -195,6 +194,14 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
                 .remove(it)
                 .commit()
         }
+    }
+
+    fun acceptGift(nftGiftDto: NftGiftDto){
+        nftListFragmentViewModel.acceptGift(nftGiftDto)
+    }
+
+    fun rejectGift(nftGiftDto: NftGiftDto){
+        nftListFragmentViewModel.rejectGift(nftGiftDto)
     }
 
 }

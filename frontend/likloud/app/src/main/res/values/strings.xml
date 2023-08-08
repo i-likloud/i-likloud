@@ -81,12 +81,14 @@
     <string name="title_nft">NFT</string>
     <string name="my_nft">내 NFT</string>
     <string name="gift_nft">선물함</string>
-    <string name="gift_agree">수락</string>
-    <string name="gift_degree">거부</string>
+    <string name="gift_accept">수락</string>
+    <string name="gift_reject">거부</string>
     <string name="gift">선물하기</string>
     <string name="search_user">찾으려는 사용자의 닉네임을 입력하세요</string>
     <string name="message_nft_gift">메시지를 작성해주세요!</string>
     <string name="cancel_gift">취소</string>
     <string name="make_nft">NFT 만들기</string>
+    <string name="text_gift_confirm">선물을 확인해보세요!</string>
+    <string name="button_gift_confirm">선물 확인하기</string>
 
 </resources>
