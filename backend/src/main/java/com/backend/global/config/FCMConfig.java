@@ -16,6 +16,7 @@ import java.util.List;
 public class FCMConfig {
     @Bean
     FirebaseMessaging firebaseMessaging() throws IOException {
+        // 파이어베이스에서 발급한 json
         ClassPathResource resource = new ClassPathResource("firebase/unijoa-ef845-firebase-adminsdk-ybslc-2fdec7b1fb.json");
 
         InputStream refreshToken = resource.getInputStream();
