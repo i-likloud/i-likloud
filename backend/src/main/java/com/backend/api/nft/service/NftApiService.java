@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,7 +70,10 @@ public class NftApiService {
 
     // s3에 메타데이터 업로드, 엔티티 생성 및 토큰 발행
     @Transactional
-    @CacheEvict(value = "nft", key = "#member.memberId")
+    @Caching(evict = {
+            @CacheEvict(value = "nft", key = "#member.memberId"),
+            @CacheEvict(value = "drawings", key = "#member.memberId")
+    })
     public Nft uploadNftAndCreateToken(Long drawingId, Member member){
         // 지갑이 없는 경우
         String wallet = member.getWallet();
