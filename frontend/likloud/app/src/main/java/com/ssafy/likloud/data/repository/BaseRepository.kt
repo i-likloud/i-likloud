@@ -11,6 +11,7 @@ import com.ssafy.likloud.data.model.NftGiftDto
 import com.ssafy.likloud.data.model.NftListDto
 import com.ssafy.likloud.data.model.NftRegistDto
 import com.ssafy.likloud.data.model.NftWalletDto
+import com.ssafy.likloud.data.model.ReportDto
 import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
@@ -236,4 +237,8 @@ interface BaseRepository {
      * 선물 거부
      */
     suspend fun rejectGift(@Path("transferId") transferId: Int, @Path("nftId") nftId: Int): NetworkResult<String>
+    /**
+     * 게시글 신고
+     */
+    suspend fun sendReport(@Path("drawingId") drawingId: Int, @Query("content") content: String): NetworkResult<ReportDto>
 }

@@ -121,6 +121,16 @@
             android:layout_marginVertical="@dimen/_10sdp"
             android:layout_marginHorizontal="@dimen/_15sdp">
 
+            <ImageView
+                android:id="@+id/button_report"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:src="@drawable/icon_report"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="@dimen/_7sdp"
+                android:layout_marginTop="@dimen/_7sdp"/>
+
             <FrameLayout
                 android:id="@+id/layout_drawing_profile"
                 android:layout_width="30dp"

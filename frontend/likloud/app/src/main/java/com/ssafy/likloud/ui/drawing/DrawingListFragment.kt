@@ -12,6 +12,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,6 +31,8 @@ import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.databinding.FragmentDrawingListBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 private const val TAG = "차선호"
 @AndroidEntryPoint
@@ -120,6 +123,10 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
                     keyboard.hideSoftInputFromWindow(edittextDrawingComment.windowToken,0)
                 }
             }
+            buttonReport.setOnClickListener {
+                drawingListFragmentViewModel.setDrawingReportDialog()
+                drawingListFragmentViewModel.drawingReportDialog.show(childFragmentManager, "report")
+            }
         }
         // 안드로이드 뒤로가기 버튼 눌렀을 때
         mainActivity.onBackPressedDispatcher.addCallback(
@@ -170,6 +177,12 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
             Log.d(TAG, "commentObserver .... $it")
             commentListAdapter.submitList(it.toMutableList())
             if(it.size!=0) binding.recyclerviewDrawingComment.smoothScrollToPosition(it.size)
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            drawingListFragmentViewModel.isReported.collectLatest {
+                Toast.makeText(mainActivity, "신고 완료", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -251,5 +264,9 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
             }
             layoutManager = LinearLayoutManager(mainActivity, LinearLayoutManager.VERTICAL, false)
         }
+    }
+
+    fun sendReport(content: String){
+        drawingListFragmentViewModel.sendReport(content)
     }
 }
