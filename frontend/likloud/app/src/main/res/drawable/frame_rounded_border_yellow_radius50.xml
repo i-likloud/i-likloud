@@ -5,6 +5,6 @@
     <corners android:radius="@dimen/_17sdp" /> <!-- 테두리를 둥글게 만드는 반지름 값 설정 -->
 
     <stroke
-        android:color="@color/yellow_mild"
+        android:color="@color/yellow_mild_200"
         android:width="@dimen/_2sdp" />
 </shape>

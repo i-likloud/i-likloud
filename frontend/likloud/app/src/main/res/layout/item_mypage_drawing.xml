@@ -10,7 +10,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="@dimen/_17sdp"
+        app:cardCornerRadius="@dimen/_14sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,12 +28,12 @@
 
     <ImageView
         android:id="@+id/image_nft_medal"
-        android:layout_width="100dp"
-        android:layout_height="120dp"
+        android:layout_width="@dimen/_33sdp"
+        android:layout_height="@dimen/_40sdp"
         android:src="@drawable/image_nft_medal"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:translationZ="@dimen/_1sdp"
-        android:layout_marginEnd="@dimen/_10sdp"/>
+        android:translationZ="@dimen/_3sdp"
+        android:layout_marginEnd="@dimen/_2sdp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

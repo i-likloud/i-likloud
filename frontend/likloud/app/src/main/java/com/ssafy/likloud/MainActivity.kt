@@ -21,6 +21,7 @@ import com.ssafy.likloud.ApplicationClass.Companion.FIREBASE_TOKEN
 import com.ssafy.likloud.base.BaseActivity
 import com.ssafy.likloud.data.repository.BaseRepository
 import com.ssafy.likloud.databinding.ActivityMainBinding
+import com.ssafy.likloud.util.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,6 +36,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
     private lateinit var mediaPlayer: MediaPlayer
+    lateinit var loadingDialog: LoadingDialog
 
     private val mainActivityViewModel: MainActivityViewModel by viewModels()
 
@@ -58,6 +60,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             mediaPlayer.start()
         }
 
+        loadingDialog = LoadingDialog(this)
     }
 
     fun toggleMusic() {

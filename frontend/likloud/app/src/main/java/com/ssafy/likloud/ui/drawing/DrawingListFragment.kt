@@ -1,11 +1,16 @@
 package com.ssafy.likloud.ui.drawing
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.OvershootInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -31,7 +36,11 @@ import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.databinding.FragmentDrawingListBinding
 import dagger.hilt.android.AndroidEntryPoint
+<<<<<<< frontend/likloud/app/src/main/java/com/ssafy/likloud/ui/drawing/DrawingListFragment.kt
+import kotlinx.coroutines.delay
+=======
 import kotlinx.coroutines.flow.collectLatest
+>>>>>>> frontend/likloud/app/src/main/java/com/ssafy/likloud/ui/drawing/DrawingListFragment.kt
 import kotlinx.coroutines.launch
 
 private const val TAG = "차선호"
@@ -71,6 +80,21 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         toggleButton(binding.buttonRecentOrder)
         initRecyclerView()
         initCommentRecyclerView()
+
+        binding.layoutInfo.translationX = 1600f
+        binding.layoutComment.translationX = 1600f
+        binding.recyclerviewDrawaing.translationX = -1600f
+        initAnimation()
+    }
+
+    private fun initAnimation() {
+        lifecycleScope.launch {
+            makeAnimationX(binding.layoutInfo, 0f, 450)
+            delay(100)
+            makeAnimationX(binding.layoutComment, 0f, 500)
+            delay(50)
+            makeAnimationX(binding.recyclerviewDrawaing, 0f, 600)
+        }
     }
 
     override fun initListener(){
@@ -263,6 +287,20 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
                 }
             }
             layoutManager = LinearLayoutManager(mainActivity, LinearLayoutManager.VERTICAL, false)
+        }
+    }
+
+    /**
+     * 뷰에 X축으로 움직이는 애니메이션을 적용시킵니다.
+     */
+    private fun makeAnimationX(view: View, values: Float, speed: Long) {
+        ObjectAnimator.ofFloat(view, "translationX", values).apply {
+//            interpolator = DecelerateInterpolator()
+            interpolator = OvershootInterpolator()
+//            interpolator = AccelerateInterpolator()
+//            interpolator = AccelerateDecelerateInterpolator()
+            duration = speed
+            start()
         }
     }
 

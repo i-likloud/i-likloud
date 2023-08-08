@@ -27,7 +27,6 @@ class RequestInterceptor : Interceptor {
                 }
             }
         } catch (e: Exception) {
-            Log.d(TAG, "intercept: 토큰 만료 신호")
             return chain.proceed(chain.request())
         }
         return chain.proceed(chain.request())

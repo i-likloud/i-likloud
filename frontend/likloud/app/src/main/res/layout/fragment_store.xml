@@ -151,13 +151,12 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="@dimen/_30sdp"
                 android:elevation="@dimen/_10sdp"
-                android:padding="@dimen/_5sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_percent="0.55"
+                app:layout_constraintHeight_percent="0.6"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.7" />
+                app:layout_constraintWidth_percent="0.75" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -222,12 +221,14 @@
 
             <LinearLayout
                 android:id="@+id/button_choose_done"
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_40sdp"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_28sdp"
                 android:layout_marginRight="@dimen/_2sdp"
-                android:background="@drawable/button_frame_black"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:background="@drawable/frame_button_yellow_mild_200"
                 android:layout_gravity="right"
-                android:gravity="center">
+                android:gravity="center"
+                android:elevation="@dimen/_2sdp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -235,9 +236,8 @@
                     android:layout_gravity="center">
 
                     <ImageView
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/_10sdp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_marginRight="@dimen/_3sdp"
                         android:src="@drawable/ic_check"/>
 
@@ -245,6 +245,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/done"
+                        android:layout_gravity="center"
                         style="@style/Theme.AppCompat.TextView.jua.dark.Size12"/>
 
                 </LinearLayout>
