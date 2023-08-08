@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +28,8 @@ import com.ssafy.likloud.data.model.DrawingDetailDto
 import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.databinding.FragmentDrawingDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 private const val TAG = "차선호"
 @AndroidEntryPoint
@@ -143,13 +146,18 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             Log.d(TAG, "nft 발급 완료")
             //seekbar를 통해 확인하러 가기 만들면 좋을듯
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            drawingDetailFragmentViewModel.isReported.collectLatest {
+                Toast.makeText(mainActivity, "신고 완료", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun init(){
         //여기서 args.drawingId로 DrawingDetailDto 불러와야 함
         Log.d(TAG, "init: args.drawingId is ${args.drawingId}")
         drawingDetailFragmentViewModel.getCurrentPhotoDrawingDetail(args.drawingId)
-
 
     }
 
@@ -196,6 +204,10 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
                     Toast.makeText(mainActivity, "이미 발급 받은 그림입니다.", Toast.LENGTH_SHORT).show()
                 }
             }
+            buttonReport.setOnClickListener {
+                drawingDetailFragmentViewModel.setDrawingReportDialog()
+                drawingDetailFragmentViewModel.drawingReportDialog.show(childFragmentManager, "report")
+            }
         }
         // 안드로이드 뒤로가기 버튼 눌렀을 때
         mainActivity.onBackPressedDispatcher.addCallback(
@@ -227,7 +239,6 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             textDrawingContent.text = drawingDetail.content
             textLikeCount.text = drawingDetail.likesCount.toString()
             textViewCount.text = drawingDetail.viewCount.toString()
-
         }
     }
 
@@ -253,5 +264,9 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             }
             layoutManager = LinearLayoutManager(mainActivity, LinearLayoutManager.VERTICAL, false)
         }
+    }
+
+    fun sendReport(content: String){
+        drawingDetailFragmentViewModel.sendReport(content)
     }
 }

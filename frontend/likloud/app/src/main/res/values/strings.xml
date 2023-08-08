@@ -91,4 +91,14 @@
     <string name="text_gift_confirm">선물을 확인해보세요!</string>
     <string name="button_gift_confirm">선물 확인하기</string>
 
+    <!--report-->
+    <string name="text_report">어떤 점을 신고할 건가요?</string>
+    <string name="self_report">직접 입력해주세요</string>
+    <string name="report_item1">직접 입력</string>
+    <string name="report_item2">음란물/불건전한 그림</string>
+    <string name="report_item3">상업적 광고 및 판매</string>
+    <string name="report_item4">욕설/도배</string>
+    <string name="button_report">신고하기</string>
+    <string name="button_cancel">취소</string>
+
 </resources>

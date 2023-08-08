@@ -16,6 +16,7 @@ import com.ssafy.likloud.data.model.NftGiftDto
 import com.ssafy.likloud.data.model.NftListDto
 import com.ssafy.likloud.data.model.NftRegistDto
 import com.ssafy.likloud.data.model.NftWalletDto
+import com.ssafy.likloud.data.model.ReportDto
 import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
@@ -223,5 +224,9 @@ class BaseRepositoryImpl @Inject constructor(
 
     override suspend fun rejectGift(transferId: Int, nftId: Int): NetworkResult<String> {
         return handleApi { baseAPIService.rejectGift(transferId, nftId).body()!! }
+    }
+
+    override suspend fun sendReport(drawingId: Int, content: String): NetworkResult<ReportDto> {
+        return handleApi { baseAPIService.sendReport(drawingId, content).body()!! }
     }
 }
