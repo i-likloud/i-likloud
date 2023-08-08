@@ -111,10 +111,10 @@ public class FCMService {
         // 작성자에게 알림 보내기
         String title = "뭉게뭉게 도화지";
         String body = String.format("%s 님이 그림을 선물하였습니다.",CurrentUserNickname);
-        this.sendFCMNotification(authorToken,title,body, null,HistoryType.GIFT,null);
+        this.sendFCMNotification(authorToken,title,body, null,HistoryType.GIFT,CurrentUserNickname);
 
         // HistoryDB에 담기
-        historyService.createHistory(body, toMember, HistoryType.LIKE, null,null);
+        historyService.createHistory(body, toMember, HistoryType.LIKE, null,member.getMemberId());
 
     }
 }
