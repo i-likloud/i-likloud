@@ -15,7 +15,7 @@ public interface AccessoryRepository extends JpaRepository<Accessory, Long> {
 
     boolean existsByMemberMemberIdAndStoreStoreId(Long memberId, Long storeId);
 
-    @Query("SELECT a.accessoryId FROM Accessory a WHERE a.member.memberId = :memberId and a.store.storeId in :storeIds")
-    Set<Long> findBoughtStoreIdsByMember(@Param("memberId") Long memberId, @Param("storeIds") List<Long> storeIds);
+    @Query("SELECT a.store.storeId FROM Accessory a WHERE a.member.memberId = :memberId")
+    Set<Long> findBoughtStoreIdsByMember(@Param("memberId") Long memberId);
 }
 
