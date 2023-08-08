@@ -86,8 +86,9 @@ class DrawingDetailFragmentViewModel@Inject constructor(
     fun changeIsLiked(){
         // api 호출
         viewModelScope.launch {
-            baseRepository.changeDrawingLike(_currentDrawingDetail.value!!.drawingId)
-            _isLiked.value = !_isLiked.value!!
+            baseRepository.changeDrawingLike(_currentDrawingDetail.value!!.drawingId).onSuccess {
+                _isLiked.value = !_isLiked.value!!
+            }
         }
     }
 

@@ -70,8 +70,9 @@ class PhotoDetailFragmentViewModel  @Inject constructor(
     fun changeIsBookmarked(){
         // api 호출
         viewModelScope.launch {
-            baseRepository.changePhotoBookmark(_currentPhotoDetail.value!!.photoId)
-            _isBookmarked.value = !_isBookmarked.value!!
+            baseRepository.changePhotoBookmark(_currentPhotoDetail.value!!.photoId).onSuccess {
+                _isBookmarked.value = !_isBookmarked.value!!
+            }
         }
     }
 

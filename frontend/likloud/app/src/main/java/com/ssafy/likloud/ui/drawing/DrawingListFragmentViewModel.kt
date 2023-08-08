@@ -99,9 +99,10 @@ class DrawingListFragmentViewModel @Inject constructor(
     }
     fun deleteDrawingComment(commentId: Int, position: Int){
         viewModelScope.launch {
-            baseRepository.deleteDrawingComment(commentId)
-            _currentDrawingCommentList.value!!.removeAt(position)
-            _currentDrawingCommentList.value = _currentDrawingCommentList.value!!
+            baseRepository.deleteDrawingComment(commentId).onSuccess {
+                _currentDrawingCommentList.value!!.removeAt(position)
+                _currentDrawingCommentList.value = _currentDrawingCommentList.value!!
+            }
         }
     }
 
@@ -131,8 +132,9 @@ class DrawingListFragmentViewModel @Inject constructor(
     fun changeIsLiked(){
         // api 호출
         viewModelScope.launch {
-            baseRepository.changeDrawingLike(_currentDrawingDetailDto.value!!.drawingId)
-            _isLiked.value = !_isLiked.value!!
+            baseRepository.changeDrawingLike(_currentDrawingDetailDto.value!!.drawingId).onSuccess {
+                _isLiked.value = !_isLiked.value!!
+            }
         }
     }
 
