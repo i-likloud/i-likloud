@@ -11,6 +11,7 @@ import com.ssafy.likloud.data.model.NftGiftDto
 import com.ssafy.likloud.data.model.NftListDto
 import com.ssafy.likloud.data.model.NftRegistDto
 import com.ssafy.likloud.data.model.NftWalletDto
+import com.ssafy.likloud.data.model.ReportDto
 import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
@@ -27,6 +28,7 @@ import com.ssafy.likloud.data.model.response.StoreItemBuyResponse
 import com.ssafy.likloud.data.model.response.StoreResponse
 import retrofit2.Response
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -52,6 +54,13 @@ interface BaseRepository {
     suspend fun postLogin(
         loginRequest: LoginRequest
     ): NetworkResult<LoginResponse>
+
+
+    /**
+     * 로그아웃 합니다.
+     */
+    suspend fun postLogout(
+    ): Response<String>
 
     /**
      * 현재 로그인 되어있는 토큰을 가지고 멤버정보를 가져옵니다.
@@ -97,8 +106,8 @@ interface BaseRepository {
     suspend fun postDrawingMultipart(
         file: MultipartBody.Part,
         photoId: Int,
-        title: String,
-        content: String,
+        title: RequestBody,
+        content: RequestBody,
         memberInfoDto: MemberInfoDto
     ): NetworkResult<DrawingUploadResponse>
 
@@ -236,4 +245,8 @@ interface BaseRepository {
      * 선물 거부
      */
     suspend fun rejectGift(@Path("transferId") transferId: Int, @Path("nftId") nftId: Int): NetworkResult<String>
+    /**
+     * 게시글 신고
+     */
+    suspend fun sendReport(@Path("drawingId") drawingId: Int, @Query("content") content: String): NetworkResult<ReportDto>
 }

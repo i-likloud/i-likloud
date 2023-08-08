@@ -156,8 +156,9 @@ class MainActivityViewModel @Inject constructor(
     ////////////////////////// 게임 성공 api 호출 ///////////////////////
     fun plusSilver() {
         viewModelScope.launch {
-            baseRepository.plusSilver()
-            getMemberInfo(ApplicationClass.sharedPreferences.getString("user_email").toString())
+            baseRepository.plusSilver().onSuccess {
+                getMemberInfo(ApplicationClass.sharedPreferences.getString("user_email").toString())
+            }
         }
     }
 

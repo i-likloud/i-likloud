@@ -13,6 +13,7 @@ import android.widget.FrameLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -26,6 +27,8 @@ import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.databinding.FragmentMypageBinding
 import com.ssafy.likloud.util.makeButtonAnimationX
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 private const val TAG = "MypageFragment_싸피"
 @AndroidEntryPoint
@@ -122,6 +125,15 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         mypageFragmentViewModel.currentPhotoListDtoList.observe(viewLifecycleOwner){
             initPhotoRecyclerView()
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            mypageFragmentViewModel.isLoggedout.collectLatest {
+                if(it == true){
+                    findNavController().navigate(R.id.action_mypageFragment_to_loginFragment)
+                }
+            }
+        }
+
     }
 
     private fun initDrawingRecyclerView(){
@@ -164,9 +176,16 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
     private fun invokeSettingsDialog() {
         val dialog = SettingsDialog(
             clickBgmToggle = { toggleMusic()},
-            logout = {logout()},
+            logout = {invokeLogoutDialog()},
             deleteUser = {deleteUser()},
             bgmText = musicStatus()
+        )
+        dialog.show(childFragmentManager, TAG)
+    }
+
+    private fun invokeLogoutDialog(){
+        val dialog = LogoutDialog(
+            logout = {logout()}
         )
         dialog.show(childFragmentManager, TAG)
     }
@@ -186,6 +205,7 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
     }
 
     private fun logout() {
+        mypageFragmentViewModel.logout()
     }
 
     private fun makeAnimationX(view: View, values: Float) {

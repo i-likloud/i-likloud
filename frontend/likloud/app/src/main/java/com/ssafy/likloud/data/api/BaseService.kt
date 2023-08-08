@@ -1,6 +1,7 @@
 package com.ssafy.likloud.data.api
 
 import android.provider.ContactsContract.CommonDataKinds.Nickname
+import com.google.firebase.database.core.Repo
 import com.ssafy.likloud.base.BaseResponse
 import com.ssafy.likloud.data.model.CommentDto
 import com.ssafy.likloud.data.model.DrawingDetailDto
@@ -12,6 +13,7 @@ import com.ssafy.likloud.data.model.NftGiftDto
 import com.ssafy.likloud.data.model.NftListDto
 import com.ssafy.likloud.data.model.NftRegistDto
 import com.ssafy.likloud.data.model.NftWalletDto
+import com.ssafy.likloud.data.model.ReportDto
 import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
@@ -27,6 +29,7 @@ import com.ssafy.likloud.data.model.response.MemberInfoResponse
 import com.ssafy.likloud.data.model.response.StoreItemBuyResponse
 import com.ssafy.likloud.data.model.response.StoreResponse
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -48,6 +51,10 @@ interface BaseService {
     // 회원가입 / (로그인)
     @POST("api/oauth/login")
     suspend fun postLogin(@Body body: LoginRequest): Response<LoginResponse>
+
+    // 로그아웃
+    @POST("api/oauth/logout")
+    suspend fun postLogout(): Response<String>
 
     // 유저 정보를 받아온다.
     @GET("api/mypage/home")
@@ -96,8 +103,8 @@ interface BaseService {
     suspend fun postDrawingMultipart(
         @Path("photoId") photoId: Int,
         @Part file : MultipartBody.Part,
-        @Part("title") title : String,
-        @Part("content") content : String,
+        @Part("title") title : RequestBody,
+        @Part("content") content : RequestBody,
         @Part("memberInfoDto") memberInfoDto: MemberInfoDto
     ): Response<DrawingUploadResponse>
 
@@ -240,7 +247,11 @@ interface BaseService {
      */
     @POST("api/mypage/gift/{transferId}/reject/{nftId}")
     suspend fun rejectGift(@Path("transferId") transferId: Int, @Path("nftId") nftId: Int): Response<String>
-
+    /**
+     * 게시글 신고
+     */
+    @POST("api/report/{drawingId}")
+    suspend fun sendReport(@Path("drawingId") drawingId: Int, @Query("content") content: String): Response<ReportDto>
 }
 
 //api 만드는 과정

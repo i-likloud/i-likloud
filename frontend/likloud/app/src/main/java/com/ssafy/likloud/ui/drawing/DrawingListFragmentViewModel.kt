@@ -13,6 +13,9 @@ import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.data.repository.BaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import java.util.Collections
 import javax.inject.Inject
@@ -96,9 +99,10 @@ class DrawingListFragmentViewModel @Inject constructor(
     }
     fun deleteDrawingComment(commentId: Int, position: Int){
         viewModelScope.launch {
-            baseRepository.deleteDrawingComment(commentId)
-            _currentDrawingCommentList.value!!.removeAt(position)
-            _currentDrawingCommentList.value = _currentDrawingCommentList.value!!
+            baseRepository.deleteDrawingComment(commentId).onSuccess {
+                _currentDrawingCommentList.value!!.removeAt(position)
+                _currentDrawingCommentList.value = _currentDrawingCommentList.value!!
+            }
         }
     }
 
@@ -128,8 +132,9 @@ class DrawingListFragmentViewModel @Inject constructor(
     fun changeIsLiked(){
         // api 호출
         viewModelScope.launch {
-            baseRepository.changeDrawingLike(_currentDrawingDetailDto.value!!.drawingId)
-            _isLiked.value = !_isLiked.value!!
+            baseRepository.changeDrawingLike(_currentDrawingDetailDto.value!!.drawingId).onSuccess {
+                _isLiked.value = !_isLiked.value!!
+            }
         }
     }
 
@@ -159,6 +164,28 @@ class DrawingListFragmentViewModel @Inject constructor(
             baseRepository.registNft(drawingId).onSuccess {
                 // NFT 발급 성공
                 Log.d(TAG, "registNft 성공")
+            }
+        }
+    }
+
+    //////리포트
+    lateinit var drawingReportDialog: DrawingReportDialog
+    fun setDrawingReportDialog(){
+        drawingReportDialog = DrawingReportDialog(currentDrawingDetailDto.value!!.drawingId)
+    }
+    private var _isReported = MutableSharedFlow<Boolean>()
+    val isReported: SharedFlow<Boolean>
+        get() = _isReported.asSharedFlow()
+    fun sendReport(content: String){
+        viewModelScope.launch {
+            baseRepository.sendReport(_currentDrawingDetailDto.value!!.drawingId, content).apply {
+                onSuccess {
+                    Log.d(TAG, "sendReport 성공")
+                    _isReported.emit(true)
+                }
+                onError {
+                    Log.d(TAG, "sendReport error : $it ")
+                }
             }
         }
     }

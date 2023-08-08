@@ -99,7 +99,7 @@ class LoginFragment :
         )
         binding.buttonNaverLogin.setOAuthLogin(naverLoginLauncher)
 
-        if (sharedPreferences.getString(X_ACCESS_TOKEN) != null) {
+        if (sharedPreferences.getString(X_ACCESS_TOKEN) != null && sharedPreferences.getString(X_ACCESS_TOKEN) != "") {
             Log.d(TAG, "init: ${sharedPreferences.getString(X_ACCESS_TOKEN)}")
             Log.d(TAG, "init: ${sharedPreferences.getString(X_REFRESH_TOKEN)}")
 

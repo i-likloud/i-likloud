@@ -36,7 +36,11 @@ import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.databinding.FragmentDrawingListBinding
 import dagger.hilt.android.AndroidEntryPoint
+<<<<<<< frontend/likloud/app/src/main/java/com/ssafy/likloud/ui/drawing/DrawingListFragment.kt
 import kotlinx.coroutines.delay
+=======
+import kotlinx.coroutines.flow.collectLatest
+>>>>>>> frontend/likloud/app/src/main/java/com/ssafy/likloud/ui/drawing/DrawingListFragment.kt
 import kotlinx.coroutines.launch
 
 private const val TAG = "차선호"
@@ -143,6 +147,10 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
                     keyboard.hideSoftInputFromWindow(edittextDrawingComment.windowToken,0)
                 }
             }
+            buttonReport.setOnClickListener {
+                drawingListFragmentViewModel.setDrawingReportDialog()
+                drawingListFragmentViewModel.drawingReportDialog.show(childFragmentManager, "report")
+            }
         }
         // 안드로이드 뒤로가기 버튼 눌렀을 때
         mainActivity.onBackPressedDispatcher.addCallback(
@@ -192,7 +200,13 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         drawingListFragmentViewModel.currentDrawingCommentList.observe(viewLifecycleOwner){
             Log.d(TAG, "commentObserver .... $it")
             commentListAdapter.submitList(it.toMutableList())
-            if(it.size!=0) binding.recyclerviewDrawingComment.smoothScrollToPosition(it.size-1)
+            if(it.size!=0) binding.recyclerviewDrawingComment.smoothScrollToPosition(it.size)
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            drawingListFragmentViewModel.isReported.collectLatest {
+                Toast.makeText(mainActivity, "신고 완료", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -290,4 +304,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         }
     }
 
+    fun sendReport(content: String){
+        drawingListFragmentViewModel.sendReport(content)
+    }
 }

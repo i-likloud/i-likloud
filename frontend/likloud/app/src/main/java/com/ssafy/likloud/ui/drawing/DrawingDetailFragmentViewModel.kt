@@ -5,12 +5,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ssafy.likloud.data.api.onError
 import com.ssafy.likloud.data.api.onSuccess
 import com.ssafy.likloud.data.model.CommentDto
 import com.ssafy.likloud.data.model.DrawingDetailDto
 import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.data.repository.BaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -82,8 +86,9 @@ class DrawingDetailFragmentViewModel@Inject constructor(
     fun changeIsLiked(){
         // api 호출
         viewModelScope.launch {
-            baseRepository.changeDrawingLike(_currentDrawingDetail.value!!.drawingId)
-            _isLiked.value = !_isLiked.value!!
+            baseRepository.changeDrawingLike(_currentDrawingDetail.value!!.drawingId).onSuccess {
+                _isLiked.value = !_isLiked.value!!
+            }
         }
     }
 
@@ -130,4 +135,27 @@ class DrawingDetailFragmentViewModel@Inject constructor(
     fun setNftYn(value: Boolean){
         _nftYn.value = value
     }
+
+    //////리포트
+    lateinit var drawingReportDialog: DrawingReportDialog
+    fun setDrawingReportDialog(){
+        drawingReportDialog = DrawingReportDialog(currentDrawingDetail.value!!.drawingId)
+    }
+    private var _isReported = MutableSharedFlow<Boolean>()
+    val isReported: SharedFlow<Boolean>
+        get() = _isReported.asSharedFlow()
+    fun sendReport(content: String){
+        viewModelScope.launch {
+            baseRepository.sendReport(_currentDrawingDetail.value!!.drawingId, content).apply {
+                onSuccess {
+                    Log.d(TAG, "sendReport 성공")
+                    _isReported.emit(true)
+                }
+                onError {
+                    Log.d(TAG, "sendReport error : $it ")
+                }
+            }
+        }
+    }
+
 }

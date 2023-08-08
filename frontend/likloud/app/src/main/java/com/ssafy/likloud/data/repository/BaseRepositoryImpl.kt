@@ -16,6 +16,7 @@ import com.ssafy.likloud.data.model.NftGiftDto
 import com.ssafy.likloud.data.model.NftListDto
 import com.ssafy.likloud.data.model.NftRegistDto
 import com.ssafy.likloud.data.model.NftWalletDto
+import com.ssafy.likloud.data.model.ReportDto
 import com.ssafy.likloud.data.model.photo.PhotoUploadResponseDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
@@ -31,6 +32,7 @@ import com.ssafy.likloud.data.model.response.MemberInfoResponse
 import com.ssafy.likloud.data.model.response.StoreItemBuyResponse
 import com.ssafy.likloud.data.model.response.StoreResponse
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Named
@@ -68,6 +70,14 @@ class BaseRepositoryImpl @Inject constructor(
         return handleApi { baseAPIService.postLogin(loginRequest).body()!! }
     }
 
+
+    override suspend fun postLogout(): Response<String> {
+        return baseAPIService.postLogout()
+    }
+
+
+
+
     override suspend fun getMemberInfo(memberInfoRequest: MemberInfoRequest): NetworkResult<MemberInfoResponse> {
         return handleApi { baseAPIService.getMemberInfo(memberInfoRequest).body()!! }
     }
@@ -103,8 +113,8 @@ class BaseRepositoryImpl @Inject constructor(
     override suspend fun postDrawingMultipart(
         file: MultipartBody.Part,
         photoId: Int,
-        title: String,
-        content: String,
+        title: RequestBody,
+        content: RequestBody,
         memberInfoDto: MemberInfoDto
     ): NetworkResult<DrawingUploadResponse> {
         return handleApi {
@@ -223,5 +233,9 @@ class BaseRepositoryImpl @Inject constructor(
 
     override suspend fun rejectGift(transferId: Int, nftId: Int): NetworkResult<String> {
         return handleApi { baseAPIService.rejectGift(transferId, nftId).body()!! }
+    }
+
+    override suspend fun sendReport(drawingId: Int, content: String): NetworkResult<ReportDto> {
+        return handleApi { baseAPIService.sendReport(drawingId, content).body()!! }
     }
 }

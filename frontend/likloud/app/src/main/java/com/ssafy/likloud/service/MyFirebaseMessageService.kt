@@ -33,50 +33,61 @@ class MyFirebaseMessageService : FirebaseMessagingService() {
 
     // Foreground에서 Push Service를 받기 위해 Notification 설정
     // 메시지가 오면 호출되는 함수
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         Log.d(TAG, "onMessageReceived: ${remoteMessage.data}")
+        var message: String? = null
 
 //        remoteMessage.notification?.apply {
 //            Log.d(TAG, "onMessageReceived: ssss")
-            val navBuilder = NavDeepLinkBuilder(this@MyFirebaseMessageService)
+        val navBuilder = NavDeepLinkBuilder(this@MyFirebaseMessageService)
 //            val messageTitle = title 이런 식으로 title body 받을 수 있음
-            val pendingIntent : PendingIntent
-            when (remoteMessage.data["historyType"]) {
-                "GIFT" -> {
-                    pendingIntent = navBuilder
-                        .setComponentName(MainActivity::class.java)
-                        .setGraph(R.navigation.nav_graph)
-                        .setDestination(R.id.drawingListFragment)
-                        .createPendingIntent()
-                }
-                // LIKE 혹은 COMMENT 인 경우
-                else -> {
-                    Log.d(TAG, "onMessageReceived: comment received")
-                    val args = DrawingDetailFragmentArgs(remoteMessage.data["drawingId"]!!.toInt())
-
-                    pendingIntent = NavDeepLinkBuilder(this@MyFirebaseMessageService)
-                        .setComponentName(MainActivity::class.java)
-                        .setGraph(R.navigation.nav_graph)
-                        .setDestination(R.id.drawingDetailFragment)
-                        .setArguments(args.toBundle())
-                        .createPendingIntent()
-                }
+        val pendingIntent: PendingIntent
+        val nickname = remoteMessage.data["sendNickname"]
+        when (remoteMessage.data["historyType"]) {
+            "GIFT" -> {
+                message = "$nickname ${getString(R.string.body_gift)}"
+                pendingIntent = navBuilder
+                    .setComponentName(MainActivity::class.java)
+                    .setGraph(R.navigation.nav_graph)
+                    .setDestination(R.id.drawingListFragment)
+                    .createPendingIntent()
             }
+            // LIKE 혹은 COMMENT 인 경우
+            "LIKE" -> {
+                message = "$nickname ${getString(R.string.body_like)}"
+                pendingIntent = createDrawingDetailPendingIntent(remoteMessage.data["drawingId"]!!.toInt())
+            }
+            else -> {
+                message = "$nickname ${getString(R.string.body_comment)}"
+                pendingIntent = createDrawingDetailPendingIntent(remoteMessage.data["drawingId"]!!.toInt())
+            }
+        }
 
-            // 이하 동일한 코드...
+        // 이하 동일한 코드...
 
-            val builder =
-                NotificationCompat.Builder(this@MyFirebaseMessageService, MainActivity.channel_id)
-                    .setSmallIcon(android.R.drawable.ic_dialog_info)
-                    .setContentTitle("받았습니다")
-                    .setContentText("바디입니다.")
-                    .setContentIntent(pendingIntent)
-                    .setAutoCancel(true)
-                    .setFullScreenIntent(pendingIntent, true)
-            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.notify(101, builder.build())
+        val builder =
+            NotificationCompat.Builder(this@MyFirebaseMessageService, MainActivity.channel_id)
+                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(message)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+                .setFullScreenIntent(pendingIntent, true)
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.notify(101, builder.build())
 //        }
+    }
+
+
+    private fun createDrawingDetailPendingIntent(drawingId: Int): PendingIntent {
+        val args = DrawingDetailFragmentArgs(drawingId)
+
+        return NavDeepLinkBuilder(this@MyFirebaseMessageService)
+            .setComponentName(MainActivity::class.java)
+            .setGraph(R.navigation.nav_graph)
+            .setDestination(R.id.drawingDetailFragment)
+            .setArguments(args.toBundle())
+            .createPendingIntent()
     }
 }
 
