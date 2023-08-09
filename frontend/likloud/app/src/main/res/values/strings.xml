@@ -7,6 +7,7 @@
     <string name="onboarding_two">사람들의 구름사진에\n그림을\n그려보아요</string>
     <string name="onboarding_three">내가 그린 구름그림을\n나만의 그림으로\n만들어봐요</string>
     <string name="input_text">입력</string>
+    <string name="profile_nickname_check">확인</string>
 
     <string name="upload">업로드</string>
     <string name="caution">주의!</string>
@@ -63,6 +64,7 @@
     <string name="pick_accessary">물방울 악세서리를 골라주세요!</string>
     <string name="pick_color">물방울 색을 골라주세요!</string>
     <string name="pick_face">물방울 표정을 골라주세요!</string>
+    <string name="nickname_change">변경</string>
 
     <!--game-->
     <string name="title_game">게임</string>

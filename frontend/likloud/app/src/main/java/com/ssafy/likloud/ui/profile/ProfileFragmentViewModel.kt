@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ssafy.likloud.ApplicationClass
+import com.ssafy.likloud.data.api.onError
 import com.ssafy.likloud.data.api.onSuccess
 import com.ssafy.likloud.data.model.request.LoginAdditionalRequest
 import com.ssafy.likloud.data.model.response.LoginAdditionalResponse
@@ -22,15 +23,22 @@ class ProfileFragmentViewModel @Inject constructor(
     /**
      * 회원가입 후 GUEST 단계의 사용자를 MEMBER 단계로 올리고, MEMBER용 JWT 토큰을 다시 받아옴
      */
-    suspend fun patchAdditionalInfo(loginAdditionalRequest: LoginAdditionalRequest) {
-//        viewModelScope.launch {
-            baseRepository.patchAdditionalInfo(loginAdditionalRequest).apply {
-                if (this.code() == 200) {
-                    val token = this.headers().get("newtoken")
-                    Log.d(TAG, "patchAdditionalInfo: 찐 토큰을 받아왔어용 ${token}")
-                    ApplicationClass.sharedPreferences.putString(ApplicationClass.X_ACCESS_TOKEN, token.toString())
-                }
+    suspend fun patchAdditionalInfo(loginAdditionalRequest: LoginAdditionalRequest): Boolean {
+        var isPossible = false
+        baseRepository.patchAdditionalInfo(loginAdditionalRequest)
+            .onSuccess {
+//                val token = it.headers().get("newtoken")
+                val token = it.accessToken
+                Log.d(TAG, "patchAdditionalInfo: Member 단계의 accessToken ${token}")
+                ApplicationClass.sharedPreferences.putString(ApplicationClass.X_ACCESS_TOKEN, token)
+                isPossible = true
             }
-//        }
+            .onError {
+                isPossible = false
+            }
+        return isPossible
     }
+
+    var selectedWaterDropColor = 0
+    var selectedWaterDropFace = 0
 }
