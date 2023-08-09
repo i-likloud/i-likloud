@@ -49,10 +49,26 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         Log.d(TAG, "onCreate: oncreated!")
 
         mediaPlayer = MediaPlayer.create(this, R.raw.summer_shower_quincas_moreira)
+        mediaPlayer.isLooping = true
+
         if(ApplicationClass.sharedPreferences.getMusicStatus()==true && !mediaPlayer.isPlaying){
             mediaPlayer.start()
         }
+    }
 
+    override fun onPause() {
+        super.onPause()
+        if(mediaPlayer.isPlaying) {
+            mediaPlayer.pause()
+
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(ApplicationClass.sharedPreferences.getMusicStatus()==true && !mediaPlayer.isPlaying){
+            mediaPlayer.start()
+        }
     }
 
     /**

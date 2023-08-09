@@ -17,6 +17,7 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/enter_from_left"
             app:popExitAnim="@anim/fade_out" />
+
     </fragment>
 
     <fragment
@@ -33,6 +34,10 @@
             app:popExitAnim="@anim/fade_out" />
         <action
             android:id="@+id/action_loginFragment_to_profileFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
             app:destination="@id/profileFragment" />
     </fragment>
     <fragment
@@ -68,6 +73,10 @@
             app:destination="@id/afterCloudValidFragment" />
         <action
             android:id="@+id/action_homeFragment_to_gameFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
             app:destination="@id/gameFragment" />
     </fragment>
 
@@ -135,9 +144,29 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/enter_from_left"
             app:popExitAnim="@anim/fade_out" />
+
+        <action
+            android:id="@+id/action_photoListFragment_to_nftListFragment"
+            app:destination="@id/nftListFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+
         <action
             android:id="@+id/action_photoListFragment_to_photoDrawingDetailFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
             app:destination="@id/drawingDetailFragment" />
+        <action
+            android:id="@+id/action_photoListFragment_to_drawingPadFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
+            app:destination="@id/drawingPadFragment" />
     </fragment>
 
     <fragment
@@ -147,6 +176,10 @@
         tools:layout="@layout/fragment_nft_list" >
         <action
             android:id="@+id/action_nftListFragment_to_nftGiftSearchUserFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
             app:destination="@id/nftGiftSearchUserFragment" />
     </fragment>
 
@@ -171,12 +204,24 @@
             app:popExitAnim="@anim/fade_out" />
         <action
             android:id="@+id/action_mypageFragment_to_DrawingDetailFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
             app:destination="@id/drawingDetailFragment" />
         <action
             android:id="@+id/action_mypageFragment_to_photoDetailFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
             app:destination="@id/photoDetailFragment" />
         <action
             android:id="@+id/action_mypageFragment_to_nftListFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
             app:destination="@id/nftListFragment" />
         <action
             android:id="@+id/action_mypageFragment_to_loginFragment"
@@ -196,6 +241,10 @@
         tools:layout="@layout/fragment_drawing_pad" >
         <action
             android:id="@+id/action_drawingPadFragment_to_drawingFormFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
             app:destination="@id/drawingFormFragment" />
     </fragment>
 
@@ -204,9 +253,18 @@
         tools:layout="@layout/fragment_drawing_detail"
         android:name="com.ssafy.likloud.ui.drawing.DrawingDetailFragment"
         android:label="PhotoDrawingDetailFragment">
+
         <argument
             android:name="drawingId"
             app:argType="integer" />
+
+        <action
+            android:id="@+id/action_drawingDetailFragment_to_nftListFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
+            app:destination="@id/nftListFragment" />
 
     </fragment>
 
@@ -223,6 +281,10 @@
         tools:layout="@layout/fragment_game">
         <action
             android:id="@+id/action_gameFragment_to_homeFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
             app:destination="@id/homeFragment" />
     </fragment>
     <fragment
@@ -234,6 +296,10 @@
             android:id="@+id/action_drawingFormFragment_to_drawingListFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="false"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
             app:destination="@id/drawingListFragment" />
     </fragment>
         
@@ -258,10 +324,27 @@
         android:label="PhotoDetailFragment">
         <argument
             android:name="photoId"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
             app:argType="integer" />
         <action
             android:id="@+id/action_photoDetailFragment_to_drawingDetailFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
             app:destination="@id/drawingDetailFragment" />
+        <action
+            android:id="@+id/action_photoDetailFragment_self"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
+            app:destination="@id/photoDetailFragment" />
+
+
     </fragment>
     <fragment
         android:id="@+id/nftGiftSearchUserFragment"

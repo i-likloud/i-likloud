@@ -1,25 +1,22 @@
 package com.ssafy.likloud.ui.upload
 
-import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ContentResolver
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.provider.OpenableColumns
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -32,20 +29,14 @@ import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
 import com.ssafy.likloud.databinding.FragmentUploadBinding
+import com.ssafy.likloud.ui.drawingpad.BitmapCanvasObject
 import com.ssafy.likloud.util.createMultipartFromUri
 import com.ssafy.likloud.util.saveImageToGallery
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.io.InputStream
-import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -60,7 +51,8 @@ class UploadFragment :
     private lateinit var mainActivity: MainActivity
     private lateinit var aiCheckingDialog: AICheckingDialog
     lateinit var currentPhotoPath: String
-//    lateinit var photoUri: Uri
+
+    //    lateinit var photoUri: Uri
     lateinit var file: File
 
     override fun onAttach(context: Context) {
@@ -88,8 +80,13 @@ class UploadFragment :
                     uploadFragmentViewModel.uploadPhotoId.value?.let { id ->
                         mainActivityViewModel.setUploadingPhotoId(id)
                     }
+//                    val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
+//                    val fragmentTransaction: FragmentTransaction =
+//                        fragmentManager.beginTransaction()
+//                    fragmentTransaction.remove(this@UploadFragment)
                     findNavController().navigate(R.id.action_homeFragment_to_afterCloudValidFragment)
                     this.cancel()
+
                 } else {
                     aiCheckingDialog.dismiss()
                     invokeNotCloudDialog()
@@ -116,9 +113,10 @@ class UploadFragment :
         binding.buttonChoose.setOnClickListener {
             if (uploadFragmentViewModel.photoMultipartBody.value != null) {
                 invokeAICheckingDialog()
+                BitmapCanvasObject.clearAllDrawingPoints()
                 uploadFragmentViewModel.sendMultipart(uploadFragmentViewModel.photoMultipartBody.value!!)
             } else {
-                Log.d(TAG, "initListener: no multipart")
+                showSnackbar(binding.root, "fail", "사진 전달에 실패했습니다.")
             }
         }
     }
@@ -192,7 +190,6 @@ class UploadFragment :
                 }
 
                 binding.imageSelectedPhoto.setImageBitmap(bitmap)
-                binding.imageSelectedPhoto.setBackgroundResource(R.drawable.frame_rounded_border_transparent_radius20)
                 uploadFragmentViewModel.setMultipart(
                     createMultipartFromUri(
                         requireContext(),
@@ -247,8 +244,15 @@ class UploadFragment :
             // 선택한 이미지의 Uri를 처리하는 코드를 작성합니다.
             Glide.with(this)
                 .load(uri)
-                .transform(CenterCrop(), RoundedCorners(20))
+                .transform(CenterCrop())
                 .into(binding.imageSelectedPhoto)
+
+            binding.textWarningContent.text = getString(R.string.terms_second_creation)
+            binding.textWarningContent.setTextColor(Color.RED)
+            binding.cardviewImageWarningDark.visibility = View.GONE
+            binding.textWarningDark.visibility = View.GONE
+            binding.cardviewImageWarningNotcloud.visibility = View.GONE
+            binding.textWarningNotcloud.visibility = View.GONE
         }
 
     /**
@@ -256,6 +260,18 @@ class UploadFragment :
      */
     private fun openGallery() {
         galleryActivityResult.launch("image/*")
+    }
+
+//    override fun onPause() {
+//        super.onPause()
+//        val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
+//        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+//        fragmentTransaction.remove(this)
+//    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop: stopped")
     }
 
     override fun onDestroy() {

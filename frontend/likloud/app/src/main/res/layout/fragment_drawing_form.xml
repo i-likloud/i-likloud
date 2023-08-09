@@ -148,7 +148,7 @@
             android:layout_height="@dimen/_28sdp"
             android:layout_gravity="right"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:background="@drawable/frame_button_grey_mild"
+            android:background="@drawable/frame_button_green_mild"
             android:elevation="@dimen/_2sdp"
             android:gravity="center"
             android:layout_marginEnd="@dimen/_10sdp"

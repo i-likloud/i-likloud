@@ -98,6 +98,7 @@
             app:layout_constraintVertical_chainStyle="packed" />
 
         <TextView
+            android:gravity="center_horizontal"
             android:id="@+id/text_warning_content"
             style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
             android:layout_width="wrap_content"
@@ -182,7 +183,7 @@
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_30sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:background="@drawable/button_frame_skyblue"
+            android:background="@drawable/frame_button_yellow_mild_200"
             android:text="@string/choose"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

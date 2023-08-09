@@ -24,6 +24,14 @@ class PhotoListFragmentViewModel @Inject constructor(
     val currentPhotoListDtoList: LiveData<MutableList<PhotoListDto>>
         get() = _currentPhotoListDtoList
 
+
+    /////////////////////////////// 현재 선택된 photo ///////////////////////////
+    private var _currentPhotoListDto = MutableLiveData<PhotoListDto>()
+    val currentPhotoListDto: LiveData<PhotoListDto>
+        get() = _currentPhotoListDto
+
+
+
     /**
      * 최신순 조회9기본)
      */
@@ -58,10 +66,7 @@ class PhotoListFragmentViewModel @Inject constructor(
     }
 
 
-    /////////////////////////////// 현재 선택된 photo ///////////////////////////
-    private var _currentPhotoListDto = MutableLiveData<PhotoListDto>()
-    val currentPhotoListDto: LiveData<PhotoListDto>
-        get() = _currentPhotoListDto
+
     fun setCurrentPhotoListDto(dto: PhotoListDto){
         Log.d(TAG, "setCurrentPhotoListDto: $dto")
         _currentPhotoListDto.value = dto
@@ -70,6 +75,7 @@ class PhotoListFragmentViewModel @Inject constructor(
         viewModelScope.launch {
             baseRepository.getCurrentPhotoListDto(photoId).onSuccess {
                 _currentPhotoListDto.value = it
+                it.photoUrl
             }
         }
     }

@@ -55,19 +55,21 @@ class MyFirebaseMessageService : FirebaseMessagingService() {
             // LIKE 혹은 COMMENT 인 경우
             "LIKE" -> {
                 message = "$nickname ${getString(R.string.body_like)}"
-                pendingIntent = createDrawingDetailPendingIntent(remoteMessage.data["drawingId"]!!.toInt())
+                pendingIntent =
+                    createDrawingDetailPendingIntent(remoteMessage.data["drawingId"]!!.toInt())
             }
+
             else -> {
                 message = "$nickname ${getString(R.string.body_comment)}"
-                pendingIntent = createDrawingDetailPendingIntent(remoteMessage.data["drawingId"]!!.toInt())
+                pendingIntent =
+                    createDrawingDetailPendingIntent(remoteMessage.data["drawingId"]!!.toInt())
             }
         }
 
-        // 이하 동일한 코드...
-
+        // 알림 생성하고 nav args에 집어넣고 아이콘 지정
         val builder =
             NotificationCompat.Builder(this@MyFirebaseMessageService, MainActivity.channel_id)
-                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                .setSmallIcon(R.drawable.logo_main)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(message)
                 .setContentIntent(pendingIntent)
@@ -75,7 +77,6 @@ class MyFirebaseMessageService : FirebaseMessagingService() {
                 .setFullScreenIntent(pendingIntent, true)
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(101, builder.build())
-//        }
     }
 
 

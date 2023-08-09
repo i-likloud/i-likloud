@@ -60,6 +60,7 @@ class HomeFragment :
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(binding.root)
@@ -67,7 +68,9 @@ class HomeFragment :
         initView()
         initListener()
         initAnimation()
-        initPermission()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            initPermission()
+        }
 
 //        viewLifecycleOwner.lifecycleScope.launch{
 //            loginFragmentViewModel.user.observe(requireActivity()){
@@ -266,7 +269,7 @@ class HomeFragment :
         makeButtonAnimationX(binding.frameFragmentUpload, 0f)
 
         childFragmentManager.beginTransaction()
-            .add(R.id.frame_fragment_upload, UploadFragment())
+            .replace(R.id.frame_fragment_upload, UploadFragment())
             .commit()
     }
 

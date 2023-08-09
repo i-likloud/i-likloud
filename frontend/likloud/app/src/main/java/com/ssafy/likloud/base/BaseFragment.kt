@@ -77,6 +77,13 @@ abstract class BaseFragment<B : ViewBinding>(
             "info" ->{
                 snackbar.setBackgroundTint(ContextCompat.getColor(requireActivity(), R.color.green_mild))
             }
+            "movetonft" -> {
+                snackbar.setBackgroundTint(ContextCompat.getColor(requireActivity(), R.color.green_mild))
+                snackbar.setActionTextColor(ContextCompat.getColor(requireActivity(), R.color.sky_blue_deep))
+                snackbar.setAction("확인하러 가기 ->") {
+                    findNavController().navigate(R.id.action_drawingDetailFragment_to_nftListFragment)
+                }
+            }
         }
         snackbar.show()
     }
