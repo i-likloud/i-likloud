@@ -170,14 +170,20 @@ class DrawingRepositoryTest extends BaseIntegrationTest {
         Drawing finds = find.get();
 
         System.out.println("결과: " + finds);
-        System.out.println("댓글: " + finds.getComments().toString());
+        System.out.println("댓글: " + finds.getComments());
         System.out.println("댓글2: " + saveComment);
 
         // then
         assertEquals(finds.getDrawingId(),saveDrawing.getDrawingId());
 
-        boolean containsSaveComment = finds.getComments().contains(saveComment.getCommentId());
+        boolean containsSaveComment = finds.getComments().stream()
+                .anyMatch(commentInList  -> commentInList .getCommentId().equals(saveComment.getCommentId()));
         assertTrue(containsSaveComment);
+
+        // 추가로, 댓글 내용도 확인할 수 있도록 아래와 같이 코드를 작성합니다.
+        boolean containsSaveCommentContent = finds.getComments().stream()
+                .anyMatch(commentInList  -> commentInList .getContent().equals(saveComment.getContent()));
+        assertTrue(containsSaveCommentContent);
 
     }
 
