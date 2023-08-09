@@ -3,6 +3,7 @@
     <!-- 배경 작대기(미진행 부분) -->
     <item android:id="@android:id/background">
         <shape android:shape="rectangle">
+            <corners android:radius="20dp" /> <!-- 배경 작대기의 모서리를 둥글게 설정 -->
             <solid android:color="@color/gray04" /> <!-- 배경 색상을 원하는 색상으로 변경 -->
         </shape>
     </item>
@@ -11,8 +12,9 @@
     <item android:id="@android:id/progress">
         <clip>
             <shape android:shape="rectangle">
+                <corners android:radius="20dp" /> <!-- 배경 작대기의 모서리를 둥글게 설정 -->
                 <solid android:color="@color/red_mile" /> <!-- 진행 색상을 원하는 색상으로 변경 -->
-                <size android:height="8dp" /> <!-- 작대기(진행 부분)의 높이를 8dp로 설정 -->
+                <size android:height="5dp" /> <!-- 작대기(진행 부분)의 높이를 8dp로 설정 -->
             </shape>
         </clip>
     </item>

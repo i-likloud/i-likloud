@@ -213,7 +213,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/_7sdp"
                     android:layout_marginTop="@dimen/_4sdp"
-                    android:text="이 그림에 대한 상세설명으로 길게 들어갈 내용입니다. 알겠습니까? 대답하세요! 얼른 대답!"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_drawing_title" />

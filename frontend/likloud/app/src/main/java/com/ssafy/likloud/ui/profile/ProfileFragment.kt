@@ -79,9 +79,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                 // 추가 정보 선택 완료시 진짜 키 받아오는 로직
                 viewLifecycleOwner.lifecycleScope.launch {
                     //중단 함수로 만들었음. patch 메소드가 통신이 끝나야 다음 메소드 실행
-                    profileFragmentViewModel.patchAdditionalInfo(LoginAdditionalRequest(nickname, selectedWaterDropColor, selectedWaterDropFace, 0))
+                    if (profileFragmentViewModel.patchAdditionalInfo(LoginAdditionalRequest(nickname, profileFragmentViewModel.selectedWaterDropColor, profileFragmentViewModel.selectedWaterDropFace, 0))) {
+                        mainActivityViewModel.getMemberInfo(sharedPreferences.getString(USER_EMAIL).toString())
+                        showSnackbar(binding.root, "info", "뭉게뭉게 도화지에 오신것을 환영합니다!")
+                    } else {
+                        showSnackbar(binding.root, "fail", "동일한 닉네임이 존재합니다. 다시 입력해주세요!")
+                    }
                     //비동기로 메인액티비티에 멤버정보 불러온다.
-                    mainActivityViewModel.getMemberInfo(sharedPreferences.getString(USER_EMAIL).toString())
                 }
                 findNavController().navigate(R.id.action_profileFragment_to_homeFragment)
             }
@@ -106,7 +110,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         colorListAdapter.itemClickListener = object: ProfileListAdapter.ItemClickListener {
             override fun onClick(view: View, position: Int) {
                 changeWaterDropColor(view, mainActivityViewModel.waterDropColorList[position].resourceId)
-                selectedWaterDropColor = mainActivityViewModel.waterDropColorList[position].num
+                profileFragmentViewModel.selectedWaterDropColor = mainActivityViewModel.waterDropColorList[position].num
             }
         }
         val faceListAdapter = ProfileListAdapter()
@@ -116,7 +120,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         faceListAdapter.itemClickListener = object: ProfileListAdapter.ItemClickListener {
             override fun onClick(view: View, position: Int) {
                 changeWaterDropFace(view, mainActivityViewModel.waterDropFaceList[position].resourceId)
-                selectedWaterDropFace = mainActivityViewModel.waterDropFaceList[position].num
+                profileFragmentViewModel.selectedWaterDropFace = mainActivityViewModel.waterDropFaceList[position].num
             }
         }
     }

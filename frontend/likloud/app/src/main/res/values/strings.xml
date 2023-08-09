@@ -7,6 +7,7 @@
     <string name="onboarding_two">사람들의 구름사진에\n그림을\n그려보아요</string>
     <string name="onboarding_three">내가 그린 구름그림을\n나만의 그림으로\n만들어봐요</string>
     <string name="input_text">입력</string>
+    <string name="profile_nickname_check">확인</string>
 
     <string name="upload">업로드</string>
     <string name="caution">주의!</string>
@@ -63,6 +64,7 @@
     <string name="pick_accessary">물방울 악세서리를 골라주세요!</string>
     <string name="pick_color">물방울 색을 골라주세요!</string>
     <string name="pick_face">물방울 표정을 골라주세요!</string>
+    <string name="nickname_change">변경</string>
 
     <!--game-->
     <string name="title_game">게임</string>
@@ -101,6 +103,8 @@
     <string name="make_nft">NFT 만들기</string>
     <string name="text_gift_confirm">선물을 확인해보세요!</string>
     <string name="button_gift_confirm">선물 확인하기</string>
+    <string name="title_nft_info">NFT란?</string>
+    <string name="content_nft_info">NFT는 "Non-Fungible Token"의 약자로\n간단히 말하면 디지털 아이템의 특별한 종류에요!\n디지털 세상에서 고유하고 소중한 아이템을 만들어주는\n마치 디지털 인증서 같은 거에요!</string>
 
     <!--report-->
     <string name="text_report">어떤 점을 신고할 건가요?</string>

@@ -27,7 +27,7 @@ data class CommentDto(
     @SerializedName("profileColor")
     val profileColor: Int,
 
-    @SerializedName("profileAccessor")
+    @SerializedName("profileAccessory")
     val profileAccessory: Int,
 
     @SerializedName("createdAt")

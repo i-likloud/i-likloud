@@ -40,15 +40,19 @@ class CommentListAdapter  (var activityViewModel: MainActivityViewModel): ListAd
         val textTime = binding.textTime
         val imageDeleteComment = binding.imageDeleteComment
         fun bindInfo(comment : CommentDto){
-            Glide.with(imageProfileColor)
-                .load(activityViewModel.waterDropColorList[comment.profileColor].resourceId)
-                .into(imageProfileColor)
-            Glide.with(imageProfileFace)
-                .load(activityViewModel.waterDropFaceList[comment.profileFace].resourceId)
-                .into(imageProfileFace)
-            Glide.with(imageProfileAccessory)
-                .load(activityViewModel.waterDropAccessoryList[comment.profileAccessory].resourceId)
-                .into(imageProfileAccessory)
+//            Glide.with(imageProfileColor)
+//                .load(activityViewModel.waterDropColorList[comment.profileColor].resourceId)
+//                .into(imageProfileColor)
+//            Glide.with(imageProfileFace)
+//                .load(activityViewModel.waterDropFaceList[comment.profileFace].resourceId)
+//                .into(imageProfileFace)
+//            Glide.with(imageProfileAccessory)
+//                .load(activityViewModel.waterDropAccessoryList[comment.profileAccessory].resourceId)
+//                .into(imageProfileAccessory)
+            imageProfileColor.setImageResource(activityViewModel.waterDropColorList[comment.profileColor].resourceId)
+            imageProfileFace.setImageResource(activityViewModel.waterDropFaceList[comment.profileFace].resourceId)
+            Log.d(TAG, "bindInfo: 댓글 정보중 악세서리 ${comment.profileAccessory}")
+            imageProfileAccessory.setImageResource(activityViewModel.waterDropAccessoryList[comment.profileAccessory].resourceId)
             textNickname.text = comment.nickname
             textContent.text = comment.content
             textTime.text = comment.createdAt

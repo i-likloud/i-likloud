@@ -24,5 +24,7 @@
     <color name="yellow_mild_500">#FFCA28</color>
     <color name="yellow_mild_200">#FFF59D</color>
     <color name="grey_mild">#EBEBEB</color>
+    <color name="blue_mild">#BBDEFB</color>
+    <color name="ivory">#EBE1C3</color>
 
 </resources>
