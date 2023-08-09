@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.ssafy.likloud.R
 import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.databinding.ItemPhotoBinding
+import com.ssafy.likloud.databinding.ItemPhotoDrawingBinding
 
 class PhotoDrawingListAdapter (): ListAdapter<DrawingListDto, PhotoDrawingListAdapter.PhotoDrawingListHolder>(
     PhotoDrawingListComparator
@@ -24,7 +25,7 @@ class PhotoDrawingListAdapter (): ListAdapter<DrawingListDto, PhotoDrawingListAd
             return oldItem.drawingId  == newItem.drawingId
         }
     }
-    inner class PhotoDrawingListHolder(binding: ItemPhotoBinding) : RecyclerView.ViewHolder(binding.root){
+    inner class PhotoDrawingListHolder(binding: ItemPhotoDrawingBinding) : RecyclerView.ViewHolder(binding.root){
         val imageDrawing = binding.imageDrawing
         val layoutPhotoDrawingItem = binding.layoutPhotoDrawingItem
         fun bindInfo(drawing : DrawingListDto){
@@ -47,7 +48,7 @@ class PhotoDrawingListAdapter (): ListAdapter<DrawingListDto, PhotoDrawingListAd
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoDrawingListHolder {
-        val binding = ItemPhotoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemPhotoDrawingBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 //        return RecyclerView.ViewHolder(inflater)
         return PhotoDrawingListHolder(binding)
     }

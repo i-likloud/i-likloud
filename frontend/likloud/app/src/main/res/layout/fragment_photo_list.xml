@@ -74,9 +74,11 @@
                 android:id="@+id/button_recent_order"
                 style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:background="@drawable/button_frame_black"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:background="@drawable/frame_button_grey_mild"
                 android:text="@string/recent_order"
+                android:elevation="@dimen/_2sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -86,9 +88,10 @@
                 android:id="@+id/button_ranking_order"
                 style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:background="@drawable/button_frame_black"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_2sdp"                android:background="@drawable/frame_button_grey_mild"
                 android:text="@string/ranking_order"
+                android:elevation="@dimen/_2sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/button_recent_order"
@@ -98,9 +101,10 @@
                 android:id="@+id/button_bookmark_order"
                 style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:background="@drawable/button_frame_black"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_2sdp"                android:background="@drawable/frame_button_grey_mild"
                 android:text="@string/bookmark_order"
+                android:elevation="@dimen/_2sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/button_ranking_order"
@@ -124,7 +128,7 @@
             android:id="@+id/layout_info"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintWidth_percent="0.35"
+            app:layout_constraintWidth_percent="0.37"
             app:layout_constraintHeight_percent="0.2"
             android:layout_margin="@dimen/_10sdp"
             android:background="@drawable/frame_rounded_border_radius50"
@@ -177,7 +181,7 @@
                 app:layout_constraintTop_toTopOf="@id/image_star"
                 app:layout_constraintBottom_toBottomOf="@id/image_star"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="@dimen/_20sdp"/>
+                android:layout_marginEnd="@dimen/_7sdp"/>
 
             <ImageView
                 android:id="@+id/image_star"
@@ -209,61 +213,64 @@
                 app:layout_constraintBottom_toBottomOf="@id/image_star"
                 app:layout_constraintEnd_toStartOf="@id/text_draw_count"
                 android:layout_marginEnd="@dimen/_5sdp"/>
-
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/textview_drawings"
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/_2sdp"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:translationZ="@dimen/_2sdp"
+            android:background="@drawable/frame_rounded_border_radius50_none_bottom"
+            android:text="@string/text_draw_with_this_photo"
+            app:layout_constraintStart_toStartOf="@+id/layout_photo_drawing_list"
+            app:layout_constraintTop_toBottomOf="@+id/layout_info" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_photo_drawing_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintWidth_percent="0.35"
-            app:layout_constraintHeight_percent="0.55"
+            android:translationZ="@dimen/_2sdp"
             android:layout_marginHorizontal="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="@drawable/frame_rounded_border_radius50"
+            android:background="@drawable/frame_rounded_border_radius50_none_top_left"
             android:elevation="@dimen/_4sdp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_info">
+            app:layout_constraintHeight_percent="0.53"
+            app:layout_constraintTop_toBottomOf="@+id/textview_drawings"
+            app:layout_constraintWidth_percent="0.37">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_photo_drawing_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginHorizontal="@dimen/_7sdp"
+                android:layout_marginVertical="@dimen/_7sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginHorizontal="@dimen/_20sdp"
-                android:layout_marginVertical="@dimen/_10sdp"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_button_paint"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_paint"
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintWidth_percent="0.35"
+            android:layout_marginBottom="@dimen/_2sdp"
+            android:background="@drawable/frame_button_green_mild"
+            android:elevation="@dimen/_2sdp"
+            android:text="이걸로 그릴래요!"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.1"
             android:layout_marginHorizontal="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            app:layout_constraintTop_toBottomOf="@id/layout_photo_drawing_list"
-            app:layout_constraintEnd_toEndOf="parent">
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button_paint"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@drawable/button_frame_skyblue"
-                android:text="이걸로 그릴래요!"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_goneMarginBottom="@dimen/_2sdp"
+            app:layout_constraintTop_toBottomOf="@+id/layout_photo_drawing_list"
+            app:layout_constraintWidth_percent="0.37" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

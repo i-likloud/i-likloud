@@ -181,12 +181,14 @@
 
             <LinearLayout
                 android:id="@+id/button_choose_done"
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_40sdp"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_28sdp"
                 android:layout_marginRight="@dimen/_2sdp"
-                android:background="@drawable/button_frame_black"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:background="@drawable/frame_button_yellow_mild_200"
                 android:layout_gravity="right"
-                android:gravity="center">
+                android:gravity="center"
+                android:elevation="@dimen/_2sdp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -194,15 +196,16 @@
                     android:layout_gravity="center">
 
                     <ImageView
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/_10sdp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_marginRight="@dimen/_3sdp"
                         android:src="@drawable/ic_check"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/choose_done"
+                        android:layout_gravity="center"
                         style="@style/Theme.AppCompat.TextView.jua.dark.Size12"/>
 
                 </LinearLayout>

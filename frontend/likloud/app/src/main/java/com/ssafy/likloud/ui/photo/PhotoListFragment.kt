@@ -1,15 +1,18 @@
 package com.ssafy.likloud.ui.photo
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.OvershootInterpolator
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +27,8 @@ import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.databinding.FragmentPhotoListBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 private const val TAG = "차선호"
 @AndroidEntryPoint
@@ -64,6 +69,8 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
         toggleButton(binding.buttonRecentOrder)
         initRecyclerView()
         initPhotoDrawingListRecyclerView()
+
+        loadingAnimation()
     }
 
     override fun initListener() {
@@ -74,6 +81,7 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
                     photoListFragmentViewModel.getRecentOrderPhotoListDtoList()
                     initRecyclerView()
                     toggleButton(buttonRecentOrder)
+                    loadingAnimation()
                 }
             }
             //랭킹순 눌렀을 때
@@ -82,6 +90,7 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
                     photoListFragmentViewModel.getRankingOrderPhotoListDtoList()
                     initRecyclerView()
                     toggleButton(buttonRankingOrder)
+                    loadingAnimation()
                 }
             }
             //즐찾순 눌렀을 때
@@ -90,6 +99,7 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
                     photoListFragmentViewModel.getBookmarkOrderPhotoListDtoList()
                     initRecyclerView()
                     toggleButton(buttonBookmarkOrder)
+                    loadingAnimation()
                 }
             }
             //즐겨찾기(스타)를 눌렀을 때
@@ -201,11 +211,11 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
 
     private fun toggleButton(view: View){
         binding.apply {
-            buttonRecentOrder.background = ContextCompat.getDrawable(mainActivity, R.drawable.button_frame_black)
-            buttonRankingOrder.background = ContextCompat.getDrawable(mainActivity, R.drawable.button_frame_black)
-            buttonBookmarkOrder.background = ContextCompat.getDrawable(mainActivity, R.drawable.button_frame_black)
+            buttonRecentOrder.background = ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_grey_mild)
+            buttonRankingOrder.background = ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_grey_mild)
+            buttonBookmarkOrder.background = ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_grey_mild)
         }
-        view.background = ContextCompat.getDrawable(mainActivity, R.drawable.button_frame_skyblue)
+        view.background = ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_yellow_mild_200)
     }
 
     private fun initPhotoDrawingListRecyclerView(){
@@ -223,6 +233,39 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
                     }
                 }
             }
+        }
+    }
+
+    private fun loadingAnimation() {
+        binding.layoutInfo.translationX = 1300f
+        binding.layoutPhotoDrawingList.translationX = 1300f
+        binding.recyclerviewDrawaing.translationX = -1300f
+        binding.textviewDrawings.translationX = 1300f
+        initAnimation()
+    }
+
+    private fun initAnimation() {
+        lifecycleScope.launch {
+            makeAnimationX(binding.layoutInfo, 0f, 450)
+            delay(100)
+            makeAnimationX(binding.layoutPhotoDrawingList, 0f, 500)
+            makeAnimationX(binding.textviewDrawings, 0f, 500)
+            delay(50)
+            makeAnimationX(binding.recyclerviewDrawaing, 0f, 600)
+        }
+    }
+
+    /**
+     * 뷰에 X축으로 움직이는 애니메이션을 적용시킵니다.
+     */
+    private fun makeAnimationX(view: View, values: Float, speed: Long) {
+        ObjectAnimator.ofFloat(view, "translationX", values).apply {
+//            interpolator = DecelerateInterpolator()
+            interpolator = OvershootInterpolator()
+//            interpolator = AccelerateInterpolator()
+//            interpolator = AccelerateDecelerateInterpolator()
+            duration = speed
+            start()
         }
     }
 }

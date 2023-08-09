@@ -1,5 +1,6 @@
 package com.ssafy.likloud.ui.photo
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -7,9 +8,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.OvershootInterpolator
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +28,8 @@ import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.databinding.FragmentPhotoDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class PhotoDetailFragment : BaseFragment<FragmentPhotoDetailBinding>(FragmentPhotoDetailBinding::bind, R.layout.fragment_photo_detail) {
@@ -88,6 +93,8 @@ class PhotoDetailFragment : BaseFragment<FragmentPhotoDetailBinding>(FragmentPho
     private fun init(){
         photoDetailFragmentViewModel.getCurrentPhotoDetail(args.photoId)
         initPhotoDrawingListRecyclerView()
+
+        loadingAnimation()
     }
 
     override fun initListener() {
@@ -118,16 +125,16 @@ class PhotoDetailFragment : BaseFragment<FragmentPhotoDetailBinding>(FragmentPho
             Glide.with(imageCurrentPhoto)
                 .load(photoDetail.photoUrl)
                 .into(imageCurrentPhoto)
-            Glide.with(imagePhotoProfileColor)
+            Glide.with(imageDrawingProfileColor)
                 .load(activityViewModel.waterDropColorList[member.profileColor].resourceId)
-                .into(imagePhotoProfileColor)
-            Glide.with(imagePhotoProfileFace)
+                .into(imageDrawingProfileColor)
+            Glide.with(imageDrawingProfileFace)
                 .load(activityViewModel.waterDropFaceList[member.profileFace].resourceId)
-                .into(imagePhotoProfileFace)
-            Glide.with(imagePhotoProfileAccessory)
+                .into(imageDrawingProfileFace)
+            Glide.with(imageDrawingProfileAccessory)
                 .load(activityViewModel.waterDropAccessoryList[member.profileAccessory].resourceId)
-                .into(imagePhotoProfileAccessory)
-            textPhotoNickname.text = member.nickname
+                .into(imageDrawingProfileAccessory)
+            textDrawingNickname.text = member.nickname
             textBookmarkCount.text = photoDetail.bookmarkCount.toString()
             textDrawCount.text = photoDetail.pickCount.toString()
         }
@@ -150,5 +157,36 @@ class PhotoDetailFragment : BaseFragment<FragmentPhotoDetailBinding>(FragmentPho
         }
     }
 
+    private fun loadingAnimation() {
+        binding.layoutInfo.translationX = 1300f
+        binding.layoutPhotoDrawingList.translationX = 1300f
+        binding.frameImageCurrent.translationX = -1300f
+        binding.textviewDrawings.translationX = 1300f
+        initAnimation()
+    }
 
+    private fun initAnimation() {
+        lifecycleScope.launch {
+            makeAnimationX(binding.layoutInfo, 0f, 450)
+            delay(100)
+            makeAnimationX(binding.layoutPhotoDrawingList, 0f, 500)
+            makeAnimationX(binding.textviewDrawings, 0f, 500)
+            delay(50)
+            makeAnimationX(binding.frameImageCurrent, 0f, 600)
+        }
+    }
+
+    /**
+     * 뷰에 X축으로 움직이는 애니메이션을 적용시킵니다.
+     */
+    private fun makeAnimationX(view: View, values: Float, speed: Long) {
+        ObjectAnimator.ofFloat(view, "translationX", values).apply {
+//            interpolator = DecelerateInterpolator()
+            interpolator = OvershootInterpolator()
+//            interpolator = AccelerateInterpolator()
+//            interpolator = AccelerateDecelerateInterpolator()
+            duration = speed
+            start()
+        }
+    }
 }

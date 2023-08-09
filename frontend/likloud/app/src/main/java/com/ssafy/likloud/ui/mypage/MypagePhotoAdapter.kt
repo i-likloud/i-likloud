@@ -3,10 +3,12 @@ package com.ssafy.likloud.ui.mypage
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.ssafy.likloud.R
 import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.databinding.ItemMypagePhotoBinding
@@ -24,6 +26,7 @@ class MypagePhotoAdapter (var list : MutableList<PhotoListDto>): ListAdapter<Pho
         }
     }
     inner class PhotoListHolder(binding: ItemMypagePhotoBinding) : RecyclerView.ViewHolder(binding.root){
+        val layoutMypagePhoto = binding.layoutItemMypagePhoto
         val imageDrawing = binding.imageDrawing
         fun bindInfo(photo : PhotoListDto){
             Glide.with(imageDrawing)
@@ -32,6 +35,8 @@ class MypagePhotoAdapter (var list : MutableList<PhotoListDto>): ListAdapter<Pho
             itemView.setOnClickListener{
                 itemClickListner.onClick(it,photo)
             }
+
+            layoutMypagePhoto.animation = AnimationUtils.loadAnimation(layoutMypagePhoto.context, R.anim.list_item_anim_fade_in)
         }
     }
 

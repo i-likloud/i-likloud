@@ -12,10 +12,13 @@ import android.view.animation.AnimationUtils
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ssafy.likloud.ApplicationClass.Companion.FIREBASE_TOKEN
 import com.ssafy.likloud.base.BaseActivity
@@ -23,11 +26,12 @@ import com.ssafy.likloud.data.repository.BaseRepository
 import com.ssafy.likloud.databinding.ActivityMainBinding
 import com.ssafy.likloud.util.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 private const val TAG = "MainActivity_싸피"
-
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
 
@@ -53,6 +57,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         initView()
         initNavController()
         initListener()
+//        initLogin()
         Log.d(TAG, "onCreate: oncreated!")
 
         mediaPlayer = MediaPlayer.create(this, R.raw.summer_shower_quincas_moreira)
@@ -204,5 +209,33 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             }
         }
 
-
+//    private fun initLogin() {
+//        if (ApplicationClass.sharedPreferences.getString(ApplicationClass.X_ACCESS_TOKEN) != null && ApplicationClass.sharedPreferences.getString(
+//                ApplicationClass.X_ACCESS_TOKEN
+//            ) != "") {
+//            Log.d(TAG, "init: ${
+//                    ApplicationClass.sharedPreferences.getString(
+//                        ApplicationClass.X_ACCESS_TOKEN
+//                    )}")
+//            Log.d(TAG, "init: ${
+//                    ApplicationClass.sharedPreferences.getString(
+//                        ApplicationClass.X_REFRESH_TOKEN
+//                    )}")
+//
+//            lifecycleScope.launch {
+//                withContext(Dispatchers.IO) {
+//                    mainActivityViewModel.getMemberInfo(
+//                        ApplicationClass.sharedPreferences.getString(
+//                            ApplicationClass.USER_EMAIL
+//                        ).toString())
+//                    withContext(Dispatchers.Main) {
+//                        val snackbar = Snackbar.make(binding.root, "환영합니다! ${mainActivityViewModel.memberInfo.value!!.nickname}님", Snackbar.LENGTH_LONG)
+//                        snackbar.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.black))
+//                        snackbar.show()
+//                        navController.navigate(R.id.homeFragment)
+//                    }
+//                }
+//            }
+//        }
+//    }
 }

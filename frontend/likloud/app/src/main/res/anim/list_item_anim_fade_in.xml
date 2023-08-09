@@ -11,7 +11,6 @@
         android:toYScale="1"
         android:duration="500" />
 
-
     <alpha
         android:fromAlpha="0.4"
         android:toAlpha="3.0"

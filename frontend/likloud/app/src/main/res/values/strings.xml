@@ -39,6 +39,8 @@
     <string name="title_photo_list">사진 목록</string>
     <string name="text_checking_title">사진이 구름인지 확인중입니다!</string>
     <string name="text_checking_desc">잠시만 기다려 주세요!</string>
+    <string name="text_draw_with_this_photo">이 사진으로 그린 그림들</string>
+    <string name="title_photo_detail">사진</string>
 
     <!--mypage-->
     <string name="title_mypage">마이페이지</string>
@@ -50,12 +52,16 @@
     <string name="my_likes">좋아요 그림</string>
     <string name="my_bookmark">북마크 사진</string>
     <string name="save_drawing">저장하기</string>
+    <string name="modify_profile">프로필 수정</string>
 
 
     <!--profile eidt-->
     <string name="title_profile_edit">내 물방울을 바꾸기</string>
     <string name="done">완료</string>
     <string name="take_off">해제</string>
+    <string name="pick_accessary">물방울 악세서리를 골라주세요!</string>
+    <string name="pick_color">물방울 색을 골라주세요!</string>
+    <string name="pick_face">물방울 표정을 골라주세요!</string>
 
     <!--game-->
     <string name="title_game">게임</string>
