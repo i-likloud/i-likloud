@@ -36,15 +36,9 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
 
     private val nftListFragmentViewModel : NftListFragmentViewModel by viewModels()
     private val activityViewModel: MainActivityViewModel by activityViewModels()
-    private lateinit var mainActivity: MainActivity
     private lateinit var nftListAdapter: NftListAdapter
     private lateinit var giftListAdapter: NftGiftAdapter
 
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mainActivity = context as MainActivity
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -95,7 +89,7 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
             }
         }
 
-        mainActivity.onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+        mActivity.onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if(nftListFragmentViewModel.isShowSearchUserFragment) {
                     endSearchUserFragment()
@@ -123,23 +117,23 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
         }
         nftListFragmentViewModel.isAccepted.observe(viewLifecycleOwner){
             if(it){ //수락했을 때
-                Toast.makeText(mainActivity, "수락했어용", Toast.LENGTH_SHORT).show()
+                Toast.makeText(mActivity, "수락했어용", Toast.LENGTH_SHORT).show()
                 nftListFragmentViewModel.getNftGiftList()
             }else{ //거부했을 때
-                Toast.makeText(mainActivity, "거절했음", Toast.LENGTH_SHORT).show()
+                Toast.makeText(mActivity, "거절했음", Toast.LENGTH_SHORT).show()
                 nftListFragmentViewModel.getNftGiftList()
             }
         }
     }
 
     private fun initNftListRecyclerView(){
-        nftListAdapter = NftListAdapter(mainActivity)
+        nftListAdapter = NftListAdapter(mActivity)
         binding.recyclerviewNft.apply {
             this.adapter = nftListAdapter.apply {
                 itemClickListner = object: NftListAdapter.ItemClickListener{
                     override fun onClick(nftDto: NftListDto) {
                         //선물하기 로직
-                        Toast.makeText(mainActivity, "선물하기 클릭...", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(mActivity, "선물하기 클릭...", Toast.LENGTH_SHORT).show()
 //                        val action = NftListFragmentDirections.actionNftListFragmentToNftGiftSearchUserFragment(nftDto.nftId)
 //                        findNavController().navigate(action)
                         startSearchUserFragment(nftDto)
@@ -147,12 +141,12 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
 
                 }
             }
-            layoutManager = GridLayoutManager(mainActivity,3)
+            layoutManager = GridLayoutManager(mActivity,3)
         }
     }
 
     private fun initGiftListRecyclerView(){
-        giftListAdapter = NftGiftAdapter(mainActivity)
+        giftListAdapter = NftGiftAdapter(mActivity)
         binding.recyclerviewNft.apply {
             this.adapter = giftListAdapter.apply {
                 itemClickListner = object: NftGiftAdapter.ItemClickListener{
@@ -164,16 +158,16 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
 
                 }
             }
-            layoutManager = GridLayoutManager(mainActivity,3)
+            layoutManager = GridLayoutManager(mActivity,3)
         }
     }
 
     private fun toggleButton(view: View){
         binding.apply {
-            buttonMyNft.background = ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_grey_mild)
-            buttonGiftNft.background = ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_grey_mild)
+            buttonMyNft.background = ContextCompat.getDrawable(mActivity, R.drawable.frame_button_grey_mild)
+            buttonGiftNft.background = ContextCompat.getDrawable(mActivity, R.drawable.frame_button_grey_mild)
         }
-        view.background = ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_yellow_mild_200)
+        view.background = ContextCompat.getDrawable(mActivity, R.drawable.frame_button_yellow_mild_200)
     }
 
     private fun makeButtonAnimationX(button: View, values: Float) {

@@ -224,11 +224,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_pen_eraser_width"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/_110sdp"
+        android:layout_height="@dimen/_140sdp"
         android:layout_marginStart="@dimen/_15sdp"
         android:background="@drawable/frame_button_yellow_mild_200"
         android:orientation="vertical"
-        android:padding="@dimen/_20sdp"
+        android:paddingHorizontal="@dimen/_20sdp"
+
         android:translationZ="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -238,6 +239,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:cardCornerRadius="@dimen/_100sdp"
             android:id="@+id/dot_pensize"
+            app:layout_constraintBottom_toTopOf="@id/layout_pen_width"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_gravity="center_horizontal"
@@ -267,6 +269,9 @@
                 android:id="@+id/seekbar_pen"
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="@dimen/_20sdp"
+                android:stepSize="10"
+                app:tickColorActive="@color/black"
+                app:haloColor="@color/transparent"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:valueFrom="0.0"
                 android:valueTo="100.0"
@@ -281,7 +286,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="wrap_content"
+            android:gravity="center_vertical"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:orientation="horizontal">
 
 
@@ -296,6 +303,7 @@
                 android:id="@+id/seekbar_eraser"
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="@dimen/_10sdp"
+                app:haloColor="@color/transparent"
                 android:valueFrom="0.0"
                 app:trackColor="@color/gray05"
                 app:thumbColor="@color/eraser"

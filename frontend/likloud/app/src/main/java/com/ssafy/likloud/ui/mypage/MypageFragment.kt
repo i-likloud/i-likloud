@@ -36,12 +36,6 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
 
     private val mypageFragmentViewModel : MypageFragmentViewModel by viewModels()
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
-//    private lateinit var mActivity: MainActivity
-
-//    override fun onAttach(context: Context) {
-//        super.onAttach(context)
-//        mActivity = context as MainActivity
-//    }
 
     override fun onResume() {
         super.onResume()

@@ -37,13 +37,6 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>(FragmentPro
 
     private val profileEditFragmentViewModel : ProfileEditFragmentViewModel by viewModels()
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
-//    private lateinit var mActivity: MainActivity
-
-//    override fun onAttach(context: Context) {
-//        super.onAttach(context)
-//        mActivity = context as MainActivity
-//    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

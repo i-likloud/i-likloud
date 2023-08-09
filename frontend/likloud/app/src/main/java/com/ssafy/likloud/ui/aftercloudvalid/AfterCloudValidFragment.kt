@@ -31,12 +31,6 @@ class AfterCloudValidFragment : BaseFragment<FragmentAfterCloudValidBinding>(
 
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var navController: NavController
-//    private lateinit var mActivity: MainActivity
-
-//    override fun onAttach(context: Context) {
-//        super.onAttach(context)
-//        mActivity = context as MainActivity
-//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -63,9 +57,6 @@ class AfterCloudValidFragment : BaseFragment<FragmentAfterCloudValidBinding>(
     }
 
     fun initView() {
-//        binding.buttonUploadOnly.setText(getString(R.string.upload_only))
-//        binding.buttonDrawInstantly.setText(getString(R.string.draw_instantly))
-
 
         Log.d(TAG, "initView: ${mainActivityViewModel.uploadingPhotoUrl.value}")
 
