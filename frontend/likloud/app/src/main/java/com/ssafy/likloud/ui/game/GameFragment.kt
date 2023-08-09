@@ -201,8 +201,8 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
         coroutineProfile.launch {
             while(gameFragmentViewModel.frameWidth.value!! > 12){
                 delay(200)
-                gameFragmentViewModel.decreaseFrameWidth(4)
-                gameFragmentViewModel.decreaseFrameHeight(4)
+                gameFragmentViewModel.decreaseFrameWidth(6)
+                gameFragmentViewModel.decreaseFrameHeight(6)
                 if(gameFragmentViewModel.remainTime.value!!<=0) break
             }
             // 여긴 무조건 실패 종료
@@ -265,9 +265,12 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
     }
 
     fun showGameStartDialog(){
-        gameFragmentViewModel.gameStartDialog.show(childFragmentManager, "game start")
-        coroutineTime = CoroutineScope(Dispatchers.Main)
-        coroutineProfile = CoroutineScope(Dispatchers.Main)
+        viewLifecycleOwner.lifecycleScope.launch {
+            delay(300)
+            gameFragmentViewModel.gameStartDialog.show(childFragmentManager, "game start")
+            coroutineTime = CoroutineScope(Dispatchers.Main)
+            coroutineProfile = CoroutineScope(Dispatchers.Main)
+        }
     }
 
     fun gameStart(){

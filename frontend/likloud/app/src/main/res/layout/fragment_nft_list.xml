@@ -67,9 +67,9 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_my_nft"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                app:layout_constraintWidth_percent="0.2"
-                android:background="@drawable/button_frame_black"
+                android:layout_height="wrap_content"
+                app:layout_constraintWidth_percent="0.15"
+                android:background="@drawable/frame_button_yellow_mild_200"
                 android:text="@string/my_nft"
                 style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
                 app:layout_constraintTop_toTopOf="parent"
@@ -78,13 +78,14 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_gift_nft"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                app:layout_constraintWidth_percent="0.2"
-                android:background="@drawable/button_frame_black"
+                android:layout_height="wrap_content"
+                app:layout_constraintWidth_percent="0.15"
+                android:background="@drawable/frame_button_grey_mild"
                 android:text="@string/gift_nft"
                 style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/button_my_nft"/>
+                app:layout_constraintStart_toEndOf="@id/button_my_nft"
+                android:layout_marginStart="@dimen/_5sdp"/>
 
             <ImageView
                 android:id="@+id/image_nft_info"

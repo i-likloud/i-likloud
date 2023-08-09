@@ -90,6 +90,9 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
             buttonBack.setOnClickListener {
                 findNavController().popBackStack()
             }
+            imageNftInfo.setOnClickListener {
+                nftListFragmentViewModel.nftInfoDialog.show(childFragmentManager, "nftInfo")
+            }
         }
 
         mainActivity.onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
@@ -167,10 +170,10 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
 
     private fun toggleButton(view: View){
         binding.apply {
-            buttonMyNft.background = ContextCompat.getDrawable(mainActivity, R.drawable.button_frame_black)
-            buttonGiftNft.background = ContextCompat.getDrawable(mainActivity, R.drawable.button_frame_black)
+            buttonMyNft.background = ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_grey_mild)
+            buttonGiftNft.background = ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_grey_mild)
         }
-        view.background = ContextCompat.getDrawable(mainActivity, R.drawable.button_frame_skyblue)
+        view.background = ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_yellow_mild_200)
     }
 
     private fun makeButtonAnimationX(button: View, values: Float) {
