@@ -43,14 +43,14 @@ class HomeFragment :
 
     private val homeFragmentViewModel: HomeFragmentViewModel by viewModels()
     private lateinit var navController: NavController
-    private lateinit var mActivity: MainActivity
+//    private lateinit var mActivity: MainActivity
 
     private var isCameraOpened = false
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mActivity = context as MainActivity
-    }
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//        mActivity = context as MainActivity
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

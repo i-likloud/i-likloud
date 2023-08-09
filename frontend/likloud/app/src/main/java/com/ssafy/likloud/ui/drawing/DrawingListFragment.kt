@@ -37,6 +37,7 @@ import com.ssafy.likloud.data.model.DrawingDetailDto
 import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.databinding.FragmentDrawingListBinding
+import com.ssafy.likloud.util.initEditText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -131,6 +132,17 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
             buttonBack.setOnClickListener {
                 findNavController().popBackStack()
             }
+
+
+            // Edittext 화면 누르면 키보드 내리기
+            initEditText(
+                binding.edittextDrawingComment,
+                null,
+                binding.layoutDrawingListFragment,
+                mActivity,
+                null
+            )
+
             //댓글 입력 눌렀을 때
             buttonDrawingComment.setOnClickListener {
                 val content = edittextDrawingComment.text.toString()

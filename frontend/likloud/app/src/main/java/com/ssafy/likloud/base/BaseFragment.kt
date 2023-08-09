@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
+import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.R
 import com.ssafy.likloud.util.LoadingDialog
 
@@ -24,6 +25,9 @@ abstract class BaseFragment<B : ViewBinding>(
     lateinit var mLoadingDialog: LoadingDialog
 
     protected val binding get() = _binding!!
+    private lateinit var _mActivity: MainActivity
+    protected val mActivity get() = _mActivity
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,6 +36,11 @@ abstract class BaseFragment<B : ViewBinding>(
     ): View? {
         _binding = bind(super.onCreateView(inflater, container, savedInstanceState)!!)
         return binding.root
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        _mActivity = context as MainActivity
     }
 
     abstract fun initListener()

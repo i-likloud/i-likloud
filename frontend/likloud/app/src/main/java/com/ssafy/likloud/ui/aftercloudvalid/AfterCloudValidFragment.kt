@@ -31,12 +31,12 @@ class AfterCloudValidFragment : BaseFragment<FragmentAfterCloudValidBinding>(
 
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var navController: NavController
-    private lateinit var mActivity: MainActivity
+//    private lateinit var mActivity: MainActivity
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mActivity = context as MainActivity
-    }
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//        mActivity = context as MainActivity
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
