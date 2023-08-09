@@ -69,4 +69,6 @@ class NftListFragmentViewModel @Inject constructor(
             }
         }
     }
+
+    val nftInfoDialog = NftInfoDialog()
 }

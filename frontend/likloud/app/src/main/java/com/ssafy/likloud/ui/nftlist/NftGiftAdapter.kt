@@ -53,10 +53,15 @@ class NftGiftAdapter (var context: Context): ListAdapter<NftGiftDto, NftGiftAdap
             textTitle.text = "제목 : ${nftGiftDto.title}"
             textContent.text = " 내용 : ${nftGiftDto.content}"
             layoutNft.setOnClickListener{
+                layoutNft.isClickable = false
                 if (layoutBack.visibility == View.INVISIBLE) {
-                    flip(context, layoutBack, layoutFront)
+                    layoutBack.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+                    layoutFront.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+                    flip(context, layoutBack, layoutFront, layoutNft)
                 } else {
-                    flip(context, layoutFront, layoutBack)
+                    layoutBack.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+                    layoutFront.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+                    flip(context, layoutFront, layoutBack, layoutNft)
                 }
             }
 
@@ -79,7 +84,7 @@ class NftGiftAdapter (var context: Context): ListAdapter<NftGiftDto, NftGiftAdap
         }
     }
 
-    private fun flip(context: Context, visibleView: View, inVisibleView: View) {
+    private fun flip(context: Context, visibleView: View, inVisibleView: View, layoutNft: View) {
         try {
             // Create ObjectAnimator animations for flip_in.xml
             val scale = context.resources.displayMetrics.density
@@ -101,7 +106,7 @@ class NftGiftAdapter (var context: Context): ListAdapter<NftGiftDto, NftGiftAdap
             flipOutAlphaAnimator2.duration = 750
             val flipAnimatorSet = AnimatorSet()
             flipAnimatorSet.playTogether(
-                flipInAlphaAnimator1,
+//                flipInAlphaAnimator1,
                 flipInRotationYAnimator,
                 flipInAlphaAnimator2,
                 flipOutRotationYAnimator,
@@ -119,6 +124,7 @@ class NftGiftAdapter (var context: Context): ListAdapter<NftGiftDto, NftGiftAdap
             // After the animation finishes, hide the inVisibleView
             flipAnimatorSet.doOnEnd {
                 inVisibleView.visibility = View.INVISIBLE
+                layoutNft.isClickable = true
             }
         } catch (e: Exception) {
 //            logHandledException(e)
