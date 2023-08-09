@@ -51,5 +51,6 @@ abstract class BaseDialog<T : ViewBinding>(
         _binding = null
     }
 
+
     abstract fun initListener()
 }
