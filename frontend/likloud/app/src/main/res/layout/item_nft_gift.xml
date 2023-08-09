@@ -111,7 +111,6 @@
         android:id="@+id/layout_front"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/frame_rounded_border_black_radius50"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -120,7 +119,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:cardCornerRadius="50dp"
-            android:background="@drawable/frame_rounded_border_black_radius50"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent">

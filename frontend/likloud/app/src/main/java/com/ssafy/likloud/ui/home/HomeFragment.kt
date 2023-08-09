@@ -1,9 +1,11 @@
 package com.ssafy.likloud.ui.home
 
+import android.Manifest
 import android.animation.ObjectAnimator
 import android.animation.TimeInterpolator
 import android.content.Context
 import android.graphics.Interpolator
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +18,8 @@ import android.view.animation.OvershootInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -34,9 +38,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bind, R.layout.fragment_home ) {
+class HomeFragment :
+    BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind, R.layout.fragment_home) {
 
-    private val homeFragmentViewModel : HomeFragmentViewModel by viewModels()
+    private val homeFragmentViewModel: HomeFragmentViewModel by viewModels()
     private lateinit var navController: NavController
     private lateinit var mActivity: MainActivity
 
@@ -46,6 +51,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
         super.onAttach(context)
         mActivity = context as MainActivity
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -54,6 +60,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(binding.root)
@@ -61,6 +68,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
         initView()
         initListener()
         initAnimation()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            initPermission()
+        }
 
 //        viewLifecycleOwner.lifecycleScope.launch{
 //            loginFragmentViewModel.user.observe(requireActivity()){
@@ -68,6 +78,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
 //            }
 //        }
     }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun initPermission() {
+        val permissionList = arrayOf(
+            Manifest.permission.POST_NOTIFICATIONS,
+            Manifest.permission.CAMERA,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+        )
+        requestMultiplePermission.launch(permissionList)
+    }
+
+    private val requestMultiplePermission =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { results ->
+            results.forEach {
+            }
+        }
 
     /**
      * 클릭 리스너를 init합니다.
@@ -91,27 +118,31 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
         }
 
         binding.layoutHomeBackground.setOnClickListener {
-            when(isCameraOpened) {
+            when (isCameraOpened) {
                 true -> {
                     endUploadFragment()
                 }
-                else -> {  }
+
+                else -> {}
             }
         }
 
         // 안드로이드 뒤로가기 버튼 눌렀을 때
-        mActivity.onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                when (isCameraOpened) {
-                    true -> {
-                        endUploadFragment()
-                    }
-                    false -> {
-                        mActivity.finish()
+        mActivity.onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    when (isCameraOpened) {
+                        true -> {
+                            endUploadFragment()
+                        }
+
+                        false -> {
+                            mActivity.finish()
+                        }
                     }
                 }
-            }
-        })
+            })
     }
 
     /**
@@ -125,10 +156,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
      * 애니메이션을 init합니다.
      */
     private fun initAnimation() {
-        binding.buttonCamera.animation = AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down)
-        binding.buttonPainting.animation = AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down2)
-        binding.buttonDrawingList.animation = AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down3)
-        binding.buttonGame.animation = AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down4)
+        binding.buttonCamera.animation =
+            AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down)
+        binding.buttonPainting.animation =
+            AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down2)
+        binding.buttonDrawingList.animation =
+            AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down3)
+        binding.buttonGame.animation =
+            AnimationUtils.loadAnimation(mActivity, R.anim.shake_up_down4)
     }
 
     /**
@@ -234,7 +269,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding ::bin
         makeButtonAnimationX(binding.frameFragmentUpload, 0f)
 
         childFragmentManager.beginTransaction()
-            .add(R.id.frame_fragment_upload, UploadFragment())
+            .replace(R.id.frame_fragment_upload, UploadFragment())
             .commit()
     }
 

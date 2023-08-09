@@ -1,5 +1,7 @@
 package com.ssafy.likloud.ui.game
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.os.Bundle
@@ -8,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationSet
 import android.view.animation.LinearInterpolator
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
@@ -60,9 +63,10 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initObserver()
-        init()
-        initListener()
+        showGameStartDialog()
+//        initObserver()
+//        init()
+//        initListener()
 
     }
 
@@ -107,6 +111,52 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
             }
         }
 
+        gameFragmentViewModel.isCorrected.observe(viewLifecycleOwner){
+            binding.textAnswerRight.isClickable = false
+            binding.textAnswerLeft.isClickable  = false
+            viewLifecycleOwner.lifecycleScope.launch{
+                if(gameFragmentViewModel.direction==0){ //왼쪽이 정답
+                    binding.apply {
+                        lottieLeftCorrect.apply {
+                            visibility = View.VISIBLE
+                            playAnimation()
+                        }
+                        lottieRightIncorrect.apply {
+                            visibility = View.VISIBLE
+                            playAnimation()
+                        }
+
+                        lottieLeftIncorrect.visibility = View.INVISIBLE
+                        lottieRightCorrect.visibility = View.INVISIBLE
+                    }
+                }else{
+                    binding.apply {
+                        lottieRightCorrect.apply {
+                            visibility = View.VISIBLE
+                            playAnimation()
+                        }
+                        lottieLeftIncorrect.apply {
+                            visibility = View.VISIBLE
+                            playAnimation()
+                        }
+
+                        lottieLeftCorrect.visibility = View.INVISIBLE
+                        lottieRightIncorrect.visibility = View.INVISIBLE
+                    }
+                }
+                delay(700)
+                binding.apply {
+                    textAnswerRight.isClickable = true
+                    textAnswerLeft.isClickable  = true
+                    lottieLeftCorrect.visibility = View.INVISIBLE
+                    lottieRightIncorrect.visibility = View.INVISIBLE
+                    lottieLeftIncorrect.visibility = View.INVISIBLE
+                    lottieRightCorrect.visibility = View.INVISIBLE
+                }
+                gameFragmentViewModel.increaseCurrentQuestionIdx()
+            }
+        }
+
     }
 
     private fun init() {
@@ -147,7 +197,7 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
         gameFragmentViewModel.setFrameHeight()
         Log.d(TAG, "init: ${gameFragmentViewModel.frameWidth.value}")
 
-        coroutineProfile = CoroutineScope(Dispatchers.Main)
+//        coroutineProfile = CoroutineScope(Dispatchers.Main)
         coroutineProfile.launch {
             while(gameFragmentViewModel.frameWidth.value!! > 12){
                 delay(200)
@@ -162,7 +212,7 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
             }
         }
 
-        coroutineTime = CoroutineScope(Dispatchers.Main)
+//        coroutineTime = CoroutineScope(Dispatchers.Main)
         coroutineTime.launch {
             Log.d(TAG, "coroutineTime launch....")
             while(gameFragmentViewModel.remainTime.value!! > 0){
@@ -207,9 +257,23 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
         gameFragmentViewModel.initRemainTime()
         coroutineProfile.cancel()
         coroutineTime.cancel()
+        coroutineTime = CoroutineScope(Dispatchers.Main)
+        coroutineProfile = CoroutineScope(Dispatchers.Main)
 //        initObserver()
         initView()
 //        initListener()
+    }
+
+    fun showGameStartDialog(){
+        gameFragmentViewModel.gameStartDialog.show(childFragmentManager, "game start")
+        coroutineTime = CoroutineScope(Dispatchers.Main)
+        coroutineProfile = CoroutineScope(Dispatchers.Main)
+    }
+
+    fun gameStart(){
+        initObserver()
+        init()
+        initListener()
     }
 
 

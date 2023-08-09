@@ -17,4 +17,9 @@ object BitmapCanvasObject {
     var bitmap: Bitmap? = null
     var bitmapCanvas: Canvas? = null
 
+    fun clearAllDrawingPoints(){
+        points.clear()
+        erasedPoints.clear()
+        clearedPoints.clear()
+    }
 }

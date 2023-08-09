@@ -41,6 +41,7 @@
     <string name="text_checking_desc">잠시만 기다려 주세요!</string>
     <string name="text_draw_with_this_photo">이 사진으로 그린 그림들</string>
     <string name="title_photo_detail">사진</string>
+    <string name="no_drawing">아직 그림이 없어요!ㅠ</string>
 
     <!--mypage-->
     <string name="title_mypage">마이페이지</string>
@@ -66,13 +67,15 @@
     <!--game-->
     <string name="title_game">게임</string>
     <string name="header_quiz">Q.</string>
-    <string name="success_game">Success!</string>
-    <string name="fail_game">Fail!</string>
+    <string name="success_game">성공!</string>
+    <string name="fail_game">실패!</string>
     <string name="go_home">홈으로 가기</string>
     <string name="re_game">다시 하기</string>
     <string name="drawing_title">그림에 제목을 지어주세요!</string>
     <string name="drawing_description">그림에 대해 설명해주세요!</string>
     <string name="title_save_drawing">그림 저장하기</string>
+    <string name="game_info">제한 시간 내에 퀴즈를 풀어 나의 물방울을 지켜보아요!</string>
+    <string name="game_start">게임 시작!</string>
 
     <!--store-->
     <string name="title_store">상점</string>
@@ -117,6 +120,12 @@
     <string name="desc_check_logout">구름들은 회원님이 필요해요!</string>
     <string name="not_logout">취소하기</string>
     <string name="logout_yes">로그아웃 하기</string>
+    <string name="photo_choose">이걸로 할래요!</string>
+    <string name="nft_fail">게임을 통해 도장을 모아 발급해주세요!</string>
+    <string name="nft_success">NFT가 발급 완료되었어요!</string>
+    <string name="report_message">신고가 완료되었습니다.</string>
 
+    <!--이용약관-->
+    <string name="terms_second_creation">다른 사용자들이\n사진을 수정, 변형, 조합하여\n새로운 작품을\n만들 수 있습니다.</string>
 
 </resources>

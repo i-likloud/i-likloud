@@ -27,7 +27,7 @@
 
     <ImageView
         android:id="@+id/image_camera"
-        android:src="@drawable/button_camera"
+        android:src="@drawable/ic_logout_sad"
         android:layout_width="@dimen/_100sdp"
         android:layout_height="@dimen/_100sdp"
         app:layout_constraintEnd_toEndOf="parent"

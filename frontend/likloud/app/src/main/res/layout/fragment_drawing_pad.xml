@@ -91,13 +91,13 @@
 
         <ImageView
             android:id="@+id/image_eraser"
-            android:layout_width="@dimen/_60sdp"
+            android:layout_width="@dimen/_50sdp"
             android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_weight="1.8"
             android:src="@drawable/eraser" />
 
         <LinearLayout
-
+            android:layout_marginStart="@dimen/_5sdp"
             android:layout_width="@dimen/_90sdp"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/_3sdp"
@@ -195,24 +195,38 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <com.ssafy.likloud.util.CustomButton
-        android:id="@+id/button_save_drawing"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:elevation="1dp"
-        android:translationZ="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-
     <LinearLayout
+        android:layout_marginTop="@dimen/_10sdp"
+        android:id="@+id/button_save_drawing"
+        android:layout_width="@dimen/_100sdp"
+        app:layout_constraintWidth_percent="0.45"
+        android:layout_height="@dimen/_28sdp"
+        android:layout_gravity="right"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@drawable/frame_button_green_mild"
+        android:elevation="@dimen/_2sdp"
+        android:gravity="center"
+        android:layout_marginEnd="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+
+        <TextView
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/move_to_save" />
+
+    </LinearLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_pen_eraser_width"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_110sdp"
         android:layout_marginStart="@dimen/_15sdp"
-        android:background="@drawable/frame_rounded_border_radius50gray03"
+        android:background="@drawable/frame_button_yellow_mild_200"
         android:orientation="vertical"
         android:padding="@dimen/_20sdp"
         android:translationZ="2dp"
@@ -221,8 +235,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.card.MaterialCardView
+            app:layout_constraintTop_toTopOf="parent"
             app:cardCornerRadius="@dimen/_100sdp"
             android:id="@+id/dot_pensize"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:layout_gravity="center_horizontal"
             android:layout_width="@dimen/_10sdp"
             android:layout_height="@dimen/_10sdp"
@@ -230,26 +247,67 @@
             app:strokeWidth="@dimen/_1sdp"
             app:cardBackgroundColor="@color/black" />
 
-        <com.google.android.material.slider.Slider
-            android:id="@+id/seekbar_pen"
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_10sdp"
-            android:valueFrom="0.0"
-            app:thumbColor="@color/white"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:valueTo="100.0" />
+        <LinearLayout
+            android:id="@+id/layout_pen_width"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/layout_eraser_width"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-        <com.google.android.material.slider.Slider
-            android:id="@+id/seekbar_eraser"
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_10sdp"
-            android:valueFrom="0.0"
-            app:thumbColor="@color/eraser"
-            app:trackColorActive="@color/eraser"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:valueTo="100.0" />
+            <ImageView
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:src="@drawable/ic_pencil" />
 
-    </LinearLayout>
+            <com.google.android.material.slider.Slider
+                android:id="@+id/seekbar_pen"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:valueFrom="0.0"
+                android:valueTo="100.0"
+                app:thumbColor="@color/white"
+                app:trackColor="@color/gray05" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/layout_eraser_width"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:layout_width="@dimen/_15sdp"
+                android:src="@drawable/eraser"
+                android:layout_height="@dimen/_15sdp"/>
+
+
+            <com.google.android.material.slider.Slider
+                android:layout_marginStart="@dimen/_10sdp"
+                android:id="@+id/seekbar_eraser"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_10sdp"
+                android:valueFrom="0.0"
+                app:trackColor="@color/gray05"
+                app:thumbColor="@color/eraser"
+                app:trackColorActive="@color/eraser"
+                android:valueTo="100.0" />
+
+        </LinearLayout>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

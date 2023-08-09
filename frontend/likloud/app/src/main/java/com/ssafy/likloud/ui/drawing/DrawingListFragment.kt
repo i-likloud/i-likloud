@@ -246,7 +246,8 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
                             drawingListFragmentViewModel.registNft(drawing.drawingId)
                         }else{
                             //여기서 silverCoin 부족하다고 뜸
-                            Toast.makeText(mainActivity,"silverCoin 확인 바람", Toast.LENGTH_SHORT).show()
+                            showSnackbar(binding.root, "fail",getString(R.string.nft_fail))
+                            //Toast.makeText(mainActivity,"silverCoin 확인 바람", Toast.LENGTH_SHORT).show()
                         }
                     }
 

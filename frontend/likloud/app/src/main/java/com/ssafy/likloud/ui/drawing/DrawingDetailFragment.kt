@@ -134,26 +134,29 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
 
         activityViewModel.isWallet.observe(viewLifecycleOwner){
             if(it){
-                Toast.makeText(mainActivity, "지급 발급 완료! 이제 맘껏 하시오", Toast.LENGTH_SHORT).show()
-                Log.d(TAG, "지갑 발급 완료!")
+//                Toast.makeText(mainActivity, "지급 발급 완료!  맘껏이제 하시오", Toast.LENGTH_SHORT).show()
+//                Log.d(TAG, "지갑 발급 완료!")
                 if(activityViewModel.memberInfo.value!!.silverCoin>=5) {
                     drawingDetailFragmentViewModel.registNft(args.drawingId)
                 }else{
                     //여기서 siverCoin 부족 메시지
-                    Toast.makeText(mainActivity,"silverCoin 확인 바람", Toast.LENGTH_SHORT).show()
+                    showSnackbar(binding.root, "fail",getString(R.string.nft_fail))
+//                    Toast.makeText(mainActivity,"silverCoin 확인 바람", Toast.LENGTH_SHORT).show()
                 }
             }
         }
 
         drawingDetailFragmentViewModel.isSuccess.observe(viewLifecycleOwner){
-            Toast.makeText(mainActivity, "nft 발급 완료", Toast.LENGTH_SHORT).show()
-            Log.d(TAG, "nft 발급 완료")
+//            Toast.makeText(mainActivity, "nft 발급 완료", Toast.LENGTH_SHORT).show()
+//            Log.d(TAG, "nft 발급 완료")
+            showSnackbar(binding.root, "movetonft",getString(R.string.nft_success))
             //seekbar를 통해 확인하러 가기 만들면 좋을듯
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             drawingDetailFragmentViewModel.isReported.collectLatest {
-                Toast.makeText(mainActivity, "신고 완료", Toast.LENGTH_SHORT).show()
+                showSnackbar(binding.root, "info" , getString(R.string.report_message))
+//                Toast.makeText(mainActivity, "신고 완료", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -200,8 +203,9 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
                             drawingDetailFragmentViewModel.registNft(args.drawingId)
                         } else {
                             //여기서 siverCoin 부족 메시지
-                            Toast.makeText(mainActivity, "silverCoin 확인 바람", Toast.LENGTH_SHORT)
-                                .show()
+                            showSnackbar(binding.root, "fail",getString(R.string.nft_fail))
+//                            Toast.makeText(mainActivity, "silverCoin 확인 바람", Toast.LENGTH_SHORT)
+//                                .show()
                         }
                     }
                 }else{

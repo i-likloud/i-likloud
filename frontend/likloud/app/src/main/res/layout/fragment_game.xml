@@ -101,12 +101,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
 
+            <ImageView
+                android:id="@+id/image_mountain"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintHeight_percent="0.7"
+                android:scaleType="fitXY"
+                android:src="@drawable/image_game_background_mountain"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
             <FrameLayout
                 android:id="@+id/layout_image_profile"
                 android:layout_width="@dimen/_114sdp"
                 android:layout_height="@dimen/_114sdp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginEnd="@dimen/_50sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent">
 
@@ -132,7 +142,7 @@
                 android:layout_height="@dimen/_80sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:lottie_fileName="lottie_animation_sun.json"
+                app:lottie_fileName="lottie_animation_sun2.json"
                 app:lottie_loop="true"
                 android:layout_margin="@dimen/_10sdp"
                 app:lottie_autoPlay="true"/>
@@ -206,6 +216,36 @@
                     android:layout_marginVertical="@dimen/_5sdp"
                     android:layout_marginStart="@dimen/_5sdp"/>
 
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/lottie_left_correct"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintWidth_percent="0.45"
+                    app:layout_constraintHeight_percent="0.45"
+                    app:lottie_fileName="lottie_animation_correct.json"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:visibility="invisible"/>
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/lottie_left_incorrect"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintWidth_percent="0.45"
+                    app:layout_constraintHeight_percent="0.45"
+                    app:lottie_fileName="lottie_animation_incorrect.json"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:visibility="invisible"/>
+
                 <TextView
                     android:id="@+id/text_answer_right"
                     android:layout_width="0dp"
@@ -220,6 +260,36 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginVertical="@dimen/_5sdp"
                     android:layout_marginStart="@dimen/_5sdp"/>
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/lottie_right_correct"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintWidth_percent="0.45"
+                    app:layout_constraintHeight_percent="0.45"
+                    app:lottie_fileName="lottie_animation_correct.json"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:visibility="invisible"/>
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/lottie_right_incorrect"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintWidth_percent="0.45"
+                    app:layout_constraintHeight_percent="0.45"
+                    app:lottie_fileName="lottie_animation_incorrect.json"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:visibility="invisible"/>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

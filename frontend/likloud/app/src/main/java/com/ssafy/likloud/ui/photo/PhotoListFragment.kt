@@ -26,6 +26,7 @@ import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.databinding.FragmentPhotoListBinding
+import com.ssafy.likloud.ui.drawingpad.BitmapCanvasObject
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -111,6 +112,12 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
             buttonBack.setOnClickListener {
                 findNavController().popBackStack()
             }
+
+            buttonPaint.setOnClickListener {
+                findNavController().navigate(R.id.action_photoListFragment_to_drawingPadFragment)
+                BitmapCanvasObject.clearAllDrawingPoints()
+            }
+
         }
         // 안드로이드 뒤로가기 버튼 눌렀을 때
         mainActivity.onBackPressedDispatcher.addCallback(
@@ -138,6 +145,8 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
             photoListFragmentViewModel.getCurrentPhotoDrawingList(it.photoId)
             photoListFragmentViewModel.setIsBookmarked()
             photoListFragmentViewModel.setBookmarkCount()
+            activityViewModel.setUploadingPhotoUrl(it.photoUrl)
+            activityViewModel.setUploadingPhotoId(it.photoId)
         }
 
         photoListFragmentViewModel.currentPhotoMember.observe(viewLifecycleOwner){
@@ -149,6 +158,17 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
         photoListFragmentViewModel.currentPhotoDrawingList.observe(viewLifecycleOwner){
             //현재 사진에 대한 그림들 리사이클러뷰 세팅
             photoDrawingListAdapter.submitList(it)
+            if(it.size==0){
+                binding.apply {
+                    imageNoDrawing.visibility = View.VISIBLE
+                    textNoDrawing.visibility = View.VISIBLE
+                }
+            }else{
+                binding.apply {
+                    imageNoDrawing.visibility = View.INVISIBLE
+                    textNoDrawing.visibility = View.INVISIBLE
+                }
+            }
         }
 
         photoListFragmentViewModel.isBookmarked.observe(viewLifecycleOwner){
