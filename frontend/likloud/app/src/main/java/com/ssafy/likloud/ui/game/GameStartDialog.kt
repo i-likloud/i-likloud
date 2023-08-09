@@ -43,4 +43,10 @@ class GameStartDialog (
         super.onViewCreated(view, savedInstanceState)
         initListener()
     }
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        isCancelable = false
+    }
 }

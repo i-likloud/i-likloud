@@ -36,4 +36,8 @@ class SuccessGameDialog(
     }
 
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        isCancelable = false
+    }
 }
