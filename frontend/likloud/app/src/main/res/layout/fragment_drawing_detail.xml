@@ -206,7 +206,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_7sdp"
                 android:text="00"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
                 app:layout_constraintTop_toTopOf="@id/image_heart"
                 app:layout_constraintBottom_toBottomOf="@id/image_heart"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -228,7 +227,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:text="00"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
                 app:layout_constraintTop_toTopOf="@id/image_heart"
                 app:layout_constraintBottom_toBottomOf="@id/image_heart"
                 app:layout_constraintEnd_toStartOf="@id/image_heart"/>
