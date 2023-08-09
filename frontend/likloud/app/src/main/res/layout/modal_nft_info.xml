@@ -34,9 +34,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_alert_title"
         android:gravity="center"
-        android:background="@drawable/frame_rounded_border_black_radius50"
+        android:background="@drawable/frame_rounded_border_ivory_raduius50"
         android:layout_marginTop="@dimen/_5sdp"
-        android:padding="@dimen/_8sdp" />
+        android:padding="@dimen/_8sdp"
+        android:elevation="@dimen/_2sdp"/>
 
 <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
 <!--        android:layout_width="match_parent"-->

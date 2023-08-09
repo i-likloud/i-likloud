@@ -117,7 +117,8 @@
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.35" />
+            app:layout_constraintWidth_percent="0.35"
+            android:elevation="@dimen/_2sdp"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_reject_gift"
@@ -132,7 +133,8 @@
             app:layout_constraintStart_toEndOf="@+id/button_accept_gift"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.35"
-            android:layout_marginStart="@dimen/_20sdp"/>
+            android:layout_marginStart="@dimen/_20sdp"
+            android:elevation="@dimen/_2sdp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

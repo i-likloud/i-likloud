@@ -70,7 +70,7 @@
             style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@drawable/button_frame_skyblue"
+            android:background="@drawable/frame_button_yellow_mild_200"
             android:text="@string/game_start"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/button_cancel"
@@ -78,21 +78,24 @@
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.45" />
+            app:layout_constraintWidth_percent="0.45"
+            android:elevation="@dimen/_2sdp"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_cancel"
             style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@drawable/button_frame_skyblue"
+            android:background="@drawable/frame_button_grey_mild"
             android:text="@string/button_cancel"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@id/button_report"
+            app:layout_constraintStart_toEndOf="@id/button_game_start"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.45" />
+            app:layout_constraintWidth_percent="0.45"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:elevation="@dimen/_2sdp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
