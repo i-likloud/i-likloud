@@ -70,7 +70,7 @@ class GameFragmentViewModel @Inject constructor(
 
     ///////////////////////////// 문제 랜덤 리스트 /////////////////////////////////
 //    var randomQuestionIdxList = List(30) { Random.nextInt(30) }
-    var randomQuestionIdxList = (0 until 30).shuffled().subList(0,30)
+    var randomQuestionIdxList = (0 until 31).shuffled().subList(0,31)
 //    val randomQuestionIdxList: LiveData<List<Int>>
 //        get() = _randomQuestionIdxList
 
@@ -78,8 +78,8 @@ class GameFragmentViewModel @Inject constructor(
     val currentQuestionIdx: LiveData<Int>
         get() = _currentQuestionIdx
     fun increaseCurrentQuestionIdx(){
-        if(_currentQuestionIdx.value == 28){
-            randomQuestionIdxList = (0 until 30).shuffled().subList(0,30)
+        if(_currentQuestionIdx.value == 30){
+            randomQuestionIdxList = (0 until 31).shuffled().subList(0,31)
             _currentQuestionIdx.value = 0
         }else {
             _currentQuestionIdx.value = _currentQuestionIdx.value!! + 1
@@ -97,8 +97,8 @@ class GameFragmentViewModel @Inject constructor(
     fun checkAnswer(pick: String){
         direction = QuestionLIist.questionList[randomQuestionIdxList[currentQuestionIdx.value!!]].direction
         if(QuestionLIist.questionList[randomQuestionIdxList[currentQuestionIdx.value!!]].answer == pick){
-            increaseFrameWidth(20)
-            increaseFrameHeight(20)
+            increaseFrameWidth(40)
+            increaseFrameHeight(40)
             _isCorrected.value = true
         }else{
             decreaseFrameWidth(20)

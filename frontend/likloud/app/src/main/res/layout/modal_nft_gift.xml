@@ -13,14 +13,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-<!--    <TextView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="@dimen/_200sdp"-->
-<!--        android:text="dfdfdfdfdfd"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"/>-->
-
     <TextView
         android:id="@+id/text_alert_title"
         style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
@@ -61,7 +53,7 @@
             style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@drawable/button_frame_skyblue"
+            android:background="@drawable/frame_button_yellow_mild_200"
             android:text="@string/gift"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_cancel_gift"
@@ -69,21 +61,24 @@
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.45" />
+            app:layout_constraintWidth_percent="0.45"
+            android:elevation="@dimen/_2sdp"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_cancel_gift"
             style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@drawable/button_frame_skyblue"
+            android:background="@drawable/frame_button_grey_mild"
             android:text="@string/cancel_gift"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/button_confirm_gift"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.45" />
+            app:layout_constraintWidth_percent="0.45"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:elevation="@dimen/_2sdp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
