@@ -266,6 +266,16 @@
             app:popExitAnim="@anim/fade_out"
             app:destination="@id/nftListFragment" />
 
+
+        <action
+            android:id="@+id/action_drawingDetailFragment_to_homeFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpToInclusive="true"
+            app:destination="@id/homeFragment" />
+
     </fragment>
 
     <fragment

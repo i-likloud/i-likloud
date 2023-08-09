@@ -27,23 +27,19 @@ import com.ssafy.likloud.data.model.response.MemberInfoResponse
 import com.ssafy.likloud.databinding.FragmentNftGiftSearchUserBinding
 import com.ssafy.likloud.databinding.FragmentNftListBinding
 import com.ssafy.likloud.ui.drawing.DrawingDetailFragmentArgs
+import com.ssafy.likloud.util.initEditText
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "차선호"
+
 @AndroidEntryPoint
 class NftGiftSearchUserFragment(var nftId: Int) : BaseFragment<FragmentNftGiftSearchUserBinding>(
-    FragmentNftGiftSearchUserBinding::bind, R.layout.fragment_nft_gift_search_user) {
+    FragmentNftGiftSearchUserBinding::bind, R.layout.fragment_nft_gift_search_user
+) {
 
-    private val nftGiftSearchUserFragmentViewModel : NftGiftSearchUserFragmentViewModel by viewModels()
+    private val nftGiftSearchUserFragmentViewModel: NftGiftSearchUserFragmentViewModel by viewModels()
     private val activityViewModel: MainActivityViewModel by activityViewModels()
-    private lateinit var mainActivity: MainActivity
     private lateinit var nftGiftSearchUserAdapter: NftGiftSearchUserAdapter
-
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mainActivity = context as MainActivity
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,17 +58,28 @@ class NftGiftSearchUserFragment(var nftId: Int) : BaseFragment<FragmentNftGiftSe
 
     }
 
-    private fun init(){
+    private fun init() {
         initNftGiftSearchUserRecyclerView()
     }
 
     override fun initListener() {
+
+        initEditText(
+            binding.edittextSearchUser,
+            null,
+            binding.layoutNftGiftSearchUserFragment,
+            mActivity,
+            null
+        )
+
         binding.apply {
-            edittextSearchUser.addTextChangedListener(object: TextWatcher{
+            edittextSearchUser.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 }
+
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 }
+
                 override fun afterTextChanged(p0: Editable?) {
                     nftGiftSearchUserFragmentViewModel.getCurrentSearchUserList(p0.toString())
                 }
@@ -81,32 +88,39 @@ class NftGiftSearchUserFragment(var nftId: Int) : BaseFragment<FragmentNftGiftSe
         }
     }
 
-    private fun initObserver(){
-        nftGiftSearchUserFragmentViewModel.currentSearchUserList.observe(viewLifecycleOwner){
+    private fun initObserver() {
+        nftGiftSearchUserFragmentViewModel.currentSearchUserList.observe(viewLifecycleOwner) {
             nftGiftSearchUserAdapter.submitList(it)
         }
     }
 
-    private fun initNftGiftSearchUserRecyclerView(){
+    private fun initNftGiftSearchUserRecyclerView() {
         nftGiftSearchUserAdapter = NftGiftSearchUserAdapter(activityViewModel)
         binding.recyclerviewSearchUser.apply {
             this.adapter = nftGiftSearchUserAdapter.apply {
-                itemClickListner = object: NftGiftSearchUserAdapter.ItemClickListener{
+                itemClickListner = object : NftGiftSearchUserAdapter.ItemClickListener {
                     override fun onClick(memberInfo: MemberInfoResponse) {
                         //여기서 해당 멤버로 nft를 선물 (args.nftId가 nftId)
                         Log.d(TAG, "onClick.....")
                         nftGiftSearchUserFragmentViewModel.setMemberInfo(memberInfo)
-                        nftGiftSearchUserFragmentViewModel.nftGiftDialog.show(childFragmentManager, "input message")
+                        nftGiftSearchUserFragmentViewModel.nftGiftDialog.show(
+                            childFragmentManager,
+                            "input message"
+                        )
                     }
 
                 }
             }
-            layoutManager = LinearLayoutManager(mainActivity, LinearLayoutManager.VERTICAL, false)
+            layoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false)
         }
     }
 
-    fun sendGift(message: String){
-        activityViewModel.sendGift(nftId, nftGiftSearchUserFragmentViewModel.toMemberInfo.memberId, message)
+    fun sendGift(message: String) {
+        activityViewModel.sendGift(
+            nftId,
+            nftGiftSearchUserFragmentViewModel.toMemberInfo.memberId,
+            message
+        )
     }
 
 

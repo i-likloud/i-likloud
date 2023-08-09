@@ -36,17 +36,11 @@ private const val TAG = "차선호"
 class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoListBinding::bind, R.layout.fragment_photo_list) {
 
     private val photoListFragmentViewModel: PhotoListFragmentViewModel by viewModels()
-    private lateinit var mainActivity: MainActivity
     private val activityViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var photoListAdapter: PhotoListAdapter
     private lateinit var photoDrawingListAdapter: PhotoDrawingListAdapter
     private var isScrolling = false
 
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mainActivity = context as MainActivity
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -120,7 +114,7 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
 
         }
         // 안드로이드 뒤로가기 버튼 눌렀을 때
-        mainActivity.onBackPressedDispatcher.addCallback(
+        mActivity.onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
@@ -231,18 +225,18 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
 
     private fun toggleButton(view: View){
         binding.apply {
-            buttonRecentOrder.background = ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_grey_mild)
-            buttonRankingOrder.background = ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_grey_mild)
-            buttonBookmarkOrder.background = ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_grey_mild)
+            buttonRecentOrder.background = ContextCompat.getDrawable(mActivity, R.drawable.frame_button_grey_mild)
+            buttonRankingOrder.background = ContextCompat.getDrawable(mActivity, R.drawable.frame_button_grey_mild)
+            buttonBookmarkOrder.background = ContextCompat.getDrawable(mActivity, R.drawable.frame_button_grey_mild)
         }
-        view.background = ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_yellow_mild_200)
+        view.background = ContextCompat.getDrawable(mActivity, R.drawable.frame_button_yellow_mild_200)
     }
 
     private fun initPhotoDrawingListRecyclerView(){
         photoDrawingListAdapter = PhotoDrawingListAdapter()
         binding.apply {
             recyclerviewPhotoDrawingList.apply {
-                layoutManager = LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false)
+                layoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false)
                 this.adapter = photoDrawingListAdapter.apply {
                     this.itemClickListener = object: PhotoDrawingListAdapter.ItemClickListener{
                         override fun onClick(view: View, drawing: DrawingListDto) {

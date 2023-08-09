@@ -60,7 +60,6 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
     FragmentDrawingPadBinding::bind,
     R.layout.fragment_drawing_pad
 ) {
-    private lateinit var mActivity: MainActivity
     private lateinit var colorMap: Map<ImageView, Int>
     private lateinit var undoRedoMap: Map<ImageView, Boolean>
     private var imageViewHeight = 0
@@ -74,9 +73,78 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
     private val originalWeight = 1.0f
     private lateinit var layoutListener: OnGlobalLayoutListener
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mActivity = context as MainActivity
+
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        mActivity.changeProfileLayoutInvisible()
+
+        colorMap = mapOf(
+            binding.imageBlackPencil to Color.BLACK,
+            binding.imageBluePencil to Color.parseColor("#009DFA"),
+            binding.imageGreenPencil to Color.parseColor("#33BF00"),
+            binding.imageYellowPencil to Color.parseColor("#FFE92B"),
+            binding.imageNavyPencil to Color.parseColor("#004CBD"),
+            binding.imageYellowPencil to Color.parseColor("#FFBC16"),
+            binding.imagePurplePencil to Color.parseColor("#A023FF"),
+            binding.imageOrangePencil to Color.parseColor("#FF8A12"),
+            binding.imageWhitePencil to Color.WHITE,
+            binding.imageRedPencil to Color.parseColor("#F54800"),
+            binding.imageEraser to Color.TRANSPARENT
+        )
+
+        undoRedoMap = mapOf(
+            binding.buttonUndo to true,
+            binding.buttonRedo to false
+        )
+
+        initView()
+        loadImage()
+        initListener()
+
+    }
+
+    private fun initView() {
+
+        binding.seekbarEraser.trackActiveTintList = ColorStateList.valueOf(resources.getColor(R.color.eraser))
+        // 초기 펜 스타일 현재 글자 크기로 지정
+        setDotAndButtonView()
+        val layoutParams = binding.dotPensize.layoutParams as ConstraintLayout.LayoutParams
+        layoutParams.height = (selectedStrokeWidth *0.15) .toInt()  * applicationContext.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._1sdp) + 1
+
+        
+        layoutParams.width = (selectedStrokeWidth  *0.15) .toInt()  * applicationContext.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._1sdp) + 1
+        binding.dotPensize.layoutParams = layoutParams
+        binding.dotPensize.requestLayout()
+
+        // 검정색 펜만 초기에 크기 키움
+        colorMap.entries.forEach { otherEntry ->
+            val view = otherEntry.key
+            val layoutParams = view.layoutParams as LinearLayout.LayoutParams
+
+            if (otherEntry.value == selectedColor) {
+                layoutParams.width = largerWidth
+                layoutParams.weight = largerWeight
+            } else {
+                layoutParams.width = originalWidth
+                layoutParams.weight = originalWeight
+            }
+            view.layoutParams = layoutParams
+
+            view.requestLayout()
+
+        }
+
+        // 지우개인 경우 투명색 지정 및 지워지는 기능 추가
+        paint.xfermode = if (selectedColor == Color.TRANSPARENT) {
+            PorterDuffXfermode(PorterDuff.Mode.CLEAR)
+        } else null
+
+        // 펜 스타일 버튼 초기에 숨기기
+        makeButtonAnimationXWithDuration(binding.layoutPenEraserWidth, DRAWING_STYLE_PAD_LEFT, 0)
+        makeButtonAnimationXWithDuration(binding.cardviewCanvas, CANVAS_RIGHT, 0)
     }
 
     override fun initListener() {
@@ -148,7 +216,9 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
             addOnChangeListener(Slider.OnChangeListener { slider, value, fromUser ->
                 selectedStrokeWidth = value
                 val layoutParams = binding.dotPensize.layoutParams as ConstraintLayout.LayoutParams
-                layoutParams.height = value.toInt()
+                layoutParams.width = (value*0.15) .toInt()  * applicationContext.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._1sdp) + 1
+                layoutParams.height = (value*0.15).toInt() * applicationContext.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._1sdp) + 1
+                Log.d(TAG, "initView: ${layoutParams.height}")
                 binding.dotPensize.layoutParams = layoutParams
                 binding.dotPensize.requestLayout()
             })
@@ -239,74 +309,6 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
         makeButtonAnimationX(binding.layoutPenEraserWidth, 0f)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        mActivity.changeProfileLayoutInvisible()
-
-        colorMap = mapOf(
-            binding.imageBlackPencil to Color.BLACK,
-            binding.imageBluePencil to Color.parseColor("#009DFA"),
-            binding.imageGreenPencil to Color.parseColor("#33BF00"),
-            binding.imageYellowPencil to Color.parseColor("#FFE92B"),
-            binding.imageNavyPencil to Color.parseColor("#004CBD"),
-            binding.imageYellowPencil to Color.parseColor("#FFBC16"),
-            binding.imagePurplePencil to Color.parseColor("#A023FF"),
-            binding.imageOrangePencil to Color.parseColor("#FF8A12"),
-            binding.imageWhitePencil to Color.WHITE,
-            binding.imageRedPencil to Color.parseColor("#F54800"),
-            binding.imageEraser to Color.TRANSPARENT
-        )
-
-        undoRedoMap = mapOf(
-            binding.buttonUndo to true,
-            binding.buttonRedo to false
-        )
-
-        initView()
-        loadImage()
-        initListener()
-
-    }
-
-    private fun initView() {
-
-        // 초기 펜 스타일 현재 글자 크기로 지정
-        setDotAndButtonView()
-        val newWidth = selectedStrokeWidth.toInt()
-        val layoutParams = binding.dotPensize.layoutParams as ConstraintLayout.LayoutParams
-        layoutParams.height = newWidth
-        binding.dotPensize.layoutParams = layoutParams
-        binding.dotPensize.requestLayout()
-
-        // 검정색 펜만 초기에 크기 키움
-        colorMap.entries.forEach { otherEntry ->
-            val view = otherEntry.key
-            val layoutParams = view.layoutParams as LinearLayout.LayoutParams
-
-            if (otherEntry.value == selectedColor) {
-                layoutParams.width = largerWidth
-                layoutParams.weight = largerWeight
-            } else {
-                layoutParams.width = originalWidth
-                layoutParams.weight = originalWeight
-            }
-            view.layoutParams = layoutParams
-
-            view.requestLayout()
-
-        }
-
-        // 지우개인 경우 투명색 지정 및 지워지는 기능 추가
-        paint.xfermode = if (selectedColor == Color.TRANSPARENT) {
-            PorterDuffXfermode(PorterDuff.Mode.CLEAR)
-        } else null
-
-        // 펜 스타일 버튼 초기에 숨기기
-        makeButtonAnimationXWithDuration(binding.layoutPenEraserWidth, DRAWING_STYLE_PAD_LEFT, 0)
-        makeButtonAnimationXWithDuration(binding.cardviewCanvas, CANVAS_RIGHT, 0)
-    }
-
     /**
      * 선택한 색으로 펜스타일 지정 패드의 뷰를 설정합니다.
      */
@@ -314,9 +316,9 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
 //        binding.buttonSaveDrawing.setText(getString(R.string.move_to_save))
         binding.seekbarPen.trackActiveTintList = ColorStateList.valueOf(selectedColor)
         binding.dotPensize.setCardBackgroundColor(selectedColor)
+        binding.seekbarPen.tickTintList = ColorStateList.valueOf(selectedColor)
         binding.seekbarPen.trackActiveTintList = ColorStateList.valueOf(selectedColor)
         binding.seekbarPen.thumbTintList = ColorStateList.valueOf(selectedColor)
-        binding.seekbarPen.trackActiveTintList = ColorStateList.valueOf(selectedColor)
     }
 
     /**
@@ -399,7 +401,7 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
     /**
      * canvas 뷰를 bitmap 객체로 변환합니다.
      */
-    fun viewToBitmap(view: View): Bitmap {
+    private fun viewToBitmap(view: View): Bitmap {
         val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         view.draw(canvas)

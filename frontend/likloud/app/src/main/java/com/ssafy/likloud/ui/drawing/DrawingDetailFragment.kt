@@ -1,6 +1,7 @@
 package com.ssafy.likloud.ui.drawing
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -17,7 +18,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ssafy.likloud.ApplicationClass
 import com.ssafy.likloud.ApplicationClass.Companion.USER_EMAIL
@@ -29,6 +29,8 @@ import com.ssafy.likloud.data.model.CommentDto
 import com.ssafy.likloud.data.model.DrawingDetailDto
 import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.databinding.FragmentDrawingDetailBinding
+import com.ssafy.likloud.util.hideKeyboard
+import com.ssafy.likloud.util.initEditText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -168,7 +170,17 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun initListener() {
+
+        initEditText(
+            binding.edittextDrawingComment,
+            null,
+            binding.layoutDrawingDetailFragment,
+            mActivity,
+            null
+        )
+
         binding.apply {
             buttonBack.setOnClickListener {
                 findNavController().popBackStack()
@@ -226,6 +238,8 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
                 }
             }
         )
+
+
     }
 
     private fun initInfoView(drawingDetail: DrawingDetailDto,member: MemberProfileDto){
