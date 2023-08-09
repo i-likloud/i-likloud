@@ -16,6 +16,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
@@ -139,7 +140,7 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
                 itemClickListner = object: NftListAdapter.ItemClickListener{
                     override fun onClick(nftDto: NftListDto) {
                         //선물하기 로직
-                        Toast.makeText(mainActivity, "선물하기 클릭...", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(mainActivity, "선물하기 클릭...", Toast.LENGTH_SHORT).show()
 //                        val action = NftListFragmentDirections.actionNftListFragmentToNftGiftSearchUserFragment(nftDto.nftId)
 //                        findNavController().navigate(action)
                         startSearchUserFragment(nftDto)
@@ -147,7 +148,7 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
 
                 }
             }
-            layoutManager = GridLayoutManager(mainActivity,3)
+            layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         }
     }
 
@@ -164,7 +165,7 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
 
                 }
             }
-            layoutManager = GridLayoutManager(mainActivity,3)
+            layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         }
     }
 

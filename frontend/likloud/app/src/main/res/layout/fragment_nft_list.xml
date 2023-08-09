@@ -48,18 +48,20 @@
         android:id="@+id/layout_nft"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.85"
+        app:layout_constraintHeight_percent="0.9"
         app:layout_constraintTop_toBottomOf="@id/layout_appbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="@dimen/_10sdp">
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginHorizontal="@dimen/_10sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_button"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.1"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/_2sdp"
+            android:paddingStart="@dimen/_14sdp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -67,7 +69,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_my_nft"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_20sdp"
                 app:layout_constraintWidth_percent="0.15"
                 android:background="@drawable/frame_button_yellow_mild_200"
                 android:text="@string/my_nft"
@@ -78,7 +80,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_gift_nft"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_20sdp"
                 app:layout_constraintWidth_percent="0.15"
                 android:background="@drawable/frame_button_grey_mild"
                 android:text="@string/gift_nft"
@@ -99,28 +101,19 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_nft"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.9"
-            app:layout_constraintTop_toBottomOf="@id/layout_button"
-            app:layout_constraintStart_toStartOf="parent"
+            android:padding="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:elevation="@dimen/_4sdp"
+            android:background="@drawable/frame_rounded_border_radius50_none_bottom"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="@drawable/frame_rounded_border_black_radius50">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview_nft"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintWidth_percent="0.9"
-                app:layout_constraintHeight_percent="0.9"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_button"
+            app:layout_constraintWidth_percent="0.97" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -144,8 +137,8 @@
             android:src="@drawable/button_dismiss_right"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginStart="@dimen/_5sdp"/>
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"/>
 
 
         <FrameLayout
@@ -157,7 +150,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/button_dismiss_fragment"
-            android:layout_margin="@dimen/_5sdp"/>
+            android:layout_margin="@dimen/_5sdp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

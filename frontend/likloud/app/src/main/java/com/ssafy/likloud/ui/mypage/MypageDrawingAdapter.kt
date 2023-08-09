@@ -1,5 +1,6 @@
 package com.ssafy.likloud.ui.mypage
 
+import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.ssafy.likloud.R
 import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.databinding.ItemMypageDrawingBinding
@@ -35,7 +39,11 @@ class MypageDrawingAdapter  (var list : MutableList<DrawingListDto>): ListAdapte
         fun bindInfo(drawing : DrawingListDto){
             Glide.with(imageDrawing)
                 .load(drawing.imageUrl)
+                .placeholder(R.drawable.button_camera)
                 .into(imageDrawing)
+
+//            imageDrawing.layoutParams = ViewGroup.LayoutParams(imageDrawing.width, imageDrawing.height)
+
             Log.d(TAG, "nft유무 : ${drawing.nftYn}")
             if(drawing.nftYn){
                 imageNftMedal.visibility = View.VISIBLE

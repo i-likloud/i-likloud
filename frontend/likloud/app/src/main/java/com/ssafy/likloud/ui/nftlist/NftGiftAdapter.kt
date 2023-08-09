@@ -3,15 +3,22 @@ package com.ssafy.likloud.ui.nftlist
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.core.animation.doOnEnd
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+import com.ssafy.likloud.R
 import com.ssafy.likloud.data.model.NftGiftDto
 import com.ssafy.likloud.data.model.NftListDto
 import com.ssafy.likloud.databinding.ItemNftBinding
@@ -43,12 +50,42 @@ class NftGiftAdapter (var context: Context): ListAdapter<NftGiftDto, NftGiftAdap
         val textTitle = binding.textNftTitle
         val textContent = binding.textNftContent
         val buttonGiftConfirm = binding.buttonGiftConfirm
+        val layoutBackFrame = binding.layoutBackFrame
 
         fun bindInfo(nftGiftDto : NftGiftDto){
-
             Glide.with(imageNft)
                 .load(nftGiftDto.imageUrl)
+                .placeholder(R.drawable.button_game)
+                .addListener(object : RequestListener<Drawable?> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable?>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        return false
+                    }
+
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable?>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        if (resource != null) {
+//                            val width = resource.intrinsicWidth
+                            val height = resource.intrinsicHeight
+                            // 이미지의 크기를 이용하여 레이아웃을 조정
+//                            imageView.layoutParams.width = width
+                            layoutBackFrame.layoutParams.height = height
+                            layoutBackFrame.requestLayout()
+                        }
+                        return false
+                    }
+                })
                 .into(imageNft)
+
             textNickname.text = "이름 : ${nftGiftDto.memberInfo.nickname}"
             textTitle.text = "제목 : ${nftGiftDto.title}"
             textContent.text = " 내용 : ${nftGiftDto.content}"
@@ -62,6 +99,8 @@ class NftGiftAdapter (var context: Context): ListAdapter<NftGiftDto, NftGiftAdap
                     flip(context, layoutFront, layoutBack, layoutNft)
                 }
             }
+
+            layoutNft.animation = AnimationUtils.loadAnimation(layoutNft.context, R.anim.list_item_anim_fade_in)
 
             buttonGiftConfirm.setOnClickListener {
                 //선물 확인 버튼 NftGiftConfirmDialog 띄워라

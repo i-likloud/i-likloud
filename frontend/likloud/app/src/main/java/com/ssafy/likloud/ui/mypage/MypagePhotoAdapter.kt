@@ -31,6 +31,7 @@ class MypagePhotoAdapter (var list : MutableList<PhotoListDto>): ListAdapter<Pho
         fun bindInfo(photo : PhotoListDto){
             Glide.with(imageDrawing)
                 .load(photo.photoUrl)
+                .placeholder(R.drawable.button_painting)
                 .into(imageDrawing)
             itemView.setOnClickListener{
                 itemClickListner.onClick(it,photo)
