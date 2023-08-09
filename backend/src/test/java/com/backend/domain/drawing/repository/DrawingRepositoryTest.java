@@ -8,14 +8,13 @@ import com.backend.domain.member.constant.Role;
 import com.backend.domain.member.constant.SocialType;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.repository.MemberRepository;
+import com.backend.domain.nft.entity.Nft;
+import com.backend.domain.nft.repository.NftRepository;
 import com.backend.domain.photo.entity.Photo;
 import com.backend.domain.photo.repository.PhotoRepository;
-import org.checkerframework.checker.units.qual.A;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -39,6 +38,9 @@ class DrawingRepositoryTest extends BaseIntegrationTest {
     private CommentRepository commentRepository;
 
     @Autowired
+    private NftRepository nftRepository;
+
+    @Autowired
     private EntityManager entityManager;
 
 
@@ -56,17 +58,6 @@ class DrawingRepositoryTest extends BaseIntegrationTest {
         photo = photoRepository.save(photo);
     }
 
-    // 예외 발생하면 작동 안함
-//    @AfterEach
-//    public void tearDown() {
-//        // 테스트 데이터 제거
-//        drawingRepository.deleteAll();
-//        memberRepository.deleteAll();
-//        photoRepository.deleteAll();
-//        commentRepository.deleteAll();
-//
-//        System.out.println("deleteAll");
-//    }
 
     @Test
     @Transactional
@@ -144,10 +135,32 @@ class DrawingRepositoryTest extends BaseIntegrationTest {
             assertNull(drawing.getPhoto());
         }
     }
-//
-//    @Test
-//    void unlinkDrawingFromNft() {
-//    }
+
+    @Test
+    void unlinkDrawingFromNft() {
+        //given
+        Drawing drawing1 = new Drawing(1L, "test1", "test1", "test", "test", member, photo, null, 0, 0, false);
+
+        Drawing saveDrawing = drawingRepository.save(drawing1);
+
+        Nft nft = new Nft(1L,"test","test","test","test","test","test",member,saveDrawing,null);
+
+        Nft saveNft = nftRepository.save(nft);
+        //when
+        drawingRepository.unlinkDrawingFromNft(saveNft.getNftId());
+
+        // 변경 사항을 DB에 즉시 반영
+        entityManager.flush();
+        entityManager.clear();
+
+        List<Drawing> drawings = drawingRepository.findAll();
+        System.out.println("엔에프티: " + drawings);
+        System.out.println("엔에프티2: " + drawings.get(0).getNft());
+
+
+        //then
+        assertNull(drawings.get(0).getNft());
+    }
 
     
     // 댓글 못 가져옴
