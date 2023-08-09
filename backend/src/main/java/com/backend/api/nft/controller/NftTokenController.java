@@ -59,7 +59,7 @@ public class NftTokenController {
     public ResponseEntity<NftResponseDto> createToken(@PathVariable Long drawingId, @MemberInfo MemberInfoDto memberInfoDto){
         Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
 
-        if(member.getSilverCoin() < 1){
+        if(member.getSilverCoin() < 3){
             throw new BusinessException(ErrorCode.NOT_ENOUGH_COIN);
         }
 
@@ -67,7 +67,7 @@ public class NftTokenController {
         NftResponseDto nftResponseDto = new NftResponseDto(nft);
 
         // 은코인 감소, 금코인 증가
-        memberCoinService.minusSilverCoin(member, 1);
+        memberCoinService.minusSilverCoin(member, 3);
         memberCoinService.plusGoldCoin(member, 1);
         return ResponseEntity.ok().body(nftResponseDto);
     }
