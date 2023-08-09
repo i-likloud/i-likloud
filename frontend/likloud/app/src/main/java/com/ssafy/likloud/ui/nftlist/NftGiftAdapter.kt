@@ -56,11 +56,9 @@ class NftGiftAdapter (var context: Context): ListAdapter<NftGiftDto, NftGiftAdap
                 layoutNft.isClickable = false
                 if (layoutBack.visibility == View.INVISIBLE) {
                     layoutBack.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
-                    layoutFront.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
                     flip(context, layoutBack, layoutFront, layoutNft)
                 } else {
                     layoutBack.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
-                    layoutFront.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
                     flip(context, layoutFront, layoutBack, layoutNft)
                 }
             }

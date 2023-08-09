@@ -67,7 +67,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintWidth_percent="0.85"
-                app:layout_constraintHeight_percent="0.9"
+                app:layout_constraintHeight_percent="0.6"
                 style="?android:attr/progressBarStyleHorizontal"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -81,7 +81,6 @@
                 android:layout_height="0dp"
                 app:layout_constraintWidth_percent="0.15"
                 app:layout_constraintHeight_percent="0.9"
-                android:text="48"
                 style="@style/Theme.AppCompat.TextView.jua.dark.Size24"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/progressbar_time"
@@ -114,10 +113,11 @@
 
             <FrameLayout
                 android:id="@+id/layout_image_profile"
-                android:layout_width="@dimen/_114sdp"
-                android:layout_height="@dimen/_114sdp"
-                android:layout_marginEnd="@dimen/_50sdp"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="@dimen/_70sdp"
                 app:layout_constraintBottom_toBottomOf="parent">
 
                 <ImageView
@@ -186,7 +186,6 @@
                     android:id="@+id/text_problem_quiz"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="날씨와 관련된 우리나라의 계절은 총 몇 개인가요?"
                     style="@style/Theme.AppCompat.TextView.jua.dark.Size12"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -206,7 +205,6 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     app:layout_constraintWidth_percent="0.45"
-                    android:text="2개"
                     android:gravity="center"
                     android:background="@drawable/frame_rounded_border_black_radius50"
                     style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
@@ -250,7 +248,6 @@
                     android:id="@+id/text_answer_right"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:text="4개"
                     android:gravity="center"
                     android:background="@drawable/frame_rounded_border_black_radius50"
                     style="@style/Theme.AppCompat.TextView.jua.dark.Size12"

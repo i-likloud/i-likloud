@@ -76,7 +76,7 @@ class PhotoDetailFragment : BaseFragment<FragmentPhotoDetailBinding>(FragmentPho
         }
         photoDetailFragmentViewModel.currentPhotoDrawingList.observe(viewLifecycleOwner){
             //현재 사진에 대한 그림들 리사이클러뷰 세팅
-            initPhotoDrawingListRecyclerView()
+            photoDrawingListAdapter.submitList(it)
         }
         photoDetailFragmentViewModel.isBookmarked.observe(viewLifecycleOwner){
             if(it){
