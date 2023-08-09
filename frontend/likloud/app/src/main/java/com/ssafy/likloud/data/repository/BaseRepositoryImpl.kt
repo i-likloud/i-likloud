@@ -82,8 +82,8 @@ class BaseRepositoryImpl @Inject constructor(
         return handleApi { baseAPIService.getMemberInfo(memberInfoRequest).body()!! }
     }
 
-    override suspend fun patchAdditionalInfo(loginAdditionalRequest: LoginAdditionalRequest): Response<ReLoginResponse> {
-        return baseAPIService.patchAdditionalInfo(loginAdditionalRequest)
+    override suspend fun patchAdditionalInfo(loginAdditionalRequest: LoginAdditionalRequest): NetworkResult<ReLoginResponse> {
+        return handleApi { baseAPIService.patchAdditionalInfo(loginAdditionalRequest).body()!! }
     }
 
     override suspend fun getDrawingList(orderBy: String): NetworkResult<MutableList<DrawingListDto>> {
@@ -237,5 +237,9 @@ class BaseRepositoryImpl @Inject constructor(
 
     override suspend fun sendReport(drawingId: Int, content: String): NetworkResult<ReportDto> {
         return handleApi { baseAPIService.sendReport(drawingId, content).body()!! }
+    }
+
+    override suspend fun editNickname(nickname: String): NetworkResult<MemberInfoResponse> {
+        return handleApi { baseAPIService.editNickname(nickname).body()!! }
     }
 }

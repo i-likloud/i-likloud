@@ -2,11 +2,14 @@ package com.ssafy.likloud
 
 import android.content.SharedPreferences
 import android.graphics.Bitmap
+import android.provider.ContactsContract.CommonDataKinds.Nickname
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ssafy.likloud.ApplicationClass.Companion.USER_EMAIL
+import com.ssafy.likloud.ApplicationClass.Companion.sharedPreferences
 import com.ssafy.likloud.data.api.onError
 import com.ssafy.likloud.data.api.onSuccess
 import com.ssafy.likloud.data.model.ImageTempDto
@@ -123,12 +126,26 @@ class MainActivityViewModel @Inject constructor(
         viewModelScope.launch {
             baseRepository.editMyProfile(profileEditRequest)
                 .onSuccess {
-                    _memberInfo.value = it
+                    getMemberInfo(sharedPreferences.getString(USER_EMAIL).toString())
                 }
                 .onError {
                     Log.d(TAG, "editProflie: ${it.message}")
                 }
         }
+    }
+
+    suspend fun editNickname(nickname: String): Boolean {
+        var isPossible = false
+        baseRepository.editNickname(nickname)
+            .onSuccess {
+                getMemberInfo(sharedPreferences.getString(USER_EMAIL).toString())
+                isPossible = true
+            }
+            .onError {
+                Log.d(TAG, "editNickname: ${it}")
+                isPossible = false
+            }
+        return isPossible
     }
 
     fun setProfileImage(color: Int, face: Int) {

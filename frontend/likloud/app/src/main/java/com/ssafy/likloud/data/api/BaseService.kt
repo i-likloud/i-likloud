@@ -252,6 +252,11 @@ interface BaseService {
      */
     @POST("api/report/{drawingId}")
     suspend fun sendReport(@Path("drawingId") drawingId: Int, @Query("content") content: String): Response<ReportDto>
+    /**
+     * 닉네임 변경
+     */
+    @PUT("api/mypage/nickname")
+    suspend fun editNickname(@Query("nickname") nickname: String) : Response<MemberInfoResponse>
 }
 
 //api 만드는 과정

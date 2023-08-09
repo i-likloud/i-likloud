@@ -74,7 +74,7 @@ interface BaseRepository {
      */
     suspend fun patchAdditionalInfo(
         loginAdditionalRequest: LoginAdditionalRequest
-    ): retrofit2.Response<ReLoginResponse>
+    ): NetworkResult<ReLoginResponse>
 
     /**
      * 그림 게시물 조회
@@ -249,4 +249,10 @@ interface BaseRepository {
      * 게시글 신고
      */
     suspend fun sendReport(@Path("drawingId") drawingId: Int, @Query("content") content: String): NetworkResult<ReportDto>
+    /**
+     * 닉네임 변경
+     */
+    suspend fun editNickname (
+        nickname: String
+    ): NetworkResult<MemberInfoResponse>
 }

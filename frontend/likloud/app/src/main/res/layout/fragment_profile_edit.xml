@@ -73,7 +73,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:src="@drawable/profile_water_drop_white"
+                    android:src="@drawable/water_drop_item_empty"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -83,7 +83,7 @@
                     android:id="@+id/image_face_now"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:src="@drawable/face_normal"
+                    android:src="@drawable/water_drop_item_empty"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -102,23 +102,41 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
-                android:layout_width="@dimen/_140sdp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/frame_rounded_border_radius50"
-                android:padding="@dimen/_4sdp">
+                android:gravity="center">
 
-                <EditText
-                    android:id="@+id/edittext_nickname"
-                    style="@style/Theme.AppCompat.TextView.pretendard.Size20"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="@dimen/_160sdp"
                     android:layout_height="wrap_content"
-                    android:hint="이영준"
-                    android:textAlignment="center" />
+                    android:background="@drawable/frame_rounded_border_radius50"
+                    android:padding="@dimen/_4sdp">
 
+                    <EditText
+                        android:id="@+id/edittext_nickname"
+                        style="@style/Theme.AppCompat.TextView.pretendard.Size20"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="닉네임"
+                        android:textAlignment="center" />
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_edit_nickname"
+                    style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:background="@drawable/frame_button_blue_mild"
+                    android:paddingHorizontal="@dimen/_4sdp"
+                    android:text="@string/nickname_change"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:elevation="@dimen/_2sdp"
+                    android:layout_gravity="bottom"/>
             </LinearLayout>
-
         </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/linearLayout"

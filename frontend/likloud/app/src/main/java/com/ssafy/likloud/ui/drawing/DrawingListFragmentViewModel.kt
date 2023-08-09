@@ -79,6 +79,7 @@ class DrawingListFragmentViewModel @Inject constructor(
         //여기서 api호출해서 받아라
         viewModelScope.launch {
             baseRepository.getDrawingDetail(dto.drawingId).onSuccess {
+                Log.d(TAG, "getCurrentDrawingDetailDto: 현재 불러온 그림에대한 정보들 : ${it}")
                 _currentDrawingDetailDto.value = it
                 _currentDrawingCommentList.value = it.commentList
             }

@@ -109,6 +109,7 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>(FragmentPro
                 val color = profileEditFragmentViewModel.selectedColor
                 val face = profileEditFragmentViewModel.selectedFace
                 val accessory = profileEditFragmentViewModel.selectedAccessory
+
                 mainActivityViewModel.editProflie(ProfileEditRequest(color, face, accessory))
             }
             findNavController().popBackStack()
@@ -121,6 +122,18 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>(FragmentPro
         binding.buttonTakeOff.setOnClickListener {
             profileEditFragmentViewModel.setWaterDropAccessory(changeAccessoryNameToInt("empty"))
             changeWaterDropAccessory(binding.imageAccessoryNow, R.drawable.water_drop_item_empty)
+        }
+
+        binding.buttonEditNickname.setOnClickListener {
+            val nickname = binding.edittextNickname.text.toString()
+
+            lifecycleScope.launch {
+                if (mainActivityViewModel.editNickname(nickname)) {
+                    showSnackbar(binding.root, "info","닉네임이 변경되었습니다.")
+                } else {
+                    showSnackbar(binding.root, "fail", "사용중인 닉네임입니다.")
+                }
+            }
         }
     }
 

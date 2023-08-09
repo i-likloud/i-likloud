@@ -109,11 +109,13 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
-                android:background="@drawable/frame_rounded_border_radius50"
+                android:background="@drawable/frame_button_blue_mild"
                 android:layout_gravity="center"
-                android:layout_width="@dimen/_140sdp"
+                android:elevation="@dimen/_2sdp"
+                android:layout_width="@dimen/_160sdp"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/_4sdp">
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:padding="@dimen/_3sdp">
 
                 <TextView
                     android:id="@+id/textview_nickname"

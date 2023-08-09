@@ -167,7 +167,6 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
                         val action = MypageFragmentDirections.actionMypageFragmentToPhotoDetailFragment(photo.photoId)
                         findNavController().navigate(action)
                     }
-
                 }
             }
         }
