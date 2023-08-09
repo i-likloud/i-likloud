@@ -48,17 +48,10 @@ class UploadFragment :
 
     private val uploadFragmentViewModel: UploadFragmentViewModel by viewModels()
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
-    private lateinit var mainActivity: MainActivity
     private lateinit var aiCheckingDialog: AICheckingDialog
-    lateinit var currentPhotoPath: String
+    private lateinit var currentPhotoPath: String
+    private lateinit var file: File
 
-    //    lateinit var photoUri: Uri
-    lateinit var file: File
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mainActivity = context as MainActivity
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -80,10 +73,6 @@ class UploadFragment :
                     uploadFragmentViewModel.uploadPhotoId.value?.let { id ->
                         mainActivityViewModel.setUploadingPhotoId(id)
                     }
-//                    val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
-//                    val fragmentTransaction: FragmentTransaction =
-//                        fragmentManager.beginTransaction()
-//                    fragmentTransaction.remove(this@UploadFragment)
                     findNavController().navigate(R.id.action_homeFragment_to_afterCloudValidFragment)
                     this.cancel()
 
@@ -260,22 +249,5 @@ class UploadFragment :
      */
     private fun openGallery() {
         galleryActivityResult.launch("image/*")
-    }
-
-//    override fun onPause() {
-//        super.onPause()
-//        val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
-//        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-//        fragmentTransaction.remove(this)
-//    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d(TAG, "onStop: stopped")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d(TAG, "onDestroy: destroyed!")
     }
 }

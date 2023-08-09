@@ -34,15 +34,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
 
     private val profileFragmentViewModel : ProfileFragmentViewModel by viewModels()
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
-//    private lateinit var mActivity: MainActivity
 
     private var selectedWaterDropColor = 0
     private var selectedWaterDropFace = 0
 
-//    override fun onAttach(context: Context) {
-//        super.onAttach(context)
-//        mActivity = context as MainActivity
-//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

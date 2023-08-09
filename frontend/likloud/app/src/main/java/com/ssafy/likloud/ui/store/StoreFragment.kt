@@ -42,14 +42,9 @@ class StoreFragment : BaseFragment<FragmentStoreBinding>(FragmentStoreBinding::b
 
     private val storeFragmentViewModel: StoreFragmentViewModel by viewModels()
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
-//    private lateinit var mActivity: MainActivity
 
     private lateinit var storeAccessoryListAdapter: StoreAccessoryListAdapter
 
-//    override fun onAttach(context: Context) {
-//        super.onAttach(context)
-//        mActivity = context as MainActivity
-//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

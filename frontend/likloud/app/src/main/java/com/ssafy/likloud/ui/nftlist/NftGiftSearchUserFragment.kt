@@ -39,14 +39,7 @@ class NftGiftSearchUserFragment(var nftId: Int) : BaseFragment<FragmentNftGiftSe
 
     private val nftGiftSearchUserFragmentViewModel: NftGiftSearchUserFragmentViewModel by viewModels()
     private val activityViewModel: MainActivityViewModel by activityViewModels()
-    private lateinit var mainActivity: MainActivity
     private lateinit var nftGiftSearchUserAdapter: NftGiftSearchUserAdapter
-
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mainActivity = context as MainActivity
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -118,7 +111,7 @@ class NftGiftSearchUserFragment(var nftId: Int) : BaseFragment<FragmentNftGiftSe
 
                 }
             }
-            layoutManager = LinearLayoutManager(mainActivity, LinearLayoutManager.VERTICAL, false)
+            layoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false)
         }
     }
 
