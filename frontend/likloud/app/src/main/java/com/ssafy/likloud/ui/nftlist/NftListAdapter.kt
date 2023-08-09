@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.ssafy.likloud.R
 import com.ssafy.likloud.data.model.NftListDto
 import com.ssafy.likloud.databinding.ItemNftBinding
 import kotlinx.coroutines.CoroutineScope
@@ -53,11 +54,17 @@ class NftListAdapter (var context: Context): ListAdapter<NftListDto, NftListAdap
             textTitle.text = "제목 : ${nftDto.title}"
             textContent.text = " 내용 : ${nftDto.content}"
             layoutNft.setOnClickListener{
+                layoutNft.isClickable = false
                 if (layoutBack.visibility == View.INVISIBLE) {
-                    flip(context, layoutBack, layoutFront)
+                    layoutBack.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+//                    layoutFront.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+                    flip(context, layoutBack, layoutFront, layoutNft)
                 } else {
-                    flip(context, layoutFront, layoutBack)
+                    layoutBack.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+//                    layoutFront.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+                    flip(context, layoutFront, layoutBack, layoutNft)
                 }
+                Log.d(TAG, "here")
             }
             buttonGift.setOnClickListener {
                 itemClickListner.onClick(nftDto)
@@ -78,7 +85,7 @@ class NftListAdapter (var context: Context): ListAdapter<NftListDto, NftListAdap
         }
     }
 
-    private fun flip(context: Context, visibleView: View, inVisibleView: View) {
+    private fun flip(context: Context, visibleView: View, inVisibleView: View, layoutNft: View) {
         try {
             // Create ObjectAnimator animations for flip_in.xml
             val scale = context.resources.displayMetrics.density
@@ -100,7 +107,7 @@ class NftListAdapter (var context: Context): ListAdapter<NftListDto, NftListAdap
             flipOutAlphaAnimator2.duration = 750
             val flipAnimatorSet = AnimatorSet()
             flipAnimatorSet.playTogether(
-                flipInAlphaAnimator1,
+//                flipInAlphaAnimator1,
                 flipInRotationYAnimator,
                 flipInAlphaAnimator2,
                 flipOutRotationYAnimator,
@@ -118,6 +125,7 @@ class NftListAdapter (var context: Context): ListAdapter<NftListDto, NftListAdap
             // After the animation finishes, hide the inVisibleView
             flipAnimatorSet.doOnEnd {
                 inVisibleView.visibility = View.INVISIBLE
+                layoutNft.isClickable = true
             }
         } catch (e: Exception) {
 //            logHandledException(e)
