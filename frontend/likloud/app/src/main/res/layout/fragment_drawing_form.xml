@@ -140,20 +140,30 @@
                 android:textColor="@color/gray05" />
         </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_save_drawing"
-            style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_marginStart="@dimen/_8sdp"
+        <LinearLayout
             android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_8sdp"
-            android:background="@drawable/frame_button_rounded_border_green_radius50"
-            android:elevation="@dimen/_10sdp"
-            android:text="@string/save_drawing"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/button_save_drawing"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.45"
+            android:layout_height="@dimen/_28sdp"
+            android:layout_gravity="right"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:background="@drawable/frame_button_green_mild"
+            android:elevation="@dimen/_2sdp"
+            android:gravity="center"
+            android:layout_marginEnd="@dimen/_10sdp"
             app:layout_constraintTop_toBottomOf="@id/layout_description"
-            app:layout_constraintWidth_percent="0.45" />
+            app:layout_constraintEnd_toEndOf="parent">
+
+
+            <TextView
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/save_drawing" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

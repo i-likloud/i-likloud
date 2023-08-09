@@ -49,12 +49,12 @@ class AfterCloudValidFragment : BaseFragment<FragmentAfterCloudValidBinding>(
      * 클릭 리스너를 init합니다.
      */
     override fun initListener() {
-        binding.buttonUploadOnly.clicked {
+        binding.buttonUploadOnly.setOnClickListener {
             Log.d(TAG, "initListener: buttononly")
             navController.navigate(R.id.action_afterCloudValidFragment_to_photoListFragment)
         }
 
-        binding.buttonDrawInstantly.clicked {
+        binding.buttonDrawInstantly.setOnClickListener {
             // 그림판으로 이동
             Log.d(TAG, "initView: draw")
             navController.navigate(R.id.action_afterCloudValidFragment_to_drawingPadFragment)
@@ -63,8 +63,8 @@ class AfterCloudValidFragment : BaseFragment<FragmentAfterCloudValidBinding>(
     }
 
     fun initView() {
-        binding.buttonUploadOnly.setText(getString(R.string.upload_only))
-        binding.buttonDrawInstantly.setText(getString(R.string.draw_instantly))
+//        binding.buttonUploadOnly.setText(getString(R.string.upload_only))
+//        binding.buttonDrawInstantly.setText(getString(R.string.draw_instantly))
 
 
         Log.d(TAG, "initView: ${mainActivityViewModel.uploadingPhotoUrl.value}")

@@ -23,6 +23,7 @@ import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.databinding.FragmentPhotoListBinding
+import com.ssafy.likloud.ui.drawingpad.BitmapCanvasObject
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "차선호"
@@ -101,6 +102,12 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
             buttonBack.setOnClickListener {
                 findNavController().popBackStack()
             }
+
+            buttonPaint.setOnClickListener {
+                findNavController().navigate(R.id.action_photoListFragment_to_drawingPadFragment)
+                BitmapCanvasObject.clearAllDrawingPoints()
+            }
+
         }
         // 안드로이드 뒤로가기 버튼 눌렀을 때
         mainActivity.onBackPressedDispatcher.addCallback(
@@ -128,6 +135,8 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
             photoListFragmentViewModel.getCurrentPhotoDrawingList(it.photoId)
             photoListFragmentViewModel.setIsBookmarked()
             photoListFragmentViewModel.setBookmarkCount()
+            activityViewModel.setUploadingPhotoUrl(it.photoUrl)
+            activityViewModel.setUploadingPhotoId(it.photoId)
         }
 
         photoListFragmentViewModel.currentPhotoMember.observe(viewLifecycleOwner){

@@ -11,6 +11,8 @@ import com.ssafy.likloud.data.model.MemberInfoDto
 import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.response.LoginResponse
 import com.ssafy.likloud.data.repository.BaseRepository
+import com.ssafy.likloud.ui.drawingpad.BitmapCanvasObject.clearAllDrawingPoints
+import com.ssafy.likloud.ui.drawingpad.BitmapCanvasObject.points
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -70,6 +72,7 @@ class DrawingFormFragmentViewModel @Inject constructor(
                 Log.d(TAG, "uploadDrawing: success")
                 Log.d(TAG, "uploadDrawing: ${title}")
                 _isDrawingUploaded.emit(true)
+                clearAllDrawingPoints()
             }
                 .onError {
                     Log.d(TAG, "uploadDrawing: fail")

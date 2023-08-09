@@ -18,6 +18,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import androidx.activity.OnBackPressedCallback
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -50,7 +51,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Date
 
-
+const val DRAWING_STYLE_PAD_LEFT = -1000f
+const val CANVAS_RIGHT = 1000f
 private const val TAG = "DrawingPadFragment_싸피"
 
 @AndroidEntryPoint
@@ -82,6 +84,10 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
         penClickListener()
         penStylePadClickListener()
         undoRedoClickListener()
+
+        binding.layoutPenEraserWidth.setOnClickListener {
+
+        }
 
         binding.layoutDrawingPad.setOnClickListener {
             movePenWithLayoutToLeft()
@@ -119,7 +125,7 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
         }
         binding.imageChosenPhoto.viewTreeObserver.addOnGlobalLayoutListener(layoutListener)
 
-        binding.buttonSaveDrawing.clicked {
+        binding.buttonSaveDrawing.setOnClickListener {
             bmp = viewToBitmap(binding.canvasDrawingpad)
             mainActivityViewModel.setDrawingBitmap(bmp!!)
             mainActivityViewModel.setDrawingMultipart(
@@ -141,7 +147,7 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
             value = selectedStrokeWidth
             addOnChangeListener(Slider.OnChangeListener { slider, value, fromUser ->
                 selectedStrokeWidth = value
-                val layoutParams = binding.dotPensize.layoutParams as LinearLayout.LayoutParams
+                val layoutParams = binding.dotPensize.layoutParams as ConstraintLayout.LayoutParams
                 layoutParams.height = value.toInt()
                 binding.dotPensize.layoutParams = layoutParams
                 binding.dotPensize.requestLayout()
@@ -183,10 +189,10 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
         colorMap.entries.forEach { entry ->
             entry.key.setOnClickListener {
                 selectedColor = entry.value
+
                 if (selectedColor != Color.TRANSPARENT) {
                     setDotAndButtonView()
                 }
-
 
                 colorMap.entries.forEach { otherEntry ->
                     val view = otherEntry.key
@@ -221,7 +227,7 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
     private fun movePenWithLayoutToLeft() {
         if(!isPenStylePadOpened) return
         isPenStylePadOpened = false
-        makeButtonAnimationX(binding.layoutPenEraserWidth, -800f)
+        makeButtonAnimationX(binding.layoutPenEraserWidth, DRAWING_STYLE_PAD_LEFT)
     }
 
     /**
@@ -268,7 +274,7 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
         // 초기 펜 스타일 현재 글자 크기로 지정
         setDotAndButtonView()
         val newWidth = selectedStrokeWidth.toInt()
-        val layoutParams = binding.dotPensize.layoutParams as LinearLayout.LayoutParams
+        val layoutParams = binding.dotPensize.layoutParams as ConstraintLayout.LayoutParams
         layoutParams.height = newWidth
         binding.dotPensize.layoutParams = layoutParams
         binding.dotPensize.requestLayout()
@@ -278,7 +284,7 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
             val view = otherEntry.key
             val layoutParams = view.layoutParams as LinearLayout.LayoutParams
 
-            if (view == binding.imageBlackPencil) {
+            if (otherEntry.value == selectedColor) {
                 layoutParams.width = largerWidth
                 layoutParams.weight = largerWeight
             } else {
@@ -286,7 +292,6 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
                 layoutParams.weight = originalWeight
             }
             view.layoutParams = layoutParams
-
 
             view.requestLayout()
 
@@ -298,15 +303,16 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
         } else null
 
         // 펜 스타일 버튼 초기에 숨기기
-        makeButtonAnimationXWithDuration(binding.layoutPenEraserWidth, -800f, 0)
-        makeButtonAnimationXWithDuration(binding.cardviewCanvas, 1000f, 0)
+        makeButtonAnimationXWithDuration(binding.layoutPenEraserWidth, DRAWING_STYLE_PAD_LEFT, 0)
+        makeButtonAnimationXWithDuration(binding.cardviewCanvas, CANVAS_RIGHT, 0)
     }
 
     /**
      * 선택한 색으로 펜스타일 지정 패드의 뷰를 설정합니다.
      */
     private fun setDotAndButtonView() {
-        binding.buttonSaveDrawing.setText(getString(R.string.move_to_save))
+//        binding.buttonSaveDrawing.setText(getString(R.string.move_to_save))
+        binding.seekbarPen.trackActiveTintList = ColorStateList.valueOf(selectedColor)
         binding.dotPensize.setCardBackgroundColor(selectedColor)
         binding.seekbarPen.trackActiveTintList = ColorStateList.valueOf(selectedColor)
         binding.seekbarPen.thumbTintList = ColorStateList.valueOf(selectedColor)
@@ -359,7 +365,7 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
     /**
      * 각 point마다 색을 정해주고, 투명색, 즉 지우개인 경우 지우기 모드를 적용합니다.
      */
-    fun updatePaintForPoint(point: Point) {
+    private fun updatePaintForPoint(point: Point) {
         paint.color = point.color
         paint.strokeWidth = point.strokeWidth
         paint.xfermode = if (paint.color == Color.TRANSPARENT) {
@@ -371,7 +377,7 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
      * mainviewmodel에서 저장한 그림 사진을 imageview와 캔버스에 로드합니다.
      * 이미지뷰는 크기 측정만을 위함으로 실제로 그려지지는 않습니다.
      */
-    fun loadImage() {
+    private fun loadImage() {
         Glide.with(this)
             .load(mainActivityViewModel.uploadingPhotoUrl.value)
             .into(binding.imageChosenPhoto)

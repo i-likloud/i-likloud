@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    android:id="@+id/scrollview"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    xmlns:tools="http://schemas.android.com/tools"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent">-->
-
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/app_background_3">
+    android:background="@drawable/app_background_3"
+    tools:context=".ui.photo.PhotoListFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/layout_appbar"
@@ -275,17 +269,27 @@
             app:layout_constraintTop_toBottomOf="@id/layout_photo_drawing_list"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <androidx.appcompat.widget.AppCompatButton
+            <LinearLayout
                 android:id="@+id/button_paint"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@drawable/button_frame_skyblue"
-                android:text="이걸로 그릴래요!"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
+                android:background="@drawable/frame_button_green_mild"
+                android:elevation="@dimen/_2sdp"
+                android:gravity="center"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+
+                <TextView
+                    style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/photo_choose" />
+
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
