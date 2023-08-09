@@ -58,8 +58,8 @@
     <!--game-->
     <string name="title_game">게임</string>
     <string name="header_quiz">Q.</string>
-    <string name="success_game">Success!</string>
-    <string name="fail_game">Fail!</string>
+    <string name="success_game">성공!</string>
+    <string name="fail_game">실패!</string>
     <string name="go_home">홈으로 가기</string>
     <string name="re_game">다시 하기</string>
     <string name="drawing_title">그림에 제목을 지어주세요!</string>

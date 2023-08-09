@@ -88,15 +88,24 @@ class GameFragmentViewModel @Inject constructor(
 
 
     //////////////////////////// 정답 체크 ///////////////////////////////////
+    private var _isCorrected = MutableLiveData<Boolean>()
+    val isCorrected: LiveData<Boolean>
+        get() = _isCorrected
+
+    var direction = 0
+
     fun checkAnswer(pick: String){
+        direction = QuestionLIist.questionList[randomQuestionIdxList[currentQuestionIdx.value!!]].direction
         if(QuestionLIist.questionList[randomQuestionIdxList[currentQuestionIdx.value!!]].answer == pick){
             increaseFrameWidth(20)
             increaseFrameHeight(20)
+            _isCorrected.value = true
         }else{
             decreaseFrameWidth(20)
             decreaseFrameHeight(20)
+            _isCorrected.value = false
         }
-        increaseCurrentQuestionIdx()
+//        increaseCurrentQuestionIdx()
     }
 
 

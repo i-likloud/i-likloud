@@ -1,5 +1,7 @@
 package com.ssafy.likloud.ui.game
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.os.Bundle
@@ -8,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationSet
 import android.view.animation.LinearInterpolator
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
@@ -105,6 +108,52 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
                 textProblemQuiz.text = QuestionLIist.questionList[gameFragmentViewModel.randomQuestionIdxList[gameFragmentViewModel.currentQuestionIdx.value!!]].problem
                 textAnswerLeft.text = QuestionLIist.questionList[gameFragmentViewModel.randomQuestionIdxList[gameFragmentViewModel.currentQuestionIdx.value!!]].answerLeft
                 textAnswerRight.text = QuestionLIist.questionList[gameFragmentViewModel.randomQuestionIdxList[gameFragmentViewModel.currentQuestionIdx.value!!]].answerRight
+            }
+        }
+
+        gameFragmentViewModel.isCorrected.observe(viewLifecycleOwner){
+            binding.textAnswerRight.isClickable = false
+            binding.textAnswerLeft.isClickable  = false
+            viewLifecycleOwner.lifecycleScope.launch{
+                if(gameFragmentViewModel.direction==0){ //왼쪽이 정답
+                    binding.apply {
+                        lottieLeftCorrect.apply {
+                            visibility = View.VISIBLE
+                            playAnimation()
+                        }
+                        lottieRightIncorrect.apply {
+                            visibility = View.VISIBLE
+                            playAnimation()
+                        }
+
+                        lottieLeftIncorrect.visibility = View.INVISIBLE
+                        lottieRightCorrect.visibility = View.INVISIBLE
+                    }
+                }else{
+                    binding.apply {
+                        lottieRightCorrect.apply {
+                            visibility = View.VISIBLE
+                            playAnimation()
+                        }
+                        lottieLeftIncorrect.apply {
+                            visibility = View.VISIBLE
+                            playAnimation()
+                        }
+
+                        lottieLeftCorrect.visibility = View.INVISIBLE
+                        lottieRightIncorrect.visibility = View.INVISIBLE
+                    }
+                }
+                delay(700)
+                binding.apply {
+                    textAnswerRight.isClickable = true
+                    textAnswerLeft.isClickable  = true
+                    lottieLeftCorrect.visibility = View.INVISIBLE
+                    lottieRightIncorrect.visibility = View.INVISIBLE
+                    lottieLeftIncorrect.visibility = View.INVISIBLE
+                    lottieRightCorrect.visibility = View.INVISIBLE
+                }
+                gameFragmentViewModel.increaseCurrentQuestionIdx()
             }
         }
 
