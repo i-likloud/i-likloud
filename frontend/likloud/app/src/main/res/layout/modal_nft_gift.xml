@@ -42,17 +42,19 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_30sdp"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edittext_message"
+        android:padding="@dimen/_2sdp"
+        android:layout_marginBottom="@dimen/_2sdp"
         android:layout_marginTop="@dimen/_5sdp">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_confirm_gift"
             style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/_28sdp"
             android:background="@drawable/frame_button_yellow_mild_200"
             android:text="@string/gift"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -68,7 +70,7 @@
             android:id="@+id/button_cancel_gift"
             style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/_28sdp"
             android:background="@drawable/frame_button_grey_mild"
             android:text="@string/cancel_gift"
             app:layout_constraintBottom_toBottomOf="parent"

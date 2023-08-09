@@ -93,16 +93,18 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_nft"
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
-                android:layout_width="@dimen/_33sdp"
-                android:layout_height="@dimen/_33sdp"
-                android:layout_margin="@dimen/_10sdp"
-                android:background="@drawable/frame_button_rounded_border_green_radius50"
-                android:elevation="@dimen/_4sdp"
-                android:padding="@dimen/_10sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/frame_button_green_mild"
                 android:text="@string/make_nft"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:layout_marginRight="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:elevation="@dimen/_2sdp"
+                android:paddingVertical="@dimen/_4sdp"
+                android:paddingHorizontal="@dimen/_10sdp"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

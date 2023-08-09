@@ -26,5 +26,6 @@
     <color name="grey_mild">#EBEBEB</color>
     <color name="blue_mild">#BBDEFB</color>
     <color name="ivory">#EBE1C3</color>
+    <color name="ivory_mild">#FFFBD5</color>
 
 </resources>

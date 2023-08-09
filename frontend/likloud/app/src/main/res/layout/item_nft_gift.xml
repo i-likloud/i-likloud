@@ -3,23 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="400dp"
-    android:layout_margin = "10dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_4sdp"
+    android:background="@color/transparent"
     android:id="@+id/layout_nft">
 
     <FrameLayout
         android:id="@+id/layout_back"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/frame_rounded_border_black_radius50"
+        android:layout_height="wrap_content"
+        android:background="@drawable/frame_button_blue_mild"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="invisible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_back_frame"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_gift__nft_ifo"
@@ -32,8 +34,11 @@
 
                 <ImageView
                     android:id="@+id/image_nft_medal"
-                    android:layout_width="100dp"
-                    android:layout_height="120dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    app:layout_constraintHeight_percent="0.4"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
                     android:src="@drawable/image_nft_medal"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -78,31 +83,18 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintHeight_percent="0.2"
-                app:layout_constraintTop_toBottomOf="@id/layout_gift__nft_ifo"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button_gift_confirm"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintWidth_percent="0.4"
-                    android:text="@string/button_gift_confirm"
-                    style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
-                    android:background="@drawable/frame_button_purple_mild"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:elevation="@dimen/_2sdp"/>
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_gift_confirm"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:layout_margin="@dimen/_10sdp"
+                android:text="@string/button_gift_confirm"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
+                android:background="@drawable/frame_button_green_mild"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:elevation="@dimen/_2sdp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -119,7 +111,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:cardCornerRadius="50dp"
+            app:cardCornerRadius="@dimen/_17sdp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent">

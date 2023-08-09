@@ -18,6 +18,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.ssafy.likloud.ApplicationClass
+import com.ssafy.likloud.ApplicationClass.Companion.USER_EMAIL
+import com.ssafy.likloud.ApplicationClass.Companion.sharedPreferences
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
@@ -29,6 +31,7 @@ import com.ssafy.likloud.util.makeButtonAnimationX
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import okhttp3.internal.wait
 
 private const val TAG = "MypageFragment_싸피"
 @AndroidEntryPoint
@@ -135,9 +138,7 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
             MypageDrawingAdapter(mypageFragmentViewModel.currentDrawingListDtoList.value!!)
         binding.recyclerviewDrawingPhotoList.apply {
 //            layoutManager = GridLayoutManager(mActivity, 3) // 한 줄에 3개씩 보이도록 설정
-            layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL).apply {
-                gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
-            }
+            layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
             adapter = drawingListAdapter.apply {
                 this.itemClickListner = object: MypageDrawingAdapter.ItemClickListener{
                     override fun onClick(view: View, drawing: DrawingListDto) {
@@ -226,36 +227,39 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
     }
 
     private fun viewSetting() {
-        binding.chipGroup.check(binding.chipMyDrawing.id)
-        // 마이페이지 내 캐릭터
-        val profileColor = mainActivityViewModel.waterDropColorList[mainActivityViewModel.memberInfo.value!!.profileColor].resourceId
-        val profileFace = mainActivityViewModel.waterDropFaceList[mainActivityViewModel.memberInfo.value!!.profileFace].resourceId
-        val profileAccessory = mainActivityViewModel.waterDropAccessoryList[mainActivityViewModel.memberInfo.value!!.profileAccessory].resourceId
-        setProfileImages(profileColor, profileFace, profileAccessory)
+        lifecycleScope.launch {
+            mainActivityViewModel.getMemberInfo(sharedPreferences.getString(USER_EMAIL).toString())
+            binding.chipGroup.check(binding.chipMyDrawing.id)
+            // 마이페이지 내 캐릭터
+            val profileColor = mainActivityViewModel.waterDropColorList[mainActivityViewModel.memberInfo.value!!.profileColor].resourceId
+            val profileFace = mainActivityViewModel.waterDropFaceList[mainActivityViewModel.memberInfo.value!!.profileFace].resourceId
+            val profileAccessory = mainActivityViewModel.waterDropAccessoryList[mainActivityViewModel.memberInfo.value!!.profileAccessory].resourceId
+            setProfileImages(profileColor, profileFace, profileAccessory)
 
-        // 마이페이지 티켓 수, 도장 수
-        binding.textviewNickname.text = mainActivityViewModel.memberInfo.value!!.nickname
-        binding.textviewTicketCnt.text = mainActivityViewModel.memberInfo.value!!.goldCoin.toString()
-        binding.textviewStampCnt.text = mainActivityViewModel.memberInfo.value!!.silverCoin.toString()
+            // 마이페이지 티켓 수, 도장 수
+            binding.textviewNickname.text = mainActivityViewModel.memberInfo.value!!.nickname
+            binding.textviewTicketCnt.text = mainActivityViewModel.memberInfo.value!!.goldCoin.toString()
+            binding.textviewStampCnt.text = mainActivityViewModel.memberInfo.value!!.silverCoin.toString()
 
-        binding.layoutMyCharacter.translationX = -500f
-        makeAnimationX(binding.layoutMyCharacter, 0f)
-        // 들어오자 마자 크기는 0.5f
-        binding.textviewNickname.scaleX = 0.5f
-        binding.textviewNickname.scaleY = 0.5f
-        binding.textviewTicketCnt.scaleX = 0.5f
-        binding.textviewTicketCnt.scaleY = 0.5f
-        binding.textviewStampCnt.scaleX = 0.5f
-        binding.textviewStampCnt.scaleY = 0.5f
+            binding.layoutMyCharacter.translationX = -500f
+            makeAnimationX(binding.layoutMyCharacter, 0f)
+            // 들어오자 마자 크기는 0.5f
+            binding.textviewNickname.scaleX = 0.5f
+            binding.textviewNickname.scaleY = 0.5f
+            binding.textviewTicketCnt.scaleX = 0.5f
+            binding.textviewTicketCnt.scaleY = 0.5f
+            binding.textviewStampCnt.scaleX = 0.5f
+            binding.textviewStampCnt.scaleY = 0.5f
 
-        // 들어오자 마자 투명도
-        binding.textviewNickname.alpha = 0f
-        binding.textviewTicketCnt.alpha = 0f
-        binding.textviewStampCnt.alpha = 0f
+            // 들어오자 마자 투명도
+            binding.textviewNickname.alpha = 0f
+            binding.textviewTicketCnt.alpha = 0f
+            binding.textviewStampCnt.alpha = 0f
 
-        // 나타나는 애니메이션
-        makeAnimationFade(binding.textviewNickname, 1f)
-        makeAnimationFade(binding.textviewTicketCnt, 1f)
-        makeAnimationFade(binding.textviewStampCnt, 1f)
+            // 나타나는 애니메이션
+            makeAnimationFade(binding.textviewNickname, 1f)
+            makeAnimationFade(binding.textviewTicketCnt, 1f)
+            makeAnimationFade(binding.textviewStampCnt, 1f)
+        }
     }
 }

@@ -3,23 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="400dp"
-    android:layout_margin = "10dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_4sdp"
+    android:background="@color/transparent"
     android:id="@+id/layout_nft">
 
     <FrameLayout
         android:id="@+id/layout_back"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/frame_rounded_border_black_radius50"
+        android:layout_height="wrap_content"
+        android:background="@drawable/frame_button_ivory"
+        android:visibility="invisible"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="invisible">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_back_frame"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_gift_ifo"
@@ -32,8 +34,11 @@
 
                 <ImageView
                     android:id="@+id/image_nft_medal"
-                    android:layout_width="100dp"
-                    android:layout_height="120dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    app:layout_constraintHeight_percent="0.4"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/image_nft_medal"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -78,28 +83,17 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintHeight_percent="0.2"
-                app:layout_constraintTop_toBottomOf="@id/layout_gift_ifo"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button_gift"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/gift"
-                    style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
-                    android:background="@drawable/frame_button_purple_mild"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:elevation="@dimen/_2sdp"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_gift"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_margin="@dimen/_10sdp"
+                android:background="@drawable/frame_button_purple_mild"
+                android:elevation="@dimen/_2sdp"
+                android:text="@string/gift"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -108,14 +102,14 @@
     <FrameLayout
         android:id="@+id/layout_front"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:cardCornerRadius="@dimen/_17sdp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -123,10 +117,11 @@
 
             <ImageView
                 android:id="@+id/image_nft"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@drawable/cloud2"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"/>
 
         </androidx.cardview.widget.CardView>
 

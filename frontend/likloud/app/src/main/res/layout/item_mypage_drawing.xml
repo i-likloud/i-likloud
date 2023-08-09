@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_item_mypage_drawing"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="@dimen/_5sdp"
-    android:id="@+id/layout_item_mypage_drawing"
     android:elevation="@dimen/_2sdp">
 
     <androidx.cardview.widget.CardView
@@ -21,20 +21,23 @@
             android:id="@+id/image_drawing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
             android:adjustViewBounds="true"
-            android:src="@drawable/cloud1"/>
+            android:scaleType="fitCenter"
+            android:src="@drawable/cloud1" />
 
     </androidx.cardview.widget.CardView>
 
     <ImageView
         android:id="@+id/image_nft_medal"
-        android:layout_width="@dimen/_33sdp"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/_6sdp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
         android:src="@drawable/image_nft_medal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:translationZ="@dimen/_3sdp"
-        android:layout_marginEnd="@dimen/_2sdp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.35"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
