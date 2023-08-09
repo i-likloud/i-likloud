@@ -50,16 +50,16 @@ class LoginFragment :
 
     private val loginFragmentViewModel: LoginFragmentViewModel by viewModels()
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
-    private lateinit var mActivity: MainActivity
+//    private lateinit var mActivity: MainActivity
 
     private lateinit var OAUTH_CLIENT_ID: String
     private lateinit var OAUTH_CLIENT_SECRET: String
     private lateinit var OAUTH_CLIENT_NAME: String
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mActivity = context as MainActivity
-    }
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//        mActivity = context as MainActivity
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

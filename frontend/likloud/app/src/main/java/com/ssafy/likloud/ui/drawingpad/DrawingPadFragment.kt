@@ -60,7 +60,7 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
     FragmentDrawingPadBinding::bind,
     R.layout.fragment_drawing_pad
 ) {
-    private lateinit var mActivity: MainActivity
+//    private lateinit var mActivity: MainActivity
     private lateinit var colorMap: Map<ImageView, Int>
     private lateinit var undoRedoMap: Map<ImageView, Boolean>
     private var imageViewHeight = 0
@@ -74,10 +74,10 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
     private val originalWeight = 1.0f
     private lateinit var layoutListener: OnGlobalLayoutListener
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mActivity = context as MainActivity
-    }
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//        mActivity = context as MainActivity
+//    }
 
     override fun initListener() {
 

@@ -4,13 +4,15 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
+import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseDialog
 import com.ssafy.likloud.databinding.ModalDrawingReportBinding
+import com.ssafy.likloud.util.initEditText
 
 private const val TAG = "차선호"
 class DrawingReportDialog(
@@ -24,7 +26,32 @@ class DrawingReportDialog(
         mainActivity = context as MainActivity
     }
 
+    // hideKeyboard 함수는 아래와 같이 구현되어 있다고 가정합니다.
+    fun hideKeyboard() {
+        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(requireView().windowToken, 0)
+    }
+
     override fun initListener() {
+
+        /**
+         * edittext의 포커스를 없애줍니다. fragment내에서는 keyboard도 같이 내려주지만 modal에서는 hideKeyboard함수도 사용해줘야 합니다.
+         */
+        initEditText(
+            binding.edittextReport,
+            null,
+            binding.layoutReportModal,
+            requireContext() as MainActivity,
+            null
+        )
+
+
+        binding.edittextReport.setOnFocusChangeListener { view, hasFocus ->
+            if (!hasFocus) {
+                hideKeyboard()
+            }
+        }
+
         binding.apply {
             buttonReport.setOnClickListener {
                 if(binding.edittextReport.text.toString() == "") {

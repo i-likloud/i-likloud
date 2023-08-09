@@ -22,6 +22,7 @@ import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
 import com.ssafy.likloud.data.model.request.LoginAdditionalRequest
 import com.ssafy.likloud.databinding.FragmentProfileBinding
+import com.ssafy.likloud.util.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -33,12 +34,15 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
 
     private val profileFragmentViewModel : ProfileFragmentViewModel by viewModels()
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
-    private lateinit var mActivity: MainActivity
+//    private lateinit var mActivity: MainActivity
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mActivity = context as MainActivity
-    }
+    private var selectedWaterDropColor = 0
+    private var selectedWaterDropFace = 0
+
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//        mActivity = context as MainActivity
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,6 +68,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun initListener() {
         binding.buttonChooseDone.setOnClickListener {
             val nickname = binding.edittextNickname.text.toString()
@@ -85,6 +90,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                 findNavController().navigate(R.id.action_profileFragment_to_homeFragment)
             }
         }
+
+            binding.layoutProfileFragment.setOnTouchListener { _, _ ->
+                requireActivity().hideKeyboard()
+                binding.edittextNickname.clearFocus()
+                false
+            }
+
     }
 
     /**
