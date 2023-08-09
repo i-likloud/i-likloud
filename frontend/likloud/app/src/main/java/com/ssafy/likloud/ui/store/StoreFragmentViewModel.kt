@@ -32,6 +32,8 @@ class StoreFragmentViewModel @Inject constructor(
     val memberInfo: LiveData<MemberInfoResponse>
         get() = _memberInfo
 
+    var isFirst = true
+
     suspend fun getStoreAccessoryList() {
         viewModelScope.launch {
             baseRepository.getStoreInfo(MemberInfoRequest(sharedPreferences.getString(USER_EMAIL).toString()))

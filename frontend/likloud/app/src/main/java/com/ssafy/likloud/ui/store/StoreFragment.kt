@@ -89,7 +89,6 @@ class StoreFragment : BaseFragment<FragmentStoreBinding>(FragmentStoreBinding::b
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    mActivity.changeProfileLayoutVisible()
                     findNavController().popBackStack()
                 }
             }
@@ -113,7 +112,16 @@ class StoreFragment : BaseFragment<FragmentStoreBinding>(FragmentStoreBinding::b
     private fun initObserver() {
         // 내가 가진 악세서리가 불러와지면 리사이클러 뷰로 나타냅니다.
         storeFragmentViewModel.storeAccessoryList.observe(viewLifecycleOwner) {
-            storeAccessoryListAdapter.submitList(it)
+            if (storeFragmentViewModel.isFirst) {
+                lifecycleScope.launch {
+                    storeAccessoryListAdapter.submitList(it)
+                }
+            } else {
+                lifecycleScope.launch {
+                    delay(1000)
+                    storeAccessoryListAdapter.submitList(it)
+                }
+            }
         }
 
         // 내 정보
@@ -145,6 +153,7 @@ class StoreFragment : BaseFragment<FragmentStoreBinding>(FragmentStoreBinding::b
             itemBuyClickLitener = object: StoreAccessoryListAdapter.ItemBuyClickLitener {
                 override fun onClick(data: StoreItemResponse, lottieView: LottieAnimationView) {
                     if (storeFragmentViewModel.memberInfo.value!!.goldCoin >= data.accessoryPrice) {
+                        storeFragmentViewModel.isFirst = false
                         storeFragmentViewModel.postBuyAccessory(data.storeId)
                         lottieView.visibility = View.VISIBLE
                         lottieView.playAnimation()

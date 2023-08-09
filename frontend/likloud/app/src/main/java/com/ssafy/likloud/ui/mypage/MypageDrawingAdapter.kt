@@ -18,7 +18,6 @@ private const val TAG = "차선호"
 class MypageDrawingAdapter  (var list : MutableList<DrawingListDto>): ListAdapter<DrawingListDto, MypageDrawingAdapter.DrawingListHolder>(
     DrawingListComparator
 ) {
-    private var pre: Int = 0
     companion object DrawingListComparator : DiffUtil.ItemCallback<DrawingListDto>() {
         override fun areItemsTheSame(oldItem: DrawingListDto, newItem: DrawingListDto): Boolean {
             return oldItem == newItem
@@ -44,12 +43,7 @@ class MypageDrawingAdapter  (var list : MutableList<DrawingListDto>): ListAdapte
                 imageNftMedal.visibility = View.INVISIBLE
             }
 
-            if (layoutPosition >= pre) {
-                layoutMypageDrawing.animation = AnimationUtils.loadAnimation(layoutMypageDrawing.context, R.anim.list_item_anim_from_right)
-            } else {
-                layoutMypageDrawing.animation = AnimationUtils.loadAnimation(layoutMypageDrawing.context, R.anim.list_item_anim_from_left)
-            }
-            pre = layoutPosition
+            layoutMypageDrawing.animation = AnimationUtils.loadAnimation(layoutMypageDrawing.context, R.anim.list_item_anim_fade_in)
 
             itemView.setOnClickListener{
                 itemClickListner.onClick(it,drawing)

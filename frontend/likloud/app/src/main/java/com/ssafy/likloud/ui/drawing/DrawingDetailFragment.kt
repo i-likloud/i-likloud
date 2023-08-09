@@ -1,11 +1,13 @@
 package com.ssafy.likloud.ui.drawing
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.OvershootInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -28,6 +30,7 @@ import com.ssafy.likloud.data.model.DrawingDetailDto
 import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.databinding.FragmentDrawingDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -64,6 +67,7 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        loadingAnimation()
 
         initObserver()
         init()
@@ -71,7 +75,7 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
     }
 
     private fun initObserver(){
-        drawingDetailFragmentViewModel.currentDrawingDetail.observe(viewLifecycleOwner){
+        drawingDetailFragmentViewModel.currentDrawingDetail.observe(viewLifecycleOwner) {
             //현재 가운데 있는 그림 정보 조회 & 초기 좋아요 세팅
             drawingDetailFragmentViewModel.getCurrentDrawingMember(it.memberId)
             drawingDetailFragmentViewModel.setIsLiked()
@@ -272,5 +276,36 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
 
     fun sendReport(content: String){
         drawingDetailFragmentViewModel.sendReport(content)
+    }
+
+    /**
+     * 뷰에 X축으로 움직이는 애니메이션을 적용시킵니다.
+     */
+    private fun makeAnimationX(view: View, values: Float, speed: Long) {
+        ObjectAnimator.ofFloat(view, "translationX", values).apply {
+//            interpolator = DecelerateInterpolator()
+            interpolator = OvershootInterpolator()
+//            interpolator = AccelerateInterpolator()
+//            interpolator = AccelerateDecelerateInterpolator()
+            duration = speed
+            start()
+        }
+    }
+
+    private fun loadingAnimation() {
+        binding.layoutInfo.translationX = 1300f
+        binding.layoutComment.translationX = 1300f
+        binding.layoutImage.translationX = -1300f
+        initAnimation()
+    }
+
+    private fun initAnimation() {
+        lifecycleScope.launch {
+            makeAnimationX(binding.layoutInfo, 0f, 450)
+            delay(100)
+            makeAnimationX(binding.layoutComment, 0f, 500)
+            delay(50)
+            makeAnimationX(binding.layoutImage, 0f, 600)
+        }
     }
 }

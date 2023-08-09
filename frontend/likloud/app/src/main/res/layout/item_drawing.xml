@@ -7,6 +7,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@color/transparent"
         app:layout_constraintHeight_percent="0.85"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -16,7 +17,7 @@
             android:id="@+id/cardview_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:cardCornerRadius="50dp"
+            app:cardCornerRadius="@dimen/_17sdp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -24,7 +25,8 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
                 android:src="@drawable/cloud1"
                 android:id="@+id/image_drawing"/>
 
