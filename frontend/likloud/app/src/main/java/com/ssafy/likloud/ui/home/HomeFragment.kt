@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator
 import android.animation.TimeInterpolator
 import android.content.Context
 import android.graphics.Interpolator
+import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -24,6 +25,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.ssafy.likloud.ApplicationClass
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
@@ -43,14 +45,8 @@ class HomeFragment :
 
     private val homeFragmentViewModel: HomeFragmentViewModel by viewModels()
     private lateinit var navController: NavController
-//    private lateinit var mActivity: MainActivity
-
     private var isCameraOpened = false
 
-//    override fun onAttach(context: Context) {
-//        super.onAttach(context)
-//        mActivity = context as MainActivity
-//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,13 +67,8 @@ class HomeFragment :
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             initPermission()
         }
-
-//        viewLifecycleOwner.lifecycleScope.launch{
-//            loginFragmentViewModel.user.observe(requireActivity()){
-//
-//            }
-//        }
     }
+
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun initPermission() {

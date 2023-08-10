@@ -5,7 +5,9 @@
     <string name="start">시작하기</string>
     <string name="onboarding_one">신기한 구름이 보이면\n사진을 찍어서\n업로드 해봐요</string>
     <string name="onboarding_two">사람들의 구름사진에\n그림을\n그려보아요</string>
-    <string name="onboarding_three">내가 그린 구름그림을\n나만의 그림으로\n만들어봐요</string>
+    <string name="onboarding_three">날씨와 구름에 대한\n퀴즈를 풀고\n스탬프를 획득해요</string>
+    <string name="onboarding_four">스탬프와 그림으로\n쿠폰을 모아\n프로필을 커스텀해요</string>
+    <string name="onboarding_five">내가 그린 그림을\n나만의 그림으로\n만들어보아요</string>
     <string name="input_text">입력</string>
     <string name="profile_nickname_check">확인</string>
 

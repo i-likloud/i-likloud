@@ -55,4 +55,14 @@ class SharedPreferencesUtil(context: Context) {
     fun getMusicStatus() : Boolean{
         return preferences.getBoolean("is_music_played", true)
     }
+
+    fun getBoolean(key : String) : Boolean{
+        return preferences.getBoolean(key, false)
+    }
+
+    fun setBoolean(key:String, status: Boolean){
+        val editor = preferences.edit()
+        editor.putBoolean(key, status)
+        editor.apply()
+    }
 }
