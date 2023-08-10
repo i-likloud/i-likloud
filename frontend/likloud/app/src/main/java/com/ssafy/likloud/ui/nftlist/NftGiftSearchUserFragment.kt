@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -64,27 +65,18 @@ class NftGiftSearchUserFragment(var nftId: Int) : BaseFragment<FragmentNftGiftSe
 
     override fun initListener() {
 
-        initEditText(
-            binding.edittextSearchUser,
-            null,
-            binding.layoutNftGiftSearchUserFragment,
-            mActivity,
-            null
-        )
-
         binding.apply {
-            edittextSearchUser.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                }
-
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                }
-
-                override fun afterTextChanged(p0: Editable?) {
-                    nftGiftSearchUserFragmentViewModel.getCurrentSearchUserList(p0.toString())
-                }
-
-            })
+            initEditText(
+                edittextSearchUser,
+                null,
+                binding.root,
+                requireActivity()
+            ){message ->
+                nftGiftSearchUserFragmentViewModel.getCurrentSearchUserList(message)
+            }
+            edittextSearchUser.setOnFocusChangeListener { view, hasFocus ->
+                if(!hasFocus) hideKeyboard()
+            }
         }
     }
 
@@ -123,5 +115,9 @@ class NftGiftSearchUserFragment(var nftId: Int) : BaseFragment<FragmentNftGiftSe
         )
     }
 
+    private fun hideKeyboard() {
+        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(requireView().windowToken, 0)
+    }
 
 }

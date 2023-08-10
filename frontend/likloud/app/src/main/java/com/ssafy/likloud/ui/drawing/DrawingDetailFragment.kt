@@ -148,12 +148,18 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             }
         }
 
-        drawingDetailFragmentViewModel.isSuccess.observe(viewLifecycleOwner){
-//            Toast.makeText(mainActivity, "nft 발급 완료", Toast.LENGTH_SHORT).show()
-//            Log.d(TAG, "nft 발급 완료")
-            showSnackbar(binding.root, "movetonft",getString(R.string.nft_success))
-            //seekbar를 통해 확인하러 가기 만들면 좋을듯
+        viewLifecycleOwner.lifecycleScope.launch {
+            drawingDetailFragmentViewModel.isSuccess.collectLatest {
+                showSnackbar(binding.root, "movetonft",getString(R.string.nft_success))
+            }
         }
+
+//        drawingDetailFragmentViewModel.isSuccess.observe(viewLifecycleOwner){
+////            Toast.makeText(mainActivity, "nft 발급 완료", Toast.LENGTH_SHORT).show()
+//            Log.d(TAG, "isSuccess : $it")
+//            showSnackbar(binding.root, "movetonft",getString(R.string.nft_success))
+//            //seekbar를 통해 확인하러 가기 만들면 좋을듯
+//        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             drawingDetailFragmentViewModel.isReported.collectLatest {

@@ -1,5 +1,6 @@
 package com.ssafy.likloud.ui.nftlist
 
+import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
@@ -17,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
@@ -88,6 +91,8 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
             imageNftInfo.setOnClickListener {
                 nftListFragmentViewModel.nftInfoDialog.show(childFragmentManager, "nftInfo")
             }
+            layoutFrameFragmentSearchUser.setOnClickListener {
+            }
         }
 
         mActivity.onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
@@ -115,23 +120,24 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
                 nftListFragmentViewModel.getMyNftDtoList()
                 activityViewModel.setIsSended(false)
                 showSnackbar(binding.root, "info", "선물을 보냈습니다!")
-                viewLifecycleOwner.lifecycleScope.launch {
-                    binding.lottieSendGift.apply {
-                        visibility = View.VISIBLE
-                        playAnimation()
-                        delay(1000)
-                        visibility = View.GONE
+                binding.lottieSendGift.visibility = View.VISIBLE
+                binding.lottieSendGift.playAnimation()
+                binding.lottieSendGift.addAnimatorListener(object: Animator.AnimatorListener{
+                    override fun onAnimationStart(p0: Animator) {}
+                    override fun onAnimationEnd(p0: Animator) {
+                        binding.lottieSendGift.visibility = View.INVISIBLE
                     }
-
-                }
+                    override fun onAnimationCancel(p0: Animator) {}
+                    override fun onAnimationRepeat(p0: Animator) {}
+                })
             }
         }
         nftListFragmentViewModel.isAccepted.observe(viewLifecycleOwner){
             if(it){ //수락했을 때
-                Toast.makeText(mActivity, "수락했어용", Toast.LENGTH_SHORT).show()
+                showSnackbar(binding.root,"info","수락했어요!")
                 nftListFragmentViewModel.getNftGiftList()
             }else{ //거부했을 때
-                Toast.makeText(mActivity, "거절했음", Toast.LENGTH_SHORT).show()
+                showSnackbar(binding.root, "fail", "거부했어요ㅠ")
                 nftListFragmentViewModel.getNftGiftList()
             }
         }
@@ -216,5 +222,8 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
     fun rejectGift(nftGiftDto: NftGiftDto){
         nftListFragmentViewModel.rejectGift(nftGiftDto)
     }
+
+
+
 
 }

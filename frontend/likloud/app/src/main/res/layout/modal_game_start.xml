@@ -78,6 +78,7 @@
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="@dimen/_5sdp"
             app:layout_constraintWidth_percent="0.45"
             android:elevation="@dimen/_2sdp"/>
 
@@ -93,6 +94,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@id/button_game_start"
             app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="@dimen/_5sdp"
             app:layout_constraintWidth_percent="0.45"
             android:layout_marginStart="@dimen/_10sdp"
             android:elevation="@dimen/_2sdp"/>
