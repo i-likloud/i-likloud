@@ -56,12 +56,14 @@
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginHorizontal="@dimen/_10sdp">
 
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/_2sdp"
+            android:paddingVertical="@dimen/_2sdp"
             android:paddingStart="@dimen/_14sdp"
+            android:paddingEnd="@dimen/_14sdp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -115,6 +117,7 @@
             app:layout_constraintTop_toBottomOf="@+id/layout_button"
             app:layout_constraintWidth_percent="0.97" />
 
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -153,6 +156,17 @@
             android:layout_margin="@dimen/_5sdp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie_send_gift"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_200sdp"
+        app:lottie_fileName="lottie_animation_gift.json"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 

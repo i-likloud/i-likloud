@@ -53,5 +53,10 @@ class NftGiftDialog(
         imm.hideSoftInputFromWindow(requireView().windowToken, 0)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        isCancelable = false
+    }
+
 
 }
