@@ -7,7 +7,8 @@
     android:layout_margin="@dimen/_2sdp"
     android:elevation="@dimen/_2sdp"
     android:padding="@dimen/_2sdp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_comment_item">
 
     <FrameLayout
         android:id="@+id/layout_image_profile"
@@ -40,7 +41,7 @@
         android:id="@+id/text_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="영준 어린이"
+        android:text="어린이"
         style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
         app:layout_constraintTop_toTopOf="@id/layout_image_profile"
         app:layout_constraintBottom_toBottomOf="@id/layout_image_profile"
@@ -73,7 +74,6 @@
             android:layout_height="wrap_content"
             app:layout_constraintWidth_percent="0.85"
             android:layout_marginLeft="@dimen/_6sdp"
-            android:text="댓글 내용이랍니다!~~~ 댓글 내용이요 댓글이 이렇게 길어졌을 때 오른쪽 안잘리게 한 번 테스트해보라고"
             style="@style/Theme.AppCompat.TextView.pretendard.Size08"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"

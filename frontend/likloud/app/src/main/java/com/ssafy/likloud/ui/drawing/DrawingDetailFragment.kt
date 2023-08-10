@@ -192,7 +192,8 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             buttonDrawingComment.setOnClickListener {
                 val content = edittextDrawingComment.text.toString()
                 if(content == ""){
-                    Toast.makeText(mainActivity,"댓글을 입력하세요", Toast.LENGTH_SHORT).show()
+                    showSnackbar(binding.root, "blue_bar", "댓글을 입력해주세요!")
+//                    Toast.makeText(mainActivity,"댓글을 입력하세요", Toast.LENGTH_SHORT).show()
                 }else{
                     //댓글 입력 함수
                     drawingDetailFragmentViewModel.registDrawingComment(drawingDetailFragmentViewModel.currentDrawingDetail.value!!.drawingId, content)
@@ -221,7 +222,8 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
                         }
                     }
                 }else{
-                    Toast.makeText(mainActivity, "이미 발급 받은 그림입니다.", Toast.LENGTH_SHORT).show()
+                    showSnackbar(binding.root, "blue_bar", "이미 발급 받은 그림이에요.")
+//                    Toast.makeText(mainActivity, "이미 발급 받은 그림입니다.", Toast.LENGTH_SHORT).show()
                 }
             }
             buttonReport.setOnClickListener {

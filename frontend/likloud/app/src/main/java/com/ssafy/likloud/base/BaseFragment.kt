@@ -93,6 +93,9 @@ abstract class BaseFragment<B : ViewBinding>(
                     findNavController().navigate(R.id.action_drawingDetailFragment_to_nftListFragment)
                 }
             }
+            "blue_bar" -> {
+                snackbar.setBackgroundTint(ContextCompat.getColor(requireActivity(), R.color.blue_mild))
+            }
         }
         snackbar.show()
     }

@@ -200,10 +200,11 @@
                         android:layout_margin="@dimen/_2sdp">
 
                         <ImageView
-                            android:layout_width="@dimen/_12sdp"
+                            android:layout_width="wrap_content"
                             android:layout_height="@dimen/_14sdp"
                             android:src="@drawable/ic_stamp"
                             android:scaleType="centerCrop"
+                            android:adjustViewBounds="true"
                             android:layout_marginRight="@dimen/_4sdp"/>
 
                         <TextView

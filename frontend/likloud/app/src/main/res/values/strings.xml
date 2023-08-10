@@ -125,7 +125,7 @@
     <string name="not_logout">취소하기</string>
     <string name="logout_yes">로그아웃 하기</string>
     <string name="photo_choose">이걸로 할래요!</string>
-    <string name="nft_fail">게임을 통해 도장을 모아 발급해주세요!</string>
+    <string name="nft_fail">게임을 통해 도장을 모아 발급해주세요! 필요한 도장은 3개입니다.</string>
     <string name="nft_success">NFT가 발급 완료되었어요!</string>
     <string name="report_message">신고가 완료되었습니다.</string>
 

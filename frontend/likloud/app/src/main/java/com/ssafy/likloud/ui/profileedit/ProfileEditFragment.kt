@@ -1,9 +1,6 @@
 package com.ssafy.likloud.ui.profileedit
 
 import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
-import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,18 +9,13 @@ import android.view.animation.AnimationUtils
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.ssafy.likloud.ApplicationClass.Companion.sharedPreferences
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ssafy.likloud.ApplicationClass.Companion.USER_EMAIL
-import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
-import com.ssafy.likloud.data.model.request.LoginAdditionalRequest
 import com.ssafy.likloud.data.model.request.ProfileEditRequest
 import com.ssafy.likloud.data.model.response.AccessoryResponse
-import com.ssafy.likloud.databinding.FragmentProfileBinding
 import com.ssafy.likloud.databinding.FragmentProfileEditBinding
 import com.ssafy.likloud.ui.profile.ProfileListAdapter
 import dagger.hilt.android.AndroidEntryPoint
