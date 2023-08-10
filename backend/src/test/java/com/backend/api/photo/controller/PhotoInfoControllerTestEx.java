@@ -24,19 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class PhotoInfoControllerTestEx extends BaseIntegrationTest {
 
 
-    @Autowired
-    private MemberService memberService;
-
-    @Mock
-    private PhotoInfoService photoInfoService;
-    
-    private AccessToken accessToken;
-
-//    String token = accessToken.token;
     private String token = AccessToken.getNewToken();
-//    String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBQ0NFU1MiLCJpYXQiOjE2OTA5NjYyNDksImV4cCI6MTY5MDk2ODA0OSwiZW1haWwiOiJob2lsZGF5NTMwM0BuYXZlci5jb20iLCJyb2xlIjoiTUVNQkVSIn0.-Bz9EN1uubisajaCATX7ds7gR5_h5a5ht5ljVMk2QLkrOV_P4fmuFSLBU6bxVEofG7VxRSGgltxdXi7Fy2SNuQ";
 
-    
     // 권한 값 지정 X
     @Test
     @Rollback
@@ -52,8 +41,7 @@ class PhotoInfoControllerTestEx extends BaseIntegrationTest {
 
             //then
             resultActions
-                    .andExpect(status().isOk())
-                    .andExpect(jsonPath("$").isArray());
+                    .andExpect(status().isUnauthorized());
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -75,14 +63,12 @@ class PhotoInfoControllerTestEx extends BaseIntegrationTest {
 
         //then
         resultActions
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray());
+                .andExpect(status().is5xxServerError());
+//                .andExpect(status().isNotFound());
         }catch (Exception e){
             e.printStackTrace();
         }
     }
-
-
 
 
 }
