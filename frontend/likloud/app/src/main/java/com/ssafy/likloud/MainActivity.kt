@@ -156,11 +156,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
-        if (intent.getBooleanExtra("isLogined", false) && sharedPreferences.getBoolean(ONBOARD_DONE) == true) {
-            mainActivityViewModel.getMemberInfo(sharedPreferences.getString(USER_EMAIL).toString())
-            navController.navigate(R.id.action_loginFragment_to_homeFragment)
-        }
-        Log.d(TAG, "initNavController: 3${mainActivityViewModel.isLogined}")
 
         val inflater = navHostFragment.navController.navInflater
         val graph = inflater.inflate(R.navigation.nav_graph)
@@ -168,7 +163,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         if (sharedPreferences.getBoolean(ONBOARD_DONE) == false) {
             graph.setStartDestination(R.id.onboardingFragment)
         } else {
-            graph.setStartDestination(R.id.loginFragment)
+            if (intent.getBooleanExtra("isLogined", false)) {
+                mainActivityViewModel.getMemberInfo(sharedPreferences.getString(USER_EMAIL).toString())
+                graph.setStartDestination(R.id.homeFragment)
+            } else {
+                graph.setStartDestination(R.id.loginFragment)
+            }
         }
 
         val navController = navHostFragment.navController
