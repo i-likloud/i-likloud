@@ -51,11 +51,6 @@ class LoginFragment :
     private val loginFragmentViewModel: LoginFragmentViewModel by viewModels()
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
 //    private lateinit var mActivity: MainActivity
-
-    private lateinit var OAUTH_CLIENT_ID: String
-    private lateinit var OAUTH_CLIENT_SECRET: String
-    private lateinit var OAUTH_CLIENT_NAME: String
-
 //    override fun onAttach(context: Context) {
 //        super.onAttach(context)
 //        mActivity = context as MainActivity
@@ -71,11 +66,6 @@ class LoginFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        OAUTH_CLIENT_ID = "db3rVaNqaT6ViKz6geU3"
-        OAUTH_CLIENT_SECRET = "Vc24r3C8eP"
-        OAUTH_CLIENT_NAME = "운이 좋아"
-
         initObserver()
         init()
         initListener()
@@ -93,26 +83,11 @@ class LoginFragment :
     private fun init() {
         NaverIdLoginSDK.initialize(
             mActivity,
-            OAUTH_CLIENT_ID,
-            OAUTH_CLIENT_SECRET,
-            OAUTH_CLIENT_NAME
+            getString(R.string.OAUTH_CLIENT_ID),
+            getString(R.string.OAUTH_CLIENT_SECRET),
+            getString(R.string.OAUTH_CLIENT_NAME)
         )
         binding.buttonNaverLogin.setOAuthLogin(naverLoginLauncher)
-
-        if (sharedPreferences.getString(X_ACCESS_TOKEN) != null && sharedPreferences.getString(X_ACCESS_TOKEN) != "") {
-            Log.d(TAG, "init: ${sharedPreferences.getString(X_ACCESS_TOKEN)}")
-            Log.d(TAG, "init: ${sharedPreferences.getString(X_REFRESH_TOKEN)}")
-
-            viewLifecycleOwner.lifecycleScope.launch {
-                withContext(Dispatchers.IO) {
-                    mainActivityViewModel.getMemberInfo(sharedPreferences.getString(USER_EMAIL).toString())
-                    withContext(Dispatchers.Main) {
-//                        showSnackbar(binding.root, "success", "안녕하세요 ${mainActivityViewModel.memberInfo.value!!.nickname}님!")
-                        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-                    }
-                }
-            }
-        }
     }
 
     /**

@@ -137,4 +137,9 @@
     <string name="alert_add_photo">사진을 추가해 주세요.</string>
     <string name="add_photo">사진 추가하기</string>
 
+    <!--naverAPI-->
+    <string name="OAUTH_CLIENT_ID">db3rVaNqaT6ViKz6geU3</string>
+    <string name="OAUTH_CLIENT_SECRET">Vc24r3C8eP</string>
+    <string name="OAUTH_CLIENT_NAME">운이 좋아</string>
+
 </resources>

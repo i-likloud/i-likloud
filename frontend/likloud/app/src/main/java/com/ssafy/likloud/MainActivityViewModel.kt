@@ -206,4 +206,6 @@ class MainActivityViewModel @Inject constructor(
         }
     }
 
+    var isLogined = false
+
 }
