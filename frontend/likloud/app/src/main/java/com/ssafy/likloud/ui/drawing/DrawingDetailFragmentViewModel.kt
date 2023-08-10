@@ -114,16 +114,16 @@ class DrawingDetailFragmentViewModel@Inject constructor(
         }
     }
 
-    private var _isSuccess = MutableLiveData<Boolean>()
-    val isSuccess: LiveData<Boolean>
-        get() = _isSuccess
+    private var _isSuccess = MutableSharedFlow<Boolean>()
+    val isSuccess: SharedFlow<Boolean>
+        get() = _isSuccess.asSharedFlow()
 
     fun registNft(drawingId: Int){
         viewModelScope.launch {
             baseRepository.registNft(drawingId).onSuccess {
                 // NFT 발급 성공
                 Log.d(TAG, "registNft 성공")
-                _isSuccess.value = true
+                _isSuccess.emit(true)
                 _nftYn.value = true
             }
         }
