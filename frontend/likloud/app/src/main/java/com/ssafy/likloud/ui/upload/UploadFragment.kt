@@ -24,6 +24,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.navercorp.nid.NaverIdLoginSDK
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
@@ -56,7 +57,6 @@ class UploadFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListener()
-        Log.d(TAG, "onViewCreated: oncreated")
 
         /**
          * 구름인지 아닌지를 observe하여 구름이면 화면이동, 아니면 dialog를 띄웁니다.
@@ -82,7 +82,6 @@ class UploadFragment :
                 }
 
             }
-            Log.d(TAG, "onViewCreated: observed!!")
         }
     }
 
@@ -105,7 +104,7 @@ class UploadFragment :
                 BitmapCanvasObject.clearAllDrawingPoints()
                 uploadFragmentViewModel.sendMultipart(uploadFragmentViewModel.photoMultipartBody.value!!)
             } else {
-                showSnackbar(binding.root, "fail", "사진 전달에 실패했습니다.")
+                showSnackbar(binding.root, "fail", getString(R.string.alert_add_photo))
             }
         }
     }
@@ -233,7 +232,7 @@ class UploadFragment :
             // 선택한 이미지의 Uri를 처리하는 코드를 작성합니다.
             Glide.with(this)
                 .load(uri)
-                .transform(CenterCrop())
+                .transform(CenterCrop() ,RoundedCorners(mActivity.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._10sdp)))
                 .into(binding.imageSelectedPhoto)
 
             binding.textWarningContent.text = getString(R.string.terms_second_creation)

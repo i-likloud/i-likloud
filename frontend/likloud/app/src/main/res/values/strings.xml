@@ -81,8 +81,8 @@
 
     <!--store-->
     <string name="title_store">상점</string>
-    <string name="drawing_title_max">/50</string>
-    <string name="drawing_desc_max">/300</string>
+    <string name="drawing_title_max">/10</string>
+    <string name="drawing_desc_max">/100</string>
     <string name="bgm_off">BGM OFF</string>
     <string name="bgm_on">BGM ON</string>
     <string name="logout">로그 아웃</string>
@@ -131,5 +131,7 @@
 
     <!--이용약관-->
     <string name="terms_second_creation">다른 사용자들이\n사진을 수정, 변형, 조합하여\n새로운 작품을\n만들 수 있습니다.</string>
+    <string name="alert_add_photo">사진을 추가해 주세요.</string>
+    <string name="add_photo">사진 추가하기</string>
 
 </resources>

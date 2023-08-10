@@ -2,6 +2,7 @@ package com.ssafy.likloud.ui.drawingform
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -19,7 +20,9 @@ import com.ssafy.likloud.util.initEditText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlin.math.max
 
+private const val TAG = "DrawingFormFragment_싸피"
 @AndroidEntryPoint
 class DrawingFormFragment : BaseFragment<FragmentDrawingFormBinding>(
     FragmentDrawingFormBinding::bind,
@@ -49,51 +52,21 @@ class DrawingFormFragment : BaseFragment<FragmentDrawingFormBinding>(
         }
 
         binding.buttonSaveDrawing.setOnClickListener {
+
             drawingFormFragmentViewModel.uploadDrawing(
                 mainActivityViewModel.drawingMultipartBody.value!!,
                 mainActivityViewModel.uploadingPhotoId.value!!,
                 binding.edittextTitle.text.toString(),
                 binding.edittextDescription.text.toString()
             )
+            showLoadingDialog(mActivity)
         }
 
-//        binding.layoutSaveDrawing.setOnTouchListener { _, _ ->
-//            requireActivity().hideKeyboard()
-//            binding.edittextTitle.clearFocus()
-//            false
-//        }
-    }
+        binding.buttonBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
 
-    /**
-     * edittext focus에 따라서 뷰를 바꾸고 키보드를 제어하는 함수입니다.
-     */
-//    @SuppressLint("ClickableViewAccessibility", "UseCompatLoadingForDrawables")
-//    private fun initEditText(
-//        editText: EditText,
-//        layout: View,
-//        setMessage: (String) -> Unit
-//    ) {
-//        editText.onFocusChangeListener = View.OnFocusChangeListener { view, gainFocus ->
-//            if (gainFocus)
-//                layout.background =
-//                    requireContext().getDrawable(R.drawable.frame_rounded_border_radius20_stroke3)
-//            else
-//                layout.background =
-//                    requireContext().getDrawable(R.drawable.frame_rounded_border_radius20)
-//        }
-//
-//        editText.addTextChangedListener(object : TextWatcher {
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//                setMessage(s.toString()) // setMessage 파라미터를 사용하여 적절한 메시지 설정 함수 호출
-//            }
-//
-//            override fun afterTextChanged(s: Editable?) {}
-//        })
-//
-//
-//    }
+    }
 
 
     @SuppressLint("SetTextI18n")
@@ -118,7 +91,14 @@ class DrawingFormFragment : BaseFragment<FragmentDrawingFormBinding>(
 
         viewLifecycleOwner.lifecycleScope.launch {
             drawingFormFragmentViewModel.isDrawingUploaded.collectLatest {
-                if (it == true) findNavController().navigate(R.id.action_drawingFormFragment_to_drawingListFragment)
+                dismissLoadingDialog()
+                if (it == true) {
+                    showSnackbar(binding.root, "info", "성공적으로 그림이 업로드 되었어요!")
+                    findNavController().navigate(R.id.action_drawingFormFragment_to_drawingListFragment)
+                }
+                else{
+                    showSnackbar(binding.root, "fail", "제목과 설명을 입력해주세요!")
+                }
             }
         }
     }

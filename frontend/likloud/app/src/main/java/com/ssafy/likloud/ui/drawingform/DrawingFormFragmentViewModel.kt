@@ -76,6 +76,7 @@ class DrawingFormFragmentViewModel @Inject constructor(
             }
                 .onError {
                     Log.d(TAG, "uploadDrawing: fail")
+                    _isDrawingUploaded.emit(false)
                 }
         }
     }
