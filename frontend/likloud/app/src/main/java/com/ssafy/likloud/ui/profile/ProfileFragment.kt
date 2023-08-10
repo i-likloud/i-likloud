@@ -35,10 +35,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     private val profileFragmentViewModel : ProfileFragmentViewModel by viewModels()
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
 
-    private var selectedWaterDropColor = 0
-    private var selectedWaterDropFace = 0
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

@@ -4,11 +4,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ssafy.likloud.MainActivityViewModel
+import com.ssafy.likloud.R
 import com.ssafy.likloud.data.model.CommentDto
 import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.MemberProfileDto
@@ -32,6 +34,7 @@ class CommentListAdapter  (var activityViewModel: MainActivityViewModel): ListAd
     }
 
     inner class CommentListHolder(binding: ItemCommentBinding) : RecyclerView.ViewHolder(binding.root){
+        val layoutCommentItem = binding.layoutCommentItem
         val imageProfileColor = binding.imageProfileColor
         val imageProfileFace = binding.imageProfileFace
         val imageProfileAccessory = binding.imageProfileAccessory
@@ -62,6 +65,8 @@ class CommentListAdapter  (var activityViewModel: MainActivityViewModel): ListAd
             }else{
                 imageDeleteComment.visibility = View.GONE
             }
+
+            layoutCommentItem.animation = AnimationUtils.loadAnimation(layoutCommentItem.context, R.anim.list_item_anim_fade_in)
 
             imageDeleteComment.setOnClickListener{
                 itemClickListner.onClick(comment, layoutPosition)

@@ -107,6 +107,7 @@
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
                     android:hint="이영준"
+                    android:maxLength="8"
                     style="@style/Theme.AppCompat.TextView.pretendard.Size20" />
 
             </LinearLayout>

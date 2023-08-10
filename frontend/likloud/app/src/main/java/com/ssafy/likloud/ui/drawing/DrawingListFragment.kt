@@ -147,7 +147,8 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
             buttonDrawingComment.setOnClickListener {
                 val content = edittextDrawingComment.text.toString()
                 if(content == ""){
-                    Toast.makeText(mainActivity,"댓글을 입력하세요",Toast.LENGTH_SHORT).show()
+                    showSnackbar(binding.root, "blue_bar", "댓글을 입력해주세요!")
+//                    Toast.makeText(mainActivity,"댓글을 입력하세요",Toast.LENGTH_SHORT).show()
                 }else{
                     //댓글 입력 함수
                     drawingListFragmentViewModel.registDrawingComment(drawingListFragmentViewModel.currentDrawingDetailDto.value!!.drawingId, content)
@@ -215,7 +216,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
 
         viewLifecycleOwner.lifecycleScope.launch {
             drawingListFragmentViewModel.isReported.collectLatest {
-                Toast.makeText(mainActivity, "신고 완료", Toast.LENGTH_SHORT).show()
+                showSnackbar(binding.root, "blue_bar", "신고가 완료되었습니다!")
             }
         }
     }
@@ -258,7 +259,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
                             drawingListFragmentViewModel.registNft(drawing.drawingId)
                         }else{
                             //여기서 silverCoin 부족하다고 뜸
-                            showSnackbar(binding.root, "fail",getString(R.string.nft_fail))
+                            showSnackbar(binding.root, "fail", getString(R.string.nft_fail))
                             //Toast.makeText(mainActivity,"silverCoin 확인 바람", Toast.LENGTH_SHORT).show()
                         }
                     }
