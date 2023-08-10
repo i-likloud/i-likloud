@@ -63,7 +63,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.45" /> <!-- fitCenter로 수정 -->
+            app:layout_constraintWidth_percent="0.45" />
 
 
         <LinearLayout
@@ -88,7 +88,7 @@
                 android:background="@color/transparent"
                 android:gravity="top"
                 android:hint="@string/drawing_title"
-                android:maxLength="50"
+                android:maxLength="10"
                 android:padding="@dimen/_8sdp" />
 
             <TextView
@@ -126,7 +126,7 @@
                 android:background="@color/transparent"
                 android:gravity="top"
                 android:hint="@string/drawing_description"
-                android:maxLength="300"
+                android:maxLength="100"
                 android:padding="@dimen/_8sdp" />
 
             <TextView
@@ -141,31 +141,34 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="@dimen/_10sdp"
-            android:id="@+id/button_save_drawing"
+            android:id="@+id/layout_button_save_drawing"
             android:layout_width="0dp"
-            app:layout_constraintWidth_percent="0.45"
-            android:layout_height="@dimen/_28sdp"
-            android:layout_gravity="right"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:background="@drawable/frame_button_green_mild"
-            android:elevation="@dimen/_2sdp"
-            android:gravity="center"
-            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_description"
-            app:layout_constraintEnd_toEndOf="parent">
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            app:layout_constraintWidth_percent="0.45"
+            android:padding="@dimen/_1sdp">
 
-
-            <TextView
-                style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/save_drawing" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_save_drawing"
+            android:layout_width="match_parent"
+            android:background="@drawable/frame_button_green_mild"
+            android:layout_height="@dimen/_28sdp"
+            android:text="@string/save_drawing"
+            android:elevation="@dimen/_2sdp"
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
+            android:layout_marginBottom="@dimen/_2sdp"
+            android:gravity="center"/>
 
         </LinearLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

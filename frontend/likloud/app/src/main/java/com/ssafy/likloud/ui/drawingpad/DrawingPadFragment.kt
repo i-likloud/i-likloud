@@ -218,7 +218,6 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
                 val layoutParams = binding.dotPensize.layoutParams as ConstraintLayout.LayoutParams
                 layoutParams.width = (value*0.15) .toInt()  * applicationContext.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._1sdp) + 1
                 layoutParams.height = (value*0.15).toInt() * applicationContext.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._1sdp) + 1
-                Log.d(TAG, "initView: ${layoutParams.height}")
                 binding.dotPensize.layoutParams = layoutParams
                 binding.dotPensize.requestLayout()
             })
