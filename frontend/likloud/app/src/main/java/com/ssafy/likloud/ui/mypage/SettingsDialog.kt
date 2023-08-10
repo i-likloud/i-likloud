@@ -3,11 +3,13 @@ package com.ssafy.likloud.ui.mypage
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.AppCompatButton
+import androidx.navigation.fragment.findNavController
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseDialog
 import com.ssafy.likloud.databinding.FragmentUploadBinding
 import com.ssafy.likloud.databinding.ModalChooseGalleryCameraBinding
 import com.ssafy.likloud.databinding.ModalSettingsBinding
+import com.ssafy.likloud.ui.nftlist.NftGiftSearchUserFragment
 
 
 class SettingsDialog(
@@ -40,6 +42,13 @@ class SettingsDialog(
 
         binding.buttonDeleteUser.setOnClickListener {
             openSourceLicenses.invoke()
+            dismiss()
+        }
+        binding.buttonInfo.setOnClickListener {
+            val parentFragment = parentFragment
+            if (parentFragment is MypageFragment) {
+                parentFragment.goInfoFragment()
+            }
             dismiss()
         }
     }

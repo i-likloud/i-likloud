@@ -39,6 +39,9 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/enter_from_left"
             app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_loginFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -232,6 +235,9 @@
             app:popExitAnim="@anim/fade_out"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_mypageFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
     </fragment>
 
     <fragment
@@ -361,5 +367,10 @@
         android:name="com.ssafy.likloud.ui.nftlist.NftGiftSearchUserFragment"
         android:label="fragment_nft_gift_search_user"
         tools:layout="@layout/fragment_nft_gift_search_user" />
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="com.ssafy.likloud.ui.info.InfoFragment"
+        android:label="fragment_info"
+        tools:layout="@layout/fragment_info" />
 
 </navigation>

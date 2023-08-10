@@ -259,4 +259,8 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
             makeAnimationFade(binding.textviewStampCnt, 1f)
         }
     }
+
+    fun goInfoFragment(){
+        findNavController().navigate(R.id.action_mypageFragment_to_infoFragment)
+    }
 }
