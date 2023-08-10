@@ -78,7 +78,10 @@ class NftGiftAdapter (var context: Context): ListAdapter<NftGiftDto, NftGiftAdap
                             val height = resource.intrinsicHeight
                             // 이미지의 크기를 이용하여 레이아웃을 조정
 //                            imageView.layoutParams.width = width
-                            layoutBackFrame.layoutParams.height = height
+                            if (textContent.length() < 46)
+                                layoutBackFrame.layoutParams.height = height
+                            else
+                                layoutBackFrame.layoutParams.height = height + 90
                             layoutBackFrame.requestLayout()
                         }
                         return false

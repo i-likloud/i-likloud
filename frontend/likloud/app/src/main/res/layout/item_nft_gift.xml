@@ -49,7 +49,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="CSH"
-                    style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
+                    style="@style/Theme.AppCompat.TextView.jua.dark.Size10"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_margin="@dimen/_10sdp"/>
@@ -59,14 +59,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="TITLE"
-                    style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
+                    style="@style/Theme.AppCompat.TextView.jua.dark.Size10"
                     app:layout_constraintTop_toBottomOf="@id/text_nft_nickname"
                     app:layout_constraintStart_toStartOf="@id/text_nft_nickname"/>
 
                 <TextView
                     android:id="@+id/text_nft_content"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
                     android:text="CONTENT"
                     style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
                     app:layout_constraintTop_toBottomOf="@id/text_nft_title"
