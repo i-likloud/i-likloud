@@ -49,7 +49,7 @@ class CommentControllerTest extends BaseIntegrationTest {
 
         // 그림 업로드
         ClassPathResource resource2 = new ClassPathResource("1915_20200114094530503.jpg");
-        MockMultipartFile file2 = new MockMultipartFile("file", resource2.getFilename(), MediaType.IMAGE_JPEG_VALUE, resource.getInputStream());
+        MockMultipartFile file2 = new MockMultipartFile("file", resource2.getFilename(), MediaType.IMAGE_JPEG_VALUE, resource2.getInputStream());
 
         String title = "제목";
         String content2 = "내용";
