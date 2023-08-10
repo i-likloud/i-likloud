@@ -7,3 +7,4 @@
     <solid android:color="@android:color/white" />
     <corners android:radius="@dimen/_17sdp" /> <!-- 테두리를 둥글게 만드는 반지름 값 설정 -->
 </shape>
+

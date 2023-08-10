@@ -28,6 +28,7 @@ import com.ssafy.likloud.databinding.FragmentNftListBinding
 import com.ssafy.likloud.ui.photo.PhotoListFragmentDirections
 import com.ssafy.likloud.ui.upload.UploadFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 private const val TAG = "차선호"
@@ -51,7 +52,6 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         init()
         initListener()
         initObserver()
@@ -114,6 +114,16 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
                 endSearchUserFragment()
                 nftListFragmentViewModel.getMyNftDtoList()
                 activityViewModel.setIsSended(false)
+                showSnackbar(binding.root, "info", "선물을 보냈습니다!")
+                viewLifecycleOwner.lifecycleScope.launch {
+                    binding.lottieSendGift.apply {
+                        visibility = View.VISIBLE
+                        playAnimation()
+                        delay(1000)
+                        visibility = View.GONE
+                    }
+
+                }
             }
         }
         nftListFragmentViewModel.isAccepted.observe(viewLifecycleOwner){

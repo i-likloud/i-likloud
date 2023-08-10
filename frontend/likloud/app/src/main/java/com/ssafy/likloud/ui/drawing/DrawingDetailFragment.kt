@@ -138,7 +138,7 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             if(it){
 //                Toast.makeText(mainActivity, "지급 발급 완료!  맘껏이제 하시오", Toast.LENGTH_SHORT).show()
 //                Log.d(TAG, "지갑 발급 완료!")
-                if(activityViewModel.memberInfo.value!!.silverCoin>=5) {
+                if(activityViewModel.memberInfo.value!!.silverCoin>=3) {
                     drawingDetailFragmentViewModel.registNft(args.drawingId)
                 }else{
                     //여기서 siverCoin 부족 메시지
