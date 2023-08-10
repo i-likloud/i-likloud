@@ -35,7 +35,7 @@ public class CommentControllerTestEx extends BaseIntegrationTest {
                     .andDo(MockMvcResultHandlers.print());
 
             //then
-            resultActions.andExpect(status().isOk());
+            resultActions.andExpect(status().isNotFound());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -60,7 +60,7 @@ public class CommentControllerTestEx extends BaseIntegrationTest {
                     .andDo(MockMvcResultHandlers.print());
 
             // then
-            deleteResult.andExpect(status().isOk());
+            deleteResult.andExpect(status().isNotFound());
         } catch (Exception e) {
             e.printStackTrace();
         }

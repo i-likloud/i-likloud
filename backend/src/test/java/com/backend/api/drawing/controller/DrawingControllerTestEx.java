@@ -24,7 +24,7 @@ public class DrawingControllerTestEx extends BaseIntegrationTest {
     @Test
     @Rollback // 에러 확인
     void uploadDrawingWrongPhotoId() throws Exception {
-        String token = AccessToken.getNewToken();
+
         //given
         Long photoId = 999999999999L;
 
@@ -46,7 +46,7 @@ public class DrawingControllerTestEx extends BaseIntegrationTest {
         //when
 
         ResultActions resultActions = mvc.perform(requestBuilder)
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andDo(MockMvcResultHandlers.print());
         //then
 
@@ -55,9 +55,7 @@ public class DrawingControllerTestEx extends BaseIntegrationTest {
     @Test
     @Rollback
     void drawingBoardWrongOrderBy() {
-        //given
-        String token = AccessToken.getNewToken();
-        //when
+
         try {
             ResultActions resultActions = mvc.perform(get("/api/drawings/?orderBy=test")
                             .accept(MediaType.APPLICATION_JSON)
@@ -65,10 +63,10 @@ public class DrawingControllerTestEx extends BaseIntegrationTest {
                     .andDo(MockMvcResultHandlers.print());
 
 
-            //then
+
             resultActions
-                    .andExpect(status().isOk())
-                    .andExpect(jsonPath("$").isArray());
+                    .andExpect(status().isInternalServerError());
+//                    .andExpect(jsonPath("$").isArray());
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -87,7 +85,7 @@ public class DrawingControllerTestEx extends BaseIntegrationTest {
                             .header("Authorization", "Bearer " + token))
                     .andDo(MockMvcResultHandlers.print());
 
-            resultActions.andExpect(status().isOk());
+            resultActions.andExpect(status().isNotFound());
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -105,7 +103,7 @@ public class DrawingControllerTestEx extends BaseIntegrationTest {
                             .header("Authorization", "Bearer " + token))
                     .andDo(MockMvcResultHandlers.print());
 
-            resultActions.andExpect(status().isOk());
+            resultActions.andExpect(status().isNotFound());
         }catch (Exception e){
             e.printStackTrace();
         }
