@@ -3,16 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center_horizontal"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/description_text"
-        style="@style/Theme.AppCompat.TextView.jua.dark.Size24"
+        style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center|top"
         android:lineSpacingMultiplier="1.4"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="@dimen/_10sdp"/>
 
     <ImageView
         android:id="@+id/onboard_img"

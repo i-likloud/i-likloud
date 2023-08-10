@@ -93,6 +93,10 @@ class UploadFragment :
         }
 
     override fun initListener() {
+        binding.layoutUploadFragment.setOnClickListener {
+
+        }
+
         binding.layoutAddPhoto.setOnClickListener {
             requestMultiplePermission.launch(uploadFragmentViewModel.permissionList)
             invokeCameraDialog()
