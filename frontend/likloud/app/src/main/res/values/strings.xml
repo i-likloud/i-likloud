@@ -78,7 +78,7 @@
     <string name="drawing_title">그림에 제목을 지어주세요!</string>
     <string name="drawing_description">그림에 대해 설명해주세요!</string>
     <string name="title_save_drawing">그림 저장하기</string>
-    <string name="game_info">제한 시간 내에 퀴즈를 풀어 나의 물방울을 지켜보아요!</string>
+    <string name="game_info">제한 시간 내에 퀴즈를 풀어\n나의 물방울을 지켜보아요!</string>
     <string name="game_start">게임 시작!</string>
 
     <!--store-->
