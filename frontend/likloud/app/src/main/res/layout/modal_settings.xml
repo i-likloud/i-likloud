@@ -59,7 +59,7 @@
             android:layout_height="@dimen/_50sdp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/button_frame_black"
-            android:text="@string/leave_user" />
+            android:text="@string/opensource" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_info"
@@ -69,5 +69,6 @@
             android:layout_gravity="center_horizontal"
             android:background="@drawable/button_frame_black"
             android:text="@string/title_info" />
+            
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
