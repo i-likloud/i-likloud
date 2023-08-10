@@ -14,7 +14,7 @@ class SettingsDialog(
 //    private val alertDialogModel: RegisterAlertDialogModel,
     private val clickBgmToggle: () -> Unit,
     private val logout: () -> Unit,
-    private val deleteUser: () -> Unit,
+    private val openSourceLicenses: () -> Unit,
     private val bgmText : String
 ) : BaseDialog<ModalSettingsBinding>(ModalSettingsBinding::bind, R.layout.modal_settings) {
 
@@ -39,7 +39,7 @@ class SettingsDialog(
         }
 
         binding.buttonDeleteUser.setOnClickListener {
-            deleteUser.invoke()
+            openSourceLicenses.invoke()
             dismiss()
         }
     }
