@@ -9,7 +9,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
-@Disabled
 @AutoConfigureMockMvc
 @Transactional
 public class BaseIntegrationTest {

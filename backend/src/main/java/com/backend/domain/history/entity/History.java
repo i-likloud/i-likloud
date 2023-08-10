@@ -33,4 +33,12 @@ public class History extends BaseEntity {
     @Column(nullable = false)
     private HistoryType historyType;
 
+    public History (Member member, String content, Long drawingId,Long sendId, HistoryType historyType){
+        this.member = member;
+        this.content = content;
+        this.drawingId = drawingId;
+        this.sendId = sendId;
+        this.historyType = historyType;
+    }
+
 }
