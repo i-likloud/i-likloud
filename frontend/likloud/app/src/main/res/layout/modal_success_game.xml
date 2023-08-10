@@ -56,6 +56,7 @@
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="@dimen/_5sdp"
             app:layout_constraintWidth_percent="0.4" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -72,6 +73,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/button_go_home"
             app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="@dimen/_5sdp"
             app:layout_constraintWidth_percent="0.4" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

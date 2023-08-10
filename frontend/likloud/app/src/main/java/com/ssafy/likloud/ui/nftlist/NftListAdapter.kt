@@ -19,6 +19,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.navercorp.nid.NaverIdLoginSDK
 import com.ssafy.likloud.R
 import com.ssafy.likloud.data.model.NftListDto
 import com.ssafy.likloud.databinding.ItemNftBinding
@@ -31,6 +32,7 @@ private const val TAG = "차선호"
 class NftListAdapter (var context: Context): ListAdapter<NftListDto, NftListAdapter.NftHolder>(
     NftListComparator
 ) {
+    private val largerHeight by lazy { NaverIdLoginSDK.applicationContext.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._12sdp) }
     companion object NftListComparator : DiffUtil.ItemCallback<NftListDto>() {
         override fun areItemsTheSame(oldItem: NftListDto, newItem: NftListDto): Boolean {
             return oldItem == newItem
@@ -79,9 +81,9 @@ class NftListAdapter (var context: Context): ListAdapter<NftListDto, NftListAdap
                             // 이미지의 크기를 이용하여 레이아웃을 조정
 //                            imageView.layoutParams.width = width
                             if (textContent.length() < 46)
-                                layoutBackFrame.layoutParams.height = height
+                                layoutBackFrame.layoutParams.height = height + largerHeight
                             else
-                                layoutBackFrame.layoutParams.height = height + 80
+                                layoutBackFrame.layoutParams.height = height + largerHeight
                             layoutBackFrame.requestLayout()
                         }
                         return false

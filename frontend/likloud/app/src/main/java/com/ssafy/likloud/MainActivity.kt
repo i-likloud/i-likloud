@@ -22,6 +22,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ssafy.likloud.ApplicationClass.Companion.FIREBASE_TOKEN
 import com.ssafy.likloud.ApplicationClass.Companion.USER_EMAIL
+import com.ssafy.likloud.ApplicationClass.Companion.ONBOARD_DONE
 import com.ssafy.likloud.ApplicationClass.Companion.sharedPreferences
 import com.ssafy.likloud.base.BaseActivity
 import com.ssafy.likloud.data.repository.BaseRepository
@@ -33,6 +34,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 private const val TAG = "MainActivity_싸피"
+
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
 
@@ -40,13 +42,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     lateinit var baseRepository: BaseRepository
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
-    private lateinit var mediaPlayer: MediaPlayer
+    lateinit var mediaPlayer: MediaPlayer
 
     private val mainActivityViewModel: MainActivityViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initNavController()
         initFCMMessageAccept()
         initObserver()
         initView()
@@ -58,14 +61,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         mediaPlayer = MediaPlayer.create(this, R.raw.summer_shower_quincas_moreira)
         mediaPlayer.isLooping = true
 
-        if(ApplicationClass.sharedPreferences.getMusicStatus()==true && !mediaPlayer.isPlaying){
+        if (ApplicationClass.sharedPreferences.getMusicStatus() == true && !mediaPlayer.isPlaying) {
             mediaPlayer.start()
         }
+
     }
 
     override fun onPause() {
         super.onPause()
-        if(mediaPlayer.isPlaying) {
+        if (mediaPlayer.isPlaying) {
             mediaPlayer.pause()
 
         }
@@ -73,7 +77,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     override fun onResume() {
         super.onResume()
-        if(ApplicationClass.sharedPreferences.getMusicStatus()==true && !mediaPlayer.isPlaying){
+        if (ApplicationClass.sharedPreferences.getMusicStatus() == true && !mediaPlayer.isPlaying) {
             mediaPlayer.start()
         }
     }
@@ -152,12 +156,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
-        if (intent.getBooleanExtra("isLogined", false)) {
+        if (intent.getBooleanExtra("isLogined", false) && sharedPreferences.getBoolean(ONBOARD_DONE) == true) {
             mainActivityViewModel.getMemberInfo(sharedPreferences.getString(USER_EMAIL).toString())
             navController.navigate(R.id.action_loginFragment_to_homeFragment)
         }
         Log.d(TAG, "initNavController: 3${mainActivityViewModel.isLogined}")
-//        initLogin()
+
+        val inflater = navHostFragment.navController.navInflater
+        val graph = inflater.inflate(R.navigation.nav_graph)
+
+        if (sharedPreferences.getBoolean(ONBOARD_DONE) == false) {
+            graph.setStartDestination(R.id.onboardingFragment)
+        } else {
+            graph.setStartDestination(R.id.loginFragment)
+        }
+
+        val navController = navHostFragment.navController
+        navController.setGraph(graph, intent.extras)
     }
 
 
