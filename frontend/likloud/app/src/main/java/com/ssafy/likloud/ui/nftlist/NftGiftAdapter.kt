@@ -18,6 +18,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.navercorp.nid.NaverIdLoginSDK.applicationContext
 import com.ssafy.likloud.R
 import com.ssafy.likloud.data.model.NftGiftDto
 import com.ssafy.likloud.data.model.NftListDto
@@ -31,6 +32,8 @@ import kotlinx.coroutines.launch
 class NftGiftAdapter (var context: Context): ListAdapter<NftGiftDto, NftGiftAdapter.NftGiftHolder>(
     NftGiftComparator
 ) {
+    private val largerHeight by lazy { applicationContext.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._12sdp) }
+
     companion object NftGiftComparator : DiffUtil.ItemCallback<NftGiftDto>() {
         override fun areItemsTheSame(oldItem: NftGiftDto, newItem: NftGiftDto): Boolean {
             return oldItem == newItem
@@ -79,9 +82,9 @@ class NftGiftAdapter (var context: Context): ListAdapter<NftGiftDto, NftGiftAdap
                             // 이미지의 크기를 이용하여 레이아웃을 조정
 //                            imageView.layoutParams.width = width
                             if (textContent.length() < 46)
-                                layoutBackFrame.layoutParams.height = height
+                                layoutBackFrame.layoutParams.height = height + largerHeight
                             else
-                                layoutBackFrame.layoutParams.height = height + 90
+                                layoutBackFrame.layoutParams.height = height + largerHeight
                             layoutBackFrame.requestLayout()
                         }
                         return false
