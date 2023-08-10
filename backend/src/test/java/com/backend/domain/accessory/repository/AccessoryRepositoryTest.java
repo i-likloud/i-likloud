@@ -131,7 +131,7 @@ public class AccessoryRepositoryTest extends BaseIntegrationTest {
         assertFalse(exists);
     }
 
-    //에러 테스트코드 추가
+
     @Test
     public void findByMember_ShouldThrowException() {
         // Given
