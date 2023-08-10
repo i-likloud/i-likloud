@@ -17,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -128,5 +129,15 @@ public class AccessoryRepositoryTest extends BaseIntegrationTest {
 
         // Then
         assertFalse(exists);
+    }
+
+
+    @Test
+    public void findByMember_ShouldThrowException() {
+        // Given
+        Member nonExistentMember = new Member(); // 가짜 Member 객체
+
+        // When & Then
+        assertThrows(InvalidDataAccessApiUsageException.class, () -> accessoryRepository.findByMember(nonExistentMember));
     }
 }

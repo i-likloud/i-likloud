@@ -13,9 +13,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -55,16 +58,16 @@ class BookmarkRepositoryTest extends BaseIntegrationTest {
 
     }
 
-    // 예외 발생하면 작동 안함
-    @AfterEach
-    public void tearDown() {
-        // 테스트 데이터 제거
-        bookmarkRepository.deleteAll();
-        memberRepository.deleteAll();
-        photoRepository.deleteAll();
-
-        System.out.println("deleteAll");
-    }
+//    // 예외 발생하면 작동 안함
+//    @AfterEach
+//    public void tearDown() {
+//        // 테스트 데이터 제거
+//        bookmarkRepository.deleteAll();
+//        memberRepository.deleteAll();
+//        photoRepository.deleteAll();
+//
+//        System.out.println("deleteAll");
+//    }
 
     @Test
     @Transactional
@@ -130,4 +133,27 @@ class BookmarkRepositoryTest extends BaseIntegrationTest {
         assertTrue(bookmarksList.isEmpty());
 
     }
+
+
+    @Test
+    @Transactional
+    void findByMemberMemberIdAndPhotoPhotoId_WhenMemberNotFound() {
+        Long nonExistentMemberId = 9999L;
+        Long photoId = photo.getPhotoId();
+
+        Optional<Bookmarks> bookmarks = bookmarkRepository.findByMemberMemberIdAndPhotoPhotoId(nonExistentMemberId, photoId);
+
+        assertFalse(bookmarks.isPresent(), "Expected no bookmarks for non-existent member and existing photo");
+    }
+
+    @Test
+    @Transactional
+    void findByMemberMemberIdAndPhotoPhotoId_WhenUnexpectedException() {
+        Long nonExistentMemberId = member.getMemberId();
+        Long photoId = 9999L;
+
+        Optional<Bookmarks> bookmarks = bookmarkRepository.findByMemberMemberIdAndPhotoPhotoId(nonExistentMemberId, photoId);
+        assertFalse(bookmarks.isPresent(), "Expected no bookmarks for non-existent photo and existing member");
+    }
+
 }
