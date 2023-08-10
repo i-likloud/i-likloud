@@ -11,17 +11,12 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-class ReportControllerTest extends BaseIntegrationTest {
+class ReportControllerTestEX extends BaseIntegrationTest {
 
-    @Autowired
-    private MemberService memberService;
-
-    private AccessToken accessToken;
     private String token = AccessToken.getNewToken();
     private String userEmail = AccessToken.getTestEmail();
 
@@ -30,7 +25,7 @@ class ReportControllerTest extends BaseIntegrationTest {
     void createReport() throws Exception {
 
         // given
-        Long drawingId = 1L;
+        Long drawingId = 999L;
         String content = "내용";
 
         try {
@@ -40,12 +35,11 @@ class ReportControllerTest extends BaseIntegrationTest {
                             .header("Authorization", "Bearer " + token)
                             .content("{\"email\": \"" + userEmail + "\"}")
                             .param("content", content)
-
                             .contentType(MediaType.APPLICATION_JSON))
                     .andDo(MockMvcResultHandlers.print());
 
             //then
-            resultActions.andExpect(status().isOk());
+            resultActions.andExpect(status().isNotFound());
         } catch (Exception e) {
             e.printStackTrace();
         }
