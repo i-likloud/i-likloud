@@ -1,5 +1,6 @@
 package com.ssafy.likloud.ui.drawingpad
 
+import android.app.Application
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
@@ -115,7 +116,7 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
         layoutParams.height = (selectedStrokeWidth *0.15) .toInt()  * applicationContext.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._1sdp) + 1
 
         
-        layoutParams.width = (selectedStrokeWidth  *0.15) .toInt()  * applicationContext.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._1sdp) + 1
+        layoutParams.width = (selectedStrokeWidth  *0.15) .toInt()  * mActivity.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._1sdp) + 1
         binding.dotPensize.layoutParams = layoutParams
         binding.dotPensize.requestLayout()
 
