@@ -14,6 +14,8 @@ public interface BookmarkRepository extends JpaRepository<Bookmarks, Long> {
     Optional<Bookmarks> findByMemberMemberIdAndPhotoPhotoId(Long memberId, Long photoId);
     List<Bookmarks> findByMember(Member member);
 
+    List<Bookmarks> findAllByMemberMemberId(Long memberId);
+
     // 북마크 일괄 삭제
     @Modifying
     @Query("DELETE FROM Bookmarks b WHERE b.photo.photoId = :photoId")

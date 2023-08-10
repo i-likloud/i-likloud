@@ -46,15 +46,17 @@ public class MyPageListService {
 
     @Cacheable(value = "likes", key = "#memberId") // 좋아요 그림 캐시 적용
     public List<DrawingListDto> likeDrawing(Long memberId){
+
         List<Likes> list = likesRepository.findAllByMemberMemberId(memberId);
+
         return list.stream()
-                .map(like -> {return new DrawingListDto(like.getDrawing());
-                })
+                .map(like -> new DrawingListDto(like.getDrawing()))
                 .collect(Collectors.toList());
     }
 
     @Cacheable(value = "drawings", key = "#memberId") // 내 그림 캐시 적용
     public List<DrawingListDto> getMyDrawing(Long memberId) {
+
         List<Drawing> list = drawingRepository.findDrawingByMember_MemberId(memberId);
 
         return list.stream()
@@ -64,8 +66,8 @@ public class MyPageListService {
 
     @Cacheable(value = "bookMarks", key = "#memberId") // 북마크 사진 캐시 적용
     public List<PhotoInfoResponseDto> bookmarkPhoto(Long memberId) {
-        Member member = memberService.findMemberById(memberId);
-        List<Bookmarks> bookmarks = bookmarkRepository.findByMember(member);
+
+        List<Bookmarks> bookmarks = bookmarkRepository.findAllByMemberMemberId(memberId);
 
         return bookmarks.stream()
                 .map(bookmark -> new PhotoInfoResponseDto(bookmark.getPhoto()))
@@ -74,6 +76,7 @@ public class MyPageListService {
 
     @Cacheable(value = "photos", key = "#memberId") // 내 사진 캐시 적용
     public List<PhotoInfoResponseDto> getMyPhoto(Long memberId) {
+
         List<Photo> list = photoRepository.findAllByMemberMemberId(memberId);
 
         return list.stream()
@@ -83,6 +86,7 @@ public class MyPageListService {
 
     // 보유 아이템 조회
     public List<AccessoryDto> getMyAccessory(Member member) {
+
         List<Accessory> accessories = accessoryRepository.findByMember(member);
 
         return accessories.stream()
@@ -94,6 +98,7 @@ public class MyPageListService {
     // 보유 NFT 조회
     @Cacheable(value = "nft", key = "#memberId") // 내 NFT 캐시 적용
     public List<NftListResponseDto> getMyNft(Long memberId){
+
         List<Nft> nftList = nftRepository.findAllByMemberMemberId(memberId);
 
         return nftList.stream()
@@ -103,6 +108,7 @@ public class MyPageListService {
 
     // 선물함 조회
     public List<NftGiftDto> getMyGift(Long memberId) {
+
         List<NftTransfer> nftTransfers = nftTransferRepository.findByToMember(memberId);
 
         return nftTransfers.stream()
