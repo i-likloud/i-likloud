@@ -21,8 +21,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
-@SpringBootTest
-@Transactional
 class BookmarkRepositoryTest extends BaseIntegrationTest {
 
     @Autowired

@@ -35,4 +35,11 @@ public class Comment extends BaseEntity {
     @Column(length = 100)
     private String content;
 
+    public Comment(String commentMember, Drawing drawing, Member member, String content){
+        this.commentMember = commentMember;
+        this.drawing =drawing;
+        this.member = member;
+        this.content = content;
+    }
+
 }
