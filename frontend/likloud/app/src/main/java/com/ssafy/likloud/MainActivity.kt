@@ -21,6 +21,8 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ssafy.likloud.ApplicationClass.Companion.FIREBASE_TOKEN
+import com.ssafy.likloud.ApplicationClass.Companion.USER_EMAIL
+import com.ssafy.likloud.ApplicationClass.Companion.sharedPreferences
 import com.ssafy.likloud.base.BaseActivity
 import com.ssafy.likloud.data.repository.BaseRepository
 import com.ssafy.likloud.databinding.ActivityMainBinding
@@ -48,8 +50,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         initFCMMessageAccept()
         initObserver()
         initView()
-        initNavController()
         initListener()
+        initNavController()
 //        initLogin()
         Log.d(TAG, "onCreate: oncreated!")
 
@@ -150,6 +152,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
+        if (intent.getBooleanExtra("isLogined", false)) {
+            mainActivityViewModel.getMemberInfo(sharedPreferences.getString(USER_EMAIL).toString())
+            navController.navigate(R.id.action_loginFragment_to_homeFragment)
+        }
+        Log.d(TAG, "initNavController: 3${mainActivityViewModel.isLogined}")
+//        initLogin()
     }
 
 
@@ -224,34 +232,4 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             results.forEach {
             }
         }
-
-//    private fun initLogin() {
-//        if (ApplicationClass.sharedPreferences.getString(ApplicationClass.X_ACCESS_TOKEN) != null && ApplicationClass.sharedPreferences.getString(
-//                ApplicationClass.X_ACCESS_TOKEN
-//            ) != "") {
-//            Log.d(TAG, "init: ${
-//                    ApplicationClass.sharedPreferences.getString(
-//                        ApplicationClass.X_ACCESS_TOKEN
-//                    )}")
-//            Log.d(TAG, "init: ${
-//                    ApplicationClass.sharedPreferences.getString(
-//                        ApplicationClass.X_REFRESH_TOKEN
-//                    )}")
-//
-//            lifecycleScope.launch {
-//                withContext(Dispatchers.IO) {
-//                    mainActivityViewModel.getMemberInfo(
-//                        ApplicationClass.sharedPreferences.getString(
-//                            ApplicationClass.USER_EMAIL
-//                        ).toString())
-//                    withContext(Dispatchers.Main) {
-//                        val snackbar = Snackbar.make(binding.root, "환영합니다! ${mainActivityViewModel.memberInfo.value!!.nickname}님", Snackbar.LENGTH_LONG)
-//                        snackbar.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.black))
-//                        snackbar.show()
-//                        navController.navigate(R.id.homeFragment)
-//                    }
-//                }
-//            }
-//        }
-//    }
 }
