@@ -1,7 +1,9 @@
-package com.backend.api.login.controller;
+package com.backend.api.token.controller;
 
+import com.backend.api.common.AccessToken;
 import com.backend.api.common.BaseIntegrationTest;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.ResultActions;
@@ -10,28 +12,26 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class OauthLoginControllerTestEx extends BaseIntegrationTest {
+@SpringBootTest
+class TokenControllerTestEx extends BaseIntegrationTest {
+
+
+    private String refreshToken= "임의의 refresh 토큰";
 
     @Test
     @Rollback
-    void oauthLogin() throws Exception{
-
+    void createAccessToken() throws Exception{
+        // given
         try {
             //when
-            ResultActions resultActions = mvc.perform(post("/api/oauth/login")
+            ResultActions resultActions = mvc.perform(post("/api/accounts/access-token/re")
                             .accept(MediaType.APPLICATION_JSON)
-                            .header("Authorization", "Bearer " + "잘못된 access token 값")
-                            .content("{\n" +
-                                    "  \"email\": \"testemail@test.com\",\n" +
-                                    "  \"socialType\": \"KAKAO\",\n" +
-                                    "  \"firebaseToken\": \"string\"\n" +
-                                    "}")
-
+                            .header("Authorization", "Bearer " + refreshToken)
                             .contentType(MediaType.APPLICATION_JSON))
                     .andDo(MockMvcResultHandlers.print());
 
             //then
-            resultActions.andExpect(status().is5xxServerError());
+            resultActions.andExpect(status().isUnauthorized());
         } catch (Exception e) {
             e.printStackTrace();
         }
