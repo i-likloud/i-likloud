@@ -37,7 +37,7 @@
             android:id="@+id/button_bgm_toggle"
             style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
             android:layout_width="@dimen/_180sdp"
-            android:layout_height="@dimen/_60sdp"
+            android:layout_height="@dimen/_50sdp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/button_frame_black"
             android:text="@string/bgm_off" />
@@ -46,7 +46,7 @@
             android:id="@+id/button_logout"
             style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
             android:layout_width="@dimen/_180sdp"
-            android:layout_height="@dimen/_60sdp"
+            android:layout_height="@dimen/_50sdp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/button_frame_black"
             android:text="@string/logout" />
@@ -56,9 +56,18 @@
             android:id="@+id/button_delete_user"
             style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
             android:layout_width="@dimen/_180sdp"
-            android:layout_height="@dimen/_60sdp"
+            android:layout_height="@dimen/_50sdp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/button_frame_black"
             android:text="@string/leave_user" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_info"
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
+            android:layout_width="@dimen/_180sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_frame_black"
+            android:text="@string/title_info" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -97,6 +97,9 @@ class LoginFragment :
         binding.kakaoLoginBtn.setOnClickListener {
             startKakaoLogin()
         }
+        binding.textInfo.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_infoFragment)
+        }
     }
 
     private fun initObserver() {
