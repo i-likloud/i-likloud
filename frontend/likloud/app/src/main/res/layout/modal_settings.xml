@@ -59,6 +59,6 @@
             android:layout_height="@dimen/_60sdp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/button_frame_black"
-            android:text="@string/leave_user" />
+            android:text="@string/opensource" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

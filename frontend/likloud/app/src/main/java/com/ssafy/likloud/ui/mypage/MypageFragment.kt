@@ -1,6 +1,7 @@
 package com.ssafy.likloud.ui.mypage
 
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.ssafy.likloud.ApplicationClass
 import com.ssafy.likloud.ApplicationClass.Companion.USER_EMAIL
 import com.ssafy.likloud.ApplicationClass.Companion.sharedPreferences
@@ -164,7 +166,7 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         val dialog = SettingsDialog(
             clickBgmToggle = { toggleMusic()},
             logout = {invokeLogoutDialog()},
-            deleteUser = {deleteUser()},
+            openSourceLicenses = {openSourceLicenses()},
             bgmText = musicStatus()
         )
         dialog.show(childFragmentManager, TAG)
@@ -188,7 +190,9 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         mActivity.toggleMusic()
     }
 
-    private fun deleteUser() {
+    private fun openSourceLicenses() {
+        OssLicensesMenuActivity.setActivityTitle("오픈소스 라이선스 목록") //액티비티 제목 셋팅
+        startActivity(Intent(mActivity, OssLicensesMenuActivity::class.java))
     }
 
     private fun logout() {
