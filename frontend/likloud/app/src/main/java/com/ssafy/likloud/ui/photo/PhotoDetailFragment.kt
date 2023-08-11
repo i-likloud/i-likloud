@@ -77,6 +77,17 @@ class PhotoDetailFragment : BaseFragment<FragmentPhotoDetailBinding>(FragmentPho
         photoDetailFragmentViewModel.currentPhotoDrawingList.observe(viewLifecycleOwner){
             //현재 사진에 대한 그림들 리사이클러뷰 세팅
             photoDrawingListAdapter.submitList(it)
+            if(it.size==0){
+                binding.apply {
+                    imageNoDrawing.visibility = View.VISIBLE
+                    textNoDrawing.visibility = View.VISIBLE
+                }
+            }else{
+                binding.apply {
+                    imageNoDrawing.visibility = View.INVISIBLE
+                    textNoDrawing.visibility = View.INVISIBLE
+                }
+            }
         }
         photoDetailFragmentViewModel.isBookmarked.observe(viewLifecycleOwner){
             if(it){

@@ -79,6 +79,7 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
     private fun initObserver(){
         drawingDetailFragmentViewModel.currentDrawingDetail.observe(viewLifecycleOwner) {
             //현재 가운데 있는 그림 정보 조회 & 초기 좋아요 세팅
+            Log.d(TAG, "현재 drrawingdetaildto : $it")
             drawingDetailFragmentViewModel.getCurrentDrawingMember(it.memberId)
             drawingDetailFragmentViewModel.setIsLiked()
             drawingDetailFragmentViewModel.setLikeCount()
