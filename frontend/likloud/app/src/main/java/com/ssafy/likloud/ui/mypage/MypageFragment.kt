@@ -64,13 +64,13 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
     override fun initListener() {
         binding.buttonBack.setOnClickListener {
             mActivity.changeProfileLayoutVisible()
-            findNavController().popBackStack()
+            findNavController().navigate(R.id.action_mypageFragment_to_homeFragment)
         }
         // 안드로이드 뒤로가기 버튼 눌렀을 때
         mActivity.onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 mActivity.changeProfileLayoutVisible()
-                findNavController().popBackStack()
+                findNavController().navigate(R.id.action_mypageFragment_to_homeFragment)
             }
         })
         binding.buttonEdit.setOnClickListener {
