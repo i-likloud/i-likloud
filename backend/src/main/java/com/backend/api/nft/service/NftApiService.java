@@ -106,7 +106,7 @@ public class NftApiService {
         log.info(requestDto.getTo());
         log.info(requestDto.getId());
         log.info(requestDto.getUri());
-        NftTokenDto.Response response = nftTokenClient.createToken("1001", authorization, "i-likloud", requestDto);
+        NftTokenDto.Response response = nftTokenClient.createToken("1001", authorization, contract, requestDto);
         log.info("발급됨");
 
         return requestDto.getId();
