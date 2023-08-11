@@ -46,6 +46,7 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
     private val activityViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var coroutineProfile: CoroutineScope
     private lateinit var coroutineTime: CoroutineScope
+    private var isFirstResume = true
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -64,7 +65,7 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        showGameStartDialog()
+//        showGameStartDialog()
 //        initObserver()
 //        init()
 //        initListener()
@@ -279,6 +280,21 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
         super.onPause()
         coroutineProfile.cancel()
         coroutineTime.cancel()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy...")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (isFirstResume) {
+            showGameStartDialog()
+            isFirstResume = false
+        } else {
+            refreshFragment()
+        }
     }
 
     fun refreshFragment(){
