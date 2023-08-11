@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -34,6 +35,22 @@ public class Comment extends BaseEntity {
 
     @Column(length = 100)
     private String content;
+
+    @Override
+    public LocalDateTime getCreatedAt() {
+        if (super.getCreatedAt() != null) {
+            return super.getCreatedAt().plusHours(9);
+        }
+        return null;
+    }
+
+    @Override
+    public LocalDateTime getUpdatedAt() {
+        if(super.getUpdatedAt() != null) {
+            return super.getUpdatedAt().plusHours(9);
+        }
+        return null;
+    }
 
     public Comment(String commentMember, Drawing drawing, Member member, String content){
         this.commentMember = commentMember;
