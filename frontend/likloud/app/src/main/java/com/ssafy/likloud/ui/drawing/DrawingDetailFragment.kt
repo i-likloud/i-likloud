@@ -167,6 +167,7 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
 
         viewLifecycleOwner.lifecycleScope.launch {
             drawingDetailFragmentViewModel.isSuccess.collectLatest {
+                dismissLoadingDialog()
                 showSnackbar(binding.root, "movetonft",getString(R.string.nft_success))
             }
         }
@@ -233,17 +234,20 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
                 }
             }
             buttonNft.setOnClickListener {
+                showLoadingDialog(mActivity)
                 Log.d(TAG, "현재 지갑 상태 : ${activityViewModel.memberInfo.value!!.wallet} 현재 그림 nftyYn ${drawingDetailFragmentViewModel.nftYn.value}")
                 if(drawingDetailFragmentViewModel.nftYn.value == false) {
                     if (activityViewModel.memberInfo.value!!.wallet == null) {
                         // 지갑 발행해라
                         Log.d(TAG, "지갑이 없네요 발급할게요")
                         activityViewModel.getNftWallet()
+                        dismissLoadingDialog()
                     } else {
                         Log.d(TAG, "이미 지갑이 있네요")
                         if (activityViewModel.memberInfo.value!!.silverCoin >= 5) {
                             drawingDetailFragmentViewModel.registNft(args.drawingId)
                         } else {
+                            dismissLoadingDialog()
                             //여기서 siverCoin 부족 메시지
                             showSnackbar(binding.root, "fail",getString(R.string.nft_fail))
 //                            Toast.makeText(mainActivity, "silverCoin 확인 바람", Toast.LENGTH_SHORT)
@@ -251,6 +255,7 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
                         }
                     }
                 }else{
+                    dismissLoadingDialog()
                     showSnackbar(binding.root, "blue_bar", "이미 발급 받은 그림이에요.")
 //                    Toast.makeText(mainActivity, "이미 발급 받은 그림입니다.", Toast.LENGTH_SHORT).show()
                 }
