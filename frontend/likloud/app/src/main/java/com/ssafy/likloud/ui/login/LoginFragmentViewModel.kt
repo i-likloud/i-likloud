@@ -44,6 +44,7 @@ class LoginFragmentViewModel @Inject constructor(
      * 추후 MEMBER로 올리기 위해 accessToken이 필요합니다.
      */
     fun postLogin(email: String, socialType: String) {
+        Log.d(TAG, "postLogin: 포스트 로그인 시도입니다.")
         viewModelScope.launch {
             baseRepository.postLogin(
                 LoginRequest(
@@ -56,6 +57,8 @@ class LoginFragmentViewModel @Inject constructor(
                 sharedPreferences.putString(X_ACCESS_TOKEN, it.accessToken)
                 Log.d(TAG, "postLogin 찐 refresh: ${it.refreshToken}")
                 sharedPreferences.putString(X_REFRESH_TOKEN, it.refreshToken)
+            }.onError {
+                Log.d(TAG, "postLogin: 에러가 났슴니다 에러메시지는? ${it.message}")
             }
         }
     }

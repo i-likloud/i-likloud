@@ -79,12 +79,13 @@ class ResponseInterceptor: Interceptor {
                                     isRefreshable = true
                                 }
                                 if (result.body() == null) {
-                                    Log.d(TAG, "intercept: 리프레시 받아오는 코드 실패입니다.")
-                                    Log.d(TAG, "intercept success : ${result.isSuccessful}")
-                                    Log.d(TAG, "intercept  : ${result.code()}")
-                                    Log.d(TAG, "intercept: ${result.headers()}")
-                                    Log.d(TAG, "intercept: ${result.message()}")
-                                    Log.d(TAG, "intercept: ${result.errorBody()}")
+                                    Log.d(TAG, "intercept: 리프레시 토큰으로 다시 받아오는 코드 실패입니다.")
+//                                    Log.d(TAG, "intercept success : ${result.isSuccessful}")
+//                                    Log.d(TAG, "intercept  : ${result.code()}")
+//                                    Log.d(TAG, "intercept: ${result.headers()}")
+//                                    Log.d(TAG, "intercept: ${result.message()}")
+//                                    Log.d(TAG, "intercept: ${result.errorBody()}")
+                                    throw (IOException("refresh_exception"))
                                 }
                             }
                         }

@@ -9,6 +9,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ssafy.likloud.ApplicationClass.Companion.USER_EMAIL
+import com.ssafy.likloud.ApplicationClass.Companion.X_ACCESS_TOKEN
+import com.ssafy.likloud.ApplicationClass.Companion.X_REFRESH_TOKEN
 import com.ssafy.likloud.ApplicationClass.Companion.sharedPreferences
 import com.ssafy.likloud.data.api.onError
 import com.ssafy.likloud.data.api.onSuccess
@@ -19,8 +21,13 @@ import com.ssafy.likloud.data.model.request.ProfileEditRequest
 import com.ssafy.likloud.data.model.response.MemberInfoResponse
 import com.ssafy.likloud.data.repository.BaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
+import java.io.IOError
+import java.io.IOException
+import java.net.ConnectException
 import javax.inject.Inject
 
 private const val TAG = "MainActivityViewModel_싸피"
@@ -99,27 +106,45 @@ class MainActivityViewModel @Inject constructor(
     /**
      * 멤버 정보를 가져옵니다.
      */
+    @Throws(IOException::class)
     fun getMemberInfo(email: String) {
-        viewModelScope.launch {
-//            baseRepository.getMemberInfo(MemberInfoRequest(email)).apply {
-//                onSuccess {
-//                    Log.d(TAG, "getUserInfo: onSuccess ${it}")
-//                    _memberInfo.postValue(it)
-//                }
-//                onError {
-//                    Log.d(TAG, "getUserInfo: ${it.message}")
-//                }
-//            }
-            baseRepository.getMemberInfo2().apply {
-                onSuccess {
-                    Log.d(TAG, "getUserInfo: onSuccess ${it}")
-                    _memberInfo.postValue(it)
-                }
-                onError {
-                    Log.d(TAG, "getUserInfo: ${it.message}")
+//        try {
+            viewModelScope.launch {
+    //            baseRepository.getMemberInfo(MemberInfoRequest(email)).apply {
+    //                onSuccess {
+    //                    Log.d(TAG, "getUserInfo: onSuccess ${it}")
+    //                    _memberInfo.postValue(it)
+    //                }
+    //                onError {
+    //                    Log.d(TAG, "getUserInfo: ${it.message}")
+    //                }
+    //            }
+                baseRepository.getMemberInfo2().apply {
+                    onSuccess {
+                        Log.d(TAG, "getMemberInfo: 에러가 안떴어요.")
+                        Log.d(TAG, "getUserInfo: onSuccess ${it}")
+                        _memberInfo.postValue(it)
+                    }
+                    onError {
+                        Log.d(TAG, "getUserInfo: 메인 액티비티에서 유저 정보 가져오는데 실패했습니다. ${it}")
+                        if (it.message == "refresh_exception") {
+                            Log.d(TAG, "getMemberInfo: 얍얍얍")
+                            setRefreshInvaild()
+                        }
+//                        throw IOException("refresh_exception")
+                    }
                 }
             }
-        }
+//        }
+//        catch (e: IOException) {
+//            Log.d(TAG, "getMemberInfo: 익셉션 받았습니다. ${e.message}")
+////            sharedPreferences.putString(X_ACCESS_TOKEN, "")
+////            sharedPreferences.putString(X_REFRESH_TOKEN, "")
+////            sharedPreferences.putString(USER_EMAIL, "")
+//            throw IOException("refresh_exception")
+//        } catch (e: ConnectException) {
+//            Log.d(TAG, "getMemberInfo: 익셉션 받았습니다. ${e.message}")
+//        }
     }
 
     fun editProflie(profileEditRequest: ProfileEditRequest) {
@@ -208,4 +233,13 @@ class MainActivityViewModel @Inject constructor(
 
     var isLogined = false
 
+    private var _isRefreshTokenInvalid = MutableSharedFlow<Boolean>()
+    val isRefreshTokenInvalid: SharedFlow<Boolean>
+        get() = _isRefreshTokenInvalid
+
+    fun setRefreshInvaild() {
+        viewModelScope.launch {
+            _isRefreshTokenInvalid.emit(true)
+        }
+    }
 }

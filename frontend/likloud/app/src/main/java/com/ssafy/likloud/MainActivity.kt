@@ -23,14 +23,18 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.ssafy.likloud.ApplicationClass.Companion.FIREBASE_TOKEN
 import com.ssafy.likloud.ApplicationClass.Companion.USER_EMAIL
 import com.ssafy.likloud.ApplicationClass.Companion.ONBOARD_DONE
+import com.ssafy.likloud.ApplicationClass.Companion.X_ACCESS_TOKEN
+import com.ssafy.likloud.ApplicationClass.Companion.X_REFRESH_TOKEN
 import com.ssafy.likloud.ApplicationClass.Companion.sharedPreferences
 import com.ssafy.likloud.base.BaseActivity
 import com.ssafy.likloud.data.repository.BaseRepository
 import com.ssafy.likloud.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.IOException
 import javax.inject.Inject
 
 private const val TAG = "MainActivity_싸피"
@@ -49,7 +53,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initNavController()
+//        initNavController()
         initFCMMessageAccept()
         initObserver()
         initView()
@@ -143,6 +147,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 }
             }
         }
+        lifecycleScope.launch {
+            mainActivityViewModel.isRefreshTokenInvalid.collectLatest {
+                if (it) {
+                    sharedPreferences.putString(USER_EMAIL, "")
+                    sharedPreferences.putString(X_ACCESS_TOKEN, "")
+                    sharedPreferences.putString(X_REFRESH_TOKEN, "")
+                    navController.graph.setStartDestination(R.id.loginFragment)
+                }
+            }
+        }
     }
 
     private fun initView() {
@@ -165,6 +179,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         } else {
             if (intent.getBooleanExtra("isLogined", false)) {
                 mainActivityViewModel.getMemberInfo(sharedPreferences.getString(USER_EMAIL).toString())
+//                Log.d(TAG, "initNavController: 메인 액티비티에서 익셉션 발생! ${e.message}")
                 graph.setStartDestination(R.id.homeFragment)
             } else {
                 graph.setStartDestination(R.id.loginFragment)
