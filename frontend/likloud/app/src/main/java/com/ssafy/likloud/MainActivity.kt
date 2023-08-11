@@ -15,22 +15,29 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.PopUpToBuilder
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ssafy.likloud.ApplicationClass.Companion.FIREBASE_TOKEN
 import com.ssafy.likloud.ApplicationClass.Companion.USER_EMAIL
 import com.ssafy.likloud.ApplicationClass.Companion.ONBOARD_DONE
+import com.ssafy.likloud.ApplicationClass.Companion.X_ACCESS_TOKEN
+import com.ssafy.likloud.ApplicationClass.Companion.X_REFRESH_TOKEN
 import com.ssafy.likloud.ApplicationClass.Companion.sharedPreferences
 import com.ssafy.likloud.base.BaseActivity
 import com.ssafy.likloud.data.repository.BaseRepository
 import com.ssafy.likloud.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.IOException
 import javax.inject.Inject
 
 private const val TAG = "MainActivity_싸피"
@@ -49,7 +56,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initNavController()
+//        initNavController()
         initFCMMessageAccept()
         initObserver()
         initView()
@@ -143,6 +150,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 }
             }
         }
+        lifecycleScope.launch {
+            mainActivityViewModel.isRefreshTokenInvalid.collectLatest {
+                if (it) {
+                    sharedPreferences.putString(USER_EMAIL, "")
+                    sharedPreferences.putString(X_ACCESS_TOKEN, "")
+                    sharedPreferences.putString(X_REFRESH_TOKEN, "")
+                    Log.d(TAG, "initObserver: 리프레시 토큰 에러이고, 로그아웃 신호입니다.")
+                    val snackbar = Snackbar.make(binding.root, "다시 로그인 해주세요.", Snackbar.LENGTH_LONG)
+                    snackbar.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.black))
+                    snackbar.setBackgroundTint(ContextCompat.getColor(this@MainActivity, R.color.blue_mild))
+                    snackbar.show()
+                    // 백스택 치우고 login으로
+                    navController.currentDestination?.let { it1 -> navController.popBackStack(it1.id, true) }
+                    navController.navigate(R.id.loginFragment)
+                }
+            }
+        }
     }
 
     private fun initView() {
@@ -165,6 +189,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         } else {
             if (intent.getBooleanExtra("isLogined", false)) {
                 mainActivityViewModel.getMemberInfo(sharedPreferences.getString(USER_EMAIL).toString())
+//                Log.d(TAG, "initNavController: 메인 액티비티에서 익셉션 발생! ${e.message}")
                 graph.setStartDestination(R.id.homeFragment)
             } else {
                 graph.setStartDestination(R.id.loginFragment)

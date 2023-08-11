@@ -58,7 +58,7 @@ class NftGiftAdapter (var context: Context): ListAdapter<NftGiftDto, NftGiftAdap
         fun bindInfo(nftGiftDto : NftGiftDto){
             Glide.with(imageNft)
                 .load(nftGiftDto.imageUrl)
-                .placeholder(R.drawable.button_game)
+                .placeholder(R.drawable.image_loading)
                 .addListener(object : RequestListener<Drawable?> {
                     override fun onLoadFailed(
                         e: GlideException?,

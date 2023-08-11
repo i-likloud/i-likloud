@@ -108,7 +108,7 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
                     if(it.size!=0) binding.recyclerviewDrawingComment.smoothScrollToPosition(it.size)
                 }
             }
-            activityViewModel.getMemberInfo(ApplicationClass.sharedPreferences.getString(USER_EMAIL)!!)
+            activityViewModel.getMemberInfo(ApplicationClass.sharedPreferences.getString(USER_EMAIL).toString())
         }
 
 

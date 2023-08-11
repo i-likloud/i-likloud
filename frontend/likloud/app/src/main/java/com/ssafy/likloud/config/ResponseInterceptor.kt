@@ -79,12 +79,13 @@ class ResponseInterceptor: Interceptor {
                                     isRefreshable = true
                                 }
                                 if (result.body() == null) {
-                                    Log.d(TAG, "intercept: 리프레시 받아오는 코드 실패입니다.")
-                                    Log.d(TAG, "intercept success : ${result.isSuccessful}")
-                                    Log.d(TAG, "intercept  : ${result.code()}")
-                                    Log.d(TAG, "intercept: ${result.headers()}")
-                                    Log.d(TAG, "intercept: ${result.message()}")
-                                    Log.d(TAG, "intercept: ${result.errorBody()}")
+                                    Log.d(TAG, "intercept: 리프레시 토큰으로 다시 받아오는 코드 실패입니다.")
+//                                    Log.d(TAG, "intercept success : ${result.isSuccessful}")
+//                                    Log.d(TAG, "intercept  : ${result.code()}")
+//                                    Log.d(TAG, "intercept: ${result.headers()}")
+//                                    Log.d(TAG, "intercept: ${result.message()}")
+//                                    Log.d(TAG, "intercept: ${result.errorBody()}")
+                                    throw (IOException("refresh_exception"))
                                 }
                             }
                         }
@@ -92,11 +93,24 @@ class ResponseInterceptor: Interceptor {
                     "Auth-004" -> { // 엑세스 토큰 invalid 신호
                         Log.d(TAG, "intercept: 에러(Auth-004) : 해당 토큰은 엑세스 토큰이 아닙니다.")
                     }
+                    "Auth-007" -> {
+                        throw (IOException("refresh_exception"))
+                    }
                 }
             }
 
             403 -> {
                 Log.d(TAG, "intercept: 에러 : 403 에러입니다.")
+                val errorResponse = parseErrorResponse(response.body)
+                Log.d(TAG, "intercept: 에러 바디 파싱 !!!!!!!!!! ${errorResponse}")
+
+                // 에러 코드로 분기
+                when (errorResponse.errorCode) {
+                    "Auth-009" -> {
+                        Log.d(TAG, "intercept: 다시 로그인 해야합니다.")
+                        throw (IOException("required_re_login"))
+                    }
+                }
             }
 
             404 -> {

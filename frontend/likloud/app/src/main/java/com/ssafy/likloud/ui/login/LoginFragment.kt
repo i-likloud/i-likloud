@@ -81,6 +81,10 @@ class LoginFragment :
      * 필요한 정보를 init 합니다.
      */
     private fun init() {
+//        findNavController().clearBackStack(R.id.homeFragment)
+//        findNavController().clearBackStack(R.id.loginFragment)
+        Log.d(TAG, "init: ${findNavController().backQueue.size}")
+//        findNavController().getBackStackEntry(R.id.loginFragment)
         NaverIdLoginSDK.initialize(
             mActivity,
             getString(R.string.OAUTH_CLIENT_ID),
@@ -137,11 +141,6 @@ class LoginFragment :
                     // 네이버 로그인 인증이 성공했을 때 수행할 코드 추가
                     val accessToken = NaverIdLoginSDK.getAccessToken()
                     Log.d(TAG, "naver 로그인 : AT = $accessToken")
-//                    Log.d(TAG, ": RT = ${NaverIdLoginSDK.getRefreshToken()}")
-//                    findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
-//                binding.tvExpires.text = NaverIdLoginSDK.getExpiresAt().toString()
-//                binding.tvType.text = NaverIdLoginSDK.getTokenType()
-//                binding.tvState.text = NaverIdLoginSDK.getState().toString()
                     var email = ""
                     var name = ""
                     NidOAuthLogin().callProfileApi(object :
@@ -157,15 +156,6 @@ class LoginFragment :
                             sharedPreferences.putString(USER_EMAIL, email)
 
                             loginFragmentViewModel.postLogin(email, "NAVER")
-//                            loginFragmentViewModel.getTokenValidation(token.accessToken)
-//                            findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
-
-//                            Log.d(TAG, "onSuccess: 로그인 리스폰스 ${loginFragmentViewModel.loginResponse}")
-//                            Log.d(TAG, "onSuccess: 저장된 JWT AT ${sharedPreferences.getString(
-//                                X_ACCESS_TOKEN)}")
-//                            Log.d(TAG, "onSuccess: 저장된 JWT RT ${sharedPreferences.getString(
-//                                X_REFRESH_TOKEN)}")
-
                         }
 
                         override fun onFailure(httpStatus: Int, message: String) {
@@ -178,24 +168,6 @@ class LoginFragment :
                             onFailure(errorCode, message)
                         }
                     }).toString()
-//                binding.tvLoginInfo.text = NidOAuthLogin().callProfileApi(object :
-//                    NidProfileCallback<NidProfileResponse> {
-//                    override fun onSuccess(response: NidProfileResponse) {
-//                        binding.tvLoginInfo.text = response.toString()
-//                    }
-//
-//                    override fun onFailure(httpStatus: Int, message: String) {
-//                        val errorCode = NaverIdLoginSDK.getLastErrorCode().code
-//                        val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
-//                        binding.tvLoginInfo.text = ""
-//                    }
-//
-//                    override fun onError(errorCode: Int, message: String) {
-//                        onFailure(errorCode, message)
-//                    }
-//                }).toString()
-
-//                Toast.makeText(this, "id : ${NidOAuthLogin()}", Toast.LENGTH_SHORT).show()
                 }
 
                 AppCompatActivity.RESULT_CANCELED -> {
