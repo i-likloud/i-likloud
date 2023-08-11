@@ -29,20 +29,23 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 private const val TAG = "차선호"
-class NftListAdapter (var context: Context): ListAdapter<NftListDto, NftListAdapter.NftHolder>(
+
+class NftListAdapter(var context: Context) : ListAdapter<NftListDto, NftListAdapter.NftHolder>(
     NftListComparator
 ) {
-    private val largerHeight by lazy { NaverIdLoginSDK.applicationContext.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._12sdp) }
+    private val largerHeight by lazy { context.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._12sdp) }
+
     companion object NftListComparator : DiffUtil.ItemCallback<NftListDto>() {
         override fun areItemsTheSame(oldItem: NftListDto, newItem: NftListDto): Boolean {
             return oldItem == newItem
         }
 
         override fun areContentsTheSame(oldItem: NftListDto, newItem: NftListDto): Boolean {
-            return oldItem.nftId  == newItem.nftId
+            return oldItem.nftId == newItem.nftId
         }
     }
-    inner class NftHolder(binding: ItemNftBinding) : RecyclerView.ViewHolder(binding.root){
+
+    inner class NftHolder(binding: ItemNftBinding) : RecyclerView.ViewHolder(binding.root) {
 
         val layoutNft = binding.layoutNft
         val layoutFront = binding.layoutFront
@@ -54,7 +57,7 @@ class NftListAdapter (var context: Context): ListAdapter<NftListDto, NftListAdap
         val buttonGift = binding.buttonGift
         val layoutBackFrame = binding.layoutBackFrame
 
-        fun bindInfo(nftDto : NftListDto){
+        fun bindInfo(nftDto: NftListDto) {
             Glide.with(imageNft)
                 .load(nftDto.imageUrl)
                 .placeholder(R.drawable.button_game)
@@ -94,7 +97,7 @@ class NftListAdapter (var context: Context): ListAdapter<NftListDto, NftListAdap
             textNickname.text = "이름 : ${nftDto.owner}"
             textTitle.text = "제목 : ${nftDto.title}"
             textContent.text = " 내용 : ${nftDto.content}"
-            layoutNft.setOnClickListener{
+            layoutNft.setOnClickListener {
                 layoutNft.isClickable = false
                 if (layoutBack.visibility == View.INVISIBLE) {
                     layoutBack.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
@@ -108,7 +111,8 @@ class NftListAdapter (var context: Context): ListAdapter<NftListDto, NftListAdap
                 Log.d(TAG, "here")
             }
 
-            layoutNft.animation = AnimationUtils.loadAnimation(layoutNft.context, R.anim.list_item_anim_fade_in)
+            layoutNft.animation =
+                AnimationUtils.loadAnimation(layoutNft.context, R.anim.list_item_anim_fade_in)
 
             Log.d(TAG, "bindInfo: 동적 높이 : ${imageNft.height}")
             layoutBackFrame.layoutParams.height = imageNft.height
@@ -185,6 +189,7 @@ class NftListAdapter (var context: Context): ListAdapter<NftListDto, NftListAdap
     interface ItemClickListener {
         fun onClick(nftDto: NftListDto)
     }
+
     //클릭리스너 선언
     lateinit var itemClickListner: ItemClickListener
 }
