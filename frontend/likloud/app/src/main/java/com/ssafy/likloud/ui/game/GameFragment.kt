@@ -87,8 +87,8 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
         gameFragmentViewModel.remainTime.observe(viewLifecycleOwner){
             lifecycleScope.launch {
                 val progressbarTime = binding.progressbarTime
-                val startValue = ((it/30.0) * 100.0).toInt()// 시작 퍼센트
-                val endValue = (((it-1)/30.0) * 100.0).toInt() // 목표 퍼센트
+                val startValue = ((it/60.0) * 100.0).toInt()// 시작 퍼센트
+                val endValue = (((it-1)/60.0) * 100.0).toInt() // 목표 퍼센트
 
 //                Log.d(TAG, "start -> end $startValue -> $endValue")
                 val animator = ValueAnimator.ofInt(startValue, endValue)
@@ -196,8 +196,8 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
         coroutineProfile.launch {
             while(gameFragmentViewModel.frameWidth.value!! > 12){
                 delay(200)
-                gameFragmentViewModel.decreaseFrameWidth(6)
-                gameFragmentViewModel.decreaseFrameHeight(6)
+                gameFragmentViewModel.decreaseFrameWidth(3)
+                gameFragmentViewModel.decreaseFrameHeight(3)
                 if(gameFragmentViewModel.remainTime.value!!<=0) break
             }
             // 여긴 무조건 실패 종료

@@ -19,6 +19,8 @@ import com.ssafy.likloud.data.model.request.ProfileEditRequest
 import com.ssafy.likloud.data.model.response.MemberInfoResponse
 import com.ssafy.likloud.data.repository.BaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import javax.inject.Inject
@@ -195,13 +197,24 @@ class MainActivityViewModel @Inject constructor(
     }
 
     ///////////////////// 지갑 발급 여부 ///////////////////////////
-    private var _isWallet = MutableLiveData<Boolean>()
-    val isWallet: LiveData<Boolean>
+//    private var _isWallet = MutableLiveData<Boolean>()
+//    val isWallet: LiveData<Boolean>
+//        get() = _isWallet
+//    fun getNftWallet(){
+//        viewModelScope.launch {
+//            baseRepository.getNftWallet().onSuccess {
+//                _isWallet.value = true
+//            }
+//        }
+//    }
+
+    private var _isWallet = MutableSharedFlow<Boolean>()
+    val isWallet: SharedFlow<Boolean>
         get() = _isWallet
     fun getNftWallet(){
         viewModelScope.launch {
             baseRepository.getNftWallet().onSuccess {
-                _isWallet.value = true
+                _isWallet.emit(true)
             }
         }
     }
