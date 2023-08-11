@@ -18,7 +18,7 @@ spring:
 #    username: D101
 #    password: ENC(/OkGfJs0Jn8f2UIP/lD8USavyaMPCESK)
   # ssafy 계정
-      url: jdbc:mysql://i9d101.p.ssafy.io:3306/backend
+      url: jdbc:mysql://i9d101.p.ssafy.io:3306/backend?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
       username: root
       password: ENC(Bx1vEjxxzWziwTA6+M1p8Ml5d0sTlQBa)
   # 로컬 DB
