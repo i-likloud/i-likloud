@@ -56,8 +56,7 @@
         app:layout_constraintTop_toTopOf="@id/layout_image_profile"
         app:layout_constraintBottom_toBottomOf="@id/layout_image_profile"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="@dimen/_5sdp"
-        android:visibility="invisible"/>
+        android:layout_marginEnd="@dimen/_5sdp"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_comment_content"
