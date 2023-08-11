@@ -206,7 +206,13 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
 
         binding.apply {
             buttonBack.setOnClickListener {
-                findNavController().popBackStack()
+                if(args.isFromFCM){
+                    findNavController().navigate(R.id.action_drawingDetailFragment_to_homeFragment)
+                }
+                else{
+                    findNavController().popBackStack()
+                }
+
             }
             imageHeart.setOnClickListener {
                 drawingDetailFragmentViewModel.changeLikeCount()
@@ -259,7 +265,13 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    findNavController().popBackStack()
+                    if(args.isFromFCM){
+                        findNavController().navigate(R.id.action_drawingDetailFragment_to_homeFragment)
+                    }
+                    else{
+                        findNavController().popBackStack()
+                    }
+
                 }
             }
         )

@@ -17,6 +17,7 @@ import com.google.firebase.messaging.RemoteMessage
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.R
 import com.ssafy.likloud.ui.drawing.DrawingDetailFragmentArgs
+import com.ssafy.likloud.ui.nftlist.NftListFragmentArgs
 import java.util.*
 
 private const val TAG = "MyFirebaseMessageServic_싸피"
@@ -35,7 +36,7 @@ class MyFirebaseMessageService : FirebaseMessagingService() {
     // 메시지가 오면 호출되는 함수
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         Log.d(TAG, "onMessageReceived: ${remoteMessage.data}")
-        var message: String? = null
+        var message: String?
 
 //        remoteMessage.notification?.apply {
 //            Log.d(TAG, "onMessageReceived: ssss")
@@ -45,11 +46,13 @@ class MyFirebaseMessageService : FirebaseMessagingService() {
         val nickname = remoteMessage.data["sendNickname"]
         when (remoteMessage.data["historyType"]) {
             "GIFT" -> {
+                val args = NftListFragmentArgs(true)
                 message = "$nickname ${getString(R.string.body_gift)}"
                 pendingIntent = navBuilder
                     .setComponentName(MainActivity::class.java)
                     .setGraph(R.navigation.nav_graph)
-                    .setDestination(R.id.drawingListFragment)
+                    .setArguments(args.toBundle())
+                    .setDestination(R.id.nftListFragment)
                     .createPendingIntent()
             }
             // LIKE 혹은 COMMENT 인 경우
@@ -81,7 +84,7 @@ class MyFirebaseMessageService : FirebaseMessagingService() {
 
 
     private fun createDrawingDetailPendingIntent(drawingId: Int): PendingIntent {
-        val args = DrawingDetailFragmentArgs(drawingId)
+        val args = DrawingDetailFragmentArgs(drawingId, true)
 
         return NavDeepLinkBuilder(this@MyFirebaseMessageService)
             .setComponentName(MainActivity::class.java)

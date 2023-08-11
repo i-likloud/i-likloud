@@ -7,15 +7,52 @@
     android:background="@drawable/app_background_3"
     tools:context=".ui.drawingpad.DrawingPadFragment">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/layout_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.1"
+        android:background="@color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/button_back"
+                android:layout_gravity="center_vertical"
+                android:layout_width="@dimen/_23sdp"
+                android:layout_height="@dimen/_23sdp"
+                android:layout_margin="@dimen/_3sdp"
+                android:src="@drawable/button_back_arrow" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_29sdp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="@string/drawing_pad"
+                android:layout_weight="1"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size16"/>
+
+        </LinearLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
 
     <LinearLayout
         android:id="@+id/layout_pencils"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:elevation="2dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_appbar">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_aspect_ratio"
@@ -147,12 +184,14 @@
         android:id="@+id/layout_chosen_photo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_1sdp"
+        android:layout_marginBottom="@dimen/_1sdp"
         android:layout_marginHorizontal="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/layout_pencils"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/layout_appbar">
 
 
         <!-- Your CardView content... -->
@@ -198,10 +237,11 @@
     <LinearLayout
         android:layout_marginTop="@dimen/_10sdp"
         android:id="@+id/button_save_drawing"
-        android:layout_width="@dimen/_100sdp"
+        android:layout_width="@dimen/_28sdp"
         app:layout_constraintWidth_percent="0.45"
         android:layout_height="@dimen/_28sdp"
         android:layout_gravity="right"
+        android:padding="@dimen/_8sdp"
         android:layout_marginBottom="@dimen/_10sdp"
         android:background="@drawable/frame_button_green_mild"
         android:elevation="@dimen/_2sdp"
@@ -211,12 +251,10 @@
         app:layout_constraintEnd_toEndOf="parent">
 
 
-        <TextView
-            style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/move_to_save" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/icon_save"/>
 
     </LinearLayout>
 

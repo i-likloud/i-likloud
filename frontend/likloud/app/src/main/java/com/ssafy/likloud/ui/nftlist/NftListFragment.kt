@@ -17,6 +17,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.internal.ViewUtils.hideKeyboard
@@ -28,6 +29,7 @@ import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.NftGiftDto
 import com.ssafy.likloud.data.model.NftListDto
 import com.ssafy.likloud.databinding.FragmentNftListBinding
+import com.ssafy.likloud.ui.drawing.DrawingDetailFragmentArgs
 import com.ssafy.likloud.ui.photo.PhotoListFragmentDirections
 import com.ssafy.likloud.ui.upload.UploadFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,7 +40,7 @@ private const val TAG = "차선호"
 @AndroidEntryPoint
 class NftListFragment : BaseFragment<FragmentNftListBinding>(
     FragmentNftListBinding::bind, R.layout.fragment_nft_list) {
-
+    val args: NftListFragmentArgs by navArgs()
     private val nftListFragmentViewModel : NftListFragmentViewModel by viewModels()
     private val activityViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var nftListAdapter: NftListAdapter
@@ -86,7 +88,13 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
             }
             //뒤로가기 눌렀을 때
             buttonBack.setOnClickListener {
-                findNavController().popBackStack()
+                if(args.isFromFCM){
+                    findNavController().navigate(R.id.action_nftListFragment_to_homeFragment)
+                }
+                else{
+                    findNavController().popBackStack()
+                }
+
             }
             imageNftInfo.setOnClickListener {
                 nftListFragmentViewModel.nftInfoDialog.show(childFragmentManager, "nftInfo")
@@ -100,7 +108,12 @@ class NftListFragment : BaseFragment<FragmentNftListBinding>(
                 if(nftListFragmentViewModel.isShowSearchUserFragment) {
                     endSearchUserFragment()
                 }else{
-                    findNavController().popBackStack()
+                    if(args.isFromFCM){
+                        findNavController().navigate(R.id.action_nftListFragment_to_homeFragment)
+                    }
+                    else{
+                        findNavController().popBackStack()
+                    }
                 }
             }
         })
