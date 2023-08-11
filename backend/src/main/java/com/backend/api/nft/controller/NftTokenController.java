@@ -98,10 +98,11 @@ public class NftTokenController {
                                                 @MemberInfo MemberInfoDto memberInfoDto){
         Member member = memberService.findMemberByEmail(memberInfoDto.getEmail());
 
+        NftTransferResponseDto nftTransferResponseDto =  nftTransferApiService.transferToken(member, nftId, toMemberId, message);
+
         // 토큰 선물 알림 보내기
         fcmService.tokenGiftAlert(toMemberId, member);
 
-        return nftTransferApiService.transferToken(member, nftId, toMemberId, message);
-
+        return nftTransferResponseDto;
     }
 }
