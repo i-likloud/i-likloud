@@ -27,7 +27,7 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
-                android:src="@drawable/cloud1"
+                android:src="@drawable/image_loading_image"
                 android:id="@+id/image_drawing"/>
 
         </androidx.cardview.widget.CardView>
