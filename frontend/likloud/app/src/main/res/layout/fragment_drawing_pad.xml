@@ -183,23 +183,23 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_chosen_photo"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="@dimen/_1sdp"
         android:layout_marginBottom="@dimen/_1sdp"
         android:layout_marginHorizontal="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/layout_pencils"
-        app:layout_constraintTop_toBottomOf="@id/layout_appbar">
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toEndOf="@id/layout_pencils"
+    app:layout_constraintTop_toBottomOf="@id/layout_appbar">
 
 
-        <!-- Your CardView content... -->
+    <!-- Your CardView content... -->
 
         <ImageView
             android:id="@+id/image_chosen_photo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_margin="@dimen/_10sdp"
             android:adjustViewBounds="true"
             android:background="@color/transparent"
@@ -207,6 +207,7 @@
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardview_canvas"
