@@ -134,16 +134,32 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             }
         }
 
-        activityViewModel.isWallet.observe(viewLifecycleOwner){
-            if(it){
-//                Toast.makeText(mainActivity, "지급 발급 완료!  맘껏이제 하시오", Toast.LENGTH_SHORT).show()
-//                Log.d(TAG, "지갑 발급 완료!")
-                if(activityViewModel.memberInfo.value!!.silverCoin>=3) {
-                    drawingDetailFragmentViewModel.registNft(args.drawingId)
-                }else{
-                    //여기서 siverCoin 부족 메시지
-                    showSnackbar(binding.root, "fail",getString(R.string.nft_fail))
-//                    Toast.makeText(mainActivity,"silverCoin 확인 바람", Toast.LENGTH_SHORT).show()
+//        activityViewModel.isWallet.observe(viewLifecycleOwner){
+//            if(it){
+////                Toast.makeText(mainActivity, "지급 발급 완료!  맘껏이제 하시오", Toast.LENGTH_SHORT).show()
+////                Log.d(TAG, "지갑 발급 완료!")
+//                if(activityViewModel.memberInfo.value!!.silverCoin>=3) {
+//                    drawingDetailFragmentViewModel.registNft(args.drawingId)
+//                }else{
+//                    //여기서 siverCoin 부족 메시지
+//                    showSnackbar(binding.root, "fail",getString(R.string.nft_fail))
+////                    Toast.makeText(mainActivity,"silverCoin 확인 바람", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            activityViewModel.isWallet.collectLatest {
+                if(it){
+    //                Toast.makeText(mainActivity, "지급 발급 완료!  맘껏이제 하시오", Toast.LENGTH_SHORT).show()
+    //                Log.d(TAG, "지갑 발급 완료!")
+                    if(activityViewModel.memberInfo.value!!.silverCoin>=3) {
+                        drawingDetailFragmentViewModel.registNft(args.drawingId)
+                    }else{
+                        //여기서 siverCoin 부족 메시지
+                        showSnackbar(binding.root, "fail",getString(R.string.nft_fail))
+    //                    Toast.makeText(mainActivity,"silverCoin 확인 바람", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }

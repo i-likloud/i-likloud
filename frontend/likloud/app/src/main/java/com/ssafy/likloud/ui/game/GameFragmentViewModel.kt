@@ -58,11 +58,11 @@ class GameFragmentViewModel @Inject constructor(
     }
 
     ////////////////////////// 시간 PROGRESS BAR //////////////////////////////////
-    private var _remainTime = MutableLiveData<Int>(30)
+    private var _remainTime = MutableLiveData<Int>(60)
     val remainTime: LiveData<Int>
         get() = _remainTime
     fun initRemainTime(){
-        _remainTime.value = 30
+        _remainTime.value = 60
     }
     fun decreaseRemainTime(){
         _remainTime.value = _remainTime.value!! - 1
@@ -101,8 +101,8 @@ class GameFragmentViewModel @Inject constructor(
             increaseFrameHeight(40)
             _isCorrected.value = true
         }else{
-            decreaseFrameWidth(20)
-            decreaseFrameHeight(20)
+            decreaseFrameWidth(32)
+            decreaseFrameHeight(32)
             _isCorrected.value = false
         }
 //        increaseCurrentQuestionIdx()
