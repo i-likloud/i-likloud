@@ -38,6 +38,8 @@ public class FCMService {
             data.put("historyType", historyType.name());
             // 보낸 사람
             data.put("sendNickname",sendNickname);
+            // 메시지
+            data.put("message", body);
 
             // 알림 보낼 대상 설정
             Message message = Message.builder()
@@ -100,7 +102,7 @@ public class FCMService {
     }
 
     // 토큰 선물 알림
-    public void tokenGiftAlert(Long toMemberId, Member member) {
+    public void tokenGiftAlert(Long toMemberId, Member member, String message) {
         // 선물 받는 사람의 Firebase 토큰 가져오기
         Member toMember = memberService.findMemberById(toMemberId);
         String authorToken = toMember.getFirebaseToken();
@@ -110,7 +112,8 @@ public class FCMService {
 
         // 작성자에게 알림 보내기
         String title = "뭉게뭉게 도화지";
-        String body = String.format("%s 님이 그림을 선물하였습니다.",CurrentUserNickname);
+//        String body = String.format("%s 님이 그림을 선물하였습니다.",CurrentUserNickname);
+        String body = message;
         this.sendFCMNotification(authorToken,title,body, null,HistoryType.GIFT,CurrentUserNickname);
 
         // HistoryDB에 담기
