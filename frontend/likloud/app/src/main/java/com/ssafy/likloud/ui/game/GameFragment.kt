@@ -1,5 +1,6 @@
 package com.ssafy.likloud.ui.game
 
+import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
@@ -125,9 +126,6 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
                             visibility = View.VISIBLE
                             playAnimation()
                         }
-
-                        lottieLeftIncorrect.visibility = View.INVISIBLE
-                        lottieRightCorrect.visibility = View.INVISIBLE
                     }
                 }else{
                     binding.apply {
@@ -139,9 +137,6 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
                             visibility = View.VISIBLE
                             playAnimation()
                         }
-
-                        lottieLeftCorrect.visibility = View.INVISIBLE
-                        lottieRightIncorrect.visibility = View.INVISIBLE
                     }
                 }
                 delay(700)
@@ -239,6 +234,39 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
             imageMemberColor.setImageResource(activityViewModel.waterDropColorList[activityViewModel.memberInfo.value!!.profileColor].resourceId)
             imageMemberFace.setImageResource(activityViewModel.waterDropFaceList[activityViewModel.memberInfo.value!!.profileFace].resourceId)
             imageMemberAccessory.setImageResource(activityViewModel.waterDropAccessoryList[activityViewModel.memberInfo.value!!.profileAccessory].resourceId)
+
+            lottieRightIncorrect.addAnimatorListener(object: Animator.AnimatorListener {
+                override fun onAnimationStart(animation: Animator) {}
+                override fun onAnimationEnd(animation: Animator) {
+                   lottieLeftIncorrect.visibility = View.INVISIBLE
+                }
+                override fun onAnimationCancel(animation: Animator) {}
+                override fun onAnimationRepeat(animation: Animator) {}
+            })
+            lottieRightCorrect.addAnimatorListener(object: Animator.AnimatorListener {
+                override fun onAnimationStart(animation: Animator) {}
+                override fun onAnimationEnd(animation: Animator) {
+                    lottieRightCorrect.visibility = View.INVISIBLE
+                }
+                override fun onAnimationCancel(animation: Animator) {}
+                override fun onAnimationRepeat(animation: Animator) {}
+            })
+            lottieLeftIncorrect.addAnimatorListener(object: Animator.AnimatorListener {
+                override fun onAnimationStart(animation: Animator) {}
+                override fun onAnimationEnd(animation: Animator) {
+                    lottieLeftIncorrect.visibility = View.INVISIBLE
+                }
+                override fun onAnimationCancel(animation: Animator) {}
+                override fun onAnimationRepeat(animation: Animator) {}
+            })
+            lottieLeftCorrect.addAnimatorListener(object: Animator.AnimatorListener {
+                override fun onAnimationStart(animation: Animator) {}
+                override fun onAnimationEnd(animation: Animator) {
+                    lottieLeftCorrect.visibility = View.INVISIBLE
+                }
+                override fun onAnimationCancel(animation: Animator) {}
+                override fun onAnimationRepeat(animation: Animator) {}
+            })
         }
     }
 
