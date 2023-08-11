@@ -40,7 +40,6 @@ class InfoFragment : BaseFragment<FragmentInfoBinding>(
 
     override fun initListener() {
         binding.buttonBack.setOnClickListener {
-            Log.d("차선호", "backbutton clicked,,,,")
             findNavController().popBackStack()
         }
         // 안드로이드 뒤로가기 버튼 눌렀을 때

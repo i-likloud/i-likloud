@@ -66,9 +66,15 @@ class PhotoDetailFragment : BaseFragment<FragmentPhotoDetailBinding>(FragmentPho
         photoDetailFragmentViewModel.currentPhotoDetail.observe(viewLifecycleOwner){
             //여기서 현재 그림에 대한 사진 리스트, 사진 올린 멤버 조회 & 초기 bookmark 정보 세팅
             photoDetailFragmentViewModel.getCurrentPhotoDrawingList(it.photoId)
+
             photoDetailFragmentViewModel.getCurrentPhotoMember(it.memberId)
+
             photoDetailFragmentViewModel.setIsBookmarked()
             photoDetailFragmentViewModel.setBookmarkCount()
+
+            // drawingPad에서 보여지기 위해 photoId, photoUrl 업데이트
+            activityViewModel.setUploadingPhotoId(it.photoId)
+            activityViewModel.setUploadingPhotoUrl(it.photoUrl)
         }
         photoDetailFragmentViewModel.currentPhotoMember.observe(viewLifecycleOwner){
             //사진 정보, 유저 정보 뷰 세팅
@@ -92,7 +98,7 @@ class PhotoDetailFragment : BaseFragment<FragmentPhotoDetailBinding>(FragmentPho
 
     private fun init(){
         photoDetailFragmentViewModel.getCurrentPhotoDetail(args.photoId)
-        activityViewModel.setUploadingPhotoId(args.photoId)
+
         initPhotoDrawingListRecyclerView()
         loadingAnimation()
     }

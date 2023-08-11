@@ -147,9 +147,8 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
             PorterDuffXfermode(PorterDuff.Mode.CLEAR)
         } else null
 
-        // 펜 스타일 버튼 초기에 숨기기
-        makeButtonAnimationXWithDuration(binding.layoutPenEraserWidth, DRAWING_STYLE_PAD_LEFT, 0)
-        makeButtonAnimationXWithDuration(binding.cardviewCanvas, CANVAS_RIGHT, 0)
+
+
     }
 
     override fun initListener() {
@@ -157,6 +156,10 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
         penClickListener()
         penStylePadClickListener()
         undoRedoClickListener()
+
+        binding.buttonBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
 
         binding.layoutPenEraserWidth.setOnClickListener {
 
@@ -384,7 +387,8 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
      * 이미지뷰는 크기 측정만을 위함으로 실제로 그려지지는 않습니다.
      */
     private fun loadImage() {
-
+        // 펜 숨기기
+        makeButtonAnimationXWithDuration(binding.layoutPenEraserWidth, DRAWING_STYLE_PAD_LEFT, 0)
         Glide.with(this)
             .load(mainActivityViewModel.uploadingPhotoUrl.value)
             .into(binding.imageChosenPhoto)
@@ -404,8 +408,10 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
                     transition: Transition<in Drawable>?
                 ) {
                     dismissLoadingDialog()
-                    // Set the loaded image as the background of the view
+                    // 캔버스 초기화
                     binding.canvasDrawingpad.background = resource
+                    // 캔버스 들어오게 하기
+                    makeButtonAnimationXWithDuration(binding.cardviewCanvas, CANVAS_RIGHT, 0)
                 }
             })
     }
