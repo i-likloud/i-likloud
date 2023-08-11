@@ -223,12 +223,11 @@
                     app:layout_constraintWidth_percent="0.45"
                     app:layout_constraintHeight_percent="0.45"
                     app:lottie_fileName="lottie_animation_correct.json"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_margin="@dimen/_5sdp"
+                    android:translationZ="@dimen/_20sdp"
                     android:visibility="invisible"/>
 
                 <com.airbnb.lottie.LottieAnimationView
@@ -238,12 +237,11 @@
                     app:layout_constraintWidth_percent="0.45"
                     app:layout_constraintHeight_percent="0.45"
                     app:lottie_fileName="lottie_animation_incorrect.json"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_margin="@dimen/_5sdp"
+                    android:translationZ="@dimen/_20sdp"
                     android:visibility="invisible"/>
 
                 <TextView
@@ -268,12 +266,11 @@
                     app:layout_constraintWidth_percent="0.45"
                     app:layout_constraintHeight_percent="0.45"
                     app:lottie_fileName="lottie_animation_correct.json"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginStart="@dimen/_5sdp"
+                    android:translationZ="@dimen/_20sdp"
                     android:visibility="invisible"/>
 
                 <com.airbnb.lottie.LottieAnimationView
@@ -283,12 +280,11 @@
                     app:layout_constraintWidth_percent="0.45"
                     app:layout_constraintHeight_percent="0.45"
                     app:lottie_fileName="lottie_animation_incorrect.json"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginStart="@dimen/_5sdp"
+                    android:translationZ="@dimen/_20sdp"
                     android:visibility="invisible"/>
 
 
