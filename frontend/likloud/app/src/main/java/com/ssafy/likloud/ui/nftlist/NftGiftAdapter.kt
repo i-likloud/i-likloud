@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 class NftGiftAdapter (var context: Context): ListAdapter<NftGiftDto, NftGiftAdapter.NftGiftHolder>(
     NftGiftComparator
 ) {
-    private val largerHeight by lazy { applicationContext.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._12sdp) }
+    private val largerHeight by lazy { context.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._12sdp) }
 
     companion object NftGiftComparator : DiffUtil.ItemCallback<NftGiftDto>() {
         override fun areItemsTheSame(oldItem: NftGiftDto, newItem: NftGiftDto): Boolean {

@@ -92,8 +92,8 @@ class PhotoDetailFragment : BaseFragment<FragmentPhotoDetailBinding>(FragmentPho
 
     private fun init(){
         photoDetailFragmentViewModel.getCurrentPhotoDetail(args.photoId)
+        activityViewModel.setUploadingPhotoId(args.photoId)
         initPhotoDrawingListRecyclerView()
-
         loadingAnimation()
     }
 
@@ -118,6 +118,10 @@ class PhotoDetailFragment : BaseFragment<FragmentPhotoDetailBinding>(FragmentPho
                 }
             }
         )
+
+        binding.buttonPaint.setOnClickListener {
+            findNavController().navigate(R.id.action_photoDetailFragment_to_drawingPadFragment)
+        }
     }
 
     private fun initInfoView(photoDetail: PhotoListDto, member: MemberProfileDto){

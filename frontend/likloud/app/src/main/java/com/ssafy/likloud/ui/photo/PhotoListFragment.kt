@@ -104,7 +104,7 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
             }
             //뒤로가기 눌렀을 때
             buttonBack.setOnClickListener {
-                findNavController().popBackStack()
+                findNavController().navigate(R.id.action_photoListFragment_to_homeFragment)
             }
 
             buttonPaint.setOnClickListener {
@@ -118,7 +118,7 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(FragmentPhotoLi
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    findNavController().popBackStack()
+                    findNavController().navigate(R.id.action_photoListFragment_to_homeFragment)
                 }
             }
         )

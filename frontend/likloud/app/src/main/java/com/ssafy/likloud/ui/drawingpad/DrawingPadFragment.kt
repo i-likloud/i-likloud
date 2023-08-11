@@ -24,7 +24,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.slider.Slider
 import com.navercorp.nid.NaverIdLoginSDK.applicationContext
@@ -68,8 +72,8 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
     private val drawingPadFragmentViewModel: DrawingPadFragmentViewModel by viewModels()
     private var bmp: Bitmap? = null
     private var isPenStylePadOpened = false
-    private val largerWidth by lazy { applicationContext.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._120sdp) }
-    private val originalWidth by lazy { applicationContext.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._100sdp) }
+    private val largerWidth by lazy { mActivity.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._120sdp) }
+    private val originalWidth by lazy { mActivity.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._100sdp) }
     private val largerWeight = 1.2f
     private val originalWeight = 1.0f
     private lateinit var layoutListener: OnGlobalLayoutListener
@@ -113,7 +117,7 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
         // 초기 펜 스타일 현재 글자 크기로 지정
         setDotAndButtonView()
         val layoutParams = binding.dotPensize.layoutParams as ConstraintLayout.LayoutParams
-        layoutParams.height = (selectedStrokeWidth *0.15) .toInt()  * applicationContext.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._1sdp) + 1
+        layoutParams.height = (selectedStrokeWidth *0.15) .toInt()  * mActivity.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._1sdp) + 1
 
         
         layoutParams.width = (selectedStrokeWidth  *0.15) .toInt()  * mActivity.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._1sdp) + 1
@@ -217,8 +221,8 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
             addOnChangeListener(Slider.OnChangeListener { slider, value, fromUser ->
                 selectedStrokeWidth = value
                 val layoutParams = binding.dotPensize.layoutParams as ConstraintLayout.LayoutParams
-                layoutParams.width = (value*0.15) .toInt()  * applicationContext.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._1sdp) + 1
-                layoutParams.height = (value*0.15).toInt() * applicationContext.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._1sdp) + 1
+                layoutParams.width = (value*0.15) .toInt()  * mActivity.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._1sdp) + 1
+                layoutParams.height = (value*0.15).toInt() * mActivity.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._1sdp) + 1
                 binding.dotPensize.layoutParams = layoutParams
                 binding.dotPensize.requestLayout()
             })
@@ -380,17 +384,26 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
      * 이미지뷰는 크기 측정만을 위함으로 실제로 그려지지는 않습니다.
      */
     private fun loadImage() {
+
         Glide.with(this)
             .load(mainActivityViewModel.uploadingPhotoUrl.value)
             .into(binding.imageChosenPhoto)
 
+        showLoadingDialog(mActivity)
+
         Glide.with(this)
             .load(mainActivityViewModel.uploadingPhotoUrl.value)
             .into(object : SimpleTarget<Drawable>() {
+                override fun onLoadFailed(errorDrawable: Drawable?) {
+                    dismissLoadingDialog()
+                    super.onLoadFailed(errorDrawable)
+                }
+
                 override fun onResourceReady(
                     resource: Drawable,
                     transition: Transition<in Drawable>?
                 ) {
+                    dismissLoadingDialog()
                     // Set the loaded image as the background of the view
                     binding.canvasDrawingpad.background = resource
                 }
