@@ -1,7 +1,6 @@
 package com.backend.domain.comment.dto;
 
 import com.backend.domain.comment.entity.Comment;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -19,7 +18,6 @@ public class CommentDto {
     private final int profileColor;
     private final int profileAccessory;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private final LocalDateTime createdAt;
 
     public CommentDto(Comment comment) {
