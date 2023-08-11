@@ -1,33 +1,28 @@
 package com.ssafy.likloud.ui.drawing
 
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.text.Layout
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AccelerateInterpolator
-import android.view.animation.DecelerateInterpolator
+import android.view.animation.AnimationUtils
 import android.view.animation.OvershootInterpolator
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
+import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.bumptech.glide.Glide
 import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager
-import com.navercorp.nid.NaverIdLoginSDK
-import com.ssafy.likloud.ApplicationClass
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
@@ -44,15 +39,21 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 private const val TAG = "차선호"
-@AndroidEntryPoint
-class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDrawingListBinding::bind, R.layout.fragment_drawing_list) {
 
-    private val drawingListFragmentViewModel : DrawingListFragmentViewModel by viewModels()
+@AndroidEntryPoint
+class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(
+    FragmentDrawingListBinding::bind,
+    R.layout.fragment_drawing_list
+) {
+
+    private val drawingListFragmentViewModel: DrawingListFragmentViewModel by viewModels()
     private lateinit var mainActivity: MainActivity
     private val activityViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var drawingListAdapter: DrawingListAdapter
     private lateinit var commentListAdapter: CommentListAdapter
     private var isScrolling = false
+    private lateinit var zoomInAnimation: AnimatorSet
+    private var isZoomed = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -74,12 +75,13 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         initObserver()
     }
 
-    private fun init(){
+    @SuppressLint("ResourceType")
+    private fun init() {
         drawingListFragmentViewModel.getRecentOrderDrawingListDtoList()
         toggleButton(binding.buttonRecentOrder)
         initRecyclerView()
         initCommentRecyclerView()
-
+//        zoomInAnimation = AnimatorInflater.loadAnimator(mActivity, R.anim.zoom_in_animation) as AnimatorSet
         loadingAnimation()
     }
 
@@ -93,12 +95,12 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         }
     }
 
-    override fun initListener(){
+    override fun initListener() {
 
         binding.apply {
             //최신순 눌렀을 때
             buttonRecentOrder.setOnClickListener {
-                if(!isScrolling) {
+                if (!isScrolling) {
                     drawingListFragmentViewModel.getRecentOrderDrawingListDtoList()
                     initRecyclerView()
                     toggleButton(buttonRecentOrder)
@@ -106,8 +108,8 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
                 }
             }
             //랭킹순 눌렀을 때
-            buttonRankingOrder.setOnClickListener{
-                if(!isScrolling) {
+            buttonRankingOrder.setOnClickListener {
+                if (!isScrolling) {
                     drawingListFragmentViewModel.getRankingOrderDrawingListDtoList()
                     initRecyclerView()
                     toggleButton(buttonRankingOrder)
@@ -116,7 +118,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
             }
             //조회순 눌렀을 때
             buttonViewOrder.setOnClickListener {
-                if(!isScrolling) {
+                if (!isScrolling) {
                     drawingListFragmentViewModel.getViewOrderDrawingListDtoLit()
                     initRecyclerView()
                     toggleButton(buttonViewOrder)
@@ -146,21 +148,28 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
             //댓글 입력 눌렀을 때
             buttonDrawingComment.setOnClickListener {
                 val content = edittextDrawingComment.text.toString()
-                if(content == ""){
+                if (content == "") {
                     showSnackbar(binding.root, "blue_bar", "댓글을 입력해주세요!")
 //                    Toast.makeText(mainActivity,"댓글을 입력하세요",Toast.LENGTH_SHORT).show()
-                }else{
+                } else {
                     //댓글 입력 함수
-                    drawingListFragmentViewModel.registDrawingComment(drawingListFragmentViewModel.currentDrawingDetailDto.value!!.drawingId, content)
+                    drawingListFragmentViewModel.registDrawingComment(
+                        drawingListFragmentViewModel.currentDrawingDetailDto.value!!.drawingId,
+                        content
+                    )
                     edittextDrawingComment.setText("")
                     edittextDrawingComment.clearFocus()
-                    val keyboard = mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    keyboard.hideSoftInputFromWindow(edittextDrawingComment.windowToken,0)
+                    val keyboard =
+                        mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    keyboard.hideSoftInputFromWindow(edittextDrawingComment.windowToken, 0)
                 }
             }
             buttonReport.setOnClickListener {
                 drawingListFragmentViewModel.setDrawingReportDialog()
-                drawingListFragmentViewModel.drawingReportDialog.show(childFragmentManager, "report")
+                drawingListFragmentViewModel.drawingReportDialog.show(
+                    childFragmentManager,
+                    "report"
+                )
             }
         }
         // 안드로이드 뒤로가기 버튼 눌렀을 때
@@ -174,44 +183,44 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         )
     }
 
-    private fun initObserver(){
+    private fun initObserver() {
 
-        drawingListFragmentViewModel.currentDrawingListDtoList.observe(viewLifecycleOwner){
-            if(it.size!=0) {
+        drawingListFragmentViewModel.currentDrawingListDtoList.observe(viewLifecycleOwner) {
+            if (it.size != 0) {
                 drawingListAdapter.submitList(it)
                 drawingListFragmentViewModel.getCurrentDrawingDetailDto(it[0])
             }
         }
 
-        drawingListFragmentViewModel.currentDrawingDetailDto.observe(viewLifecycleOwner){
+        drawingListFragmentViewModel.currentDrawingDetailDto.observe(viewLifecycleOwner) {
             //현재 가운데 있는 그림 정보 조회 & 초기 좋아요 세팅
             drawingListFragmentViewModel.getCurrentDrawingMember(it.memberId)
             drawingListFragmentViewModel.setIsLiked()
             drawingListFragmentViewModel.setLikeCount()
         }
 
-        drawingListFragmentViewModel.currentDrawingMember.observe(viewLifecycleOwner){
+        drawingListFragmentViewModel.currentDrawingMember.observe(viewLifecycleOwner) {
             //현재 그림에 대한 정보, 그림 그린 멤버 정보 뷰 세팅
             initInfoView(drawingListFragmentViewModel.currentDrawingDetailDto.value!!, it)
             isScrolling = false
         }
 
-        drawingListFragmentViewModel.isLiked.observe(viewLifecycleOwner){
-            if(it){
+        drawingListFragmentViewModel.isLiked.observe(viewLifecycleOwner) {
+            if (it) {
                 binding.imageHeart.setImageResource(R.drawable.icon_selected_heart)
-            }else{
+            } else {
                 binding.imageHeart.setImageResource(R.drawable.icon_unselected_heart)
             }
         }
 
-        drawingListFragmentViewModel.likeCount.observe(viewLifecycleOwner){
+        drawingListFragmentViewModel.likeCount.observe(viewLifecycleOwner) {
             binding.textLikeCount.text = it.toString()
         }
 
-        drawingListFragmentViewModel.currentDrawingCommentList.observe(viewLifecycleOwner){
+        drawingListFragmentViewModel.currentDrawingCommentList.observe(viewLifecycleOwner) {
             Log.d(TAG, "commentObserver .... $it")
             commentListAdapter.submitList(it.toMutableList())
-            if(it.size!=0) binding.recyclerviewDrawingComment.smoothScrollToPosition(it.size)
+            if (it.size != 0) binding.recyclerviewDrawingComment.smoothScrollToPosition(it.size)
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -221,7 +230,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         }
     }
 
-    private fun initInfoView(drawingDetail: DrawingDetailDto, member: MemberProfileDto){
+    private fun initInfoView(drawingDetail: DrawingDetailDto, member: MemberProfileDto) {
         binding.apply {
             Glide.with(binding.imageProfileColor)
                 .load(activityViewModel.waterDropColorList[member.profileColor].resourceId)
@@ -240,32 +249,56 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         }
     }
 
-    private fun toggleButton(view: View){
+    private fun toggleButton(view: View) {
         binding.apply {
-            buttonRecentOrder.background = ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_grey_mild)
-            buttonRankingOrder.background = ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_grey_mild)
-            buttonViewOrder.background = ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_grey_mild)
+            buttonRecentOrder.background =
+                ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_grey_mild)
+            buttonRankingOrder.background =
+                ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_grey_mild)
+            buttonViewOrder.background =
+                ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_grey_mild)
         }
-        view.background = ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_yellow_mild_200)
+        view.background =
+            ContextCompat.getDrawable(mainActivity, R.drawable.frame_button_yellow_mild_200)
     }
 
-    private fun initRecyclerView(){
+    private fun initRecyclerView() {
         drawingListAdapter = DrawingListAdapter(activityViewModel)
         binding.recyclerviewDrawaing.apply {
             this.adapter = drawingListAdapter.apply {
-                itemClickListner = object: DrawingListAdapter.ItemClickListener{
-                    override fun onClick(drawing: DrawingListDto) {
-                        if(activityViewModel.memberInfo.value!!.silverCoin>=5) {
-                            drawingListFragmentViewModel.registNft(drawing.drawingId)
-                        }else{
-                            //여기서 silverCoin 부족하다고 뜸
-                            showSnackbar(binding.root, "fail", getString(R.string.nft_fail))
-                            //Toast.makeText(mainActivity,"silverCoin 확인 바람", Toast.LENGTH_SHORT).show()
-                        }
-                    }
+                itemClickListner = object : DrawingListAdapter.ItemClickListener {
+                    override fun onClick(drawing: DrawingListDto, imageview: ImageView) {
+                        Log.d(TAG, "onClick: dd")
+                            if (!isZoomed) {
+                                isZoomed = true
+                                val params = binding.recyclerviewDrawaing.layoutParams
+                                params.width = ViewGroup.LayoutParams.MATCH_PARENT
+                                params.height = ViewGroup.LayoutParams.MATCH_PARENT
+                                binding.recyclerviewDrawaing.layoutParams = params
+                                binding.recyclerviewDrawaing.startAnimation(AnimationUtils.loadAnimation(mActivity, R.anim.zoom_in_animation))
+                            } else {
+                                isZoomed = false
+                                val params = binding.recyclerviewDrawaing.layoutParams
+                                params.width = 0
+                                params.height = 0
+                                binding.recyclerviewDrawaing.layoutParams = params
+                            }
 
+                    }
+//                        zoomInAnimation.setTarget(this)
+//                        zoomInAnimation.start()
+//                        if(activityViewModel.memberInfo.value!!.silverCoin>=5) {
+//                            drawingListFragmentViewModel.registNft(drawing.drawingId)
+//                        }else{
+//                            //여기서 silverCoin 부족하다고 뜸
+//                            showSnackbar(binding.root, "fail", getString(R.string.nft_fail))
+//                            //Toast.makeText(mainActivity,"silverCoin 확인 바람", Toast.LENGTH_SHORT).show()
+//                        }
                 }
+
             }
+
+
             set3DItem(true)
             setAlpha(true)
             setOrientation(RecyclerView.VERTICAL)
@@ -273,7 +306,9 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
                 //본인한테서 멈췄을 때 이벤트
                 override fun onItemSelected(position: Int) {
                     //여기서 selectedDrawing을 가지고 DrawingDetailDto 받아라
-                    drawingListFragmentViewModel.getCurrentDrawingDetailDto(drawingListFragmentViewModel.currentDrawingListDtoList.value!![position])
+                    drawingListFragmentViewModel.getCurrentDrawingDetailDto(
+                        drawingListFragmentViewModel.currentDrawingListDtoList.value!![position]
+                    )
                 }
             })
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -287,14 +322,17 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         }
     }
 
-    private fun initCommentRecyclerView(){
+    private fun initCommentRecyclerView() {
         Log.d(TAG, "commentList : ${drawingListFragmentViewModel.currentDrawingCommentList.value} ")
         commentListAdapter = CommentListAdapter(activityViewModel)
         binding.recyclerviewDrawingComment.apply {
             this.adapter = commentListAdapter.apply {
-                this.itemClickListner = object: CommentListAdapter.ItemClickListener{
+                this.itemClickListner = object : CommentListAdapter.ItemClickListener {
                     override fun onClick(comment: CommentDto, position: Int) {
-                        drawingListFragmentViewModel.deleteDrawingComment(comment.commentId, position)
+                        drawingListFragmentViewModel.deleteDrawingComment(
+                            comment.commentId,
+                            position
+                        )
                     }
                 }
             }
@@ -316,7 +354,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         }
     }
 
-    fun sendReport(content: String){
+    fun sendReport(content: String) {
         drawingListFragmentViewModel.sendReport(content)
     }
 
@@ -326,4 +364,6 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(FragmentDra
         binding.recyclerviewDrawaing.translationX = -1300f
         initAnimation()
     }
+
+
 }
