@@ -39,7 +39,7 @@ class MypageDrawingAdapter  (var list : MutableList<DrawingListDto>): ListAdapte
         fun bindInfo(drawing : DrawingListDto){
             Glide.with(imageDrawing)
                 .load(drawing.imageUrl)
-                .placeholder(R.drawable.button_camera)
+                .placeholder(R.drawable.image_loading)
                 .into(imageDrawing)
 
 //            imageDrawing.layoutParams = ViewGroup.LayoutParams(imageDrawing.width, imageDrawing.height)

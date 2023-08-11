@@ -57,7 +57,7 @@ class NftListAdapter (var context: Context): ListAdapter<NftListDto, NftListAdap
         fun bindInfo(nftDto : NftListDto){
             Glide.with(imageNft)
                 .load(nftDto.imageUrl)
-                .placeholder(R.drawable.button_game)
+                .placeholder(R.drawable.button_camera)
                 .addListener(object : RequestListener<Drawable?> {
                     override fun onLoadFailed(
                         e: GlideException?,

@@ -27,6 +27,7 @@ import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import java.io.IOError
 import java.io.IOException
+import java.lang.NullPointerException
 import java.net.ConnectException
 import javax.inject.Inject
 
@@ -127,8 +128,19 @@ class MainActivityViewModel @Inject constructor(
                     }
                     onError {
                         Log.d(TAG, "getUserInfo: 메인 액티비티에서 유저 정보 가져오는데 실패했습니다. ${it}")
-                        if (it.message == "refresh_exception") {
-                            Log.d(TAG, "getMemberInfo: 얍얍얍")
+                        when (it.message) {
+                            "refresh_exception" -> {
+                                Log.d(TAG, "getMemberInfo: 리프레시 오류! shared 비우고 다시 로그인 해야합니다.")
+                                setRefreshInvaild()
+                            }
+                            "required_re_login" -> {
+                                Log.d(TAG, "getMemberInfo: required_re_login")
+                                setRefreshInvaild()
+                            }
+                        }
+                        
+                        if (it is NullPointerException) {
+                            Log.d(TAG, "getMemberInfo: 로그인 버그 -> 다시 로그인 해야함")
                             setRefreshInvaild()
                         }
 //                        throw IOException("refresh_exception")

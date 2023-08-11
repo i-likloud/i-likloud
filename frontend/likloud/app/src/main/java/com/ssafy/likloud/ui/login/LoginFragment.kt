@@ -81,6 +81,10 @@ class LoginFragment :
      * 필요한 정보를 init 합니다.
      */
     private fun init() {
+//        findNavController().clearBackStack(R.id.homeFragment)
+//        findNavController().clearBackStack(R.id.loginFragment)
+        Log.d(TAG, "init: ${findNavController().backQueue.size}")
+//        findNavController().getBackStackEntry(R.id.loginFragment)
         NaverIdLoginSDK.initialize(
             mActivity,
             getString(R.string.OAUTH_CLIENT_ID),

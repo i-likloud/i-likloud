@@ -15,8 +15,11 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.PopUpToBuilder
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.messaging.FirebaseMessaging
@@ -153,7 +156,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     sharedPreferences.putString(USER_EMAIL, "")
                     sharedPreferences.putString(X_ACCESS_TOKEN, "")
                     sharedPreferences.putString(X_REFRESH_TOKEN, "")
-                    navController.graph.setStartDestination(R.id.loginFragment)
+                    Log.d(TAG, "initObserver: 리프레시 토큰 에러이고, 로그아웃 신호입니다.")
+                    val snackbar = Snackbar.make(binding.root, "다시 로그인 해주세요.", Snackbar.LENGTH_LONG)
+                    snackbar.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.black))
+                    snackbar.setBackgroundTint(ContextCompat.getColor(this@MainActivity, R.color.blue_mild))
+                    snackbar.show()
+                    // 백스택 치우고 login으로
+                    navController.currentDestination?.let { it1 -> navController.popBackStack(it1.id, true) }
+                    navController.navigate(R.id.loginFragment)
                 }
             }
         }
