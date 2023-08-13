@@ -29,6 +29,7 @@ import com.ssafy.likloud.data.model.CommentDto
 import com.ssafy.likloud.data.model.DrawingDetailDto
 import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.databinding.FragmentDrawingDetailBinding
+import com.ssafy.likloud.ui.photo.PhotoDetailFragmentDirections
 import com.ssafy.likloud.util.hideKeyboard
 import com.ssafy.likloud.util.initEditText
 import dagger.hilt.android.AndroidEntryPoint
@@ -263,6 +264,13 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             buttonReport.setOnClickListener {
                 drawingDetailFragmentViewModel.setDrawingReportDialog()
                 drawingDetailFragmentViewModel.drawingReportDialog.show(childFragmentManager, "report")
+            }
+
+            imageCurrentDrawing.setOnClickListener{
+                drawingDetailFragmentViewModel.currentDrawingDetail.value?.let {
+                    val action = DrawingDetailFragmentDirections.actionDrawingDetailFragmentToDrawingOriginalFragment(it.imageUrl)
+                    findNavController().navigate(action)
+                }
             }
         }
         // 안드로이드 뒤로가기 버튼 눌렀을 때

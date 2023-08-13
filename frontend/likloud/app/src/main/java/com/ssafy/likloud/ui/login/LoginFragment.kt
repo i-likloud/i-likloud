@@ -113,6 +113,7 @@ class LoginFragment :
             Log.d(TAG, "initObserver: ${it.role}")
             when (it.role) {
                 "MEMBER" -> {
+                    Log.d(TAG, "initObserver: moving to homefragment")
                     viewLifecycleOwner.lifecycleScope.launch {
                         withContext(Dispatchers.IO) {
                             mainActivityViewModel.getMemberInfo(sharedPreferences.getString(USER_EMAIL).toString())
@@ -125,6 +126,7 @@ class LoginFragment :
                 }
                 "GUEST" -> {
 //                    showSnackbar(binding.root, "success", "뭉게뭉게 도화지에 오신것을 환영합니다!")
+                    Log.d(TAG, "initObserver: moving to profile")
                     findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
                 }
             }
@@ -197,7 +199,7 @@ class LoginFragment :
 //                Log.i(ContentValues.TAG, "카카오톡: ${token.scopes?.get(2)}")
                 val email = token.scopes!![0]
 
-                Log.d(TAG, "startKakaoLogin: 카카오 로그인 이메일은? -> ${email}")
+//                Log.d(TAG, "startKakaoLogin: 카카오 로그인 이메일은? -> ${email}")
                 sharedPreferences.putString(X_ACCESS_TOKEN, token.accessToken)
                 sharedPreferences.putString(USER_EMAIL, email)
                 loginFragmentViewModel.postLogin("email", "KAKAO")
@@ -247,6 +249,7 @@ class LoginFragment :
         UserApiClient.instance.me { user, error ->
             val userEmail = user?.kakaoAccount?.email
             userEmail?.let {
+                Log.d(TAG, "getUserEmailFromKakao: 카카오 로그인 이메일 -> $it")
                 sharedPreferences.putString(USER_EMAIL, userEmail)
             }
         }

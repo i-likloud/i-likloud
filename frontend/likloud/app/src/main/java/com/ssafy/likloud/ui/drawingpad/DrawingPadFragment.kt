@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
@@ -68,6 +69,7 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
     private lateinit var colorMap: Map<ImageView, Int>
     private lateinit var undoRedoMap: Map<ImageView, Boolean>
     private var imageViewHeight = 0
+    private var imageViewWeight = 0
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
     private val drawingPadFragmentViewModel: DrawingPadFragmentViewModel by viewModels()
     private var bmp: Bitmap? = null
@@ -82,6 +84,7 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.d(TAG, "onViewCreated: oncreate")
         super.onViewCreated(view, savedInstanceState)
 
         mActivity.changeProfileLayoutInvisible()
@@ -106,7 +109,6 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
         )
 
         initView()
-        loadImage()
         initListener()
 
     }
@@ -139,7 +141,6 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
             view.layoutParams = layoutParams
 
             view.requestLayout()
-
         }
 
         // 지우개인 경우 투명색 지정 및 지워지는 기능 추가
@@ -147,7 +148,7 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
             PorterDuffXfermode(PorterDuff.Mode.CLEAR)
         } else null
 
-
+        makeButtonAnimationXWithDuration(binding.layoutPenEraserWidth, DRAWING_STYLE_PAD_LEFT, 0)
 
     }
 
@@ -188,18 +189,18 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
 
 
 
-        layoutListener = OnGlobalLayoutListener {
-            if (imageViewHeight != binding.imageChosenPhoto.height) {
-                binding.cardviewCanvas.visibility = View.VISIBLE
-                makeButtonAnimationXWithDuration(binding.cardviewCanvas, 0f , 500)
-                imageViewHeight = binding.imageChosenPhoto.height
-                Log.d(TAG, "onViewCreated: ${imageViewHeight}")
-                binding.canvasDrawingpad.layoutParams.height = imageViewHeight
-                binding.canvasDrawingpad.requestLayout()
-
-            }
-        }
-        binding.imageChosenPhoto.viewTreeObserver.addOnGlobalLayoutListener(layoutListener)
+//        layoutListener = OnGlobalLayoutListener {
+//            if (imageViewHeight != binding.imageChosenPhoto.height) {
+//                binding.cardviewCanvas.visibility = View.VISIBLE
+//                makeButtonAnimationXWithDuration(binding.cardviewCanvas, 0f , 500)
+//                imageViewHeight = binding.imageChosenPhoto.height
+//                Log.d(TAG, "onViewCreated: ${imageViewHeight}")
+//                binding.canvasDrawingpad.layoutParams.height = imageViewHeight
+//                binding.canvasDrawingpad.requestLayout()
+//
+//            }
+//        }
+//        binding.imageChosenPhoto.viewTreeObserver.addOnGlobalLayoutListener(layoutListener)
 
         binding.buttonSaveDrawing.setOnClickListener {
             bmp = viewToBitmap(binding.canvasDrawingpad)
@@ -387,33 +388,83 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
      * 이미지뷰는 크기 측정만을 위함으로 실제로 그려지지는 않습니다.
      */
     private fun loadImage() {
-        // 펜 숨기기
-        makeButtonAnimationXWithDuration(binding.layoutPenEraserWidth, DRAWING_STYLE_PAD_LEFT, 0)
-        Glide.with(this)
-            .load(mainActivityViewModel.uploadingPhotoUrl.value)
-            .into(binding.imageChosenPhoto)
+
+//        Glide.with(this)
+//            .load(mainActivityViewModel.uploadingPhotoUrl.value)
+//            .fitCenter()
+//            .into(binding.imageChosenPhoto)
 
         showLoadingDialog(mActivity)
-
+//        makeButtonAnimationXWithDuration(binding.cardviewCanvas, 0f , 500)
         Glide.with(this)
             .load(mainActivityViewModel.uploadingPhotoUrl.value)
-            .into(object : SimpleTarget<Drawable>() {
-                override fun onLoadFailed(errorDrawable: Drawable?) {
+            .fitCenter()
+            .into(object : CustomTarget<Drawable>() {
+                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                    // 로딩 다이얼로그 닫기
                     dismissLoadingDialog()
-                    super.onLoadFailed(errorDrawable)
+
+                    // 이미지의 너비와 높이를 가져옴
+                    val imageWidth = resource.intrinsicWidth.toFloat()
+                    val imageHeight = resource.intrinsicHeight.toFloat()
+
+                    // 캔버스의 너비와 높이를 가져옴
+                    val canvasWidth = binding.canvasDrawingpad.width.toFloat()
+                    val canvasHeight = binding.canvasDrawingpad.height.toFloat()
+
+                    // 이미지의 비율을 계산
+                    val imageAspectRatio = imageWidth / imageHeight
+
+                    // 이미지의 비율에 따라 캔버스에 맞게 크기 조정
+                    val newImageWidth: Float
+                    val newImageHeight: Float
+                    if (imageAspectRatio > canvasWidth / canvasHeight) {
+                        newImageWidth = canvasWidth
+                        newImageHeight = canvasWidth / imageAspectRatio
+                    } else {
+                        newImageWidth = canvasHeight * imageAspectRatio
+                        newImageHeight = canvasHeight
+                    }
+
+                    // 이미지뷰 크기와 이미지 크기 설정
+                    binding.canvasDrawingpad.background = resource
+                    binding.cardviewCanvas.visibility = View.VISIBLE
+                    binding.canvasDrawingpad.layoutParams.width = newImageWidth.toInt()
+                    binding.canvasDrawingpad.layoutParams.height = newImageHeight.toInt()
+                    binding.canvasDrawingpad.requestLayout()
+                    // 캔버스 들어오게 하기
+//                    makeButtonAnimationXWithDuration(binding.cardviewCanvas, CANVAS_RIGHT, 0)
                 }
 
-                override fun onResourceReady(
-                    resource: Drawable,
-                    transition: Transition<in Drawable>?
-                ) {
-                    dismissLoadingDialog()
-                    // 캔버스 초기화
-                    binding.canvasDrawingpad.background = resource
-                    // 캔버스 들어오게 하기
-                    makeButtonAnimationXWithDuration(binding.cardviewCanvas, CANVAS_RIGHT, 0)
+                override fun onLoadCleared(placeholder: Drawable?) {
                 }
+
             })
+
+    }
+
+    override fun onResume() {
+        Log.d(TAG, "onResume: ")
+        super.onResume()
+//        var resumed = true
+//        layoutListener = OnGlobalLayoutListener {
+//            if (imageViewHeight != binding.imageChosenPhoto.height || resumed==true) {
+//                binding.cardviewCanvas.visibility = View.VISIBLE
+//                resumed = false
+//                makeButtonAnimationXWithDuration(binding.cardviewCanvas, 0f , 500)
+//                imageViewHeight = binding.imageChosenPhoto.height
+//                Log.d(TAG, "onViewCreated: ${imageViewHeight}")
+//                binding.canvasDrawingpad.layoutParams.height = imageViewHeight
+//                binding.canvasDrawingpad.layoutParams.width = binding.imageChosenPhoto.width
+//                binding.canvasDrawingpad.requestLayout()
+//
+//            }
+//        }
+//        binding.imageChosenPhoto.viewTreeObserver.addOnGlobalLayoutListener(layoutListener)
+
+
+
+        loadImage()
     }
 
 
@@ -429,7 +480,7 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
 
     override fun onPause() {
         mActivity.changeProfileLayoutVisible()
-        binding.imageChosenPhoto.viewTreeObserver.removeOnGlobalLayoutListener(layoutListener)
+//        binding.imageChosenPhoto.viewTreeObserver.removeOnGlobalLayoutListener(layoutListener)
         super.onPause()
     }
 
