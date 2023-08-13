@@ -27,6 +27,7 @@ import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.data.model.PhotoListDto
 import com.ssafy.likloud.databinding.FragmentPhotoDetailBinding
+import com.ssafy.likloud.ui.drawing.DrawingDetailFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -138,6 +139,13 @@ class PhotoDetailFragment : BaseFragment<FragmentPhotoDetailBinding>(FragmentPho
 
         binding.buttonPaint.setOnClickListener {
             findNavController().navigate(R.id.action_photoDetailFragment_to_drawingPadFragment)
+        }
+
+        binding.imageCurrentPhoto.setOnClickListener {
+            photoDetailFragmentViewModel.currentPhotoDetail.value?.let {
+                val action = PhotoDetailFragmentDirections.actionPhotoDetailFragmentToDrawingOriginalFragment(it.photoUrl)
+                findNavController().navigate(action)
+            }
         }
     }
 

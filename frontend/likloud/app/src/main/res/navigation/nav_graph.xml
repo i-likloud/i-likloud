@@ -349,6 +349,15 @@
 
 
         <action
+            android:id="@+id/action_drawingDetailFragment_to_drawingOriginalFragment"
+            app:destination="@id/drawingOriginalFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+
+
+        <action
             android:id="@+id/action_drawingDetailFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:enterAnim="@anim/enter_from_right"
@@ -438,6 +447,14 @@
         <action
             android:id="@+id/action_photoDetailFragment_to_drawingPadFragment"
             app:destination="@id/drawingPadFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+
+        <action
+            android:id="@+id/action_photoDetailFragment_to_drawingOriginalFragment"
+            app:destination="@id/drawingOriginalFragment"
             app:enterAnim="@anim/enter_from_right"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/enter_from_left"
