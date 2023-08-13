@@ -4,11 +4,13 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import android.view.animation.OvershootInterpolator
 import android.view.inputmethod.InputMethodManager
@@ -22,6 +24,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.MainActivityViewModel
@@ -32,6 +37,7 @@ import com.ssafy.likloud.data.model.DrawingDetailDto
 import com.ssafy.likloud.data.model.DrawingListDto
 import com.ssafy.likloud.data.model.MemberProfileDto
 import com.ssafy.likloud.databinding.FragmentDrawingListBinding
+import com.ssafy.likloud.ui.mypage.MypageFragmentDirections
 import com.ssafy.likloud.util.initEditText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -54,6 +60,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(
     private var isScrolling = false
     private lateinit var zoomInAnimation: AnimatorSet
     private var isZoomed = false
+    private lateinit var imageViewParams : ViewGroup.LayoutParams
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -81,7 +88,6 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(
         toggleButton(binding.buttonRecentOrder)
         initRecyclerView()
         initCommentRecyclerView()
-//        zoomInAnimation = AnimatorInflater.loadAnimator(mActivity, R.anim.zoom_in_animation) as AnimatorSet
         loadingAnimation()
     }
 
@@ -267,33 +273,36 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(
         binding.recyclerviewDrawaing.apply {
             this.adapter = drawingListAdapter.apply {
                 itemClickListner = object : DrawingListAdapter.ItemClickListener {
-                    override fun onClick(drawing: DrawingListDto, imageview: ImageView) {
+                    override fun onClick(drawing: DrawingListDto, imageUrl: String) {
                         Log.d(TAG, "onClick: dd")
-                            if (!isZoomed) {
-                                isZoomed = true
-                                val params = binding.recyclerviewDrawaing.layoutParams
-                                params.width = ViewGroup.LayoutParams.MATCH_PARENT
-                                params.height = ViewGroup.LayoutParams.MATCH_PARENT
-                                binding.recyclerviewDrawaing.layoutParams = params
-                                binding.recyclerviewDrawaing.startAnimation(AnimationUtils.loadAnimation(mActivity, R.anim.zoom_in_animation))
-                            } else {
-                                isZoomed = false
-                                val params = binding.recyclerviewDrawaing.layoutParams
-                                params.width = 0
-                                params.height = 0
-                                binding.recyclerviewDrawaing.layoutParams = params
-                            }
+                        val action = DrawingListFragmentDirections.actionDrawingListFragmentToDrawingOriginalFragment(imageUrl)
+                        findNavController().navigate(action)
+
+
+//                            if (!isZoomed) {
+//                                isZoomed = true
+//                                val params = binding.imageZoomIn.layoutParams
+//                                imageViewParams = binding.imageZoomIn.layoutParams
+//                                params.width = ViewGroup.LayoutParams.MATCH_PARENT
+//                                params.height = ViewGroup.LayoutParams.MATCH_PARENT
+//                                binding.imageZoomIn.layoutParams = params
+//                                Glide.with(this@DrawingListFragment)
+//                                    .load(imageUrl)
+//                                    .apply(RequestOptions.bitmapTransform(RoundedCorners(50)))
+//                                    .into(binding.imageZoomIn) // ImageView에 설정합니다.
+//                                binding.imageZoomIn.visibility = View.VISIBLE
+//                                Log.d(TAG, "onClick: 확대")
+//                                binding.imageZoomIn.startAnimation(AnimationUtils.loadAnimation(mActivity, R.anim.zoom_in_animation))
+//
+//                            } else {
+//                                isZoomed = false
+//                                val params = binding.recyclerviewDrawaing.layoutParams
+//                                params.width = 0
+//                                params.height = 0
+//                                binding.recyclerviewDrawaing.layoutParams = params
+//                            }
 
                     }
-//                        zoomInAnimation.setTarget(this)
-//                        zoomInAnimation.start()
-//                        if(activityViewModel.memberInfo.value!!.silverCoin>=5) {
-//                            drawingListFragmentViewModel.registNft(drawing.drawingId)
-//                        }else{
-//                            //여기서 silverCoin 부족하다고 뜸
-//                            showSnackbar(binding.root, "fail", getString(R.string.nft_fail))
-//                            //Toast.makeText(mainActivity,"silverCoin 확인 바람", Toast.LENGTH_SHORT).show()
-//                        }
                 }
 
             }

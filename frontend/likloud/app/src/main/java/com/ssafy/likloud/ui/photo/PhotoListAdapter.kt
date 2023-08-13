@@ -29,6 +29,7 @@ class PhotoListAdapter (): ListAdapter<PhotoListDto, PhotoListAdapter.PhotoListH
                 .load(photo.photoUrl)
                 .into(imageDrawing)
             itemView.setOnClickListener{
+                itemClickListner.onClick(it,photo.photoUrl)
             }
         }
     }
@@ -47,7 +48,7 @@ class PhotoListAdapter (): ListAdapter<PhotoListDto, PhotoListAdapter.PhotoListH
 
     //    //클릭 인터페이스 정의 사용하는 곳에서 만들어준다.
     interface ItemClickListener {
-        fun onClick(view: View, position: Int, info:String)
+        fun onClick(view: View, imageUrl : String)
     }
     //클릭리스너 선언
     lateinit var itemClickListner: ItemClickListener

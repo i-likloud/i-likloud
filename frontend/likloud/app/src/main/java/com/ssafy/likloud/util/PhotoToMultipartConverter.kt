@@ -121,3 +121,23 @@ fun saveImageToGallery(context: Context, bitmap: Bitmap, displayName: String): S
 }
 
 
+fun dontSaveImageToGallery(context: Context, bitmap: Bitmap, displayName: String): String? {
+    val contentResolver: ContentResolver = context.contentResolver
+    val contentValues = ContentValues().apply {
+        put(MediaStore.Images.Media.DISPLAY_NAME, displayName)
+        put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+        put(MediaStore.Images.Media.WIDTH, bitmap.width)
+        put(MediaStore.Images.Media.HEIGHT, bitmap.height)
+    }
+
+    // 이미지를 저장하지 않고, 가짜 URI 반환
+    val collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+    val imageUri = contentResolver.insert(collection, contentValues)
+    if (imageUri != null) {
+        return imageUri.toString()
+    }
+
+    return null
+}
+
+

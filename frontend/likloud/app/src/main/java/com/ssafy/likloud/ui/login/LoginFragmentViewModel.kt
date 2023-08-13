@@ -46,6 +46,7 @@ class LoginFragmentViewModel @Inject constructor(
     fun postLogin(email: String, socialType: String) {
         Log.d(TAG, "postLogin: 포스트 로그인 시도입니다.")
         viewModelScope.launch {
+            Log.d(TAG, "postLogin: ddddd")
             baseRepository.postLogin(
                 LoginRequest(
                     email, socialType, sharedPreferences.getString(

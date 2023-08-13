@@ -48,7 +48,7 @@ class DrawingListAdapter(var activityViewModel: MainActivityViewModel) :
             this.imageDrawing.setOnClickListener {
 //                val zoomInAnimation = AnimationUtils.loadAnimation(it.context, R.anim.zoom_in_animation)
 //                imageDrawing.startAnimation(zoomInAnimation)
-                itemClickListner.onClick(drawing, imageDrawing)
+                itemClickListner.onClick(drawing, drawing.imageUrl)
             }
         }
     }
@@ -68,7 +68,7 @@ class DrawingListAdapter(var activityViewModel: MainActivityViewModel) :
 
     //    //클릭 인터페이스 정의 사용하는 곳에서 만들어준다.
     interface ItemClickListener {
-        fun onClick(drawing: DrawingListDto, imageview : ImageView)
+        fun onClick(drawing: DrawingListDto, imageUrl : String)
     }
 
     //클릭리스너 선언

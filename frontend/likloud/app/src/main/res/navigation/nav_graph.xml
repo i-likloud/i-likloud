@@ -29,6 +29,14 @@
             app:popUpToInclusive="true"
             app:popExitAnim="@anim/fade_out" />
 
+        <action
+            android:id="@+id/action_drawingListFragment_to_drawingOriginalFragment"
+            app:destination="@id/drawingOriginalFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+
     </fragment>
 
     <fragment
@@ -162,6 +170,15 @@
         <action
             android:id="@+id/action_photoListFragment_to_nftListFragment"
             app:destination="@id/nftListFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+
+
+        <action
+            android:id="@+id/action_photoListFragment_to_drawingOriginalFragment"
+            app:destination="@id/drawingOriginalFragment"
             app:enterAnim="@anim/enter_from_right"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/enter_from_left"
@@ -438,5 +455,18 @@
         android:name="com.ssafy.likloud.ui.info.InfoFragment"
         android:label="fragment_info"
         tools:layout="@layout/fragment_info" />
+
+
+    <fragment
+        android:id="@+id/drawingOriginalFragment"
+        android:name="com.ssafy.likloud.ui.drawingoriginal.DrawingOriginalFragment"
+        android:label="fragment_drawing_original"
+        tools:layout="@layout/fragment_drawing_original" >
+
+        <argument
+            android:name="photoUrl"
+            android:defaultValue="no_url"/>
+
+    </fragment>
 
 </navigation>
