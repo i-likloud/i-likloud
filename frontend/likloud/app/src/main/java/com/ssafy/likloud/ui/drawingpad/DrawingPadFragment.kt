@@ -69,6 +69,7 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
     private lateinit var colorMap: Map<ImageView, Int>
     private lateinit var undoRedoMap: Map<ImageView, Boolean>
     private var imageViewHeight = 0
+    private var imageViewWeight = 0
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
     private val drawingPadFragmentViewModel: DrawingPadFragmentViewModel by viewModels()
     private var bmp: Bitmap? = null
@@ -83,6 +84,7 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.d(TAG, "onViewCreated: oncreate")
         super.onViewCreated(view, savedInstanceState)
 
         mActivity.changeProfileLayoutInvisible()
@@ -387,12 +389,13 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
      */
     private fun loadImage() {
 
-        Glide.with(this)
-            .load(mainActivityViewModel.uploadingPhotoUrl.value)
-            .into(binding.imageChosenPhoto)
+//        Glide.with(this)
+//            .load(mainActivityViewModel.uploadingPhotoUrl.value)
+//            .fitCenter()
+//            .into(binding.imageChosenPhoto)
 
         showLoadingDialog(mActivity)
-
+//        makeButtonAnimationXWithDuration(binding.cardviewCanvas, 0f , 500)
         Glide.with(this)
             .load(mainActivityViewModel.uploadingPhotoUrl.value)
             .fitCenter()
@@ -425,11 +428,12 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
 
                     // 이미지뷰 크기와 이미지 크기 설정
                     binding.canvasDrawingpad.background = resource
+                    binding.cardviewCanvas.visibility = View.VISIBLE
                     binding.canvasDrawingpad.layoutParams.width = newImageWidth.toInt()
                     binding.canvasDrawingpad.layoutParams.height = newImageHeight.toInt()
-
+                    binding.canvasDrawingpad.requestLayout()
                     // 캔버스 들어오게 하기
-                    makeButtonAnimationXWithDuration(binding.cardviewCanvas, CANVAS_RIGHT, 0)
+//                    makeButtonAnimationXWithDuration(binding.cardviewCanvas, CANVAS_RIGHT, 0)
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {
@@ -442,21 +446,24 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
     override fun onResume() {
         Log.d(TAG, "onResume: ")
         super.onResume()
-        var resumed = true
-        layoutListener = OnGlobalLayoutListener {
-            if (imageViewHeight != binding.imageChosenPhoto.height || resumed==true) {
-                binding.cardviewCanvas.visibility = View.VISIBLE
-                resumed = false
-                makeButtonAnimationXWithDuration(binding.cardviewCanvas, 0f , 500)
-                imageViewHeight = binding.imageChosenPhoto.height
-                Log.d(TAG, "onViewCreated: ${imageViewHeight}")
-                binding.canvasDrawingpad.layoutParams.height = imageViewHeight
-                binding.canvasDrawingpad.layoutParams.width = binding.imageChosenPhoto.width
-                binding.canvasDrawingpad.requestLayout()
+//        var resumed = true
+//        layoutListener = OnGlobalLayoutListener {
+//            if (imageViewHeight != binding.imageChosenPhoto.height || resumed==true) {
+//                binding.cardviewCanvas.visibility = View.VISIBLE
+//                resumed = false
+//                makeButtonAnimationXWithDuration(binding.cardviewCanvas, 0f , 500)
+//                imageViewHeight = binding.imageChosenPhoto.height
+//                Log.d(TAG, "onViewCreated: ${imageViewHeight}")
+//                binding.canvasDrawingpad.layoutParams.height = imageViewHeight
+//                binding.canvasDrawingpad.layoutParams.width = binding.imageChosenPhoto.width
+//                binding.canvasDrawingpad.requestLayout()
+//
+//            }
+//        }
+//        binding.imageChosenPhoto.viewTreeObserver.addOnGlobalLayoutListener(layoutListener)
 
-            }
-        }
-        binding.imageChosenPhoto.viewTreeObserver.addOnGlobalLayoutListener(layoutListener)
+
+
         loadImage()
     }
 
@@ -473,7 +480,7 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
 
     override fun onPause() {
         mActivity.changeProfileLayoutVisible()
-        binding.imageChosenPhoto.viewTreeObserver.removeOnGlobalLayoutListener(layoutListener)
+//        binding.imageChosenPhoto.viewTreeObserver.removeOnGlobalLayoutListener(layoutListener)
         super.onPause()
     }
 

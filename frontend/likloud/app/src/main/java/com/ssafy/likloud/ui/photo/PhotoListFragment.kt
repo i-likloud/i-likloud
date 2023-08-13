@@ -59,9 +59,14 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initObserver()
+
         init()
         initListener()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initObserver()
     }
 
 
@@ -70,7 +75,6 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(
         toggleButton(binding.buttonRecentOrder)
         initRecyclerView()
         initPhotoDrawingListRecyclerView()
-
         loadingAnimation()
     }
 
@@ -140,6 +144,7 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(
         }
 
         photoListFragmentViewModel.currentPhotoListDto.observe(viewLifecycleOwner) {
+            Log.d(TAG, "initObserver: observe")
             //여기서 현재 그림에 대한 사진 리스트, 사진 올린 멤버 조회 & 초기 bookmark 정보 세팅
             photoListFragmentViewModel.getCurrentPhotoMember(it.memberId)
             photoListFragmentViewModel.getCurrentPhotoDrawingList(it.photoId)
