@@ -27,6 +27,7 @@ import com.ssafy.likloud.databinding.FragmentGameBinding
 import com.ssafy.likloud.ui.nftlist.NftListFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ticker
@@ -44,6 +45,7 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
     private val gameFragmentViewModel : GameFragmentViewModel by viewModels()
     private lateinit var mainActivity: MainActivity
     private val activityViewModel: MainActivityViewModel by activityViewModels()
+    private lateinit var coroutineGameStart: CoroutineScope
     private lateinit var coroutineProfile: CoroutineScope
     private lateinit var coroutineTime: CoroutineScope
     private var isFirstResume = true
@@ -64,11 +66,6 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-//        showGameStartDialog()
-//        initObserver()
-//        init()
-//        initListener()
 
     }
 
@@ -278,6 +275,7 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
     override fun onPause() {
         Log.d(TAG, "onPause..")
         super.onPause()
+        coroutineGameStart.cancel()
         coroutineProfile.cancel()
         coroutineTime.cancel()
     }
@@ -303,17 +301,16 @@ class GameFragment : BaseFragment<FragmentGameBinding>(
         coroutineTime.cancel()
         coroutineTime = CoroutineScope(Dispatchers.Main)
         coroutineProfile = CoroutineScope(Dispatchers.Main)
-//        initObserver()
         initView()
-//        initListener()
     }
 
     fun showGameStartDialog(){
-        viewLifecycleOwner.lifecycleScope.launch {
+        coroutineGameStart = CoroutineScope(Dispatchers.Main)
+        coroutineTime = CoroutineScope(Dispatchers.Main)
+        coroutineProfile = CoroutineScope(Dispatchers.Main)
+        coroutineGameStart.launch {
             delay(300)
             gameFragmentViewModel.gameStartDialog.show(childFragmentManager, "game start")
-            coroutineTime = CoroutineScope(Dispatchers.Main)
-            coroutineProfile = CoroutineScope(Dispatchers.Main)
         }
     }
 
