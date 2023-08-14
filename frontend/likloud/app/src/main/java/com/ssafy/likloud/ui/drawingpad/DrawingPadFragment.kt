@@ -86,8 +86,9 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.d(TAG, "onViewCreated: oncreate")
         super.onViewCreated(view, savedInstanceState)
-
         mActivity.changeProfileLayoutInvisible()
+
+
 
         colorMap = mapOf(
             binding.imageBlackPencil to Color.BLACK,
@@ -479,9 +480,10 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
     }
 
     override fun onPause() {
-        mActivity.changeProfileLayoutVisible()
+//        mActivity.changeProfileLayoutVisible()
 //        binding.imageChosenPhoto.viewTreeObserver.removeOnGlobalLayoutListener(layoutListener)
         super.onPause()
+        mActivity.changeProfileLayoutVisible()
     }
 
 }

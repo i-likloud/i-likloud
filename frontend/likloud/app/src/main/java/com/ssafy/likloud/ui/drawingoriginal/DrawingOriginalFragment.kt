@@ -45,6 +45,7 @@ class DrawingOriginalFragment : BaseFragment<FragmentDrawingOriginalBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(binding.root)
+        mActivity.changeProfileLayoutInvisible()
         initView()
         initListener()
     }
@@ -86,5 +87,10 @@ class DrawingOriginalFragment : BaseFragment<FragmentDrawingOriginalBinding>(
                 .apply(RequestOptions.bitmapTransform(RoundedCorners(50)))
                 .into(binding.imageChosenPhoto)
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mActivity.changeProfileLayoutVisible()
     }
 }

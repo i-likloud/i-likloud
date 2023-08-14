@@ -43,6 +43,7 @@ class AfterCloudValidFragment : BaseFragment<FragmentAfterCloudValidBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(binding.root)
+        mActivity.changeProfileLayoutInvisible()
         initView()
         initListener()
     }
