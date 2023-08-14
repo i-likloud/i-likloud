@@ -69,9 +69,11 @@ class DrawingFormFragment : BaseFragment<FragmentDrawingFormBinding>(
     }
 
 
+//    @SuppressLint("SetTextI18n")
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mActivity.changeProfileLayoutInvisible()
         initView()
         initListener()
 
@@ -109,6 +111,11 @@ class DrawingFormFragment : BaseFragment<FragmentDrawingFormBinding>(
             .diskCacheStrategy(DiskCacheStrategy.NONE) // 디스크 캐시를 사용하지 않도록 설정 (선택사항)
             .apply(RequestOptions.bitmapTransform(RoundedCorners(50)))
             .into(binding.imageSelectedDrawing) // ImageView에 설정합니다.
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mActivity.changeProfileLayoutVisible()
     }
 
 }
