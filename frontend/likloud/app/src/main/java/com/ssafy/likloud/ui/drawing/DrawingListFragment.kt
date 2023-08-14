@@ -226,7 +226,14 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(
         drawingListFragmentViewModel.currentDrawingCommentList.observe(viewLifecycleOwner) {
             Log.d(TAG, "commentObserver .... $it")
             commentListAdapter.submitList(it.toMutableList())
-            if (it.size != 0) binding.recyclerviewDrawingComment.smoothScrollToPosition(it.size)
+            if(it.size==0){
+                binding.imageNoComment.visibility = View.VISIBLE
+                binding.textNoComment.visibility = View.VISIBLE
+            }else{
+                binding.recyclerviewDrawingComment.smoothScrollToPosition(it.size)
+                binding.imageNoComment.visibility = View.INVISIBLE
+                binding.textNoComment.visibility = View.INVISIBLE
+            }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
