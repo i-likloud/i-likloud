@@ -282,61 +282,90 @@
             android:id="@+id/layout_comment"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintWidth_percent="0.35"
-            app:layout_constraintHeight_percent="0.55"
             android:layout_margin="@dimen/_10sdp"
             android:background="@drawable/frame_rounded_border_radius50"
             android:elevation="@dimen/_4sdp"
+            android:paddingVertical="@dimen/_4sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:paddingVertical="@dimen/_4sdp">
+            app:layout_constraintHeight_percent="0.55"
+            app:layout_constraintWidth_percent="0.35">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_drawing_comment"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/_2sdp"
                 android:paddingHorizontal="@dimen/_3sdp"
-                app:layout_constraintHeight_percent="0.8"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.8"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginBottom="@dimen/_2sdp"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <ImageView
+                android:id="@+id/image_no_comment"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintHeight_percent="0.2"
-                app:layout_constraintWidth_percent="0.9"
-                app:layout_constraintTop_toBottomOf="@id/recyclerview_drawing_comment"
-                app:layout_constraintStart_toStartOf="parent"
+                android:src="@drawable/ic_logout_sad"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@id/text_no_comment"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintHeight_percent="0.4"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintWidth_percent="0.8" />
+
+            <TextView
+                android:id="@+id/text_no_comment"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_comment"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/layout_comment_edittext"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/image_no_comment" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_comment_edittext"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recyclerview_drawing_comment"
+                app:layout_constraintWidth_percent="0.9">
 
                 <EditText
                     android:id="@+id/edittext_drawing_comment"
+                    style="@style/Theme.AppCompat.TextView.pretendard.Size08"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    app:layout_constraintWidth_percent="0.8"
-                    app:layout_constraintTop_toTopOf="parent"
                     android:background="@drawable/frame_button_grey_mild"
                     android:paddingHorizontal="@dimen/_4sdp"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    style="@style/Theme.AppCompat.TextView.pretendard.Size08"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.8" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/button_drawing_comment"
+                    style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    app:layout_constraintWidth_percent="0.18"
-                    android:background="@drawable/frame_button_green_mild"
-                    android:text="@string/input_text"
-                    android:elevation="@dimen/_2sdp"
                     android:layout_margin="@dimen/_2sdp"
-                    style="@style/Theme.AppCompat.TextView.jua.dark.Size08"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:background="@drawable/frame_button_green_mild"
+                    android:elevation="@dimen/_2sdp"
+                    android:text="@string/input_text"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/edittext_drawing_comment"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.18" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

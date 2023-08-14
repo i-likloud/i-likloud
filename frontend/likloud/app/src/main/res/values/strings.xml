@@ -26,6 +26,7 @@
     <string name="view_order">조회순</string>
     <string name="bookmark_order">즐찾순</string>
     <string name="title_drawing_detail">그림</string>
+    <string name="no_comment">아직 댓글이 없어요 ㅠㅠ\n댓글을 남겨 볼까요?</string>
 
     <!--home-->
     <string name="home">HOME</string>
