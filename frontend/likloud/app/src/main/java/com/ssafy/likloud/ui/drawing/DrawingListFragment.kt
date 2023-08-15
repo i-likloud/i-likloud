@@ -1,5 +1,6 @@
 package com.ssafy.likloud.ui.drawing
 
+import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
@@ -11,11 +12,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
 import android.view.animation.OvershootInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -179,7 +182,23 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(
             }
 
             constraintDrawingOriginal.setOnClickListener {
-                it.visibility = View.GONE
+                binding.constraintDrawingOriginal.visibility = View.VISIBLE
+                binding.imageDrawingOrigin.visibility = View.VISIBLE
+                val animationX = ObjectAnimator.ofFloat(binding.imageDrawingOrigin, "scaleX", 1.0f, 0.0f)
+                val animationY = ObjectAnimator.ofFloat(binding.imageDrawingOrigin, "scaleY", 1.0f, 0.0f)
+                animationX.duration = 400
+                animationY.duration = 400
+                val animation = AnimatorSet()
+                animation.playTogether(animationX, animationY)
+                animation.start()
+                animation.addListener(object : Animator.AnimatorListener {
+                    override fun onAnimationStart(p0: Animator) {}
+                    override fun onAnimationEnd(p0: Animator) {
+                        it.visibility = View.GONE
+                    }
+                    override fun onAnimationCancel(p0: Animator) {}
+                    override fun onAnimationRepeat(p0: Animator) {}
+                })
             }
 
         }
@@ -295,6 +314,15 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(
                             .into(binding.imageDrawingOrigin)
                         binding.constraintDrawingOriginal.visibility = View.VISIBLE
                         binding.imageDrawingOrigin.visibility = View.VISIBLE
+                        binding.imageDrawingOrigin.scaleX = 0.0f
+                        binding.imageDrawingOrigin.scaleY = 0.0f
+                        val animationX = ObjectAnimator.ofFloat(binding.imageDrawingOrigin, "scaleX", 0.0f, 1.0f)
+                        val animationY = ObjectAnimator.ofFloat(binding.imageDrawingOrigin, "scaleY", 0.0f, 1.0f)
+                        animationX.duration = 400
+                        animationY.duration = 400
+                        val animation = AnimatorSet()
+                        animation.playTogether(animationX, animationY)
+                        animation.start()
 
                     }
                 }
