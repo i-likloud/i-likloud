@@ -16,7 +16,7 @@ android {
         applicationId "com.ssafy.likloud"
         minSdk 24
         targetSdk 33
-        versionCode 3
+        versionCode 5
         versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
