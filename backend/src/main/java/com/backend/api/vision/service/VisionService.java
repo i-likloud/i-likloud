@@ -43,7 +43,7 @@ public class VisionService {
     // 구름 또는 하늘 사진인지 판별
     public boolean isValidPhoto(List<VisionResponseDto> annotations) {
         return annotations.stream()
-                .anyMatch(a -> (a.getDescription().equals("Sky") || a.getDescription().equals("Cloud")) && a.getScore() >= 0.7);
+                .anyMatch(a -> (a.getDescription().equals("Sky") || a.getDescription().equals("Cloud")) && a.getScore() >= 0.8);
     }
 
     // 유해성 검사
@@ -76,6 +76,6 @@ public class VisionService {
         );
 
         return annotations.stream().noneMatch(annotation ->
-                annotation == Likelihood.LIKELY || annotation == Likelihood.VERY_LIKELY);
+                annotation == Likelihood.POSSIBLE || annotation == Likelihood.LIKELY || annotation == Likelihood.VERY_LIKELY);
     }
 }
