@@ -177,6 +177,11 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(
                     "report"
                 )
             }
+
+            constraintDrawingOriginal.setOnClickListener {
+                it.visibility = View.GONE
+            }
+
         }
         // 안드로이드 뒤로가기 버튼 눌렀을 때
         mainActivity.onBackPressedDispatcher.addCallback(
@@ -282,32 +287,14 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(
                 itemClickListner = object : DrawingListAdapter.ItemClickListener {
                     override fun onClick(drawing: DrawingListDto, imageUrl: String) {
                         Log.d(TAG, "onClick: dd")
-                        val action = DrawingListFragmentDirections.actionDrawingListFragmentToDrawingOriginalFragment(imageUrl)
-                        findNavController().navigate(action)
-
-
-//                            if (!isZoomed) {
-//                                isZoomed = true
-//                                val params = binding.imageZoomIn.layoutParams
-//                                imageViewParams = binding.imageZoomIn.layoutParams
-//                                params.width = ViewGroup.LayoutParams.MATCH_PARENT
-//                                params.height = ViewGroup.LayoutParams.MATCH_PARENT
-//                                binding.imageZoomIn.layoutParams = params
-//                                Glide.with(this@DrawingListFragment)
-//                                    .load(imageUrl)
-//                                    .apply(RequestOptions.bitmapTransform(RoundedCorners(50)))
-//                                    .into(binding.imageZoomIn) // ImageView에 설정합니다.
-//                                binding.imageZoomIn.visibility = View.VISIBLE
-//                                Log.d(TAG, "onClick: 확대")
-//                                binding.imageZoomIn.startAnimation(AnimationUtils.loadAnimation(mActivity, R.anim.zoom_in_animation))
-//
-//                            } else {
-//                                isZoomed = false
-//                                val params = binding.recyclerviewDrawaing.layoutParams
-//                                params.width = 0
-//                                params.height = 0
-//                                binding.recyclerviewDrawaing.layoutParams = params
-//                            }
+//                        val action = DrawingListFragmentDirections.actionDrawingListFragmentToDrawingOriginalFragment(imageUrl)
+//                        findNavController().navigate(action)
+                        Glide.with(binding.imageDrawingOrigin)
+                            .load(imageUrl)
+                            .apply(RequestOptions.bitmapTransform(RoundedCorners(50)))
+                            .into(binding.imageDrawingOrigin)
+                        binding.constraintDrawingOriginal.visibility = View.VISIBLE
+                        binding.imageDrawingOrigin.visibility = View.VISIBLE
 
                     }
                 }
