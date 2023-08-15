@@ -167,9 +167,21 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
             clickBgmToggle = { toggleMusic()},
             logout = {invokeLogoutDialog()},
             openSourceLicenses = {openSourceLicenses()},
-            bgmText = musicStatus()
+            bgmText = musicStatus(),
+            quitUser = {invokeQuitUserDialog()}
         )
         dialog.show(childFragmentManager, TAG)
+    }
+
+    private fun invokeQuitUserDialog() {
+        val dialog = LogoutDialog(
+            logout = {quitUser()}
+        )
+        dialog.show(childFragmentManager, TAG)
+    }
+
+    private fun quitUser() {
+        mypageFragmentViewModel.quitUser()
     }
 
     private fun invokeLogoutDialog(){

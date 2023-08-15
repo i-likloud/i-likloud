@@ -90,4 +90,17 @@ class MypageFragmentViewModel @Inject constructor(
             }
         }
     }
+
+
+    fun quitUser(){
+        viewModelScope.launch {
+            val response = baseRepository.postLogout()
+            if(response.isSuccessful){
+                ApplicationClass.sharedPreferences.putString(ApplicationClass.X_ACCESS_TOKEN, "")
+                ApplicationClass.sharedPreferences.putString(ApplicationClass.X_REFRESH_TOKEN, "")
+                Log.d(TAG, "logout: FFF")
+                _isLoggedOut.emit(true)
+            }
+        }
+    }
 }

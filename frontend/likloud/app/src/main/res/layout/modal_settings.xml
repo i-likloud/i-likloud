@@ -36,8 +36,8 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_bgm_toggle"
             style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
-            android:layout_width="@dimen/_180sdp"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_width="@dimen/_140sdp"
+            android:layout_height="@dimen/_40sdp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/button_frame_black"
             android:text="@string/bgm_off" />
@@ -45,18 +45,27 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_logout"
             style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
-            android:layout_width="@dimen/_180sdp"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_width="@dimen/_140sdp"
+            android:layout_height="@dimen/_40sdp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/button_frame_black"
             android:text="@string/logout" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_quit"
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
+            android:layout_width="@dimen/_140sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_frame_black"
+            android:text="@string/quit_user" />
 
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_delete_user"
             style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
-            android:layout_width="@dimen/_180sdp"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_width="@dimen/_140sdp"
+            android:layout_height="@dimen/_40sdp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/button_frame_black"
             android:text="@string/opensource" />
@@ -64,8 +73,8 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_info"
             style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
-            android:layout_width="@dimen/_180sdp"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_width="@dimen/_140sdp"
+            android:layout_height="@dimen/_40sdp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/button_frame_black"
             android:text="@string/title_info" />

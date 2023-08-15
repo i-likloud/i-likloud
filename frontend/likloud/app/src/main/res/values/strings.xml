@@ -148,5 +148,6 @@
     <string name="info_url">https://sites.google.com/view/i-likloud/%ED%99%88</string>
     <string name="drawing_pad">그림판</string>
     <string name="original_look">이렇게 생겼어요!</string>
+    <string name="quit_user">탈퇴하기</string>
 
 </resources>

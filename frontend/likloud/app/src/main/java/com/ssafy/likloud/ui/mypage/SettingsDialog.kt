@@ -16,6 +16,7 @@ class SettingsDialog(
 //    private val alertDialogModel: RegisterAlertDialogModel,
     private val clickBgmToggle: () -> Unit,
     private val logout: () -> Unit,
+    private val quitUser : () -> Unit,
     private val openSourceLicenses: () -> Unit,
     private val bgmText : String
 ) : BaseDialog<ModalSettingsBinding>(ModalSettingsBinding::bind, R.layout.modal_settings) {
@@ -37,13 +38,16 @@ class SettingsDialog(
         }
         binding.buttonLogout.setOnClickListener {
             logout.invoke()
-            dismiss()
         }
 
         binding.buttonDeleteUser.setOnClickListener {
             openSourceLicenses.invoke()
-            dismiss()
         }
+
+        binding.buttonQuit.setOnClickListener {
+            quitUser.invoke()
+        }
+
         binding.buttonInfo.setOnClickListener {
             val parentFragment = parentFragment
             if (parentFragment is MypageFragment) {

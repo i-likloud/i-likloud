@@ -21,7 +21,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@string/title_check_logout"
+            android:text="정말로 떠나시겠습니까?"
             android:gravity="center"/>
 
 
@@ -80,6 +80,6 @@
                 android:layout_height="@dimen/_40sdp"
                 android:layout_weight="1"
                 android:background="@drawable/button_frame_skyblue"
-                android:text="@string/logout_yes" />
+                android:text="나가기" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
