@@ -20,6 +20,7 @@ import com.ssafy.likloud.data.model.response.LoginResponse
 import com.ssafy.likloud.data.model.response.ReLoginResponse
 import com.ssafy.likloud.data.model.SampleDto
 import com.ssafy.likloud.data.model.UserDto
+import com.ssafy.likloud.data.model.WalletInfo
 import com.ssafy.likloud.data.model.drawing.DrawingUploadResponse
 import com.ssafy.likloud.data.model.request.LoginAdditionalRequest
 import com.ssafy.likloud.data.model.request.MemberInfoRequest
@@ -257,6 +258,11 @@ interface BaseService {
      */
     @PUT("api/mypage/nickname")
     suspend fun editNickname(@Query("nickname") nickname: String) : Response<MemberInfoResponse>
+    /**
+     * 특정 멤버 지갑 조회
+     */
+    @GET("api/nft/wallet/{memberId}")
+    suspend fun getMemberNftWallet(@Path("memberId") memberId: Int): Response<WalletInfo>
 }
 
 //api 만드는 과정

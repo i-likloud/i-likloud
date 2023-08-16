@@ -23,6 +23,7 @@ import com.ssafy.likloud.data.model.response.LoginResponse
 import com.ssafy.likloud.data.model.response.ReLoginResponse
 import com.ssafy.likloud.data.model.SampleDto
 import com.ssafy.likloud.data.model.UserDto
+import com.ssafy.likloud.data.model.WalletInfo
 import com.ssafy.likloud.data.model.drawing.DrawingUploadResponse
 import com.ssafy.likloud.data.model.request.LoginAdditionalRequest
 import com.ssafy.likloud.data.model.request.MemberInfoRequest
@@ -241,5 +242,9 @@ class BaseRepositoryImpl @Inject constructor(
 
     override suspend fun editNickname(nickname: String): NetworkResult<MemberInfoResponse> {
         return handleApi { baseAPIService.editNickname(nickname).body()!! }
+    }
+
+    override suspend fun getMemberNftWallet(memberId: Int): NetworkResult<WalletInfo> {
+        return handleApi { baseAPIService.getMemberNftWallet(memberId).body()!! }
     }
 }

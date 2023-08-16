@@ -12,8 +12,10 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
@@ -30,6 +32,8 @@ import com.ssafy.likloud.databinding.FragmentNftListBinding
 import com.ssafy.likloud.ui.drawing.DrawingDetailFragmentArgs
 import com.ssafy.likloud.util.initEditText
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 private const val TAG = "차선호"
 
@@ -84,6 +88,19 @@ class NftGiftSearchUserFragment(var nftId: Int) : BaseFragment<FragmentNftGiftSe
         nftGiftSearchUserFragmentViewModel.currentSearchUserList.observe(viewLifecycleOwner) {
             nftGiftSearchUserAdapter.submitList(it)
         }
+        viewLifecycleOwner.lifecycleScope.launch {
+            nftGiftSearchUserFragmentViewModel.isWallet.collectLatest {
+                Log.d(TAG, "isWallet: $it")
+                if(it){ //지갑이 있으면
+                    nftGiftSearchUserFragmentViewModel.nftGiftDialog.show(
+                        childFragmentManager,
+                        "input message"
+                    )
+                }else{
+                    showSnackbar(binding.root,"fail","상대방이 NFT 지갑이 없습니다,,!")
+                }
+            }
+        }
     }
 
     private fun initNftGiftSearchUserRecyclerView() {
@@ -94,11 +111,10 @@ class NftGiftSearchUserFragment(var nftId: Int) : BaseFragment<FragmentNftGiftSe
                     override fun onClick(memberInfo: MemberInfoResponse) {
                         //여기서 해당 멤버로 nft를 선물 (args.nftId가 nftId)
                         Log.d(TAG, "onClick.....")
+                        nftGiftSearchUserFragmentViewModel.getMemberNftWallet(memberInfo.memberId)
                         nftGiftSearchUserFragmentViewModel.setMemberInfo(memberInfo)
-                        nftGiftSearchUserFragmentViewModel.nftGiftDialog.show(
-                            childFragmentManager,
-                            "input message"
-                        )
+                        val imm = getSystemService(mActivity, InputMethodManager::class.java) as InputMethodManager
+                        imm.hideSoftInputFromWindow(binding.edittextSearchUser.windowToken, 0)
                     }
 
                 }
