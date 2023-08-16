@@ -17,6 +17,10 @@ import com.ssafy.likloud.data.model.response.LoginResponse
 import com.ssafy.likloud.data.model.response.MemberInfoResponse
 import com.ssafy.likloud.data.repository.BaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,6 +39,10 @@ class LoginFragmentViewModel @Inject constructor(
         _isTokenReceived.value = true
     }
 
+//    private var _loginResponse = MutableSharedFlow<LoginResponse>()
+//    val loginResponse: SharedFlow<LoginResponse>
+//        get() = _loginResponse
+
     private val _loginResponse = MutableLiveData<LoginResponse>()
     val loginResponse: LiveData<LoginResponse>
         get() = _loginResponse
@@ -43,9 +51,10 @@ class LoginFragmentViewModel @Inject constructor(
      * 회원가입 시 GUEST단계의 accessToken, refreshToken을 받아옵니다.
      * 추후 MEMBER로 올리기 위해 accessToken이 필요합니다.
      */
+    @OptIn(DelicateCoroutinesApi::class)
     fun postLogin(email: String, socialType: String) {
         Log.d(TAG, "postLogin: 포스트 로그인 시도입니다.")
-        viewModelScope.launch {
+        GlobalScope.launch {
             Log.d(TAG, "postLogin: ddddd")
             baseRepository.postLogin(
                 LoginRequest(
@@ -54,7 +63,7 @@ class LoginFragmentViewModel @Inject constructor(
                     )?: "firebase_token_not_registered"
                 )
             ).onSuccess {
-                _loginResponse.value = it
+                _loginResponse.postValue(it)
                 sharedPreferences.putString(X_ACCESS_TOKEN, it.accessToken)
                 Log.d(TAG, "postLogin 찐 refresh: ${it.refreshToken}")
                 sharedPreferences.putString(X_REFRESH_TOKEN, it.refreshToken)
@@ -63,4 +72,29 @@ class LoginFragmentViewModel @Inject constructor(
             }
         }
     }
+
+
+//        @OptIn(DelicateCoroutinesApi::class)
+//    fun postLogin(email: String, socialType: String) {
+//        Log.d(TAG, "postLogin: 포스트 로그인 시도입니다.")
+//        GlobalScope.launch {
+//            Log.d(TAG, "postLogin: ddddd")
+//            baseRepository.postLogin(
+//                LoginRequest(
+//                    email, socialType, sharedPreferences.getString(
+//                        FIREBASE_TOKEN
+//                    )?: "firebase_token_not_registered"
+//                )
+//            ).onSuccess {
+//                _loginResponse.emit(it)
+//                sharedPreferences.putString(X_ACCESS_TOKEN, it.accessToken)
+//                Log.d(TAG, "postLogin 찐 refresh: ${it.refreshToken}")
+//                sharedPreferences.putString(X_REFRESH_TOKEN, it.refreshToken)
+//            }.onError {
+//                Log.d(TAG, "postLogin: 에러가 났슴니다 에러메시지는? ${it.message}")
+//            }
+//        }
+//    }
+
+
 }

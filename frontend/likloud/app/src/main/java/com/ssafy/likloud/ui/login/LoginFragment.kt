@@ -69,9 +69,6 @@ class LoginFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.d(TAG, "onViewCreated: dd")
         super.onViewCreated(view, savedInstanceState)
-
-       
-
         initObserver()
         init()
         initListener()
@@ -224,6 +221,7 @@ class LoginFragment :
                 sharedPreferences.putString(X_ACCESS_TOKEN, token.accessToken)
                 sharedPreferences.putString(USER_EMAIL, email)
                 loginFragmentViewModel.postLogin("email", "KAKAO")
+
                 sharedPreferences.setBoolean("firstLogin", true)
 
 //                findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
