@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -25,20 +26,37 @@ public class Comment extends BaseEntity {
     private String commentMember;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "drawing_id")
     private Drawing drawing;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @Column(length = 100)
     private String content;
 
-    public Comment(String content, Member member){
-        this.content = content;
-        this.commentMember = member.getNickname();
+    @Override
+    public LocalDateTime getCreatedAt() {
+        if (super.getCreatedAt() != null) {
+            return super.getCreatedAt().plusHours(9);
+        }
+        return null;
+    }
 
+    @Override
+    public LocalDateTime getUpdatedAt() {
+        if(super.getUpdatedAt() != null) {
+            return super.getUpdatedAt().plusHours(9);
+        }
+        return null;
+    }
+
+    public Comment(String commentMember, Drawing drawing, Member member, String content){
+        this.commentMember = commentMember;
+        this.drawing =drawing;
+        this.member = member;
+        this.content = content;
     }
 
 }

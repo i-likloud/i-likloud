@@ -1,0 +1,9 @@
+naver:
+  client:
+    id: ENC(jK8lMIw6L9tUo5/bPGtDTkucwIOCeAAllEueKPXmbmE=)
+    secret: ENC(hs2mHWte3Eie5rDXFkX+tsd2Jjgt5Z15)
+
+kakao:
+  client:
+    id: ENC(+y5NrRShyoYiFedNRuHesCQJ1p/BohJyYpUccMYGqMx4TwpeBeQ73PYwVxEmE0U/)
+    secret: ENC(Pxdq810lSLBcBPBt4Vu8aGC1Md9GeuquxTnOjCBTA7DIqKnnL+gAU01CORRROeuc)

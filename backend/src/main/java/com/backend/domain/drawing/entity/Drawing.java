@@ -1,20 +1,22 @@
 package com.backend.domain.drawing.entity;
 
+import com.backend.domain.comment.entity.Comment;
 import com.backend.domain.common.BaseEntity;
+import com.backend.domain.likes.entity.Likes;
 import com.backend.domain.member.entity.Member;
+import com.backend.domain.nft.entity.Nft;
 import com.backend.domain.photo.entity.Photo;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
+@Setter
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@NoArgsConstructor
 public class Drawing extends BaseEntity {
 
     @Id
@@ -33,6 +35,14 @@ public class Drawing extends BaseEntity {
     @Column(nullable = false)
     private String imageUrl;
 
+    private boolean nftYn;
+
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private int viewCount;
+
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private int likesCount;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
@@ -41,12 +51,34 @@ public class Drawing extends BaseEntity {
     @JoinColumn(name = "photo_id")
     private Photo photo;
 
-    @Builder
-    public Drawing(String title, String content, String imageUrl, Member member){
-        this.title = title;
-        this.content = content;
-        this.artist = member.getNickname();
-        this.imageUrl = imageUrl;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "drawingFile_id")
+    private DrawingFile drawingFile;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "nft_id")
+    private Nft nft;
+
+    @OneToMany(mappedBy = "drawing", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Likes> likes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "drawing", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Comment> comments = new ArrayList<>();
+
+    @Builder
+    public Drawing(Long drawingId, String title, String artist, String content, String imageUrl,
+                   Member member, Photo photo, DrawingFile drawingFile, int viewCount, int likesCount, boolean nftYn) {
+        this.drawingId = drawingId;
+        this.title = title;
+        this.artist = artist;
+        this.content = content;
+        this.viewCount = viewCount;
+        this.likesCount = likesCount;
+        this.imageUrl = imageUrl;
+        this.member = member;
+        this.photo = photo;
+        this.drawingFile = drawingFile;
+        this.nftYn = nftYn;
     }
+
 }

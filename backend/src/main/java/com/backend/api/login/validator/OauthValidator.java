@@ -10,7 +10,7 @@ public class OauthValidator {
 
     public void validateSocialType(String socialType) {
         if (!SocialType.isSocialType(socialType)) {
-            throw new BusinessException(ErrorCode.INVALID_MEMBER_TYPE);
+            throw new BusinessException(ErrorCode.INVALID_SOCIAL_TYPE);
         }
     }
 }

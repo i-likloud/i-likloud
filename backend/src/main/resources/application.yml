@@ -4,29 +4,37 @@ server:
     context-path: /
 
 spring:
-  # DB
-#  datasource:
-#    url: jdbc:mysql://localhost:3306/backend
-#    username: root
-#    password: q1w2e3r4
-  datasource:
-    url: jdbc:mysql://localhost:3306/mydb
-    username: root
-    password: 1234
+  profiles:
+    active: db,jwt,oauth,kas
+  redis:
+    host: i9d101.p.ssafy.io
+#    host: 43.200.97.214
+    port: 6379
+#    port: 6381
+
+
+#  cloud:
+#    gcp:
+#      storage:
+#        enabled: true
+#        auto-create-files: true
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true # 콘솔창에 sql 출력
     properties:
       hibernate:
         format_sql: true # sql 예쁘게 출력
         default_batch_fetch_size: 1000 # 일대다 컬렉션 조회 시 성능 최적화 : 100 ~ 1000 권장
+        jdbc:
+          time_zone: Asia/Seoul
 
   servlet:
     multipart:
-      max-file-size: 10MB # 파일 업로드 요청 시 하나의 파일 크기를 10MB 제한
+      max-file-size: 20MB # 파일 업로드 요청 시 하나의 파일 크기를 10MB 제한
       max-request-size: 100MB # 파일 업로드 요청 시 모든 파일 크기합을 100MB 제한
+
 
   mvc:
     pathmatch:
@@ -43,28 +51,3 @@ feign:
         # 타임아웃 제한 시간
         connectTimeout: 5000
         readTimeout: 5000
-
-jasypt:
-  encryptor:
-    password: ${PASSWORD}
-
-
-naver:
-  client:
-    id: ENC(KRdW8bICpIQtP0mBt93h7+zli3LeSOKD/KoFeEiN3dg=)
-    secret: ENC(5kBc7qZDzUR6UUYlBHzbpLt0GhiR1Opw)
-
-kakao:
-  client:
-    id: ENC(mPmSxLIS51lh6f0v1CBS/KmRHV5kkYVHcb3V4T7kkU2IBUKijH8UnVEAp5mlRIq4)
-    secret: ENC(m6LDkg35hfSU7cZphFTdbPpYPN7xym+oUOkUuDKyDT52LsBn6FHo1LAlFYdHd+cE)
-
-jwt:
-  secretKey: ENC(jITqh7LdWZ2jI6gk16C883+iH4ZUuKybQlt2vvSj7UM=)
-
-  access:
-    expiration: 1800000 # 30? (1000L(ms -> s) * 60L(s -> m) * 30L
-
-  refresh:
-    expiration: 604800000 #  (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> ??) * 7(1?))
-
