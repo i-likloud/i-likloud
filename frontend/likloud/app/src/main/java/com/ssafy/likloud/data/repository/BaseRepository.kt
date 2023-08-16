@@ -18,6 +18,7 @@ import com.ssafy.likloud.data.model.response.LoginResponse
 import com.ssafy.likloud.data.model.response.ReLoginResponse
 import com.ssafy.likloud.data.model.SampleDto
 import com.ssafy.likloud.data.model.UserDto
+import com.ssafy.likloud.data.model.WalletInfo
 import com.ssafy.likloud.data.model.drawing.DrawingUploadResponse
 import com.ssafy.likloud.data.model.request.LoginAdditionalRequest
 import com.ssafy.likloud.data.model.request.MemberInfoRequest
@@ -29,6 +30,7 @@ import com.ssafy.likloud.data.model.response.StoreResponse
 import retrofit2.Response
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -255,4 +257,8 @@ interface BaseRepository {
     suspend fun editNickname (
         nickname: String
     ): NetworkResult<MemberInfoResponse>
+    /**
+     * 특정 멤버 지갑 조회
+     */
+    suspend fun getMemberNftWallet(@Path("memberId") memberId: Int): NetworkResult<WalletInfo>
 }
