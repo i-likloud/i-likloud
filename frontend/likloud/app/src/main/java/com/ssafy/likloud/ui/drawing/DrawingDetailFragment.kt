@@ -259,7 +259,7 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
                         dismissLoadingDialog()
                     } else {
                         Log.d(TAG, "이미 지갑이 있네요")
-                        if (activityViewModel.memberInfo.value!!.silverCoin >= 5) {
+                        if (activityViewModel.memberInfo.value!!.silverCoin >= 3) {
                             drawingDetailFragmentViewModel.registNft(args.drawingId)
                         } else {
                             dismissLoadingDialog()
