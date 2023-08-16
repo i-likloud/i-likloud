@@ -1,5 +1,6 @@
 package com.ssafy.likloud.ui.drawing
 
+import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
@@ -11,11 +12,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
 import android.view.animation.OvershootInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -177,6 +180,28 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(
                     "report"
                 )
             }
+
+            constraintDrawingOriginal.setOnClickListener {
+                binding.constraintDrawingOriginal.visibility = View.VISIBLE
+                binding.imageDrawingOrigin.visibility = View.VISIBLE
+                val animationX = ObjectAnimator.ofFloat(binding.imageDrawingOrigin, "scaleX", 1.0f, 0.0f)
+                val animationY = ObjectAnimator.ofFloat(binding.imageDrawingOrigin, "scaleY", 1.0f, 0.0f)
+                animationX.duration = 400
+                animationY.duration = 400
+                val animation = AnimatorSet()
+                animation.playTogether(animationX, animationY)
+                animation.start()
+                animation.addListener(object : Animator.AnimatorListener {
+                    override fun onAnimationStart(p0: Animator) {}
+                    override fun onAnimationEnd(p0: Animator) {
+                        it.visibility = View.GONE
+                        layoutAppbar.setBackgroundResource(R.color.transparent)
+                    }
+                    override fun onAnimationCancel(p0: Animator) {}
+                    override fun onAnimationRepeat(p0: Animator) {}
+                })
+            }
+
         }
         // 안드로이드 뒤로가기 버튼 눌렀을 때
         mainActivity.onBackPressedDispatcher.addCallback(
@@ -282,33 +307,24 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(
                 itemClickListner = object : DrawingListAdapter.ItemClickListener {
                     override fun onClick(drawing: DrawingListDto, imageUrl: String) {
                         Log.d(TAG, "onClick: dd")
-                        val action = DrawingListFragmentDirections.actionDrawingListFragmentToDrawingOriginalFragment(imageUrl)
-                        findNavController().navigate(action)
-
-
-//                            if (!isZoomed) {
-//                                isZoomed = true
-//                                val params = binding.imageZoomIn.layoutParams
-//                                imageViewParams = binding.imageZoomIn.layoutParams
-//                                params.width = ViewGroup.LayoutParams.MATCH_PARENT
-//                                params.height = ViewGroup.LayoutParams.MATCH_PARENT
-//                                binding.imageZoomIn.layoutParams = params
-//                                Glide.with(this@DrawingListFragment)
-//                                    .load(imageUrl)
-//                                    .apply(RequestOptions.bitmapTransform(RoundedCorners(50)))
-//                                    .into(binding.imageZoomIn) // ImageView에 설정합니다.
-//                                binding.imageZoomIn.visibility = View.VISIBLE
-//                                Log.d(TAG, "onClick: 확대")
-//                                binding.imageZoomIn.startAnimation(AnimationUtils.loadAnimation(mActivity, R.anim.zoom_in_animation))
-//
-//                            } else {
-//                                isZoomed = false
-//                                val params = binding.recyclerviewDrawaing.layoutParams
-//                                params.width = 0
-//                                params.height = 0
-//                                binding.recyclerviewDrawaing.layoutParams = params
-//                            }
-
+//                        val action = DrawingListFragmentDirections.actionDrawingListFragmentToDrawingOriginalFragment(imageUrl)
+//                        findNavController().navigate(action)
+                        Glide.with(binding.imageDrawingOrigin)
+                            .load(imageUrl)
+                            .apply(RequestOptions.bitmapTransform(RoundedCorners(50)))
+                            .into(binding.imageDrawingOrigin)
+                        binding.constraintDrawingOriginal.visibility = View.VISIBLE
+                        binding.imageDrawingOrigin.visibility = View.VISIBLE
+                        binding.imageDrawingOrigin.scaleX = 0.0f
+                        binding.imageDrawingOrigin.scaleY = 0.0f
+                        val animationX = ObjectAnimator.ofFloat(binding.imageDrawingOrigin, "scaleX", 0.0f, 1.0f)
+                        val animationY = ObjectAnimator.ofFloat(binding.imageDrawingOrigin, "scaleY", 0.0f, 1.0f)
+                        animationX.duration = 400
+                        animationY.duration = 400
+                        val animation = AnimatorSet()
+                        animation.playTogether(animationX, animationY)
+                        animation.start()
+                        binding.layoutAppbar.setBackgroundResource(R.color.background_half_transparent)
                     }
                 }
 
