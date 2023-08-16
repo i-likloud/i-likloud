@@ -158,4 +158,32 @@ class DrawingDetailFragmentViewModel@Inject constructor(
         }
     }
 
+    lateinit var deleteCommentDialog: CommentDeleteDialog
+    fun createDeleteCommentDialog(commentId: Int, position: Int){
+        deleteCommentDialog = CommentDeleteDialog(
+            delete = {deleteDrawingComment(commentId,position)},
+            commentId
+        )
+    }
+
+    val deleteDrawingDialog = DrawingDeleteDialog(
+        delete = {deleteDrawing()}
+    )
+    private var _isDeleted = MutableSharedFlow<Boolean>()
+    val isDeleted: SharedFlow<Boolean>
+        get() = _isDeleted
+    private fun deleteDrawing(){
+        Log.d(TAG, "deleteDrawing...")
+        viewModelScope.launch {
+            baseRepository.deleteDrawing(currentDrawingDetail.value!!.drawingId).onSuccess {
+                _isDeleted.emit(true)
+            }
+        }
+    }
+    private fun modifyDrawing(){
+
+    }
+
+
+
 }

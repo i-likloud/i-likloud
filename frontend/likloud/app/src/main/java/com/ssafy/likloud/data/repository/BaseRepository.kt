@@ -30,6 +30,7 @@ import com.ssafy.likloud.data.model.response.StoreResponse
 import retrofit2.Response
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -261,4 +262,8 @@ interface BaseRepository {
      * 특정 멤버 지갑 조회
      */
     suspend fun getMemberNftWallet(@Path("memberId") memberId: Int): NetworkResult<WalletInfo>
+    /**
+     * 특정 그림 삭제
+     */
+    suspend fun deleteDrawing(@Path("drawingId") drawingId: Int): NetworkResult<String>
 }

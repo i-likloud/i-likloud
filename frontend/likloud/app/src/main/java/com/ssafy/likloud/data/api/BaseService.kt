@@ -263,6 +263,11 @@ interface BaseService {
      */
     @GET("api/nft/wallet/{memberId}")
     suspend fun getMemberNftWallet(@Path("memberId") memberId: Int): Response<WalletInfo>
+    /**
+     * 특정 그림 삭제
+     */
+    @DELETE("api/drawings/delete/{drawingId}")
+    suspend fun deleteDrawing(@Path("drawingId") drawingId: Int): Response<String>
 }
 
 //api 만드는 과정

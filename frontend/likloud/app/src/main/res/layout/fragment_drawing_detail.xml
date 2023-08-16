@@ -132,6 +132,28 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/button_delete"
+                android:layout_width="@dimen/_14sdp"
+                android:layout_height="@dimen/_14sdp"
+                app:layout_constraintTop_toTopOf="@id/button_report"
+                app:layout_constraintBottom_toBottomOf="@id/button_report"
+                app:layout_constraintEnd_toStartOf="@id/button_report"
+                android:layout_marginEnd="@dimen/_7sdp"
+                android:src="@drawable/icon_delete"
+                android:visibility="gone"/>
+
+            <androidx.constraintlayout.utils.widget.ImageFilterView
+                android:id="@+id/button_modify"
+                android:layout_width="@dimen/_13sdp"
+                android:layout_height="@dimen/_13sdp"
+                app:layout_constraintTop_toTopOf="@id/button_report"
+                app:layout_constraintBottom_toBottomOf="@id/button_report"
+                app:layout_constraintEnd_toStartOf="@id/button_delete"
+                android:layout_marginEnd="@dimen/_7sdp"
+                android:src="@drawable/icon_modify"
+                android:visibility="gone"/>
+
             <FrameLayout
                 android:id="@+id/layout_image_profile"
                 android:layout_width="@dimen/_17sdp"

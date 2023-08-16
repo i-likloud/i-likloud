@@ -92,7 +92,7 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
 
         drawingDetailFragmentViewModel.currentDrawingMember.observe(viewLifecycleOwner) {
             Log.d(TAG, "initObserver: observed currentDrawingMember")
-            initInfoView(drawingDetailFragmentViewModel.currentDrawingDetail.value!!, it)
+//            initInfoView(drawingDetailFragmentViewModel.currentDrawingDetail.value!!, it)
             memberProfileDto = it
             if(isCurUserObserved) return@observe
             activityViewModel.memberInfo.observe(viewLifecycleOwner){
@@ -112,6 +112,8 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
                     commentListAdapter.submitList(it.toMutableList())
                     if(it.size!=0) binding.recyclerviewDrawingComment.smoothScrollToPosition(it.size)
                 }
+
+                initInfoView(drawingDetailFragmentViewModel.currentDrawingDetail.value!!,drawingDetailFragmentViewModel.currentDrawingMember.value!!)
             }
             activityViewModel.getMemberInfo(ApplicationClass.sharedPreferences.getString(USER_EMAIL).toString())
         }
@@ -174,6 +176,14 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             drawingDetailFragmentViewModel.isSuccess.collectLatest {
                 dismissLoadingDialog()
                 showSnackbar(binding.root, "movetonft",getString(R.string.nft_success))
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            drawingDetailFragmentViewModel.isDeleted.collectLatest {
+                Log.d(TAG, "isDeleted : $it")
+                if(it) showSnackbar(binding.root, "info", "삭제되었습니다.")
+                findNavController().popBackStack()
             }
         }
 
@@ -312,6 +322,14 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
                     override fun onAnimationRepeat(p0: Animator) {}
                 })
             }
+
+            buttonDelete.setOnClickListener {
+                drawingDetailFragmentViewModel.deleteDrawingDialog.show(childFragmentManager,"delete")
+            }
+
+            buttonModify.setOnClickListener {
+
+            }
         }
         // 안드로이드 뒤로가기 버튼 눌렀을 때
         mainActivity.onBackPressedDispatcher.addCallback(
@@ -351,6 +369,14 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             textDrawingContent.text = drawingDetail.content
             textLikeCount.text = drawingDetail.likesCount.toString()
             textViewCount.text = drawingDetail.viewCount.toString()
+            Log.d(TAG, "memberInfo .. ${activityViewModel.memberInfo.value}")
+            if(drawingDetail.memberId == activityViewModel.memberInfo.value!!.memberId){
+                buttonDelete.visibility = View.VISIBLE
+                buttonModify.visibility = View.VISIBLE
+            }else{
+                buttonDelete.visibility = View.GONE
+                buttonModify.visibility = View.GONE
+            }
         }
     }
 
@@ -370,7 +396,10 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             this.adapter = commentListAdapter.apply {
                 this.itemClickListner = object: CommentListAdapter.ItemClickListener{
                     override fun onClick(comment: CommentDto, position: Int) {
-                        drawingDetailFragmentViewModel.deleteDrawingComment(comment.commentId, position)
+//                        drawingDetailFragmentViewModel.deleteDrawingComment(comment.commentId, position)
+                        Log.d(TAG, "onClick...")
+                        drawingDetailFragmentViewModel.createDeleteCommentDialog(comment.commentId, position)
+                        drawingDetailFragmentViewModel.deleteCommentDialog.show(childFragmentManager, "deleteComment")
                     }
                 }
             }
