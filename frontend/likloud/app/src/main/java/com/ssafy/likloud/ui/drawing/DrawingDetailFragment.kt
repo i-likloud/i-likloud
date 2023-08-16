@@ -312,6 +312,14 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
                     override fun onAnimationRepeat(p0: Animator) {}
                 })
             }
+
+            buttonDelete.setOnClickListener {
+
+            }
+
+            buttonModify.setOnClickListener {
+
+            }
         }
         // 안드로이드 뒤로가기 버튼 눌렀을 때
         mainActivity.onBackPressedDispatcher.addCallback(
@@ -351,6 +359,13 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             textDrawingContent.text = drawingDetail.content
             textLikeCount.text = drawingDetail.likesCount.toString()
             textViewCount.text = drawingDetail.viewCount.toString()
+            if(drawingDetail.memberId == activityViewModel.memberInfo.value!!.memberId){
+                buttonDelete.visibility = View.VISIBLE
+                buttonModify.visibility = View.VISIBLE
+            }else{
+                buttonDelete.visibility = View.GONE
+                buttonModify.visibility = View.GONE
+            }
         }
     }
 

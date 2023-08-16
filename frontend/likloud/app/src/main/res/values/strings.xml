@@ -27,6 +27,8 @@
     <string name="bookmark_order">즐찾순</string>
     <string name="title_drawing_detail">그림</string>
     <string name="no_comment">아직 댓글이 없어요 ㅠㅠ\n댓글을 남겨 볼까요?</string>
+    <string name="delete_drawing">정말로 삭제하시겠습니까?</string>
+    <string name="delete">삭제하기</string>
 
     <!--home-->
     <string name="home">HOME</string>
