@@ -195,6 +195,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(
                     override fun onAnimationStart(p0: Animator) {}
                     override fun onAnimationEnd(p0: Animator) {
                         it.visibility = View.GONE
+                        layoutAppbar.setBackgroundResource(R.color.transparent)
                     }
                     override fun onAnimationCancel(p0: Animator) {}
                     override fun onAnimationRepeat(p0: Animator) {}
@@ -323,7 +324,7 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(
                         val animation = AnimatorSet()
                         animation.playTogether(animationX, animationY)
                         animation.start()
-
+                        binding.layoutAppbar.setBackgroundResource(R.color.background_half_transparent)
                     }
                 }
 

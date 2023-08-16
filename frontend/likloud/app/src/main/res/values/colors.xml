@@ -27,5 +27,6 @@
     <color name="blue_mild">#BBDEFB</color>
     <color name="ivory">#EBE1C3</color>
     <color name="ivory_mild">#FFFBD5</color>
+    <color name="background_half_transparent">#B2352F2F</color>
 
 </resources>
