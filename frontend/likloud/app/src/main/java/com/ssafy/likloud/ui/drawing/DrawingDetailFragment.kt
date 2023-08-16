@@ -92,7 +92,7 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
 
         drawingDetailFragmentViewModel.currentDrawingMember.observe(viewLifecycleOwner) {
             Log.d(TAG, "initObserver: observed currentDrawingMember")
-            initInfoView(drawingDetailFragmentViewModel.currentDrawingDetail.value!!, it)
+//            initInfoView(drawingDetailFragmentViewModel.currentDrawingDetail.value!!, it)
             memberProfileDto = it
             if(isCurUserObserved) return@observe
             activityViewModel.memberInfo.observe(viewLifecycleOwner){
@@ -112,6 +112,8 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
                     commentListAdapter.submitList(it.toMutableList())
                     if(it.size!=0) binding.recyclerviewDrawingComment.smoothScrollToPosition(it.size)
                 }
+
+                initInfoView(drawingDetailFragmentViewModel.currentDrawingDetail.value!!,drawingDetailFragmentViewModel.currentDrawingMember.value!!)
             }
             activityViewModel.getMemberInfo(ApplicationClass.sharedPreferences.getString(USER_EMAIL).toString())
         }
@@ -367,6 +369,7 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             textDrawingContent.text = drawingDetail.content
             textLikeCount.text = drawingDetail.likesCount.toString()
             textViewCount.text = drawingDetail.viewCount.toString()
+            Log.d(TAG, "memberInfo .. ${activityViewModel.memberInfo.value}")
             if(drawingDetail.memberId == activityViewModel.memberInfo.value!!.memberId){
                 buttonDelete.visibility = View.VISIBLE
                 buttonModify.visibility = View.VISIBLE
