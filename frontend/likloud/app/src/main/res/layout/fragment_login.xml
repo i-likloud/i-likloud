@@ -41,7 +41,8 @@
             android:id="@+id/button_naver_login"
             android:layout_width="@dimen/_150sdp"
             android:layout_height="@dimen/_40sdp"
-            android:layout_marginTop="@dimen/_5sdp"/>
+            android:layout_marginTop="@dimen/_5sdp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
