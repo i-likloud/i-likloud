@@ -121,6 +121,7 @@ class LoginFragment :
 
     private fun initObserver() {
         mainActivityViewModel.loginResponse.observe(viewLifecycleOwner) {
+            if(it == null) return@observe
             sharedPreferences.putString(X_ACCESS_TOKEN, it.accessToken)
             sharedPreferences.putString(X_REFRESH_TOKEN, it.refreshToken)
             Log.d(TAG, "initObserver: ${it.role}")

@@ -122,6 +122,7 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
             mypageFragmentViewModel.isLoggedout.collectLatest {
                 if(it == true){
                     findNavController().navigate(R.id.action_mypageFragment_to_loginFragment)
+                    mainActivityViewModel.logOutUser()
                 }
             }
         }

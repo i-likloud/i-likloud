@@ -106,8 +106,8 @@ class MainActivityViewModel @Inject constructor(
     val fcmReceivedDrawingId: LiveData<Int> get() = _fcmReceivedDrawingId
 
     /////////////// 로그인 프레그먼트에서 사용 ///////////////
-    private val _loginResponse = MutableLiveData<LoginResponse>()
-    val loginResponse: LiveData<LoginResponse>
+    private val _loginResponse = MutableLiveData<LoginResponse?>()
+    val loginResponse: LiveData<LoginResponse?>
         get() = _loginResponse
 
 
@@ -190,6 +190,10 @@ class MainActivityViewModel @Inject constructor(
                 isPossible = false
             }
         return isPossible
+    }
+
+    fun logOutUser(){
+        _loginResponse.value = null
     }
 
     fun setProfileImage(color: Int, face: Int) {
