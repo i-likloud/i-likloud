@@ -16,8 +16,10 @@ import com.ssafy.likloud.data.api.onError
 import com.ssafy.likloud.data.api.onSuccess
 import com.ssafy.likloud.data.model.ImageTempDto
 import com.ssafy.likloud.data.model.UserDto
+import com.ssafy.likloud.data.model.request.LoginRequest
 import com.ssafy.likloud.data.model.request.MemberInfoRequest
 import com.ssafy.likloud.data.model.request.ProfileEditRequest
+import com.ssafy.likloud.data.model.response.LoginResponse
 import com.ssafy.likloud.data.model.response.MemberInfoResponse
 import com.ssafy.likloud.data.repository.BaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -102,6 +104,11 @@ class MainActivityViewModel @Inject constructor(
 
     private val _fcmReceivedDrawingId = MutableLiveData<Int>()
     val fcmReceivedDrawingId: LiveData<Int> get() = _fcmReceivedDrawingId
+
+
+    private val _loginResponse = MutableLiveData<LoginResponse>()
+    val loginResponse: LiveData<LoginResponse>
+        get() = _loginResponse
 
 
     /**
@@ -263,6 +270,28 @@ class MainActivityViewModel @Inject constructor(
     fun setRefreshInvaild() {
         viewModelScope.launch {
             _isRefreshTokenInvalid.emit(true)
+        }
+    }
+
+
+    fun postLogin(email: String, socialType: String) {
+        Log.d(TAG, "postLogin: 포스트 로그인 시도입니다.")
+        viewModelScope.launch {
+            Log.d(TAG, "postLogin: ddddd")
+            baseRepository.postLogin(
+                LoginRequest(
+                    email, socialType, sharedPreferences.getString(
+                        ApplicationClass.FIREBASE_TOKEN
+                    )?: "firebase_token_not_registered"
+                )
+            ).onSuccess {
+                _loginResponse.value = it
+                sharedPreferences.putString(X_ACCESS_TOKEN, it.accessToken)
+                Log.d(TAG, "postLogin 찐 refresh: ${it.refreshToken}")
+                sharedPreferences.putString(X_REFRESH_TOKEN, it.refreshToken)
+            }.onError {
+                Log.d(TAG, "postLogin: 에러가 났슴니다 에러메시지는? ${it.message}")
+            }
         }
     }
 }

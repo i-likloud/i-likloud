@@ -61,20 +61,33 @@ class LoginFragment :
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d(TAG, "onCreateView: dd")
         return super.onCreateView(inflater, container, savedInstanceState)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.d(TAG, "onViewCreated: dd")
         super.onViewCreated(view, savedInstanceState)
         initObserver()
         init()
         initListener()
 
-        viewLifecycleOwner.lifecycleScope.launch{
-            loginFragmentViewModel.isTokenReceived.observe(mActivity){
-                if(it == true) findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
-            }
-        }
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            mainActivityViewModel.isTokenReceived.observe(mActivity) {
+//                if (it == true) findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
+//            }
+//        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume: dd")
+//        Log.d(TAG, "onResume: ${sharedPreferences.getBoolean("firstLogin") }")
+//        if(sharedPreferences.getBoolean("firstLogin") == true){
+//            findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
+//            sharedPreferences.setBoolean("firstLogin", false)
+//        }
     }
 
     /**
@@ -116,7 +129,11 @@ class LoginFragment :
                     Log.d(TAG, "initObserver: moving to homefragment")
                     viewLifecycleOwner.lifecycleScope.launch {
                         withContext(Dispatchers.IO) {
-                            mainActivityViewModel.getMemberInfo(sharedPreferences.getString(USER_EMAIL).toString())
+                            mainActivityViewModel.getMemberInfo(
+                                sharedPreferences.getString(
+                                    USER_EMAIL
+                                ).toString()
+                            )
                             withContext(Dispatchers.Main) {
 //                                showSnackbar(binding.root, "success", "안녕하세요 ${mainActivityViewModel.memberInfo.value!!.nickname}님!")
                                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
@@ -124,6 +141,7 @@ class LoginFragment :
                         }
                     }
                 }
+
                 "GUEST" -> {
 //                    showSnackbar(binding.root, "success", "뭉게뭉게 도화지에 오신것을 환영합니다!")
                     Log.d(TAG, "initObserver: moving to profile")
@@ -203,47 +221,48 @@ class LoginFragment :
                 sharedPreferences.putString(X_ACCESS_TOKEN, token.accessToken)
                 sharedPreferences.putString(USER_EMAIL, email)
                 loginFragmentViewModel.postLogin("email", "KAKAO")
+
+                sharedPreferences.setBoolean("firstLogin", true)
+
 //                findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
 //                loginFragmentViewModel.getTokenValidation(token.accessToken)
             }
         }
 
         // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
-        if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
-            UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
-                if (error != null) {
-                    Log.e(ContentValues.TAG, "카카오톡으로 로그인 실패", error)
-
-                    // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
-                    // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
-                    if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                        return@loginWithKakaoTalk
-                    }
-
-                    // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인 시도
-                    UserApiClient.instance.loginWithKakaoAccount(
-                        context,
-                        callback = callback
-                    )
-                    getUserEmailFromKakao()
-                } else if (token != null) {
-                    Log.i(
-                        ContentValues.TAG,
-                        "카카오톡으로 로그인 성공 accesstoken ${token.accessToken}"
-                    )
-                    getUserEmailFromKakao()
-                    sharedPreferences.putString(X_ACCESS_TOKEN, token.accessToken)
-                    loginFragmentViewModel.postLogin("email", "KAKAO")
-//                    findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
-                }
-            }
-        }
-        else {
-            UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
-            getUserEmailFromKakao()
-        }
+//        if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
+//            UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
+//                if (error != null) {
+//                    Log.e(ContentValues.TAG, "카카오톡으로 로그인 실패", error)
+//
+//                    // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
+//                    // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
+//                    if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
+//                        return@loginWithKakaoTalk
+//                    }
+//
+//                    // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인 시도
+//                    UserApiClient.instance.loginWithKakaoAccount(
+//                        context,
+//                        callback = callback
+//                    )
+//                    getUserEmailFromKakao()
+//                } else if (token != null) {
+//                    Log.i(
+//                        ContentValues.TAG,
+//                        "카카오톡으로 로그인 성공 accesstoken ${token.accessToken}"
+//                    )
+//                    getUserEmailFromKakao()
+//                    sharedPreferences.putString(X_ACCESS_TOKEN, token.accessToken)
+//                    loginFragmentViewModel.postLogin("email", "KAKAO")
+////                    findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
+//                }
+//            }
+//        }
+//        else {
+        UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
+        getUserEmailFromKakao()
     }
-
 
     fun getUserEmailFromKakao() {
         UserApiClient.instance.me { user, error ->
@@ -254,4 +273,22 @@ class LoginFragment :
             }
         }
     }
+
+    override fun onDetach() {
+        super.onDetach()
+        Log.d(TAG, "onDetach: dd")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d(TAG, "onDestroyView: dd")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy: dd")
+    }
 }
+
+
+
