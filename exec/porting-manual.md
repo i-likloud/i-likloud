@@ -1,8 +1,19 @@
 # 📜Porting Manual
 
----
 
-## ⚙ 시스템 환경 및 버전정보
+## 📝목차
+1) [시스템 환경 및 버전정보](#⚙-시스템-환경-및-버전정보)
+2) [포트 정보](#🔌포트-정보)
+3) [서버 접속](#💻서버-접속)
+4) [빌드 및 배포](#🚀빌드-및-배포)
+5) [DB](#🗃DB)
+6) [CI/CD](#🏭CI/CD)
+7) [NGINX](#🌐NGINX)
+8) [외부 API](#🔗외부-API)
+9) [APK](#📱APK)
+
+
+## 1) ⚙ 시스템 환경 및 버전정보
 
 - JVM : JDK 11
 - Frontend IDE : Android Studio 2022.2.1 Patch2 
@@ -13,7 +24,9 @@
 - WAS : NGINX 1.18.0
 - DB : MySQL 8.0.33
 
-## 포트 정보
+<br>
+
+## 2) 🔌포트 정보
 
 | Port | 이름                          |
 |:-----|:----------------------------|
@@ -24,7 +37,9 @@
 | 9090 | Jenkins Docker Container    |
 | 6379 | Redis Docker Container      |
 
-## 서버 접속
+<br>
+
+## 3) 💻서버 접속
 
 > EC2 접속방법 ( Window 환경)<br>
 > - PuTTygen을 통해 key파일 pem파일로 변환<br>
@@ -65,7 +80,9 @@ $ docker run --name redis-server -p 6379:6379 -d redis
 $ docker run -p 9090:8080 jenkins/jenkins
 ```
 
-## 빌드 및 배포
+<br>
+
+## 4) 🚀빌드 및 배포
 
 1. Dockerfile 작성
 
@@ -102,7 +119,9 @@ sudo docker run -d --name CLOUD -p 8080:8080 -v /home/ubuntu/gcp-key.json:/app/k
  (실행 시 GCP 키 파일 및 Jasypt 암호화 키를 환경변수에 추가하여 실행)
 ```
 
-## DB
+<br>
+
+## 5)️ 🗃️DB
 
 ### properties
 - application-db.yml
@@ -118,7 +137,9 @@ sudo docker run -d --name CLOUD -p 8080:8080 -v /home/ubuntu/gcp-key.json:/app/k
 ### ERD
 [ERDCloud](https://www.erdcloud.com/d/BEapLKHyajjM3RktS)
 
-## CI/CD
+<br>
+
+## 6) 🏭CI/CD
 
 ### Jenkins 설정
 
@@ -179,7 +200,9 @@ sudo docker run -d --name CLOUD -p 8080:8080 -v /home/ubuntu/gcp-key.json:/app/k
     sudo docker ps -q --filter name=CLOUD | grep -q . && docker stop -f && docker rm -f $(docker ps -aq --filter name=CLOUD) <br>
     sudo docker run -d --name CLOUD -p 8080:8080 -v /home/ubuntu/i-likloud-96b61e373462.json:/app/keyfile.json -e GOOGLE_APPLICATION_CREDENTIALS=/app/keyfile.json -e PASSWORD={PASSWORD} ytchoi/i-likloud
 
-## NGINX
+<br>
+
+## 7) 🌐NGINX
 
 1. Nginx 설치
 ```
@@ -250,7 +273,9 @@ server {
 }
 ```
 
-## 외부 API
+<br>
+
+## 8) 🔗외부 API
 
 ### Klaytn API
 
@@ -267,6 +292,8 @@ server {
 
 - i-likloud-96b61e373462.json
 
-## APK
+<br>
+
+## 9) 📱APK
 
 [구글 플레이스토어 - 뭉게뭉게 도화지]
