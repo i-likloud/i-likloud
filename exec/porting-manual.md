@@ -2,18 +2,18 @@
 
 
 ## 📝목차
-1) [시스템 환경 및 버전정보](#⚙-시스템-환경-및-버전정보)
-2) [포트 정보](#🔌포트-정보)
-3) [서버 접속](#💻서버-접속)
-4) [빌드 및 배포](#🚀빌드-및-배포)
-5) [DB](#🗃DB)
-6) [CI/CD](#🏭CI/CD)
-7) [NGINX](#🌐NGINX)
-8) [외부 API](#🔗외부-API)
-9) [APK](#📱APK)
+1) [시스템 환경 및 버전정보](#1-시스템-환경-및-버전정보)
+2) [포트 정보](#2-포트-정보)
+3) [서버 접속](#3-서버-접속)
+4) [빌드 및 배포](#4-빌드-및-배포)
+5) [DB](#5-DB)
+6) [CI/CD](#6-CI/CD)
+7) [NGINX](#7-NGINX)
+8) [외부 API](#8-외부-API)
+9) [APK](#9-APK)
 
 
-## 1) ⚙ 시스템 환경 및 버전정보
+## 1. ⚙시스템 환경 및 버전정보
 
 - JVM : JDK 11
 - Frontend IDE : Android Studio 2022.2.1 Patch2 
@@ -26,7 +26,7 @@
 
 <br>
 
-## 2) 🔌포트 정보
+## 2. 🔌포트 정보
 
 | Port | 이름                          |
 |:-----|:----------------------------|
@@ -39,7 +39,7 @@
 
 <br>
 
-## 3) 💻서버 접속
+## 3. 💻 서버 접속
 
 > EC2 접속방법 ( Window 환경)<br>
 > - PuTTygen을 통해 key파일 pem파일로 변환<br>
@@ -48,13 +48,13 @@
 > - Open(Session에서 Save 후 Open하면 추후 바로 실행 가능)
 <br>
 
-1. 포트 개방
+3.1. 포트 개방
 ```
 $ sudo ufw allow {portnumer} # 80, 6379, 9090, 3306, 8080
 $ sudo ufw numbered # 포트 개방 확인
 ```
 
-2. JDK 설치
+3.2. JDK 설치
 ```
 # JDK 11 설치
 apt-get install openjdk-11-jre-headless
@@ -63,14 +63,14 @@ apt-get install openjdk-11-jre-headless
 java -version
 ```
 
-3. 🐳 도커 설치 후 실행
+3.3. 🐳 도커 설치 후 실행
 ```
 $ sudo apt update
 $ sudo apt-get install docker-ce docker-ce-cli containerd.io
 $ sudo systemctl start docker
 ```
 
-4. 🗄️ 컨테이너 실행
+3.4. 🗄️ 컨테이너 실행
 ```
 # MySQL
 $ docker run --name mysql-container -p 3306:3306 -e MYSQL_ROOT_PASSWORD={PASSWORD} -d mysql
@@ -82,9 +82,9 @@ $ docker run -p 9090:8080 jenkins/jenkins
 
 <br>
 
-## 4) 🚀빌드 및 배포
+## 4. 🚀 빌드 및 배포
 
-1. Dockerfile 작성
+4.1. Dockerfile 작성
 
 ```dockerfile
 # Dockerfile
@@ -95,23 +95,23 @@ COPY ${JAR_FILE} app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
 ```
 
-2. Jar 파일 빌드
+4.2. Jar 파일 빌드
 ```
 $ ./gradlew bootJar
 ```
 
-3. 로컬에서 도커 이미지 빌드 및 푸시
+4.3. 로컬에서 도커 이미지 빌드 및 푸시
 ```
 docker build -t {사용자명}/{이미지파일명} .
 docker push {사용자명}/{이미지파일명}
 ```
 
-4. 로컬에서 SCP 사용하여 GCP 환경변수 파일 마운트
+4.4. 로컬에서 SCP 사용하여 GCP 환경변수 파일 마운트
 ```
 $ scp -i /path/to/your/ec2-key.pem /path/to/your/gcp-key.json ubuntu@{hostname}:/home/ubuntu/
 ```
 
-5. EC2에서 도커 이미지 풀 및 컨테이너 실행
+4.5. EC2에서 도커 이미지 풀 및 컨테이너 실행
 ```
 sudo docker pull {사용자명}/{이미지파일명}
 sudo docker run -d --name CLOUD -p 8080:8080 -v /home/ubuntu/gcp-key.json:/app/keyfile.json
@@ -121,27 +121,27 @@ sudo docker run -d --name CLOUD -p 8080:8080 -v /home/ubuntu/gcp-key.json:/app/k
 
 <br>
 
-## 5)️ 🗃️DB
+## 5. 🗃️DB
 
-### properties
+### 5.1. properties
 - application-db.yml
 
-### MySQL WorkBench
+### 5.2. MySQL WorkBench
 > MySQL Connections<br>
 > Hostname : i9d101.p.ssafy.io, port : 3306<br>
 > Username : root, Password : 
 
-### 덤프 파일 최신본
+### 5.3. 덤프 파일 최신본
 - /exec/i-likloud-dump.zip
 
-### ERD
+### 5.4. ERD
 [ERDCloud](https://www.erdcloud.com/d/BEapLKHyajjM3RktS)
 
 <br>
 
-## 6) 🏭CI/CD
+## 6. 🏭CI/CD
 
-### Jenkins 설정
+### 6.1. Jenkins 설정
 
 - System
    - GitLab
@@ -168,7 +168,7 @@ sudo docker run -d --name CLOUD -p 8080:8080 -v /home/ubuntu/gcp-key.json:/app/k
     Post build task<br>
     Generic Webhook Trigger Plugin
  
-### 프로젝트 선택 - 구성
+### 6.2. 프로젝트 선택 - 구성
 
 - 소스 코드 관리
   - Git
@@ -202,9 +202,9 @@ sudo docker run -d --name CLOUD -p 8080:8080 -v /home/ubuntu/gcp-key.json:/app/k
 
 <br>
 
-## 7) 🌐NGINX
+## 7. 🌐NGINX
 
-1. Nginx 설치
+7.1. Nginx 설치
 ```
 # Nginx 설치
 $ sudo apt-get install nginx
@@ -212,7 +212,7 @@ $ sudo apt-get install nginx
 $ sudo nano /etc/nginx/sites-available/default
 ```
 
-2. 설정파일 수정
+7.2. 설정파일 수정
 ```
 ##
 
@@ -275,9 +275,9 @@ server {
 
 <br>
 
-## 8) 🔗외부 API
+## 8. 🔗외부 API
 
-### Klaytn API
+### 8.1. Klaytn API
 
 - properties
   - application-kas.yml
@@ -288,12 +288,12 @@ server {
   authorization: ENC() <br>
   contract-alias: "unijoa"
 
-### Google Vision API
+### 8.2. Google Vision API
 
 - i-likloud-96b61e373462.json
 
 <br>
 
-## 9) 📱APK
+## 9. 📱APK
 
 [구글 플레이스토어 - 뭉게뭉게 도화지]
