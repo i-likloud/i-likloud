@@ -177,6 +177,14 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             }
         }
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            drawingDetailFragmentViewModel.isDeleted.collectLatest {
+                Log.d(TAG, "isDeleted : $it")
+                if(it) showSnackbar(binding.root, "info", "삭제되었습니다.")
+                findNavController().popBackStack()
+            }
+        }
+
 //        drawingDetailFragmentViewModel.isSuccess.observe(viewLifecycleOwner){
 ////            Toast.makeText(mainActivity, "nft 발급 완료", Toast.LENGTH_SHORT).show()
 //            Log.d(TAG, "isSuccess : $it")
@@ -314,7 +322,7 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             }
 
             buttonDelete.setOnClickListener {
-
+                drawingDetailFragmentViewModel.deleteDrawingDialog.show(childFragmentManager,"delete")
             }
 
             buttonModify.setOnClickListener {
@@ -385,7 +393,10 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
             this.adapter = commentListAdapter.apply {
                 this.itemClickListner = object: CommentListAdapter.ItemClickListener{
                     override fun onClick(comment: CommentDto, position: Int) {
-                        drawingDetailFragmentViewModel.deleteDrawingComment(comment.commentId, position)
+//                        drawingDetailFragmentViewModel.deleteDrawingComment(comment.commentId, position)
+                        Log.d(TAG, "onClick...")
+                        drawingDetailFragmentViewModel.createDeleteCommentDialog(comment.commentId, position)
+                        drawingDetailFragmentViewModel.deleteCommentDialog.show(childFragmentManager, "deleteComment")
                     }
                 }
             }

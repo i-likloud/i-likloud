@@ -190,4 +190,12 @@ class DrawingListFragmentViewModel @Inject constructor(
             }
         }
     }
+
+    lateinit var deleteCommentDialog: CommentDeleteDialog
+    fun createDeleteCommentDialog(commentId: Int, position: Int){
+        deleteCommentDialog = CommentDeleteDialog(
+            delete = {deleteDrawingComment(commentId,position)},
+            commentId
+        )
+    }
 }

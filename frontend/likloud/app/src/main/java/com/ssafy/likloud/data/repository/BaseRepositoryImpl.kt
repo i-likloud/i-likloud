@@ -247,4 +247,8 @@ class BaseRepositoryImpl @Inject constructor(
     override suspend fun getMemberNftWallet(memberId: Int): NetworkResult<WalletInfo> {
         return handleApi { baseAPIService.getMemberNftWallet(memberId).body()!! }
     }
+
+    override suspend fun deleteDrawing(drawingId: Int): NetworkResult<String> {
+        return handleApi { baseAPIService.deleteDrawing(drawingId).body()!! }
+    }
 }

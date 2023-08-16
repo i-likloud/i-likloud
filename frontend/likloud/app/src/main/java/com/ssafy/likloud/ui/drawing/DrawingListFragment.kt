@@ -361,10 +361,12 @@ class DrawingListFragment : BaseFragment<FragmentDrawingListBinding>(
             this.adapter = commentListAdapter.apply {
                 this.itemClickListner = object : CommentListAdapter.ItemClickListener {
                     override fun onClick(comment: CommentDto, position: Int) {
-                        drawingListFragmentViewModel.deleteDrawingComment(
-                            comment.commentId,
-                            position
-                        )
+//                        drawingListFragmentViewModel.deleteDrawingComment(
+//                            comment.commentId,
+//                            position
+//                        )
+                        drawingListFragmentViewModel.createDeleteCommentDialog(comment.commentId, position)
+                        drawingListFragmentViewModel.deleteCommentDialog.show(childFragmentManager, "deleteComment")
                     }
                 }
             }
