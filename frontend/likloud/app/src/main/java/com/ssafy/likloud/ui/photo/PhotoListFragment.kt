@@ -1,5 +1,7 @@
 package com.ssafy.likloud.ui.photo
 
+import android.animation.Animator
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Bundle
@@ -17,6 +19,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager
 import com.ssafy.likloud.MainActivity
 import com.ssafy.likloud.MainActivityViewModel
@@ -122,6 +126,24 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(
                 BitmapCanvasObject.clearAllDrawingPoints()
             }
 
+            constraintPhotoOriginal.setOnClickListener {
+                val animationX = ObjectAnimator.ofFloat(binding.imagePhotoOrigin, "scaleX", 1.0f, 0.0f)
+                val animationY = ObjectAnimator.ofFloat(binding.imagePhotoOrigin, "scaleY", 1.0f, 0.0f)
+                animationX.duration = 400
+                animationY.duration = 400
+                val animation = AnimatorSet()
+                animation.playTogether(animationX, animationY)
+                animation.start()
+                animation.addListener(object : Animator.AnimatorListener {
+                    override fun onAnimationStart(p0: Animator) {}
+                    override fun onAnimationEnd(p0: Animator) {
+                        it.visibility = View.GONE
+                        layoutAppbar.setBackgroundResource(R.color.transparent)
+                    }
+                    override fun onAnimationCancel(p0: Animator) {}
+                    override fun onAnimationRepeat(p0: Animator) {}
+                })
+            }
         }
         // 안드로이드 뒤로가기 버튼 눌렀을 때
         mActivity.onBackPressedDispatcher.addCallback(
@@ -204,9 +226,25 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(
                         PhotoListAdapter.ItemClickListener {
 
                         override fun onClick(view: View, imageUrl: String) {
-                            val action =
-                                PhotoListFragmentDirections.actionPhotoListFragmentToDrawingOriginalFragment(imageUrl)
-                            findNavController().navigate(action)
+//                            val action =
+//                                PhotoListFragmentDirections.actionPhotoListFragmentToDrawingOriginalFragment(imageUrl)
+//                            findNavController().navigate(action)
+                            Glide.with(binding.imagePhotoOrigin)
+                                .load(imageUrl)
+                                .apply(RequestOptions.bitmapTransform(RoundedCorners(50)))
+                                .into(binding.imagePhotoOrigin)
+                            binding.constraintPhotoOriginal.visibility = View.VISIBLE
+                            binding.imagePhotoOrigin.visibility = View.VISIBLE
+                            binding.imagePhotoOrigin.scaleX = 0.0f
+                            binding.imagePhotoOrigin.scaleY = 0.0f
+                            val animationX = ObjectAnimator.ofFloat(binding.imagePhotoOrigin, "scaleX", 0.0f, 1.0f)
+                            val animationY = ObjectAnimator.ofFloat(binding.imagePhotoOrigin, "scaleY", 0.0f, 1.0f)
+                            animationX.duration = 400
+                            animationY.duration = 400
+                            val animation = AnimatorSet()
+                            animation.playTogether(animationX, animationY)
+                            animation.start()
+                            binding.layoutAppbar.setBackgroundResource(R.color.background_half_transparent)
                         }
                     }
                 }
