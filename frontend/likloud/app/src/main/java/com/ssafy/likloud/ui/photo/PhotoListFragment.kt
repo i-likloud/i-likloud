@@ -50,6 +50,7 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(
     private lateinit var photoListAdapter: PhotoListAdapter
     private lateinit var photoDrawingListAdapter: PhotoDrawingListAdapter
     private var isScrolling = false
+    private var isCurrentOrder = 0
 
 
     override fun onCreateView(
@@ -75,8 +76,20 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(
 
 
     private fun init() {
-        photoListFragmentViewModel.getRecentOrderPhotoListDtoList()
-        toggleButton(binding.buttonRecentOrder)
+        when(isCurrentOrder){
+            0 ->{
+                photoListFragmentViewModel.getRecentOrderPhotoListDtoList()
+                toggleButton(binding.buttonRecentOrder)
+            }
+            1->{
+                photoListFragmentViewModel.getRankingOrderPhotoListDtoList()
+                toggleButton(binding.buttonRankingOrder)
+            }
+            else ->{
+                photoListFragmentViewModel.getBookmarkOrderPhotoListDtoList()
+                toggleButton(binding.buttonBookmarkOrder)
+            }
+        }
         initRecyclerView()
         initPhotoDrawingListRecyclerView()
         loadingAnimation()
@@ -91,6 +104,7 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(
                     initRecyclerView()
                     toggleButton(buttonRecentOrder)
                     loadingAnimation()
+                    isCurrentOrder = 0
                 }
             }
             //랭킹순 눌렀을 때
@@ -100,6 +114,7 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(
                     initRecyclerView()
                     toggleButton(buttonRankingOrder)
                     loadingAnimation()
+                    isCurrentOrder = 1
                 }
             }
             //즐찾순 눌렀을 때
@@ -109,6 +124,7 @@ class PhotoListFragment : BaseFragment<FragmentPhotoListBinding>(
                     initRecyclerView()
                     toggleButton(buttonBookmarkOrder)
                     loadingAnimation()
+                    isCurrentOrder = 2
                 }
             }
             //즐겨찾기(스타)를 눌렀을 때
