@@ -120,7 +120,7 @@ class LoginFragment :
     }
 
     private fun initObserver() {
-        loginFragmentViewModel.loginResponse.observe(viewLifecycleOwner) {
+        mainActivityViewModel.loginResponse.observe(viewLifecycleOwner) {
             sharedPreferences.putString(X_ACCESS_TOKEN, it.accessToken)
             sharedPreferences.putString(X_REFRESH_TOKEN, it.refreshToken)
             Log.d(TAG, "initObserver: ${it.role}")
@@ -220,7 +220,8 @@ class LoginFragment :
 //                Log.d(TAG, "startKakaoLogin: 카카오 로그인 이메일은? -> ${email}")
                 sharedPreferences.putString(X_ACCESS_TOKEN, token.accessToken)
                 sharedPreferences.putString(USER_EMAIL, email)
-                loginFragmentViewModel.postLogin("email", "KAKAO")
+                ////////// 수정 /////////
+                mainActivityViewModel.postLogin("email", "KAKAO")
 
                 sharedPreferences.setBoolean("firstLogin", true)
 

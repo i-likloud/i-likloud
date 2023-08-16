@@ -105,7 +105,7 @@ class MainActivityViewModel @Inject constructor(
     private val _fcmReceivedDrawingId = MutableLiveData<Int>()
     val fcmReceivedDrawingId: LiveData<Int> get() = _fcmReceivedDrawingId
 
-
+    /////////////// 로그인 프레그먼트에서 사용 ///////////////
     private val _loginResponse = MutableLiveData<LoginResponse>()
     val loginResponse: LiveData<LoginResponse>
         get() = _loginResponse
@@ -275,7 +275,7 @@ class MainActivityViewModel @Inject constructor(
 
 
     fun postLogin(email: String, socialType: String) {
-        Log.d(TAG, "postLogin: 포스트 로그인 시도입니다.")
+        Log.d(TAG, "postLogin: 포스트 로그인 시도입니다. (메인 액티비티 뷰 모델)")
         viewModelScope.launch {
             Log.d(TAG, "postLogin: ddddd")
             baseRepository.postLogin(
