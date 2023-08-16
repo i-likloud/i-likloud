@@ -1,5 +1,7 @@
 package com.ssafy.likloud.ui.drawing
 
+import android.animation.Animator
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
@@ -19,6 +21,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.ssafy.likloud.ApplicationClass
 import com.ssafy.likloud.ApplicationClass.Companion.USER_EMAIL
 import com.ssafy.likloud.MainActivity
@@ -268,9 +272,45 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
 
             imageCurrentDrawing.setOnClickListener{
                 drawingDetailFragmentViewModel.currentDrawingDetail.value?.let {
-                    val action = DrawingDetailFragmentDirections.actionDrawingDetailFragmentToDrawingOriginalFragment(it.imageUrl)
-                    findNavController().navigate(action)
+//                    val action = DrawingDetailFragmentDirections.actionDrawingDetailFragmentToDrawingOriginalFragment(it.imageUrl)
+//                    findNavController().navigate(action)
+                    Glide.with(binding.imageDrawingOrigin)
+                        .load(it.imageUrl)
+                        .apply(RequestOptions.bitmapTransform(RoundedCorners(50)))
+                        .into(binding.imageDrawingOrigin)
+                    binding.constraintDrawingOriginal.visibility = View.VISIBLE
+                    binding.imageDrawingOrigin.visibility = View.VISIBLE
+                    binding.imageDrawingOrigin.scaleX = 0.0f
+                    binding.imageDrawingOrigin.scaleY = 0.0f
+                    val animationX = ObjectAnimator.ofFloat(binding.imageDrawingOrigin, "scaleX", 0.0f, 1.0f)
+                    val animationY = ObjectAnimator.ofFloat(binding.imageDrawingOrigin, "scaleY", 0.0f, 1.0f)
+                    animationX.duration = 400
+                    animationY.duration = 400
+                    val animation = AnimatorSet()
+                    animation.playTogether(animationX, animationY)
+                    animation.start()
+                    binding.layoutAppbar.setBackgroundResource(R.color.background_half_transparent)
                 }
+            }
+
+
+            constraintDrawingOriginal.setOnClickListener {
+                val animationX = ObjectAnimator.ofFloat(binding.imageDrawingOrigin, "scaleX", 1.0f, 0.0f)
+                val animationY = ObjectAnimator.ofFloat(binding.imageDrawingOrigin, "scaleY", 1.0f, 0.0f)
+                animationX.duration = 400
+                animationY.duration = 400
+                val animation = AnimatorSet()
+                animation.playTogether(animationX, animationY)
+                animation.start()
+                animation.addListener(object : Animator.AnimatorListener {
+                    override fun onAnimationStart(p0: Animator) {}
+                    override fun onAnimationEnd(p0: Animator) {
+                        it.visibility = View.GONE
+                        layoutAppbar.setBackgroundResource(R.color.transparent)
+                    }
+                    override fun onAnimationCancel(p0: Animator) {}
+                    override fun onAnimationRepeat(p0: Animator) {}
+                })
             }
         }
         // 안드로이드 뒤로가기 버튼 눌렀을 때
