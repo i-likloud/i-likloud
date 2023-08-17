@@ -23,7 +23,13 @@
 
 ### Android
 
+![](https://velog.velcdn.com/images/heeung/post/1a760594-4ed8-4bd2-8a99-1c321d339057/image.png)
+
 ### Backend
+
+### Communication
+
+![](https://velog.velcdn.com/images/heeung/post/6adf1d8e-6133-4622-aa88-8406a6963aee/image.png)
 
 <br>
 
