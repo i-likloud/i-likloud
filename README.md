@@ -23,13 +23,15 @@
 
 ### Android
 
-![](https://velog.velcdn.com/images/heeung/post/1a760594-4ed8-4bd2-8a99-1c321d339057/image.png)
+![](https://velog.velcdn.com/images/heeung/post/67ff9ba2-d46c-484b-a39a-0ab0d47d301c/image.png)
 
 ### Backend
 
+![](https://velog.velcdn.com/images/heeung/post/1dcbbb57-fa07-43bd-b969-69888ddae6db/image.png)
+
 ### Communication
 
-![](https://velog.velcdn.com/images/heeung/post/6adf1d8e-6133-4622-aa88-8406a6963aee/image.png)
+![](https://velog.velcdn.com/images/heeung/post/854a27b3-c068-488e-9cb1-bdb1904b0fa6/image.png)
 
 <br>
 
