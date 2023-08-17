@@ -127,6 +127,16 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
             }
         }
 
+        mainActivityViewModel.memberInfo.observe(viewLifecycleOwner){
+            binding.apply {
+                textviewTicketCnt.text = it.goldCoin.toString()
+                textviewStampCnt.text = it.silverCoin.toString()
+                imageColorNow.setImageResource(mainActivityViewModel.waterDropColorList[it.profileColor].resourceId)
+                imageFaceNow.setImageResource(mainActivityViewModel.waterDropFaceList[it.profileFace].resourceId)
+                imageAccessoryNow.setImageResource(mainActivityViewModel.waterDropAccessoryList[it.profileAccessory].resourceId)
+            }
+        }
+
     }
 
     private fun initDrawingRecyclerView(){

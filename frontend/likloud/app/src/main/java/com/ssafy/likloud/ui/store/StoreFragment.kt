@@ -131,6 +131,14 @@ class StoreFragment : BaseFragment<FragmentStoreBinding>(FragmentStoreBinding::b
             binding.textviewStampCnt.text = it.silverCoin.toString()
             binding.textviewTicketCnt.text = it.goldCoin.toString()
         }
+
+        mainActivityViewModel.memberInfo.observe(viewLifecycleOwner){
+            binding.apply {
+                imageColorNow.setImageResource(mainActivityViewModel.waterDropColorList[it.profileColor].resourceId)
+                imageFaceNow.setImageResource(mainActivityViewModel.waterDropFaceList[it.profileFace].resourceId)
+                imageAccessoryNow.setImageResource(mainActivityViewModel.waterDropAccessoryList[it.profileAccessory].resourceId)
+            }
+        }
     }
     private fun initAdapter() {
         storeAccessoryListAdapter = StoreAccessoryListAdapter()
