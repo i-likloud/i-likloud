@@ -1,0 +1,38 @@
+package com.backend.api.logout.controller;
+
+import com.backend.api.common.AccessToken;
+import com.backend.api.common.BaseIntegrationTest;
+import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+public class LogoutControllerTestEx extends BaseIntegrationTest {
+    private String token = AccessToken.getNewToken();
+    private String userEmail = AccessToken.getTestEmail();
+
+    @Test
+    @Rollback
+    void logout() throws Exception {
+        // given
+
+        try {
+            //when
+            ResultActions resultActions = mvc.perform(post("/api/oauth/logout")
+                            .accept(MediaType.APPLICATION_JSON)
+                            .header("Authorization", "Bearer " + token)
+                            .content("{\"email\": \"" + userEmail + "\"}")
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andDo(MockMvcResultHandlers.print());
+
+            //then
+            resultActions.andExpect(status().isUnauthorized());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}

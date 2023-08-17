@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="gray10">#212121</color>
+    <color name="gray09">#424242</color>
+    <color name="gray08">#616161</color>
+    <color name="gray07">#757575</color>
+    <color name="gray06">#9E9E9E</color>
+    <color name="gray05">#BDBDBD</color>
+    <color name="gray04">#E0E0E0</color>
+    <color name="gray03">#EEEEEE</color>
+    <color name="gray02">#F5F5F5</color>
+    <color name="gray01">#FAFAFA</color>
+    <color name="sky_blue_deep">#1DC9FF</color>
+    <color name="main_sky_blue">#98f3ff</color>
+    <color name="main_sky_blue_light_modal">#B2EDFF</color>
+    <color name="transparent">#00000000</color>
+    <color name="purple_mild">#DEC0FF</color>
+    <color name="green_mild">#86FF81</color>
+    <color name="red_mile">#FF9292</color>
+    <color name="eraser">#FFCCB4</color>
+    <color name="eraser_reached">#EF7772</color>
+    <color name="yellow_mild_500">#FFCA28</color>
+    <color name="yellow_mild_200">#FFF59D</color>
+    <color name="grey_mild">#EBEBEB</color>
+    <color name="blue_mild">#BBDEFB</color>
+    <color name="ivory">#EBE1C3</color>
+    <color name="ivory_mild">#FFFBD5</color>
+    <color name="background_half_transparent">#B2352F2F</color>
+
+</resources>

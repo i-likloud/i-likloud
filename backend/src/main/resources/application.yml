@@ -1,1 +1,53 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
 
+spring:
+  profiles:
+    active: db,jwt,oauth,kas
+  redis:
+    host: i9d101.p.ssafy.io
+#    host: 43.200.97.214
+    port: 6379
+#    port: 6381
+
+
+#  cloud:
+#    gcp:
+#      storage:
+#        enabled: true
+#        auto-create-files: true
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true # 콘솔창에 sql 출력
+    properties:
+      hibernate:
+        format_sql: true # sql 예쁘게 출력
+        default_batch_fetch_size: 1000 # 일대다 컬렉션 조회 시 성능 최적화 : 100 ~ 1000 권장
+        jdbc:
+          time_zone: Asia/Seoul
+
+  servlet:
+    multipart:
+      max-file-size: 20MB # 파일 업로드 요청 시 하나의 파일 크기를 10MB 제한
+      max-request-size: 100MB # 파일 업로드 요청 시 모든 파일 크기합을 100MB 제한
+
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+
+feign:
+  client:
+    config:
+      default: # 전역 처리
+        # 타임아웃 제한 시간
+        connectTimeout: 5000
+        readTimeout: 5000

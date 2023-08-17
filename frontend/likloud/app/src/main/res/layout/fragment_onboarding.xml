@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/indicators_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_30sdp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/viewpager"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
+            android:id="@+id/spring_dots_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:dampingRatio="0.5"
+            app:dotsColor="@color/main_sky_blue"
+            app:dotsCornerRadius="8dp"
+            app:dotsSize="@dimen/_4sdp"
+            app:dotsSpacing="@dimen/_2sdp"
+            app:dotsStrokeColor="@color/gray04"
+            app:dotsStrokeWidth="@dimen/_2sdp"
+            app:stiffness="300" />
+    </LinearLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewpager"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:overScrollMode="never"
+        app:layout_constraintHeight_percent="0.7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/indicators_container" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_start"
+        android:layout_width="wrap_content"
+        android:text="@string/start"
+        android:paddingHorizontal="@dimen/_2sdp"
+        android:background="@drawable/frame_button_yellow_mild_200"
+        style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewpager"
+        android:layout_height="@dimen/_20sdp"/>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

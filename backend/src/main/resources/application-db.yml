@@ -1,0 +1,27 @@
+cloud:
+  aws:
+    s3:
+      bucket: i-likloud
+    credentials:
+      access_key: ENC(SvPTMWUFQWXza/cqCwq54F6n4FKEiQu0hWxJb3rjn4U=)
+      secret_key: ENC(qgAoaOuYfYjyciBUvrasyc9e2wCZexEpQL3arPMPSARcfoazhL65J87kMU2ydZNri9563IwgtWs=)
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+
+spring:
+  datasource:
+  # 개인 aws 계정
+#    url: jdbc:mysql://43.200.97.214:3306/backend
+#    username: D101
+#    password: ENC(/OkGfJs0Jn8f2UIP/lD8USavyaMPCESK)
+  # ssafy 계정
+      url: jdbc:mysql://i9d101.p.ssafy.io:3306/backend
+      username: root
+      password: ENC(Bx1vEjxxzWziwTA6+M1p8Ml5d0sTlQBa)
+  # 로컬 DB
+#    url: jdbc:mysql://localhost:3306/backend
+#    username: root
+#    password: ENC(vS3bj58wnllM2lkJBVMecCaYDy2unUgl)

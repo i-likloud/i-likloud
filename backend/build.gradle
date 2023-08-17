@@ -19,19 +19,69 @@ configurations {
 
 repositories {
 	mavenCentral()
+	// 클레이튼 api
+	maven { url 'https://jitpack.io' }
 }
+
+ext {
+	set('springCloudVersion', "2021.0.7")
+}
+
+test {
+	useJUnitPlatform()
+}
+
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+		mavenBom "org.springframework.cloud:spring-cloud-gcp-dependencies:1.2.8.RELEASE"
+	}
+}
+
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	compileOnly 'org.projectlombok:lombok'
+	// jasypt
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
+	// openfeign
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+	// jwt
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	// S3
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+	// Apache Commons IO
+	implementation 'commons-io:commons-io:2.8.0'
+	// GCP
+	implementation 'com.google.cloud:spring-cloud-gcp-starter:3.6.1'
+	implementation 'com.google.cloud:spring-cloud-gcp-starter-storage:3.6.1'
+	implementation 'com.google.cloud:spring-cloud-gcp-starter-vision:3.6.1'
+	implementation 'com.google.api-client:google-api-client:1.31.1'
+//	implementation 'com.google.cloud:google-cloud-storage:2.25.0'
+
+	// KAS API
+	implementation group: 'com.klaytn.caver', name: 'core', version: '1.6.2'
+	// Redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
+    testImplementation 'junit:junit:4.13.1'
+
+    compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	//swagger
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
+
+	//firebase
+	implementation 'com.google.firebase:firebase-admin:9.1.1'
+
+
 }
 
 tasks.named('test') {

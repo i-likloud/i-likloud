@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "976352515055",
+    "project_id": "unijoa-ef845",
+    "storage_bucket": "unijoa-ef845.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:976352515055:android:1758dfc5ac0c3274715c1a",
+        "android_client_info": {
+          "package_name": "com.ssafy.likloud"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "976352515055-97ncfelhap4ld3j3v3bdatcqd1rn2p9s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ssafy.likloud",
+            "certificate_hash": "3cb0ffb9f75132a60486f71519665a1fc6d85f08"
+          }
+        },
+        {
+          "client_id": "976352515055-pfr2b4sspu2dr1jrpblbeoghh2978h0k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFj-JaF6ONjAMtNWfaSXHYCb26sPmKhmM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "976352515055-pfr2b4sspu2dr1jrpblbeoghh2978h0k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

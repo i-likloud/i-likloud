@@ -1,0 +1,12 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <!-- 점의 색상 -->
+    <solid android:color="@android:color/holo_blue_bright" />
+
+    <!-- 점의 크기 (반지름) -->
+    <size
+        android:width="30dp"
+        android:height="30dp" />
+
+</shape>
