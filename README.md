@@ -76,7 +76,7 @@
 
 <div id="4"></div>
 
-## ⛓️ 데이터 구조
+## 📃 데이터 구조
 
 ![](https://velog.velcdn.com/images/heeung/post/8cce9a0b-a41d-45b6-b640-e40c0ea7e9d2/image.png)
 
@@ -84,7 +84,7 @@
 
 <div id="5"></div>
 
-## ⚙️ 서비스 구조도
+## 🔎 시스템 구조도
 
 ![](https://velog.velcdn.com/images/heeung/post/6e1d3842-dd7e-4614-b913-b47367795f6f/image.png)
 
