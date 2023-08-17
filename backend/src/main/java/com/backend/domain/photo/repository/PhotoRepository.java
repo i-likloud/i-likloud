@@ -34,5 +34,9 @@ public interface PhotoRepository extends JpaRepository<Photo,Long> {
     @Query("UPDATE Photo p set p.bookmarkCnt = p.bookmarkCnt - 1 WHERE p.photoId = :photoId")
     void decreaseBookmarkCount(@Param("photoId") Long photoId);
 
-
+    // 선택횟수 감소
+    @Transactional
+    @Modifying
+    @Query("UPDATE Photo p set p.pickCnt = p.pickCnt - 1 WHERE p.photoId = :photoId")
+    void decreasePickCount(@Param("photoId") Long photoId);
 }

@@ -1,4 +1,4 @@
-package com.backend.domain.drawing;
+package com.backend.domain.drawing.service;
 
 import com.backend.domain.drawing.entity.Drawing;
 import com.backend.domain.drawing.repository.DrawingRepository;
