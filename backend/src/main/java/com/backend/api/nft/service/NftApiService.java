@@ -2,7 +2,7 @@ package com.backend.api.nft.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.backend.domain.drawing.DrawingService;
+import com.backend.domain.drawing.service.DrawingService;
 import com.backend.domain.drawing.entity.Drawing;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.nft.Dto.TokenMetaData;

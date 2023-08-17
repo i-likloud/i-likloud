@@ -1,14 +1,13 @@
 package com.backend.global.firebase.service;
 
 import com.backend.api.history.service.HistoryService;
-import com.backend.domain.drawing.DrawingService;
+import com.backend.domain.drawing.service.DrawingService;
 import com.backend.domain.drawing.entity.Drawing;
 import com.backend.domain.history.constant.HistoryType;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.member.service.MemberService;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
-import com.google.firebase.messaging.Notification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
