@@ -81,6 +81,11 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
         initListener()
     }
 
+    override fun onResume() {
+        super.onResume()
+        init()
+    }
+
     private fun initObserver(){
         drawingDetailFragmentViewModel.currentDrawingDetail.observe(viewLifecycleOwner) {
             //현재 가운데 있는 그림 정보 조회 & 초기 좋아요 세팅
@@ -92,7 +97,7 @@ class DrawingDetailFragment : BaseFragment<FragmentDrawingDetailBinding>(
 
         drawingDetailFragmentViewModel.currentDrawingMember.observe(viewLifecycleOwner) {
             Log.d(TAG, "initObserver: observed currentDrawingMember")
-//            initInfoView(drawingDetailFragmentViewModel.currentDrawingDetail.value!!, it)
+            if(activityViewModel.memberInfo.value!=null) initInfoView(drawingDetailFragmentViewModel.currentDrawingDetail.value!!, it)
             memberProfileDto = it
             if(isCurUserObserved) return@observe
             activityViewModel.memberInfo.observe(viewLifecycleOwner){
