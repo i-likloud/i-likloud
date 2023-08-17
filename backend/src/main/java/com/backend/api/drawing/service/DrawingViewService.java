@@ -11,6 +11,7 @@ import com.backend.domain.drawing.repository.DrawingRepository;
 import com.backend.domain.likes.repository.LikesRepository;
 import com.backend.domain.member.entity.Member;
 import com.backend.domain.nft.repository.NftRepository;
+import com.backend.domain.photo.repository.PhotoRepository;
 import com.backend.global.error.ErrorCode;
 import com.backend.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,7 @@ public class DrawingViewService {
     private final LikesRepository likesRepository;
     private final CommentRepository commentRepository;
     private final NftRepository nftRepository;
+    private final PhotoRepository photoRepository;
 
 
     // 전체 게시물 조회
@@ -83,6 +85,9 @@ public class DrawingViewService {
 
         // NFT의 그림 null 처리
         nftRepository.unlinkNftFromDrawing(drawingId);
+
+        // 선택횟수 감소
+        photoRepository.decreasePickCount(drawing.getPhoto().getPhotoId());
 
         // 그림 삭제
         drawingRepository.delete(drawing);
