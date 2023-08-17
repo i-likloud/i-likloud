@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_save_drawing"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_background_3"
+    tools:context=".ui.drawingform.DrawingFormFragment">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/layout_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/button_back"
+                android:layout_width="@dimen/_23sdp"
+                android:layout_height="@dimen/_23sdp"
+                android:layout_margin="@dimen/_3sdp"
+                android:src="@drawable/button_back_arrow" />
+
+            <TextView
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/_29sdp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/title_save_drawing" />
+
+        </LinearLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/_10sdp"
+        app:layout_constraintTop_toBottomOf="@id/layout_appbar">
+
+
+        <ImageView
+            android:id="@+id/image_selected_drawing"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/cloud1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.45" />
+
+
+        <LinearLayout
+            android:id="@+id/layout_title"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:background="@drawable/frame_rounded_border_radius20"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.45">
+
+            <EditText
+                android:id="@+id/edittext_title"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="0dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:gravity="top"
+                android:hint="@string/drawing_title"
+                android:maxLength="10"
+                android:padding="@dimen/_8sdp" />
+
+            <TextView
+                android:id="@+id/text_title_count"
+                style="@style/Theme.AppCompat.TextView.jua.Size08"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:gravity="bottom"
+                android:text="@string/drawing_title_max"
+                android:textColor="@color/gray05" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/layout_description"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:background="@drawable/frame_rounded_border_radius20"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_title"
+            app:layout_constraintWidth_percent="0.45">
+
+            <EditText
+                android:id="@+id/edittext_description"
+                style="@style/Theme.AppCompat.TextView.jua.gray07.Size12"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="0dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:gravity="top"
+                android:hint="@string/drawing_description"
+                android:maxLength="100"
+                android:padding="@dimen/_8sdp" />
+
+            <TextView
+                android:id="@+id/text_description_count"
+                style="@style/Theme.AppCompat.TextView.jua.Size08"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:gravity="bottom"
+                android:text="@string/drawing_desc_max"
+                android:textColor="@color/gray05" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_button_save_drawing"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_description"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            app:layout_constraintWidth_percent="0.45"
+            android:padding="@dimen/_1sdp">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_save_drawing"
+            android:layout_width="match_parent"
+            android:background="@drawable/frame_button_green_mild"
+            android:layout_height="@dimen/_28sdp"
+            android:text="@string/save_drawing"
+            android:elevation="@dimen/_2sdp"
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
+            android:layout_marginBottom="@dimen/_2sdp"
+            android:gravity="center"/>
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,19 +13,6 @@ class SharedPreferencesUtil(context: Context) {
         editor.putStringSet(ApplicationClass.COOKIES_KEY_NAME, cookies)
         editor.apply()
     }
-
-//    fun addUser(user : User){
-//        val editor = preferences.edit()
-//        editor.putString("userid", user.userid)
-//        editor.putString("nickname", user.nickname)
-//        editor.apply()
-//    }
-
-//    fun getUserid() : String {
-//       val id = preferences.getString("userid", "")
-//        return id!!
-
-//    }
     fun deleteUser() {
         val editor = preferences.edit()
         editor.clear()
@@ -39,12 +26,43 @@ class SharedPreferencesUtil(context: Context) {
         editor.apply()
     }
 
-
     fun getUserCookie(): MutableSet<String>? {
         return preferences.getStringSet(ApplicationClass.COOKIES_KEY_NAME, HashSet())
     }
 
     fun getString(key:String): String? {
         return preferences.getString(key, null)
+    }
+
+    fun putString(key:String, token:String) {
+        val editor = preferences.edit()
+        editor.putString(key, token)
+        editor.apply()
+    }
+
+    fun setMusicOff() {
+        val editor = preferences.edit()
+        editor.putBoolean("is_music_played", false)
+        editor.apply()
+    }
+
+    fun setMusicOn() {
+        val editor = preferences.edit()
+        editor.putBoolean("is_music_played", true)
+        editor.apply()
+    }
+
+    fun getMusicStatus() : Boolean{
+        return preferences.getBoolean("is_music_played", true)
+    }
+
+    fun getBoolean(key : String) : Boolean{
+        return preferences.getBoolean(key, false)
+    }
+
+    fun setBoolean(key:String, status: Boolean){
+        val editor = preferences.edit()
+        editor.putBoolean(key, status)
+        editor.apply()
     }
 }

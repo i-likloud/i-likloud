@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/frame_skybluelight_rounded_border_black_radius50"
+        android:paddingTop="@dimen/_12sdp"
+        android:paddingBottom="@dimen/_10sdp"
+        android:paddingLeft="@dimen/_10sdp"
+        android:paddingRight="@dimen/_10sdp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+        <TextView
+            android:id="@+id/text_alert_title"
+            style="@style/Theme.AppCompat.TextView.jua.dark.Size16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="정말로 떠나시겠습니까?"
+            android:gravity="center"/>
+
+
+
+
+    <TextView
+        android:id="@+id/text_alert_description"
+        style="@style/Theme.AppCompat.TextView.jua.dark.Size12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/desc_check_logout"
+        app:layout_constraintTop_toBottomOf="@id/text_alert_title"
+        android:gravity="center"/>
+
+
+        <ImageView
+            android:id="@+id/image_camera"
+            android:src="@drawable/ic_logout_sad"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_150sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_alert_description"
+            android:gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/image_camera"
+            tools:layout_editor_absoluteX="24dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_logout_no"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_weight="1"
+                android:background="@drawable/button_frame_skyblue"
+                android:text="@string/not_logout" />
+
+<!--            <TextView-->
+<!--                android:id="@+id/button_gallery"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="70dp"-->
+<!--                android:layout_marginEnd="5dp"-->
+<!--                android:layout_weight="1"-->
+<!--                tools:layout_editor_absoluteX="24dp" />-->
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_logout_yes"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size14"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_weight="1"
+                android:background="@drawable/button_frame_skyblue"
+                android:text="나가기" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>

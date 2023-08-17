@@ -18,4 +18,10 @@ object RepositoryModule {
     fun provideMainRepository(baseAPIService: BaseService): BaseRepository {
         return BaseRepositoryImpl(baseAPIService)
     }
+
+//    @Singleton
+//    @Provides
+//    fun provideBearerInterceptor(baseRepository: BaseRepository): BearerInterceptor {
+//        return BearerInterceptor(baseRepository)
+//    }
 }

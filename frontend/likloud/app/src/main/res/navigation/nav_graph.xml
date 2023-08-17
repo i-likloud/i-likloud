@@ -3,18 +3,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/onboardingFragment">
 
     <fragment
-        android:id="@+id/exampleFragment"
-        android:name="com.ssafy.likloud.example.ExampleFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_example" />
-        
-    <fragment
         android:id="@+id/drawingListFragment"
-        android:name="com.ssafy.likloud.ui.drawinglist.DrawingListFragment"
-        android:label="DrawingListFragment" />
+        android:name="com.ssafy.likloud.ui.drawing.DrawingListFragment"
+        android:label="DrawingListFragment"
+        tools:layout="@layout/fragment_drawing_list">
+        <action
+            android:id="@+id/action_drawingListFragment_to_mypageFragment"
+            app:destination="@id/mypageFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+
+
+        <action
+            android:id="@+id/action_drawingListFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"
+            app:popExitAnim="@anim/fade_out" />
+
+        <action
+            android:id="@+id/action_drawingListFragment_to_drawingOriginalFragment"
+            app:destination="@id/drawingOriginalFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/loginFragment"
@@ -28,24 +51,439 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/enter_from_left"
             app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_loginFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_loginFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.ssafy.likloud.ui.home.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_onboarding"/>
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_drawingListFragment"
+            app:destination="@id/drawingListFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_photoListFragment"
+            app:destination="@id/photoListFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_mypageFragment"
+            app:destination="@id/mypageFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_homeFragment_to_afterCloudValidFragment"
+            app:destination="@id/afterCloudValidFragment"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_homeFragment_to_gameFragment"
+            app:destination="@id/gameFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
 
     <fragment
         android:id="@+id/onboardingFragment"
         android:name="com.ssafy.likloud.ui.onboarding.OnboardingFragment"
         android:label="OnboardingFragment"
-        tools:layout="@layout/fragment_onboarding"/>
-        android:label="OnboardingFragment" />
-        
+        tools:layout="@layout/fragment_onboarding">
+        <action
+            android:id="@+id/action_onboardingFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+
     <fragment
         android:id="@+id/uploadFragment"
         android:name="com.ssafy.likloud.ui.upload.UploadFragment"
         android:label="fragment_upload"
-        tools:layout="@layout/fragment_upload" />
+        tools:layout="@layout/fragment_upload">
+        <action
+            android:id="@+id/action_uploadFragment_to_afterCloudValidFragment"
+            app:destination="@id/afterCloudValidFragment"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.ssafy.likloud.ui.profile.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/afterCloudValidFragment"
+        android:name="com.ssafy.likloud.ui.aftercloudvalid.AfterCloudValidFragment"
+        android:label="fragment_after_cloud_valid"
+        tools:layout="@layout/fragment_after_cloud_valid">
+        <action
+            android:id="@+id/action_afterCloudValidFragment_to_drawingPadFragment"
+            app:destination="@id/drawingPadFragment"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_afterCloudValidFragment_to_photoListFragment"
+            app:destination="@id/photoListFragment"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/photoListFragment"
+        android:name="com.ssafy.likloud.ui.photo.PhotoListFragment"
+        android:label="PhotoListFragment"
+        tools:layout="@layout/fragment_photo_list">
+        <action
+            android:id="@+id/action_photoListFragment_to_mypageFragment"
+            app:destination="@id/mypageFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+
+        <action
+            android:id="@+id/action_photoListFragment_to_nftListFragment"
+            app:destination="@id/nftListFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+
+
+        <action
+            android:id="@+id/action_photoListFragment_to_drawingOriginalFragment"
+            app:destination="@id/drawingOriginalFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+
+
+
+        <action
+            android:id="@+id/action_photoListFragment_to_photoDrawingDetailFragment"
+            app:destination="@id/drawingDetailFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_photoListFragment_to_drawingPadFragment"
+            app:destination="@id/drawingPadFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+
+        <action
+            android:id="@+id/action_photoListFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpToInclusive="true"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nftListFragment"
+        android:name="com.ssafy.likloud.ui.nftlist.NftListFragment"
+        android:label="fragment_nft_list"
+        tools:layout="@layout/fragment_nft_list">
+
+        <argument
+            android:name="isFromFCM"
+            android:defaultValue="false"
+            app:argType="boolean" />
+
+        <action
+            android:id="@+id/action_nftListFragment_to_nftGiftSearchUserFragment"
+            app:destination="@id/nftGiftSearchUserFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+
+        <action
+            android:id="@+id/action_nftListFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popUpTo="@id/homeFragment"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/mypageFragment"
+        android:name="com.ssafy.likloud.ui.mypage.MypageFragment"
+        android:label="MypageFragment"
+        tools:layout="@layout/fragment_mypage">
+        <action
+            android:id="@+id/action_mypageFragment_to_profileEditFragment"
+            app:destination="@id/profileEditFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_mypageFragment_to_storeFragment"
+            app:destination="@id/storeFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_mypageFragment_to_DrawingDetailFragment"
+            app:destination="@id/drawingDetailFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_mypageFragment_to_photoDetailFragment"
+            app:destination="@id/photoDetailFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_mypageFragment_to_nftListFragment"
+            app:destination="@id/nftListFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_mypageFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_mypageFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/homeFragment" />
+
+
+        <action
+            android:id="@+id/action_mypageFragment_to_infoFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
+            app:destination="@id/infoFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/drawingPadFragment"
+        android:name="com.ssafy.likloud.ui.drawingpad.DrawingPadFragment"
+        android:label="DrawingPadFragment"
+        tools:layout="@layout/fragment_drawing_pad">
+        <action
+            android:id="@+id/action_drawingPadFragment_to_drawingFormFragment"
+            app:destination="@id/drawingFormFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/drawingDetailFragment"
+        android:name="com.ssafy.likloud.ui.drawing.DrawingDetailFragment"
+        android:label="PhotoDrawingDetailFragment"
+        tools:layout="@layout/fragment_drawing_detail">
+
+        <argument
+            android:name="drawingId"
+            app:argType="integer" />
+
+        <argument
+            android:name="isFromFCM"
+            android:defaultValue="false"
+            app:argType="boolean" />
+
+        <action
+            android:id="@+id/action_drawingDetailFragment_to_nftListFragment"
+            app:destination="@id/nftListFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+
+
+        <action
+            android:id="@+id/action_drawingDetailFragment_to_drawingOriginalFragment"
+            app:destination="@id/drawingOriginalFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+
+
+        <action
+            android:id="@+id/action_drawingDetailFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileEditFragment"
+        android:name="com.ssafy.likloud.ui.profileedit.ProfileEditFragment"
+        android:label="ProfileEditFragment"
+        tools:layout="@layout/fragment_profile_edit" />
+
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="com.ssafy.likloud.ui.game.GameFragment"
+        android:label="fragment_game"
+        tools:layout="@layout/fragment_game">
+        <action
+            android:id="@+id/action_gameFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/drawingFormFragment"
+        android:name="com.ssafy.likloud.ui.drawingform.DrawingFormFragment"
+        android:label="fragment_drawing_form"
+        tools:layout="@layout/fragment_drawing_form">
+        <action
+            android:id="@+id/action_drawingFormFragment_to_drawingListFragment"
+            app:destination="@id/drawingListFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/storeFragment"
+        android:name="com.ssafy.likloud.ui.store.StoreFragment"
+        android:label="StoreFragment"
+        tools:layout="@layout/fragment_store">
+        <action
+            android:id="@+id/action_storeFragment_to_profileEditFragment"
+            app:destination="@id/profileEditFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/photoDetailFragment"
+        android:name="com.ssafy.likloud.ui.photo.PhotoDetailFragment"
+        android:label="PhotoDetailFragment"
+        tools:layout="@layout/fragment_photo_detail">
+        <argument
+            android:name="photoId"
+            app:argType="integer"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_photoDetailFragment_to_drawingDetailFragment"
+            app:destination="@id/drawingDetailFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_photoDetailFragment_self"
+            app:destination="@id/photoDetailFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+
+        <action
+            android:id="@+id/action_photoDetailFragment_to_drawingPadFragment"
+            app:destination="@id/drawingPadFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+
+        <action
+            android:id="@+id/action_photoDetailFragment_to_drawingOriginalFragment"
+            app:destination="@id/drawingOriginalFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/fade_out" />
+
+
+    </fragment>
+    <fragment
+        android:id="@+id/nftGiftSearchUserFragment"
+        android:name="com.ssafy.likloud.ui.nftlist.NftGiftSearchUserFragment"
+        android:label="fragment_nft_gift_search_user"
+        tools:layout="@layout/fragment_nft_gift_search_user" />
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="com.ssafy.likloud.ui.info.InfoFragment"
+        android:label="fragment_info"
+        tools:layout="@layout/fragment_info" />
+
+
+    <fragment
+        android:id="@+id/drawingOriginalFragment"
+        android:name="com.ssafy.likloud.ui.drawingoriginal.DrawingOriginalFragment"
+        android:label="fragment_drawing_original"
+        tools:layout="@layout/fragment_drawing_original" >
+
+        <argument
+            android:name="photoUrl"
+            android:defaultValue="no_url"/>
+
+    </fragment>
 
 </navigation>

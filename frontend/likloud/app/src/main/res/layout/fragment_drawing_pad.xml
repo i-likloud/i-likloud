@@ -1,0 +1,360 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_drawing_pad"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_background_3"
+    tools:context=".ui.drawingpad.DrawingPadFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/layout_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.1"
+        android:background="@color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/button_back"
+                android:layout_gravity="center_vertical"
+                android:layout_width="@dimen/_23sdp"
+                android:layout_height="@dimen/_23sdp"
+                android:layout_margin="@dimen/_3sdp"
+                android:src="@drawable/button_back_arrow" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_29sdp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="@string/drawing_pad"
+                android:layout_weight="1"
+                style="@style/Theme.AppCompat.TextView.jua.dark.Size16"/>
+
+        </LinearLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <LinearLayout
+        android:id="@+id/layout_pencils"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:elevation="2dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_appbar">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_aspect_ratio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.7" />
+
+        <ImageView
+            android:id="@+id/image_black_pencil"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_weight="1.2"
+            android:src="@drawable/pencil_black" />
+
+        <ImageView
+            android:id="@+id/image_white_pencil"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:src="@drawable/pencil_white" />
+
+        <ImageView
+            android:id="@+id/image_red_pencil"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:src="@drawable/pencil_red" />
+
+        <ImageView
+            android:id="@+id/image_orange_pencil"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:src="@drawable/pencil_orange" />
+
+        <ImageView
+            android:id="@+id/image_yellow_pencil"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:src="@drawable/pencil_yellow" />
+
+        <ImageView
+            android:id="@+id/image_green_pencil"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:src="@drawable/pencil_green" />
+
+        <ImageView
+            android:id="@+id/image_blue_pencil"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:src="@drawable/pencil_blue" />
+
+        <ImageView
+            android:id="@+id/image_navy_pencil"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:src="@drawable/pencil_navy" />
+
+        <ImageView
+            android:id="@+id/image_purple_pencil"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:src="@drawable/pencil_purple" />
+
+
+        <ImageView
+            android:id="@+id/image_eraser"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="0dp"
+            android:layout_weight="1.8"
+            android:src="@drawable/eraser" />
+
+        <LinearLayout
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/_3sdp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:id="@+id/button_undo"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_undo_white" />
+
+
+            <ImageView
+                android:id="@+id/button_redo"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_redo_white"
+
+                />
+
+
+            <ImageView
+                android:id="@+id/button_clear"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_clear" />
+
+
+            <ImageView
+                android:id="@+id/button_pen_width"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/ic_draw" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_chosen_photo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/_1sdp"
+        android:layout_marginBottom="@dimen/_1sdp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toEndOf="@id/layout_pencils"
+    app:layout_constraintTop_toBottomOf="@id/layout_appbar">
+
+
+    <!-- Your CardView content... -->
+
+        <ImageView
+            android:id="@+id/image_chosen_photo"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/_10sdp"
+            android:adjustViewBounds="true"
+            android:background="@color/transparent"
+            android:src="@drawable/cloud1"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardview_canvas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="@dimen/_20sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/white"
+            app:strokeWidth="@dimen/_4sdp">
+
+            <com.ssafy.likloud.ui.drawingpad.DrawingCanvas
+                android:id="@+id/canvas_drawingpad"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible"
+                android:background="@drawable/cloud1" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/_10sdp"
+        android:id="@+id/button_save_drawing"
+        android:layout_width="@dimen/_28sdp"
+        app:layout_constraintWidth_percent="0.45"
+        android:layout_height="@dimen/_28sdp"
+        android:layout_gravity="right"
+        android:padding="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@drawable/frame_button_green_mild"
+        android:elevation="@dimen/_2sdp"
+        android:gravity="center"
+        android:layout_marginEnd="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/icon_save"/>
+
+    </LinearLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_pen_eraser_width"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_140sdp"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:background="@drawable/frame_button_yellow_mild_200"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/_20sdp"
+
+        android:translationZ="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.card.MaterialCardView
+            app:layout_constraintTop_toTopOf="parent"
+            app:cardCornerRadius="@dimen/_100sdp"
+            android:id="@+id/dot_pensize"
+            app:layout_constraintBottom_toTopOf="@id/layout_pen_width"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="@dimen/_10sdp"
+            android:layout_height="@dimen/_10sdp"
+            app:strokeColor="@color/black"
+            app:strokeWidth="@dimen/_1sdp"
+            app:cardBackgroundColor="@color/black" />
+
+        <LinearLayout
+            android:id="@+id/layout_pen_width"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/layout_eraser_width"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:src="@drawable/ic_pencil" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/seekbar_pen"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:stepSize="10"
+                app:tickColorActive="@color/black"
+                app:haloColor="@color/transparent"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:valueFrom="0.0"
+                android:valueTo="100.0"
+                app:thumbColor="@color/white"
+                app:trackColor="@color/gray05" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/layout_eraser_width"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:layout_width="@dimen/_15sdp"
+                android:src="@drawable/eraser"
+                android:layout_height="@dimen/_15sdp"/>
+
+
+            <com.google.android.material.slider.Slider
+                android:layout_marginStart="@dimen/_10sdp"
+                android:id="@+id/seekbar_eraser"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_10sdp"
+                app:haloColor="@color/transparent"
+                android:valueFrom="0.0"
+                app:trackColor="@color/gray05"
+                app:thumbColor="@color/eraser"
+                app:trackColorActive="@color/eraser"
+                android:valueTo="100.0" />
+
+        </LinearLayout>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

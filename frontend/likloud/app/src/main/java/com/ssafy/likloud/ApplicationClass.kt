@@ -21,9 +21,13 @@ class ApplicationClass : Application() {
         lateinit var sharedPreferences: SharedPreferencesUtil
 
          //JWT Token Header 키 값
-        const val X_ACCESS_TOKEN = "X-ACCESS-TOKEN"
+        const val X_ACCESS_TOKEN = "access_token"
+        const val X_REFRESH_TOKEN = "refresh_token"
+        const val USER_EMAIL = "user_email"
+        const val FIREBASE_TOKEN = "firebase_token"
         const val SHARED_PREFERENCES_NAME = "SSAFY_TEMPLATE_APP"
         const val COOKIES_KEY_NAME = "cookies"
+        const val ONBOARD_DONE = "onboard_done"
     }
 
    // 앱이 처음 생성되는 순간, SP를 새로 만들어준다.

@@ -2,6 +2,7 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.TemplateApplication" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+         <item name="colorPrimary">@color/main_sky_blue</item>
+        <item name="android:statusBarColor" >@color/main_sky_blue</item>
     </style>
 </resources>

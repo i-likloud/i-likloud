@@ -1,9 +1,155 @@
 <resources>
-    <string name="app_name">TemplateApplication</string>
+    <string name="app_name">뭉게뭉게 도화지</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="start">시작하기</string>
     <string name="onboarding_one">신기한 구름이 보이면\n사진을 찍어서\n업로드 해봐요</string>
     <string name="onboarding_two">사람들의 구름사진에\n그림을\n그려보아요</string>
-    <string name="onboarding_three">내가 그린 구름그림을\n나만의 그림으로\n만들어봐요</string>
+    <string name="onboarding_three">날씨와 구름에 대한\n퀴즈를 풀고\n스탬프를 획득해요</string>
+    <string name="onboarding_four">스탬프와 그림으로\n쿠폰을 모아\n프로필을 커스텀해요</string>
+    <string name="onboarding_five">내가 그린 그림을\n나만의 그림으로\n만들어보아요</string>
+    <string name="input_text">입력</string>
+    <string name="profile_nickname_check">확인</string>
+
+    <string name="upload">업로드</string>
+    <string name="caution">주의!</string>
+    <string name="caution_description">그림을 그릴 수 있게\n구름과 하늘이 있는\n사진을 올려주세요!</string>
+    <string name="choose">이걸로 할래요</string>
+    <string name="gallery">갤러리</string>
+    <string name="camera">카메라</string>
+    <string name="how_to_upload">어떻게 사진을 업로드 할까요?</string>
+
+    <!--drawingList-->
+    <string name="title_drawingList">그림목록</string>
+    <string name="ranking_order">인기순</string>
+    <string name="recent_order">최신순</string>
+    <string name="view_order">조회순</string>
+    <string name="bookmark_order">즐찾순</string>
+    <string name="title_drawing_detail">그림</string>
+    <string name="no_comment">아직 댓글이 없어요 ㅠㅠ\n댓글을 남겨 볼까요?</string>
+    <string name="delete_drawing">정말로 삭제하시겠습니까?</string>
+    <string name="delete">삭제하기</string>
+
+    <!--home-->
+    <string name="home">HOME</string>
+    <string name="profile_select">나만의 물방울을 만들어주세요!</string>
+    <string name="choose_done">선택 완료</string>
+    <string name="alert_cloud_check">앗! 사진을 확인해 주세요</string>
+    <string name="alert_not_cloud_description">이 사진은 구름이 아닌 것 같아요</string>
+    <string name="take_photo_again">다시 찍기</string>
+    <string name="stop_tae_picture">그만하기</string>
+    <string name="upload_only">사진만 올릴래요!</string>
+    <string name="draw_instantly">바로 그림 그릴래요!</string>
+
+    <!--photoList-->
+    <string name="title_photo_list">사진 목록</string>
+    <string name="text_checking_title">사진이 구름인지 확인중입니다!</string>
+    <string name="text_checking_desc">잠시만 기다려 주세요!</string>
+    <string name="text_draw_with_this_photo">이 사진으로 그린 그림들</string>
+    <string name="title_photo_detail">사진</string>
+    <string name="no_drawing">아직 그림이 없어요!ㅠ</string>
+
+    <!--mypage-->
+    <string name="title_mypage">마이페이지</string>
+    <string name="go_store">상점으로 가기</string>
+    <string name="cnt_ticket">티켓 : </string>
+    <string name="cnt_stamp">스탬프 : </string>
+    <string name="my_drawing">그린 그림</string>
+    <string name="my_upload_picture">올린 사진</string>
+    <string name="my_likes">좋아요 그림</string>
+    <string name="my_bookmark">북마크 사진</string>
+    <string name="save_drawing">저장하기</string>
+    <string name="modify_profile">프로필 수정</string>
+
+
+    <!--profile eidt-->
+    <string name="title_profile_edit">내 물방울을 바꾸기</string>
+    <string name="done">완료</string>
+    <string name="take_off">해제</string>
+    <string name="pick_accessary">물방울 악세서리를 골라주세요!</string>
+    <string name="pick_color">물방울 색을 골라주세요!</string>
+    <string name="pick_face">물방울 표정을 골라주세요!</string>
+    <string name="nickname_change">변경</string>
+
+    <!--game-->
+    <string name="title_game">게임</string>
+    <string name="header_quiz">Q.</string>
+    <string name="success_game">성공!</string>
+    <string name="fail_game">실패!</string>
+    <string name="go_home">홈으로 가기</string>
+    <string name="re_game">다시 하기</string>
+    <string name="drawing_title">그림에 제목을 지어주세요!</string>
+    <string name="drawing_description">그림에 대해 설명해주세요!</string>
+    <string name="title_save_drawing">그림 저장하기</string>
+    <string name="game_info">제한 시간 내에 퀴즈를 풀어\n나의 물방울을 지켜보아요!</string>
+    <string name="game_start">게임 시작!</string>
+
+    <!--store-->
+    <string name="title_store">상점</string>
+    <string name="drawing_title_max">/10</string>
+    <string name="drawing_desc_max">/100</string>
+    <string name="bgm_off">BGM OFF</string>
+    <string name="bgm_on">BGM ON</string>
+    <string name="logout">로그 아웃</string>
+    <string name="opensource">오픈소스 라이선스</string>
+    <string name="settings">설정</string>
+    <string name="move_to_save">저장하러 가기</string>
+
+    <!--nft-->
+    <string name="title_nft">NFT</string>
+    <string name="my_nft">내 NFT</string>
+    <string name="gift_nft">선물함</string>
+    <string name="gift_accept">수락</string>
+    <string name="gift_reject">거부</string>
+    <string name="gift">선물하기</string>
+    <string name="search_user">찾으려는 사용자의 닉네임을 입력하세요</string>
+    <string name="message_nft_gift">메시지를 작성해주세요!</string>
+    <string name="cancel_gift">취소</string>
+    <string name="make_nft">NFT 만들기</string>
+    <string name="text_gift_confirm">선물을 확인해보세요!</string>
+    <string name="button_gift_confirm">선물 확인하기</string>
+    <string name="title_nft_info">NFT란?</string>
+    <string name="content_nft_info">NFT는 "Non-Fungible Token"의 약자로\n간단히 말하면 디지털 아이템의 특별한 종류에요!\n디지털 세상에서 고유하고 소중한 아이템을 만들어주는\n마치 디지털 인증서 같은 거에요!</string>
+    <string name="message_max">/50</string>
+
+    <!--report-->
+    <string name="text_report">어떤 점을 신고할 건가요?</string>
+    <string name="self_report">직접 입력해주세요</string>
+    <string name="report_item1">직접 입력</string>
+    <string name="report_item2">음란물/불건전한 그림</string>
+    <string name="report_item3">상업적 광고 및 판매</string>
+    <string name="report_item4">욕설/도배</string>
+    <string name="button_report">신고하기</string>
+    <string name="button_cancel">취소</string>
+
+    <!--fcm-->
+    <string name="body_comment">님이 내 게시글에 댓글을 달았어요!</string>
+    <string name="body_like">님이 내 게시글에 좋아요를 눌렀어요!"</string>
+    <string name="body_gift">님이 선물을 보냈어요!</string>
+    <string name="title_check_logout">정말로 로그아웃 하시겠습니까?</string>
+    <string name="desc_check_logout">구름들은 회원님이 필요해요!</string>
+    <string name="not_logout">취소하기</string>
+    <string name="logout_yes">로그아웃 하기</string>
+    <string name="photo_choose">이걸로 할래요!</string>
+    <string name="nft_fail">게임을 통해 도장을 모아 발급해주세요! 필요한 도장은 3개입니다.</string>
+    <string name="nft_success">NFT가 발급 완료되었어요!</string>
+    <string name="report_message">신고가 완료되었습니다.</string>
+
+    <!--이용약관-->
+    <string name="terms_second_creation">다른 사용자들이\n사진을 수정, 변형, 조합하여\n새로운 작품을\n만들 수 있습니다.</string>
+    <string name="alert_add_photo">사진을 추가해 주세요.</string>
+    <string name="add_photo">사진 추가하기</string>
+
+    <!--naverAPI-->
+    <string name="OAUTH_CLIENT_ID">db3rVaNqaT6ViKz6geU3</string>
+    <string name="OAUTH_CLIENT_SECRET">Vc24r3C8eP</string>
+    <string name="OAUTH_CLIENT_NAME">운이 좋아</string>
+
+    <!--info-->
+    <string name="title_info">개인정보처리방침</string>
+    <string name="info_url">https://sites.google.com/view/i-likloud/%ED%99%88</string>
+    <string name="drawing_pad">그림판</string>
+    <string name="original_look">이렇게 생겼어요!</string>
+    <string name="quit_user">탈퇴하기</string>
+
 </resources>
