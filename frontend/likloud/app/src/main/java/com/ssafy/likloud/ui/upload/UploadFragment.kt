@@ -3,6 +3,7 @@ package com.ssafy.likloud.ui.upload
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.ImageDecoder
@@ -252,5 +253,10 @@ class UploadFragment :
      */
     private fun openGallery() {
         galleryActivityResult.launch("image/*")
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        Log.d(TAG, "onConfigurationChanged: dd")
     }
 }
