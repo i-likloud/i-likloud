@@ -27,6 +27,9 @@ class DrawingListFragmentViewModel @Inject constructor(
 ) : ViewModel() {
 
 
+
+
+
     private var _currentDrawingListDtoList = MutableLiveData<MutableList<DrawingListDto>>()
     val currentDrawingListDtoList: LiveData<MutableList<DrawingListDto>>
         get() = _currentDrawingListDtoList
