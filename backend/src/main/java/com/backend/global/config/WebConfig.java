@@ -23,7 +23,6 @@ public class WebConfig implements WebMvcConfigurer {
     private final AdminAuthorizationInterceptor adminAuthorizationInterceptor;
     private final MemberInfoArgumentResolver memberInfoArgumentResolver;
     private final MemberAuthorizationInterceptor memberAuthorizationInterceptor;
-    private final ObjectMapper objectMapper;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {

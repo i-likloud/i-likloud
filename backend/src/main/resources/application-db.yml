@@ -14,13 +14,9 @@ cloud:
 spring:
   datasource:
   # 개인 aws 계정
-#    url: jdbc:mysql://43.200.97.214:3306/backend
-#    username: D101
-#    password: ENC(/OkGfJs0Jn8f2UIP/lD8USavyaMPCESK)
-  # ssafy 계정
-      url: jdbc:mysql://i9d101.p.ssafy.io:3306/backend
-      username: root
-      password: ENC(Bx1vEjxxzWziwTA6+M1p8Ml5d0sTlQBa)
+    url: jdbc:mysql://43.200.97.214:3306/backend
+    username: admin
+    password: ENC(g8+MLR/TcWAhUpqNVPbh0Z5yy8EVyJbvFWTKQUu+5Go=)
   # 로컬 DB
 #    url: jdbc:mysql://localhost:3306/backend
 #    username: root
