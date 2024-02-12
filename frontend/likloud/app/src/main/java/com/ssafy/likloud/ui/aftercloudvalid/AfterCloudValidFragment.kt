@@ -53,13 +53,12 @@ class AfterCloudValidFragment : BaseFragment<FragmentAfterCloudValidBinding>(
      */
     override fun initListener() {
         binding.buttonUploadOnly.setOnClickListener {
-            Log.d(TAG, "initListener: buttononly")
+            mActivity.changeProfileLayoutVisible()
             navController.navigate(R.id.action_afterCloudValidFragment_to_photoListFragment)
+
         }
 
         binding.buttonDrawInstantly.setOnClickListener {
-            // 그림판으로 이동
-            Log.d(TAG, "initView: draw")
             navController.navigate(R.id.action_afterCloudValidFragment_to_drawingPadFragment)
         }
 
