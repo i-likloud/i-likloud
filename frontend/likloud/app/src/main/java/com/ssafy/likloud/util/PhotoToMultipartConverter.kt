@@ -120,6 +120,24 @@ fun saveImageToGallery(context: Context, bitmap: Bitmap, displayName: String): S
     return null
 }
 
+fun deleteImageFromGallery(context: Context, imageUri: String): Boolean {
+    val contentResolver: ContentResolver = context.contentResolver
+    try {
+        // 이미지 URI를 Uri 객체로 파싱
+        val uri = Uri.parse(imageUri)
+
+        // 해당 이미지 삭제
+        val deleted = contentResolver.delete(uri, null, null)
+
+        // 삭제 성공 여부 반환
+        return deleted > 0
+    } catch (e: Exception) {
+        // 삭제 실패 시 예외 처리
+        e.printStackTrace()
+    }
+    return false
+}
+
 
 fun dontSaveImageToGallery(context: Context, bitmap: Bitmap, displayName: String): String? {
     val contentResolver: ContentResolver = context.contentResolver
