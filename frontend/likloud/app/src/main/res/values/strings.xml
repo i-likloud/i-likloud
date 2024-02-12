@@ -20,6 +20,7 @@
     <string name="camera">카메라</string>
     <string name="how_to_upload">어떻게 사진을 업로드 할까요?</string>
     <string name="camera_permission">카메라 및 저장소 권한을 허용해 주세요</string>
+    <string name="app_permission">애플리케이션 설정에서 카메라 및 저장소 권한을 허용해 주세요</string>
 
     <!--drawingList-->
     <string name="title_drawingList">그림목록</string>
@@ -153,5 +154,6 @@
     <string name="drawing_pad">그림판</string>
     <string name="original_look">이렇게 생겼어요!</string>
     <string name="quit_user">탈퇴하기</string>
+
 
 </resources>

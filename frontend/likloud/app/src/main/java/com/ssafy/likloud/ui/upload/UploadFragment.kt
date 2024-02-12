@@ -87,14 +87,10 @@ class UploadFragment :
         }
     }
 
-
-    private val requestMultiplePermission =
-        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { results ->
-            results.forEach {
-                Log.d(TAG, "${it.key} : ${it.value}")
-            }
-        }
-
+    /**
+     * 권한 설정 TedPermissionDialog를 띄웁니다.
+     * 이미 거부한 경우, snackbar를 띄워 앱 설정으로 이동하게끔 합니다.
+     */
     private fun createPermissionDialog() {
         TedPermission.create().setPermissionListener(object : PermissionListener {
 
@@ -105,7 +101,8 @@ class UploadFragment :
 
                 //권한이 거부됐을 때
                 override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
-                    showSnackbar(binding.root, "failAndMoveToAppSettings", "애플리케이션 설정에서 카메라 및 저장소 권한을 허용해 주세요")
+                    showSnackbar(binding.root, "failAndMoveToAppSettings",
+                        getString(R.string.app_permission))
 
 
                 }

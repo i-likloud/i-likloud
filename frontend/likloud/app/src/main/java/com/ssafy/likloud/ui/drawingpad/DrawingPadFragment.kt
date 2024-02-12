@@ -50,6 +50,7 @@ import com.ssafy.likloud.ui.drawingpad.BitmapCanvasObject.selectedEraserStrokeWi
 import com.ssafy.likloud.ui.drawingpad.BitmapCanvasObject.selectedStrokeWidth
 import com.ssafy.likloud.util.createMultipartFromUri
 import com.ssafy.likloud.util.createMultipartFromUriNameFile
+import com.ssafy.likloud.util.deleteImageFromGallery
 import com.ssafy.likloud.util.makeButtonAnimationX
 import com.ssafy.likloud.util.makeButtonAnimationXWithDuration
 import com.ssafy.likloud.util.saveImageToGallery
@@ -79,8 +80,6 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
     private val largerWeight = 1.2f
     private val originalWeight = 1.0f
     private lateinit var layoutListener: OnGlobalLayoutListener
-
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -116,14 +115,17 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
 
     private fun initView() {
 
-        binding.seekbarEraser.trackActiveTintList = ColorStateList.valueOf(resources.getColor(R.color.eraser))
+        binding.seekbarEraser.trackActiveTintList =
+            ColorStateList.valueOf(resources.getColor(R.color.eraser))
         // 초기 펜 스타일 현재 글자 크기로 지정
         setDotAndButtonView()
         val layoutParams = binding.dotPensize.layoutParams as ConstraintLayout.LayoutParams
-        layoutParams.height = (selectedStrokeWidth *0.15) .toInt()  * mActivity.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._1sdp) + 1
+        layoutParams.height =
+            (selectedStrokeWidth * 0.15).toInt() * mActivity.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._1sdp) + 1
 
-        
-        layoutParams.width = (selectedStrokeWidth  *0.15) .toInt()  * mActivity.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._1sdp) + 1
+
+        layoutParams.width =
+            (selectedStrokeWidth * 0.15).toInt() * mActivity.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._1sdp) + 1
         binding.dotPensize.layoutParams = layoutParams
         binding.dotPensize.requestLayout()
 
@@ -189,7 +191,6 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
         }
 
 
-
 //        layoutListener = OnGlobalLayoutListener {
 //            if (imageViewHeight != binding.imageChosenPhoto.height) {
 //                binding.cardviewCanvas.visibility = View.VISIBLE
@@ -206,18 +207,22 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
         binding.buttonSaveDrawing.setOnClickListener {
             bmp = viewToBitmap(binding.canvasDrawingpad)
             mainActivityViewModel.setDrawingBitmap(bmp!!)
+            var savedImageUri = saveImageToGallery(
+                requireContext(),
+                bmp!!,
+                SimpleDateFormat("yyMMdd_HHmmss").format(Date())
+            )
             mainActivityViewModel.setDrawingMultipart(
                 createMultipartFromUriNameFile(
                     requireContext(),
                     Uri.parse(
-                        saveImageToGallery(
-                            requireContext(),
-                            bmp!!,
-                            SimpleDateFormat("yyMMdd_HHmmss").format(Date())
-                        )
+                        savedImageUri
                     )
                 )!!
             )
+            if (savedImageUri != null) {
+                deleteImageFromGallery(requireContext(),savedImageUri)
+            }
             findNavController().navigate(R.id.action_drawingPadFragment_to_drawingFormFragment)
         }
 
@@ -226,8 +231,10 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
             addOnChangeListener(Slider.OnChangeListener { slider, value, fromUser ->
                 selectedStrokeWidth = value
                 val layoutParams = binding.dotPensize.layoutParams as ConstraintLayout.LayoutParams
-                layoutParams.width = (value*0.15) .toInt()  * mActivity.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._1sdp) + 1
-                layoutParams.height = (value*0.15).toInt() * mActivity.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._1sdp) + 1
+                layoutParams.width =
+                    (value * 0.15).toInt() * mActivity.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._1sdp) + 1
+                layoutParams.height =
+                    (value * 0.15).toInt() * mActivity.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._1sdp) + 1
                 binding.dotPensize.layoutParams = layoutParams
                 binding.dotPensize.requestLayout()
             })
@@ -304,7 +311,7 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
      * 펜 스타일 패드를 숨깁니다.
      */
     private fun movePenWithLayoutToLeft() {
-        if(!isPenStylePadOpened) return
+        if (!isPenStylePadOpened) return
         isPenStylePadOpened = false
         makeButtonAnimationX(binding.layoutPenEraserWidth, DRAWING_STYLE_PAD_LEFT)
     }
@@ -313,7 +320,7 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
      * 펜스타일 패드를 보여줍니다.
      */
     private fun movePenWithLayoutToRight() {
-        if(isPenStylePadOpened) return
+        if (isPenStylePadOpened) return
         isPenStylePadOpened = true
         makeButtonAnimationX(binding.layoutPenEraserWidth, 0f)
     }
@@ -401,7 +408,10 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
             .load(mainActivityViewModel.uploadingPhotoUrl.value)
             .fitCenter()
             .into(object : CustomTarget<Drawable>() {
-                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                override fun onResourceReady(
+                    resource: Drawable,
+                    transition: Transition<in Drawable>?
+                ) {
                     // 로딩 다이얼로그 닫기
                     dismissLoadingDialog()
 
@@ -462,7 +472,6 @@ class DrawingPadFragment : BaseFragment<FragmentDrawingPadBinding>(
 //            }
 //        }
 //        binding.imageChosenPhoto.viewTreeObserver.addOnGlobalLayoutListener(layoutListener)
-
 
 
         loadImage()
