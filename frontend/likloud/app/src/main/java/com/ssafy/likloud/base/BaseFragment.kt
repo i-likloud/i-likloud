@@ -1,7 +1,10 @@
 package com.ssafy.likloud.base
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,28 +76,86 @@ abstract class BaseFragment<B : ViewBinding>(
         snackbar.setTextColor(ContextCompat.getColor(requireActivity(), R.color.black))
         when (type) {
             "success" -> {
-                snackbar.setBackgroundTint(ContextCompat.getColor(requireActivity(), R.color.green_mild))
-                snackbar.setActionTextColor(ContextCompat.getColor(requireActivity(), R.color.sky_blue_deep))
+                snackbar.setBackgroundTint(
+                    ContextCompat.getColor(
+                        requireActivity(),
+                        R.color.green_mild
+                    )
+                )
+                snackbar.setActionTextColor(
+                    ContextCompat.getColor(
+                        requireActivity(),
+                        R.color.sky_blue_deep
+                    )
+                )
                 snackbar.setAction("확인하러 가기 ->") {
                     findNavController().navigate(R.id.action_storeFragment_to_profileEditFragment)
                 }
             }
+
             "fail" -> {
-                snackbar.setBackgroundTint(ContextCompat.getColor(requireActivity(), R.color.red_mile))
+                snackbar.setBackgroundTint(
+                    ContextCompat.getColor(
+                        requireActivity(),
+                        R.color.red_mile
+                    )
+                )
             }
 
-            "info" ->{
-                snackbar.setBackgroundTint(ContextCompat.getColor(requireActivity(), R.color.green_mild))
+            "failAndMoveToAppSettings" -> {
+                snackbar.setBackgroundTint(
+                    ContextCompat.getColor(
+                        requireActivity(),
+                        R.color.red_mile
+                    )
+                )
+                snackbar.setActionTextColor(
+                    ContextCompat.getColor(
+                        requireActivity(),
+                        R.color.sky_blue_deep
+                    )
+                )
+                snackbar.setAction("권한 설정하기 ->") {
+                    val intent: Intent =
+                        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(Uri.parse("package:" + requireContext().packageName))
+                    requireContext().startActivity(intent)
+                }
             }
+
+            "info" -> {
+                snackbar.setBackgroundTint(
+                    ContextCompat.getColor(
+                        requireActivity(),
+                        R.color.green_mild
+                    )
+                )
+            }
+
             "movetonft" -> {
-                snackbar.setBackgroundTint(ContextCompat.getColor(requireActivity(), R.color.green_mild))
-                snackbar.setActionTextColor(ContextCompat.getColor(requireActivity(), R.color.sky_blue_deep))
+                snackbar.setBackgroundTint(
+                    ContextCompat.getColor(
+                        requireActivity(),
+                        R.color.green_mild
+                    )
+                )
+                snackbar.setActionTextColor(
+                    ContextCompat.getColor(
+                        requireActivity(),
+                        R.color.sky_blue_deep
+                    )
+                )
                 snackbar.setAction("확인하러 가기 ->") {
                     findNavController().navigate(R.id.action_drawingDetailFragment_to_nftListFragment)
                 }
             }
+
             "blue_bar" -> {
-                snackbar.setBackgroundTint(ContextCompat.getColor(requireActivity(), R.color.blue_mild))
+                snackbar.setBackgroundTint(
+                    ContextCompat.getColor(
+                        requireActivity(),
+                        R.color.blue_mild
+                    )
+                )
             }
         }
         snackbar.show()

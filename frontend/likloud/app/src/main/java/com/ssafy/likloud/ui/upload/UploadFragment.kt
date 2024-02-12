@@ -1,7 +1,7 @@
 package com.ssafy.likloud.ui.upload
 
+import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
@@ -12,12 +12,11 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -25,8 +24,9 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.navercorp.nid.NaverIdLoginSDK
-import com.ssafy.likloud.MainActivity
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.normal.TedPermission
+import com.gun0912.tedpermission.provider.TedPermissionProvider
 import com.ssafy.likloud.MainActivityViewModel
 import com.ssafy.likloud.R
 import com.ssafy.likloud.base.BaseFragment
@@ -41,6 +41,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
+
 
 private const val TAG = "UploadFragment_싸피"
 
@@ -90,8 +91,31 @@ class UploadFragment :
     private val requestMultiplePermission =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { results ->
             results.forEach {
+                Log.d(TAG, "${it.key} : ${it.value}")
             }
         }
+
+    private fun createPermissionDialog() {
+        TedPermission.create().setPermissionListener(object : PermissionListener {
+
+                //권한이 허용됐을 때
+                override fun onPermissionGranted() {
+                    invokeCameraDialog()
+                }
+
+                //권한이 거부됐을 때
+                override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+                    showSnackbar(binding.root, "failAndMoveToAppSettings", "애플리케이션 설정에서 카메라 및 저장소 권한을 허용해 주세요")
+
+
+                }
+            }).setPermissions(
+                Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+            ).check()
+    }
+
 
     override fun initListener() {
         binding.layoutUploadFragment.setOnClickListener {
@@ -99,9 +123,10 @@ class UploadFragment :
         }
 
         binding.layoutAddPhoto.setOnClickListener {
-            requestMultiplePermission.launch(uploadFragmentViewModel.permissionList)
-            invokeCameraDialog()
+//          requestMultiplePermission.launch(uploadFragmentViewModel.permissionList)
+            createPermissionDialog()
         }
+
 
         binding.buttonChoose.setOnClickListener {
             if (uploadFragmentViewModel.photoMultipartBody.value != null) {
@@ -139,12 +164,10 @@ class UploadFragment :
      * AI 인식 실패시 모달창을 띄웁니다.
      */
     private fun invokeNotCloudDialog() {
-        val dialog = NotCloudDialog(
-            uploadFragmentViewModel.notCloudErrorMessage.value!!,
+        val dialog = NotCloudDialog(uploadFragmentViewModel.notCloudErrorMessage.value!!,
             clickTakePhotoAgain = {
                 invokeCameraDialog()
-            }
-        )
+            })
         dialog.show(childFragmentManager, TAG)
     }
 
@@ -169,24 +192,21 @@ class UploadFragment :
 
                 if (Build.VERSION.SDK_INT >= 29) {
                     val source: ImageDecoder.Source = ImageDecoder.createSource(
-                        requireContext().contentResolver,
-                        Uri.fromFile(file)
+                        requireContext().contentResolver, Uri.fromFile(file)
                     )
 
                     bitmap = ImageDecoder.decodeBitmap(source)
 
                 } else {
                     bitmap = MediaStore.Images.Media.getBitmap(
-                        requireContext().contentResolver,
-                        Uri.fromFile(file)
+                        requireContext().contentResolver, Uri.fromFile(file)
                     )
                 }
 
                 binding.imageSelectedPhoto.setImageBitmap(bitmap)
                 uploadFragmentViewModel.setMultipart(
                     createMultipartFromUri(
-                        requireContext(),
-                        Uri.parse(
+                        requireContext(), Uri.parse(
                             saveImageToGallery(
                                 bitmap = bitmap,
                                 context = requireContext(),
@@ -228,17 +248,16 @@ class UploadFragment :
             if (uri != null) {
                 uploadFragmentViewModel.setMultipart(
                     createMultipartFromUri(
-                        requireContext(),
-                        uri
+                        requireContext(), uri
                     )!!
                 )
             }
 
             // 선택한 이미지의 Uri를 처리하는 코드를 작성합니다.
-            Glide.with(this)
-                .load(uri)
-                .transform(CenterCrop() ,RoundedCorners(mActivity.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._10sdp)))
-                .into(binding.imageSelectedPhoto)
+            Glide.with(this).load(uri).transform(
+                    CenterCrop(),
+                    RoundedCorners(mActivity.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._10sdp))
+                ).into(binding.imageSelectedPhoto)
 
             binding.textWarningContent.text = getString(R.string.terms_second_creation)
             binding.textWarningContent.setTextColor(Color.RED)
